@@ -1,3 +1,4 @@
+import { nextui } from '@nextui-org/react';
 import type { Config } from 'tailwindcss';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
@@ -125,5 +126,5 @@ export default {
     },
   },
   darkMode: 'class',
-  plugins: [require('@tailwindcss/forms'), require('@nextui-org/react')],
+  plugins: [require('@tailwindcss/forms'), nextui()],
 } satisfies Config;
