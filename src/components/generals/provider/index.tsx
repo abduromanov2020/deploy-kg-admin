@@ -4,6 +4,7 @@ import { NextUIProvider } from '@nextui-org/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
 import React, { Suspense } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { RecoilEnv, RecoilRoot } from 'recoil';
 
 import { LoadingSpinner } from '@/components/LoadingSpinner';
@@ -22,7 +23,10 @@ function Provider({ children }: { children: React.ReactNode }) {
       <SessionProvider>
         <RecoilRoot>
           <NextUIProvider>
-            <Suspense fallback={<LoadingSpinner />}>{children}</Suspense>
+            <Suspense fallback={<LoadingSpinner />}>
+              {children}
+              <Toaster />
+            </Suspense>
           </NextUIProvider>
         </RecoilRoot>
       </SessionProvider>
