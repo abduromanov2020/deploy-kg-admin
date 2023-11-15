@@ -124,5 +124,6 @@ export default {
       },
     },
   },
-  plugins: [require('@tailwindcss/forms')],
+  darkMode: 'class',
+  plugins: [require('@tailwindcss/forms'), require('@nextui-org/react')],
 } satisfies Config;
