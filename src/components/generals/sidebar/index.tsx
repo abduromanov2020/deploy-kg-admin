@@ -1,4 +1,4 @@
-import { Button } from '@nextui-org/react';
+import { Accordion, AccordionItem } from '@nextui-org/react';
 import React, { FC } from 'react';
 
 import Logo from '~/svg/Logo.svg';
@@ -15,7 +15,29 @@ const Sidebar: FC = () => {
         <div className='flex flex-col gap-[10px]'>
           <p className='text-sm font-medium text-white'>UTAMA</p>
           <div className='flex gap-[10px]'>
-            <Button color='primary'>Button</Button>
+            <Accordion>
+              <AccordionItem
+                key='1'
+                aria-label='Accordion 1'
+                title='Accordion 1'
+              >
+                {defaultContent}
+              </AccordionItem>
+              <AccordionItem
+                key='2'
+                aria-label='Accordion 2'
+                title='Accordion 2'
+              >
+                {defaultContent}
+              </AccordionItem>
+              <AccordionItem
+                key='3'
+                aria-label='Accordion 3'
+                title='Accordion 3'
+              >
+                {defaultContent}
+              </AccordionItem>
+            </Accordion>
           </div>
         </div>
       </div>
