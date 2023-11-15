@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
+
 import '@/styles/globals.css';
+
+import Provider from '@/components/generals/provider';
 
 import { siteConfig } from '@/constant/config';
 
@@ -48,7 +51,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body>{children}</body>
+      <body>
+        <Provider>{children}</Provider>
+      </body>
     </html>
   );
 }
