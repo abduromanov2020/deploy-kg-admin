@@ -39,9 +39,9 @@ const Sidebar: FC = () => {
                 <MonitorCheck className='text-primary text-blue-500' />
               }
               subtitle={
-                <p className='flex'>
+                <div className='flex'>
                   2 issues to <p className='text-primary ml-1'>fix now</p>
-                </p>
+                </div>
               }
               title='Connected devices'
             >
