@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* #region  /**=========== Typography =========== */
-h1,
+/* h1,
 .h1 {
   @apply font-primary text-6xl font-bold md:text-4xl;
 }
@@ -36,7 +36,7 @@ h6,
 body,
 .p {
   @apply font-primary text-sm md:text-base;
-}
+} */
 /* #endregion  /**======== Typography =========== */
 
 .layout {
