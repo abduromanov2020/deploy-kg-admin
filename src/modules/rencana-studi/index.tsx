@@ -17,6 +17,10 @@ import { IoGridOutline, IoListOutline } from 'react-icons/io5';
 
 export const RencanaStudiModule = () => {
   const [showGrid, setShowGrid] = React.useState(false);
+  const [showList, setShowList] = React.useState(true);
+
+  console.log('grid', showGrid);
+  console.log('list', showList);
 
   return (
     <div className='bg-white rounded'>
@@ -40,12 +44,26 @@ export const RencanaStudiModule = () => {
               className={`${
                 showGrid
                   ? 'bg-primary-500 hover:bg-white  hover:text-primary-500 shadow-md'
-                  : 'bg-white hover:bg-primary-500 hover:text-white'
+                  : 'bg-white hover:bg-primary-500 hover:text-white text-primary-500 shadow-md'
               }   p-3`}
+              onClick={() => {
+                setShowGrid(!showGrid); // Fix: Use the new state value directly
+                setShowList(!showList);
+              }}
             >
               <IoGridOutline size={24} />
             </Button>
-            <Button className='bg-primary-500 shadow-md hover:bg-white text-white hover:text-primary-500 p-3'>
+            <Button
+              className={`${
+                showList
+                  ? 'bg-primary-500 hover:bg-white  hover:text-primary-500 shadow-md'
+                  : 'bg-white hover:bg-primary-500 hover:text-white text-primary-500 shadow-md'
+              }   p-3`}
+              onClick={() => {
+                setShowGrid(!showGrid);
+                setShowList(!showList); // Fix: Use the new state value directly
+              }}
+            >
               <IoListOutline size={24} />
             </Button>
           </div>
