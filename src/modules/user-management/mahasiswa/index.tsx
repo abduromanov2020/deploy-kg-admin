@@ -1,4 +1,3 @@
-'use client';
 import Link from 'next/link';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
@@ -201,7 +200,10 @@ const MahasiswaModule = () => {
                       </div>
                     </TableCell>
                     <TableCell className='text-center'>
-                      <Link href='' className='text-blue-600 font-semibold'>
+                      <Link
+                        href={`/user-management/mahasiswa/detail/${i + 1}`}
+                        className='text-blue-600 font-semibold'
+                      >
                         Detail
                       </Link>
                     </TableCell>
