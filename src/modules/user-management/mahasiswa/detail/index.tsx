@@ -57,7 +57,7 @@ const DetailMahasiswaModule = () => {
           </Tab.Group>
         </div>
         <div className='flex justify-end '>
-          <div className='space-x-5'>
+          <div className='space-x-4'>
             <button className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'>
               <div className='flex place-items-center gap-2'>
                 <FaFileDownload /> Unduh
