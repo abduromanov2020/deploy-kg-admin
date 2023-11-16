@@ -1,11 +1,13 @@
 'use client';
 
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 import React from 'react';
 import Avatar from 'react-avatar';
 import { AiOutlineAppstore } from 'react-icons/ai';
 import { IoLogOut } from 'react-icons/io5';
 
+import { logoutRequest } from '@/hooks/auth/request';
 import { useProfile } from '@/hooks/profile/hook';
 
 import {
@@ -19,6 +21,8 @@ import {
 const Navbar = () => {
   const { data } = useProfile();
   const userData = data?.data?.user;
+
+  const { data: session } = useSession();
 
   return (
     <div className=' px-16 w-full bg-white py-[10px] shadow text-center '>
@@ -52,10 +56,16 @@ const Navbar = () => {
               <AiOutlineAppstore className='w-7 h-7' />
             </MenubarTrigger>
             <MenubarContent>
-              <MenubarItem>
-                <div className='cursor-pointer flex gap-2 items-center'>
-                  <IoLogOut className='h-6 w-6' /> Keluar
-                </div>
+              <MenubarItem
+                className='cursor-pointer flex gap-2 items-center'
+                onClick={async () => {
+                  await logoutRequest({
+                    refresh_token: session?.user?.token
+                      ?.refresh_token as string,
+                  });
+                }}
+              >
+                <IoLogOut className='h-6 w-6' /> Keluar
               </MenubarItem>
             </MenubarContent>
           </MenubarMenu>
