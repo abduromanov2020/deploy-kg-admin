@@ -1,3 +1,4 @@
+import tailwindScrollbar from 'tailwind-scrollbar';
 import type { Config } from 'tailwindcss';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
@@ -122,5 +123,5 @@ export default {
     },
   },
   darkMode: 'class',
-  // plugins: [nextui()],
+  plugins: [tailwindScrollbar({ nocompatible: true })],
 } satisfies Config;
