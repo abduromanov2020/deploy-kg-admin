@@ -1,19 +1,15 @@
-'use client';
-
-import Head from 'next/head';
+import { redirect } from 'next/navigation';
+import { getServerSession } from 'next-auth';
 import * as React from 'react';
 
-import BaseLayout from '@/components/layouts/base-layout';
+import { authOptions } from '@/app/api/auth/[...nextauth]/option';
+import LoginModule from '@/modules/authentications/login';
 
-export default function HomePage() {
-  return (
-    <main>
-      <Head>
-        <title>Hi</title>
-      </Head>
-      <div className='min-h-screen w-full'>
-        <BaseLayout>halo</BaseLayout>
-      </div>
-    </main>
-  );
+export default async function HomePage() {
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    redirect('/dashboard');
+  }
+  return <LoginModule />;
 }
