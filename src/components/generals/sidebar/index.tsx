@@ -31,65 +31,67 @@ const Sidebar: FC = () => {
   };
 
   return (
-    <div className='w-[280px] min-h-screen py-10 bg-sidebar'>
-      <div className='pl-[35px] pb-[30px]'>
-        <Logo className='w-[96px] h-full' />
-      </div>
-      <div className='flex gap-6 flex-col'>
-        {dataSideBar.map((item, i) => (
-          <div className='flex flex-col ' key={i}>
-            <p className='text-sm font-medium text-white pl-[35px] py-2'>
-              {item.title}
-            </p>
-            {item.children.map((child, index) => (
-              <div className='relative' key={index}>
-                {child.children ? (
-                  <div
-                    className='flex gap-[10px] pl-[35px] py-2 justify-between pr-[22px] cursor-pointer duration-300 ease-in-out hover:bg-primary-500 hover:bg-opacity-5 hover:text-primary-500 group'
-                    onClick={() => toggleMenu(child.title)}
-                  >
-                    <div className='flex gap-[10px]'>
+    <div className='w-[280px] min-h-screen py-10 bg-sidebar relative'>
+      <div className='fixed top-0 left-0 h-screen overflow-y-auto pb-10 pt-2 scrollbar-thin scrollbar-thumb-primary-500 scrollbar-  scrollbar-track-sidebar scrollbar-thumb-rounded-md'>
+        <div className='pl-[35px] pb-[30px]'>
+          <Logo className='w-[96px] h-full' />
+        </div>
+        <div className='flex gap-6 flex-col'>
+          {dataSideBar.map((item, i) => (
+            <div className='flex flex-col ' key={i}>
+              <p className='text-sm font-medium text-white pl-[35px] py-2'>
+                {item.title}
+              </p>
+              {item.children.map((child, index) => (
+                <div className='relative' key={index}>
+                  {child.children ? (
+                    <div
+                      className='flex gap-[10px] pl-[35px] py-2 justify-between pr-[22px] cursor-pointer duration-300 ease-in-out hover:bg-primary-500 hover:bg-opacity-5 hover:text-primary-500 group'
+                      onClick={() => toggleMenu(child.title)}
+                    >
+                      <div className='flex gap-[10px]'>
+                        {child.icon}
+                        <p className='text-medium font-medium text-white group-hover:text-primary-500'>
+                          {child.title}
+                        </p>
+                      </div>
+                      <IoChevronDown
+                        className={`w-6 h-6 text-white group-hover:text-primary-500 ${
+                          openMenus.includes(child.title)
+                            ? 'transform rotate-180'
+                            : ''
+                        }`}
+                      />
+                    </div>
+                  ) : (
+                    <Link
+                      href={child.link}
+                      className='duration-300 ease-in-out hover:bg-primary-500 hover:bg-opacity-5 hover:text-primary-500 flex gap-[10px]  py-2 pl-[35px] group'
+                    >
                       {child.icon}
                       <p className='text-medium font-medium text-white group-hover:text-primary-500'>
                         {child.title}
                       </p>
+                    </Link>
+                  )}
+                  {openMenus.includes(child.title) && child.children && (
+                    <div className='flex flex-col  relative w-full overflow-hidden transition-all duration-300'>
+                      {child.children.map((child2, index2) => (
+                        <Link
+                          href={child2.link}
+                          key={index2}
+                          className='text-medium font-medium text-white py-2 pl-[70px] pr-[30px] duration-300 ease-in-out hover:bg-primary-500 hover:bg-opacity-5 hover:text-primary-500'
+                        >
+                          {child2.title}
+                        </Link>
+                      ))}
                     </div>
-                    <IoChevronDown
-                      className={`w-6 h-6 text-white group-hover:text-primary-500 ${
-                        openMenus.includes(child.title)
-                          ? 'transform rotate-180'
-                          : ''
-                      }`}
-                    />
-                  </div>
-                ) : (
-                  <Link
-                    href={child.link}
-                    className='duration-300 ease-in-out hover:bg-primary-500 hover:bg-opacity-5 hover:text-primary-500 flex gap-[10px]  py-2 pl-[35px] group'
-                  >
-                    {child.icon}
-                    <p className='text-medium font-medium text-white group-hover:text-primary-500'>
-                      {child.title}
-                    </p>
-                  </Link>
-                )}
-                {openMenus.includes(child.title) && child.children && (
-                  <div className='flex flex-col  relative w-full overflow-hidden transition-all duration-300'>
-                    {child.children.map((child2, index2) => (
-                      <Link
-                        href={child2.link}
-                        key={index2}
-                        className='text-medium font-medium text-white py-2 pl-[70px] pr-[30px] duration-300 ease-in-out hover:bg-primary-500 hover:bg-opacity-5 hover:text-primary-500'
-                      >
-                        {child2.title}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        ))}
+                  )}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
