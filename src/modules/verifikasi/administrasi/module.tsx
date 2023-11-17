@@ -31,6 +31,7 @@ import React, { useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaCalendarAlt, FaFilter } from 'react-icons/fa';
 import { FaFileExport } from 'react-icons/fa6';
+import { TiArrowSortedDown } from "react-icons/ti";
 
 import { cn } from '@/lib/utils';
 
@@ -105,7 +106,7 @@ export const columns: ColumnDef<Payment>[] = [
     header: ({ table }) => (
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        onCheckedChange={(value: unknown) => table.toggleAllPageRowsSelected(!!value)}
         aria-label='Select all'
         className='mr-5'
       />
@@ -113,7 +114,7 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        onCheckedChange={(value: unknown) => row.toggleSelected(!!value)}
         aria-label='Select row'
         className='mr-5'
       />
@@ -136,7 +137,7 @@ export const columns: ColumnDef<Payment>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           NAMA MAHASISWA
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
@@ -167,7 +168,7 @@ export const columns: ColumnDef<Payment>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           EMAIL
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
@@ -183,7 +184,7 @@ export const columns: ColumnDef<Payment>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           NIM/NPM
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          
         </Button>
       );
     },
@@ -199,7 +200,7 @@ export const columns: ColumnDef<Payment>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           STATUS
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
