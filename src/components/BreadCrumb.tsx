@@ -28,7 +28,7 @@ export const BreadCrumb: FC<TBreadCrumbProps> = ({
   return (
     <div
       className={cn(
-        `px-8 md:px-14 lg:px-6  place-content-start w-full text-xs md:text-sm py-4 !font-extrabold  ${bgColor}`,
+        `px-8 md:px-14 lg:px-16 place-content-start w-full text-xs md:text-sm py-4 !font-extrabold  ${bgColor}`,
         className,
       )}
       aria-label='Breadcrumb'

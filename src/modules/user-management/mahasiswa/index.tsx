@@ -1,11 +1,12 @@
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaFileDownload, FaFilter } from 'react-icons/fa';
 
 import { useUser } from '@/hooks/user-management/getuser/hook';
 
+import Pagination from '@/components/generals/pagination';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 import {
   DropdownMenu,
@@ -30,13 +31,18 @@ const MahasiswaModule = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const searchParams = useSearchParams();
   const page = searchParams.get('page') || 1;
+  const router = useRouter();
   const { data, isLoading, refetch } = useUser(
     Number(page),
     10,
     searchQuery,
     'STUDENT',
   );
+  const handlePageChange = async (page: number) => {
+    window.scrollTo(0, 0);
 
+    router.push(`/user-management/mahasiswa?page=${page}`);
+  };
   return (
     <>
       <div className='bg-white py-10 px-6 mx-auto rounded-md'>
@@ -127,7 +133,9 @@ const MahasiswaModule = () => {
                 <TableBody>
                   {data?.data?.users.map((user, i) => (
                     <TableRow key={i}>
-                      <TableCell className='font-medium'>{i + 1}</TableCell>
+                      <TableCell className='font-medium'>
+                        {i + 1 + (Number(page) - 1) * 10}
+                      </TableCell>
                       <TableCell>{user.id}</TableCell>
                       <TableCell>{user.full_name}</TableCell>
                       <TableCell>{user.role}</TableCell>
@@ -158,9 +166,14 @@ const MahasiswaModule = () => {
           </div>
           <div className='flex justify-between place-items-center pt-5'>
             <p className='text-slate-500'>
-              Menampilkan 1 hingga 10 dari 4 entri
+              Menampilkan {page} hingga {Number(page) * 10} dari{' '}
+              {data?.data?.max_page} entri
             </p>
-            <p>paginasi </p>
+            <Pagination
+              currentPage={Number(page)}
+              totalPages={Number(data?.data?.max_page)}
+              onPageChange={handlePageChange}
+            />
           </div>
         </div>
       </div>
