@@ -139,7 +139,7 @@ const MahasiswaModule = () => {
                       </TableCell>
                       <TableCell className='text-center'>
                         <Link
-                          href={`/user-management/mahasiswa/detail/${i + 1}`}
+                          href={`/user-management/mahasiswa/detail/${user.id}`}
                           className='text-blue-600 font-semibold'
                         >
                           Detail
