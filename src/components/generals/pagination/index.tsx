@@ -1,8 +1,5 @@
 import Image from 'next/image';
 
-import ArrowLeft from '../../../../public/svg/arrow-left.svg';
-import ArrowRight from '../../../../public/svg/arrow-right.svg';
-
 type Tpagination = {
   currentPage: number;
   totalPages: number;
@@ -49,22 +46,22 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: Tpagination) => {
   };
 
   return (
-    <div className='flex items-center justify-center my-4'>
+    <div className='flex items-center justify-center my-4 border border-dark-300 p-2 rounded-md'>
       <button
-        className='group p-2 rounded-md hover:bg-primary-base text-sm disabled:bg-white'
+        className='group p-3 rounded-md hover:bg-primary-500 text-sm border border-dark-300 disabled:bg-white'
         onClick={handlePrevClick}
         disabled={currentPage === 1}
       >
-        <Image src={ArrowLeft} alt='Article Icon' width={7} height={7} />
+        <Image src='/svg/arrow-left.svg' alt='Article Icon' width={7} height={7} className='hover:text-white'/>
       </button>
       <div className='mx-2'>
         {getPageNumbers().map((page, index) => (
           <button
             key={index}
-            className={`mx-1 px-3 py-2 rounded-md text-sm font-semibold text-neutral-500 ${
+            className={`mx-1 px-3 py-2 border border-dark-300 rounded-md text-sm font-semibold text-neutral-500 ${
               page === currentPage
-                ? 'bg-blue-base text-white'
-                : 'hover:bg-primary-base hover:text-white'
+                ? 'bg-primary-500 text-white'
+                : 'hover:bg-primary-500 hover:text-white'
             }`}
             onClick={() => {
               if (typeof page === 'number') {
@@ -78,11 +75,11 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: Tpagination) => {
       </div>
 
       <button
-        className='group p-2 text-sm rounded-md hover:bg-blue-base disabled:bg-white'
+        className='group p-3 rounded-md hover:bg-primary-500 text-sm border text-white border-dark-300 disabled:bg-white'
         onClick={handleNextClick}
         disabled={currentPage === totalPages}
       >
-        <Image src={ArrowRight} alt='Article Icon' width={7} height={7} />
+        <Image src='/svg/arrow-right.svg' alt='Article Icon' width={7} height={7}/>
       </button>
     </div>
   );
