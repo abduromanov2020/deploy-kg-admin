@@ -28,7 +28,7 @@ const DetailDosenModule = () => {
         <div className='flex justify-between  pb-4'>
           <div>
             <h1 className='font-semibold text-lg'>
-              Detail User Management Mahasiswa
+              Detail User Management Dosen : Raul
             </h1>
           </div>
           <div className='space-x-4 right-4  '>
