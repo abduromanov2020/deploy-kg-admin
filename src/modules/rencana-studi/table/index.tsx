@@ -174,7 +174,9 @@ export const columns: ColumnDef<TFaculty>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className='text-center'>{row.getValue('major_count')}</div>
+      <div className='text-center'>
+        {row.getValue('major_count')} Program Studi
+      </div>
     ),
   },
   {

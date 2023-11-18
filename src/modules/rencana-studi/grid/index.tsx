@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
-
+import { IoMdMore } from 'react-icons/io';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -19,13 +19,10 @@ const FacultyGridCardComponent = () => {
 
   const ITEMS = [
     {
-      label: '#Pendidikan',
+      label: '#ASD123',
     },
     {
-      label: '#IlmuBaru',
-    },
-    {
-      label: '#KampusGratis',
+      label: '4 Program Studi',
     },
   ];
 
@@ -51,18 +48,23 @@ const FacultyGridCardComponent = () => {
               ))}
             </section>
             <section className='flex flex-col gap-3 mt-5'>
-              <CardTitle>Masih sering bingung...</CardTitle>
+              <CardTitle>Pembiayaan dan Optimalisasi Bi...</CardTitle>
               <CardDescription>
                 Public speaking atau berbicara di depan umum...
               </CardDescription>
             </section>
           </CardContent>
-          <CardFooter className='flex gap-2'>
-            <Button className='bg-primary-500 hover:bg-primary-400'>
-              Daftar Prodi
-            </Button>
-            <Button className='bg-white border-primary-500 border text-primary-500 hover:bg-gray-200 px-9'>
-              Detail
+          <CardFooter className='flex gap-2 justify-between'>
+            <div className='flex gap-2'>
+              <Button className='bg-primary-500 hover:bg-primary-400'>
+                Daftar Prodi
+              </Button>
+              <Button className='bg-white border-primary-500 border text-primary-500 hover:bg-gray-200 px-9'>
+                Detail
+              </Button>
+            </div>
+            <Button className='bg-transparent text-gray-900 hover:bg-transparent hover:text-gray-900 px-2'>
+              <IoMdMore size={25} />
             </Button>
           </CardFooter>
         </Card>
