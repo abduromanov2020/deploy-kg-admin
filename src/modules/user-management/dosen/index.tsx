@@ -144,7 +144,7 @@ const DosenModule = () => {
                       <TableCell>{user.id}</TableCell>
                       <TableCell>{user.full_name}</TableCell>
                       <TableCell>{user.role}</TableCell>
-                      <TableCell>{user.gender}</TableCell>
+                      <TableCell>{user.role}</TableCell>
                       <TableCell>
                         <div className='bg-green-500 text-white px-4 py-1 rounded'>
                           Aktif

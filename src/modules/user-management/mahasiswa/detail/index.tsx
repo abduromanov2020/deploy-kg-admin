@@ -11,11 +11,7 @@ import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 const DetailMahasiswaModule = () => {
   const ConstantDetailMahasiswa = [
     {
-      name: 'User Management',
-      link: '',
-    },
-    {
-      name: 'Mahasiswa',
+      name: 'User Management Mahasiswa',
       link: '/user-management/mahasiswa',
     },
     {
