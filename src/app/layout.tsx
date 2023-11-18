@@ -7,6 +7,7 @@ import Provider from '@/components/generals/provider';
 import { siteConfig } from '@/constant/config';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('http://localhost:3000'),
   title: {
     default: siteConfig.title,
     template: `%s | ${siteConfig.title}`,
