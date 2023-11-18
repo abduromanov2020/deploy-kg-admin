@@ -1,4 +1,5 @@
 import { Tab } from '@headlessui/react';
+import { useParams } from 'next/navigation';
 import React, { Fragment } from 'react';
 import { FaEdit, FaFileDownload } from 'react-icons/fa';
 import { FaDeleteLeft } from 'react-icons/fa6';
@@ -21,6 +22,8 @@ const DetailMahasiswaModule = () => {
       link: '',
     },
   ];
+  const params = useParams();
+
   return (
     <>
       <div className='bg-white mb-3 rounded-md'>
