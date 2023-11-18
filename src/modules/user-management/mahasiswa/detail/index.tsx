@@ -1,4 +1,5 @@
 import { Tab } from '@headlessui/react';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React, { Fragment } from 'react';
 import { FaEdit, FaFileDownload } from 'react-icons/fa';
@@ -23,7 +24,7 @@ const DetailMahasiswaModule = () => {
     },
   ];
   const params = useParams();
-
+  const { id } = params;
   return (
     <>
       <div className='bg-white mb-3 rounded-md'>
@@ -42,7 +43,10 @@ const DetailMahasiswaModule = () => {
             </button>
             <button className='px-6 py-3 shadow-md text-blue-600 rounded-md hover:text-white hover:bg-blue-600 hover:transition'>
               <div className='flex place-items-center gap-2'>
-                <FaEdit /> Edit Data
+                <FaEdit />{' '}
+                <Link href={`/user-management/mahasiswa/editdata/${id}`}>
+                  Edit Data
+                </Link>
               </div>
             </button>
             <button className='px-8 py-3 shadow-md text-red-600 rounded-md  hover:text-white hover:bg-red-600 hover:transition'>
