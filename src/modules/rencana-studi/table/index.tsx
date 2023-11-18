@@ -1,8 +1,6 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { CiCirclePlus } from 'react-icons/ci';
-import { IoGridOutline, IoListOutline } from 'react-icons/io5';
 
 import {
   DropdownMenuCheckboxItemProps,
@@ -21,8 +19,6 @@ import {
   VisibilityState,
 } from '@tanstack/react-table';
 import React, { useState } from 'react';
-import { AiOutlineSearch } from 'react-icons/ai';
-import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -35,8 +31,6 @@ type Checked = DropdownMenuCheckboxItemProps['checked'];
 
 import { ArrowUpDown } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
-import { FacultyTable } from '@/modules/rencana-studi/table';
-import FacultyGridCardComponent from '@/modules/rencana-studi/grid';
 
 export type TFaculty = {
   faculty_id: string;
@@ -197,7 +191,7 @@ export const columns: ColumnDef<TFaculty>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>detail</div>,
+    cell: ({ row }) => <div className='text-center'>detail</div>,
   },
   {
     id: 'actions',
@@ -215,9 +209,7 @@ export const columns: ColumnDef<TFaculty>[] = [
   },
 ];
 
-export const RencanaStudiModule = () => {
-  const [showGrid, setShowGrid] = React.useState(false);
-  const [showList, setShowList] = React.useState(true);
+export const FacultyTable = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -241,67 +233,82 @@ export const RencanaStudiModule = () => {
       rowSelection,
     },
   });
-
   return (
-    <div className='bg-white rounded'>
-      <div className='p-4 border-b-2'>
-        <p className='text-base font-semibold'>Rencana Studi</p>
-      </div>
-      <div className='p-8'>
-        <section className='flex justify-between items-center'>
-          <div className='w-1/3 relative'>
-            <Input type='text' placeholder='Search' className='pl-10' />
-            <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
-              <AiOutlineSearch className='text-gray-400' size={20} />
-            </div>
-          </div>
-          <div className='flex items-center gap-3'>
-            <Button className='hover:bg-white shadow-md bg-primary-500 hover:text-primary-500 text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
-              <CiCirclePlus size={20} />
-              <p className='leading-none'>Fakultas</p>
-            </Button>
-            <Button
-              className={`${
-                showGrid
-                  ? 'bg-primary-500 hover:bg-white  hover:text-primary-500 shadow-md'
-                  : 'bg-white hover:bg-primary-500 hover:text-white text-primary-500 shadow-md'
-              }   p-3`}
-              onClick={() => {
-                setShowGrid(!showGrid); // Fix: Use the new state value directly
-                setShowList(!showList);
-              }}
-            >
-              <IoGridOutline size={24} />
-            </Button>
-            <Button
-              className={`${
-                showList
-                  ? 'bg-primary-500 hover:bg-white  hover:text-primary-500 shadow-md'
-                  : 'bg-white hover:bg-primary-500 hover:text-white text-primary-500 shadow-md'
-              }   p-3`}
-              onClick={() => {
-                setShowGrid(!showGrid);
-                setShowList(!showList); // Fix: Use the new state value directly
-              }}
-            >
-              <IoListOutline size={24} />
-            </Button>
-          </div>
-        </section>
-        <div className='my-8'>
-          <div className='w-full'>
-            {showGrid ? (
-              <section>
-                <FacultyGridCardComponent />
-              </section>
+    <>
+      <div className='rounded-md border '>
+        <Table className='text-xs'>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && 'selected'}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
             ) : (
-              <section>
-                <FacultyTable />
-              </section>
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className='h-24 text-center'
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
             )}
-          </div>
+          </TableBody>
+        </Table>
+      </div>
+      <div className='flex items-center justify-end space-x-2 py-4'>
+        <div className='flex-1 text-sm text-muted-foreground'>
+          {table.getFilteredSelectedRowModel().rows.length} of{' '}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
+        <div className='space-x-2'>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
