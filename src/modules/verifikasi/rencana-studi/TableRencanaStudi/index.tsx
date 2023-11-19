@@ -10,9 +10,9 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { ArrowUpDown } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -25,47 +25,9 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-const data: Payment[] = [
-  {
-    id: 'm5gr84i9',
-    amount: 316,
-    status: 'success',
-    email: 'ken99@yahoo.com',
-  },
-  {
-    id: '3u1reuv4',
-    amount: 242,
-    status: 'success',
-    email: 'Abe45@gmail.com',
-  },
-  {
-    id: 'derv1ws0',
-    amount: 837,
-    status: 'processing',
-    email: 'Monserrat44@gmail.com',
-  },
-  {
-    id: '5kma53ae',
-    amount: 874,
-    status: 'success',
-    email: 'Silas22@gmail.com',
-  },
-  {
-    id: 'bhqecj4p',
-    amount: 721,
-    status: 'failed',
-    email: 'carmella@hotmail.com',
-  },
-];
+import { TStudyPlanRequest } from '@/types/verifikasi/rencana-studi/types';
 
-export type Payment = {
-  id: string;
-  amount: number;
-  status: 'pending' | 'processing' | 'success' | 'failed';
-  email: string;
-};
-
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<TStudyPlanRequest>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -114,12 +76,13 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       const rawDate: unknown = row.getValue('created_at');
 
-      if (rawDate instanceof Date) {
-        const formatted = format(rawDate, 'PPP');
-        return <div className=' font-medium'>{formatted}</div>;
+      if (typeof rawDate === 'string') {
+        const dateObject = parseISO(rawDate);
+        const formatted = format(dateObject, 'PPP'); // Adjust the format as needed
+        return <div className='font-medium'>{formatted}</div>;
       } else {
         console.error('Invalid date format:', rawDate);
-        return <div className=' font-medium'>Invalid Date</div>;
+        return <div className='font-medium'>Invalid Date</div>;
       }
     },
   },
@@ -161,7 +124,7 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => <div>{row.getValue('status')}</div>,
   },
   {
-    accessorKey: 'status',
+    accessorKey: 'detail',
     header: ({ column }) => {
       return (
         <Button
@@ -191,7 +154,10 @@ export const columns: ColumnDef<Payment>[] = [
     },
   },
 ];
-export const TableRencanaStudi = () => {
+
+export const TableRencanaStudi: FC<{ data: TStudyPlanRequest[] }> = ({
+  data,
+}) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -217,15 +183,15 @@ export const TableRencanaStudi = () => {
   });
 
   return (
-    <div className='w-full'>
+    <div className='w-full '>
       <div className='rounded-md border '>
-        <Table className='text-xs'>
+        <Table className='text-xs max-w-full'>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className='text-center '>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
