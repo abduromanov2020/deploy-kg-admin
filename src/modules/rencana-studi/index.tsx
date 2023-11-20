@@ -35,8 +35,9 @@ type Checked = DropdownMenuCheckboxItemProps['checked'];
 
 import { ArrowUpDown } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
-import { FacultyTable } from '@/modules/rencana-studi/table';
-import FacultyGridCardComponent from '@/modules/rencana-studi/grid';
+import { FacultyTable } from '@/modules/rencana-studi/faculty/components/table';
+import FacultyGridCardComponent from '@/modules/rencana-studi/faculty/components/grid';
+import Link from 'next/link';
 
 export const RencanaStudiModule = () => {
   const [showGrid, setShowGrid] = React.useState(false);
@@ -56,9 +57,14 @@ export const RencanaStudiModule = () => {
             </div>
           </div>
           <div className='flex items-center gap-3'>
-            <Button className='hover:bg-white shadow-md bg-primary-500 hover:text-primary-500 text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
-              <CiCirclePlus size={20} />
-              <p className='leading-none'>Fakultas</p>
+            <Button
+              asChild
+              className='hover:bg-white shadow-md bg-primary-500 hover:text-primary-500 text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'
+            >
+              <Link href={'/rencana-studi/tambah-fakultas'}>
+                <CiCirclePlus size={20} />
+                <p className='leading-none'>Fakultas</p>
+              </Link>
             </Button>
             <Button
               className={`${

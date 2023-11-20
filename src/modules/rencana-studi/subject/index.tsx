@@ -13,8 +13,9 @@ import { MajorTable } from '@/modules/rencana-studi/major/components/table';
 import FilterComponent from '@/modules/sekilas-ilmu/filter';
 import { FilterComponentMajor } from '@/modules/rencana-studi/major/components/filter';
 import MajorGrid from '@/modules/rencana-studi/major/components/grid';
+import { SubjectTable } from '@/modules/rencana-studi/subject/components/table';
 
-const MajorModule = () => {
+const SubjectModule = () => {
   const [showGrid, setShowGrid] = React.useState(false);
   const [showList, setShowList] = React.useState(true);
 
@@ -27,6 +28,10 @@ const MajorModule = () => {
       name: 'Daftar Prodi',
       link: '/rencana-studi/program-studi/1',
     },
+    {
+      name: 'Daftar Matkul',
+      link: '/rencana-studi/program-studi/1/mata-kuliah/1',
+    },
   ];
 
   return (
@@ -36,7 +41,7 @@ const MajorModule = () => {
       </div>
       <div className='bg-white rounded'>
         <div className='p-4 border-b-2'>
-          <p className='text-base font-semibold'>Fakultas Nama Fakultas</p>
+          <p className='text-base font-semibold'>Prodi Nama Prodi</p>
         </div>
         <div className='p-8'>
           <section className='flex justify-between items-center'>
@@ -53,53 +58,17 @@ const MajorModule = () => {
             <div className='flex items-center gap-3'>
               <Button className='hover:bg-white shadow-md bg-primary-500 hover:text-primary-500 text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
                 <CiCirclePlus size={20} />
-                <p className='leading-none'>Tambah Prodi</p>
+                <p className='leading-none'>Tambah Mata Kuliah</p>
               </Button>
               <FilterComponentMajor />
               <Button className='bg-white shadow-md hover:bg-primary-500 text-primary-500 hover:text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
                 <BiSolidFileExport size={24} />
                 <p className='leading-none'>Unduh</p>
               </Button>
-              <Button
-                className={`${
-                  showGrid
-                    ? 'bg-primary-500 hover:bg-white  hover:text-primary-500 shadow-md'
-                    : 'bg-white hover:bg-primary-500 hover:text-white text-primary-500 shadow-md'
-                }   p-3`}
-                onClick={() => {
-                  setShowGrid(!showGrid); // Fix: Use the new state value directly
-                  setShowList(!showList);
-                }}
-              >
-                <IoGridOutline size={24} />
-              </Button>
-              <Button
-                className={`${
-                  showList
-                    ? 'bg-primary-500 hover:bg-white  hover:text-primary-500 shadow-md'
-                    : 'bg-white hover:bg-primary-500 hover:text-white text-primary-500 shadow-md'
-                }   p-3`}
-                onClick={() => {
-                  setShowGrid(!showGrid);
-                  setShowList(!showList); // Fix: Use the new state value directly
-                }}
-              >
-                <IoListOutline size={24} />
-              </Button>
             </div>
           </section>
-          <div className='my-8'>
-            <div className='w-full'>
-              {showGrid ? (
-                <section>
-                  <MajorGrid />
-                </section>
-              ) : (
-                <section>
-                  <MajorTable />
-                </section>
-              )}
-            </div>
+          <div className='my-8 w-full'>
+            <SubjectTable />
           </div>
         </div>
       </div>
@@ -107,4 +76,4 @@ const MajorModule = () => {
   );
 };
 
-export default MajorModule;
+export default SubjectModule;

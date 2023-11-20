@@ -31,54 +31,57 @@ type Checked = DropdownMenuCheckboxItemProps['checked'];
 
 import { ArrowUpDown } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
+import Pagination from '@/components/generals/pagination';
+import { TiArrowSortedDown } from 'react-icons/ti';
+import Link from 'next/link';
 
-export type TFaculty = {
-  faculty_id: string;
-  faculty_name: string;
-  head_of_faculty: string;
-  major_count: number;
+export type TSubject = {
+  subject_id: string;
+  subject_name: string;
+  lecturer: string;
+  sks: number;
 };
 
-const data: TFaculty[] = [
+const data: TSubject[] = [
   {
-    faculty_id: '#ASD1',
-    faculty_name: 'Fakultas Teknik',
-    head_of_faculty: 'Dr. John Doe',
-    major_count: 5,
+    subject_id: '#ASD1',
+    subject_name: 'Sistem Basis Data',
+    lecturer: 'Dr. John Doe',
+    sks: 5,
   },
   {
-    faculty_id: '#ASD2',
-    faculty_name: 'Fakultas Ilmu Sosial',
-    head_of_faculty: 'Prof. Jane Smith',
-    major_count: 4,
+    subject_id: '#ASD2',
+    subject_name: 'Sistem Basis Data',
+    lecturer: 'Prof. Jane Smith',
+    sks: 4,
   },
   {
-    faculty_id: '#ASD3',
-    faculty_name: 'Fakultas Ekonomi',
-    head_of_faculty: 'Dr. Robert Johnson',
-    major_count: 3,
+    subject_id: '#ASD3',
+    subject_name: 'Sistem Basis Data',
+    lecturer: 'Dr. Robert Johnson',
+    sks: 3,
   },
   {
-    faculty_id: '#ASD4',
-    faculty_name: 'Fakultas Kedokteran',
-    head_of_faculty: 'Prof. Emily Davis',
-    major_count: 7,
+    subject_id: '#ASD4',
+    subject_name: 'Sistem Basis Data',
+    lecturer: 'Prof. Emily Davis',
+    sks: 7,
   },
   {
-    faculty_id: '#ASD5',
-    faculty_name: 'Fakultas Hukum',
-    head_of_faculty: 'Dr. William Anderson',
-    major_count: 2,
+    subject_id: '#ASD5',
+    subject_name: 'Sistem Basis Data',
+    lecturer: 'Dr. William Anderson',
+    sks: 2,
   },
   {
-    faculty_id: '#ASD6',
-    faculty_name: 'Fakultas Seni dan Humaniora',
-    head_of_faculty: 'Prof. Sarah Brown',
-    major_count: 6,
+    subject_id: '#ASD6',
+    subject_name: 'Sistem Basis Data',
+    lecturer: 'Prof. Sarah Brown',
+    sks: 6,
   },
 ];
 
-export const columns: ColumnDef<TFaculty>[] = [
+export const columns: ColumnDef<TSubject>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -102,80 +105,98 @@ export const columns: ColumnDef<TFaculty>[] = [
   },
   {
     accessorKey: 'no',
-    header: 'NO',
-    cell: ({ row }) => <div>{row.index + 1}</div>,
-  },
-  {
-    accessorKey: 'faculty_id',
     header: ({ column }) => {
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-sm p-0 text-start font-semibold text-black'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          ID FAKULTAS
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          NO
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className='text-center'>{row.getValue('faculty_id')}</div>
+      <div className='text-center font-semibold text-sm'>{row.index + 1}</div>
     ),
   },
   {
-    accessorKey: 'faculty_name',
+    accessorKey: 'subject_id',
     header: ({ column }) => {
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-sm p-0 text-start font-semibold text-black'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          NAMA FAKULTAS
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          ID MATKUL
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className='text-center'>{row.getValue('faculty_name')}</div>
+      <div className='text-start font-semibold text-sm'>
+        {row.getValue('subject_id')}
+      </div>
     ),
   },
   {
-    accessorKey: 'head_of_faculty',
+    accessorKey: 'subject_name',
     header: ({ column }) => {
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-sm p-0 text-start font-semibold text-black'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          KEPALA FAKULTAS
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          NAMA MATKUL
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className='text-center'>{row.getValue('head_of_faculty')}</div>
+      <div className='text-start font-semibold text-sm'>
+        {row.getValue('subject_name')}
+      </div>
     ),
   },
   {
-    accessorKey: 'major_count',
+    accessorKey: 'lecturer',
     header: ({ column }) => {
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-sm p-0 text-start font-semibold text-black'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          JUMLAH PRODI
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          NAMA DOSEN
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className='text-center'>
-        {row.getValue('major_count')} Program Studi
+      <div className='text-start font-semibold text-sm'>
+        {row.getValue('lecturer')}
+      </div>
+    ),
+  },
+  {
+    accessorKey: 'sks',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-sm p-0 text-start font-semibold text-black'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          JUMLAH SKS
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className='text-start font-semibold text-sm'>
+        {row.getValue('sks')} SKS
       </div>
     ),
   },
@@ -185,15 +206,21 @@ export const columns: ColumnDef<TFaculty>[] = [
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-sm p-0 text-start font-semibold text-black'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           INFORMASI
-          <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
-    cell: ({ row }) => <div className='text-center'>detail</div>,
+    cell: ({ row }) => (
+      <Link
+        href={'/rencana-studi/program-studi/1/mata-kuliah/1/detail/1'}
+        className='text-start font-semibold text-sm text-primary-500'
+      >
+        Lihat Detail
+      </Link>
+    ),
   },
   {
     id: 'actions',
@@ -211,7 +238,7 @@ export const columns: ColumnDef<TFaculty>[] = [
   },
 ];
 
-export const FacultyTable = () => {
+export const SubjectTable = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -235,6 +262,12 @@ export const FacultyTable = () => {
       rowSelection,
     },
   });
+
+  const handlePageChange = async (page: number) => {
+    window.scrollTo(0, 0);
+    // refetchPengajuan();
+    // router.push(`/pengajuan/administrasi?page=${page}`);
+  };
   return (
     <>
       <div className='rounded-md border '>
@@ -293,22 +326,11 @@ export const FacultyTable = () => {
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
         <div className='space-x-2'>
-          <Button
-            variant='outline'
-            size='sm'
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant='outline'
-            size='sm'
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
+          <Pagination
+            currentPage={2}
+            totalPages={10}
+            onPageChange={handlePageChange}
+          />
         </div>
       </div>
     </>

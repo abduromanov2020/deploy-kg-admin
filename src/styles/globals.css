@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* #region  /**=========== Typography =========== */
-h1,
+/* h1,
 .h1 {
   @apply font-primary text-6xl font-bold md:text-4xl;
 }
@@ -31,7 +31,7 @@ h5,
 h6,
 .h6 {
   @apply font-primary text-2xl font-semibold md:text-lg;
-}
+} */
 
 body,
 .p {
@@ -65,14 +65,14 @@ body,
 }
 
 .rdw-editor-toolbar {
-  background-color: #E5E7EB !important;
+  background-color: #e5e7eb !important;
   border-radius: none !important;
   border: none !important;
-  margin:none !important;
+  margin: none !important;
 }
 
 .wrapper-class {
-  border: 3px solid #D1D5DB !important;
+  border: 3px solid #d1d5db !important;
   border-radius: 12px !important;
   overflow: hidden !important;
 }

@@ -74,9 +74,7 @@ const RencanaStudiDetailFaculty = () => {
                   <TableCell className='border-2'>Raul</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className='font-medium'>
-                    Kepala Program Studi
-                  </TableCell>
+                  <TableCell className='font-medium'>Kepala Fakultas</TableCell>
                   <TableCell className='border-2'>440</TableCell>
                 </TableRow>
                 <TableRow>

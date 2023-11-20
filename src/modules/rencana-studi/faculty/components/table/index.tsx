@@ -35,53 +35,53 @@ import Pagination from '@/components/generals/pagination';
 import { TiArrowSortedDown } from 'react-icons/ti';
 import Link from 'next/link';
 
-export type TMajor = {
-  major_id: string;
-  major_name: string;
-  head_of_major: string;
-  subject_count: number;
+export type TFaculty = {
+  faculty_id: string;
+  faculty_name: string;
+  head_of_faculty: string;
+  major_count: number;
 };
 
-const data: TMajor[] = [
+const data: TFaculty[] = [
   {
-    major_id: '#ASD1',
-    major_name: 'Blockchain',
-    head_of_major: 'Dr. John Doe',
-    subject_count: 5,
+    faculty_id: '#ASD1',
+    faculty_name: 'Fakultas Teknik',
+    head_of_faculty: 'Dr. John Doe',
+    major_count: 5,
   },
   {
-    major_id: '#ASD2',
-    major_name: 'Blockchain',
-    head_of_major: 'Prof. Jane Smith',
-    subject_count: 4,
+    faculty_id: '#ASD2',
+    faculty_name: 'Fakultas Ilmu Sosial',
+    head_of_faculty: 'Prof. Jane Smith',
+    major_count: 4,
   },
   {
-    major_id: '#ASD3',
-    major_name: 'Blockchain',
-    head_of_major: 'Dr. Robert Johnson',
-    subject_count: 3,
+    faculty_id: '#ASD3',
+    faculty_name: 'Fakultas Ekonomi',
+    head_of_faculty: 'Dr. Robert Johnson',
+    major_count: 3,
   },
   {
-    major_id: '#ASD4',
-    major_name: 'Blockchain',
-    head_of_major: 'Prof. Emily Davis',
-    subject_count: 7,
+    faculty_id: '#ASD4',
+    faculty_name: 'Fakultas Kedokteran',
+    head_of_faculty: 'Prof. Emily Davis',
+    major_count: 7,
   },
   {
-    major_id: '#ASD5',
-    major_name: 'Blockchain',
-    head_of_major: 'Dr. William Anderson',
-    subject_count: 2,
+    faculty_id: '#ASD5',
+    faculty_name: 'Fakultas Hukum',
+    head_of_faculty: 'Dr. William Anderson',
+    major_count: 2,
   },
   {
-    major_id: '#ASD6',
-    major_name: 'Blockchain',
-    head_of_major: 'Prof. Sarah Brown',
-    subject_count: 6,
+    faculty_id: '#ASD6',
+    faculty_name: 'Fakultas Seni dan Humaniora',
+    head_of_faculty: 'Prof. Sarah Brown',
+    major_count: 6,
   },
 ];
 
-export const columns: ColumnDef<TMajor>[] = [
+export const columns: ColumnDef<TFaculty>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -121,7 +121,7 @@ export const columns: ColumnDef<TMajor>[] = [
     ),
   },
   {
-    accessorKey: 'major_id',
+    accessorKey: 'faculty_id',
     header: ({ column }) => {
       return (
         <Button
@@ -129,19 +129,19 @@ export const columns: ColumnDef<TMajor>[] = [
           className='text-sm p-0 text-start font-semibold text-black'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          ID PRODI
+          ID FAKULTAS
           <TiArrowSortedDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
     cell: ({ row }) => (
       <div className='text-start font-semibold text-sm'>
-        {row.getValue('major_id')}
+        {row.getValue('faculty_id')}
       </div>
     ),
   },
   {
-    accessorKey: 'major_name',
+    accessorKey: 'faculty_name',
     header: ({ column }) => {
       return (
         <Button
@@ -149,19 +149,19 @@ export const columns: ColumnDef<TMajor>[] = [
           className='text-sm p-0 text-start font-semibold text-black'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          NAMA PRODI
+          NAMA FAKULTAS
           <TiArrowSortedDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
     cell: ({ row }) => (
       <div className='text-start font-semibold text-sm'>
-        {row.getValue('major_name')}
+        {row.getValue('faculty_name')}
       </div>
     ),
   },
   {
-    accessorKey: 'head_of_major',
+    accessorKey: 'head_of_faculty',
     header: ({ column }) => {
       return (
         <Button
@@ -169,19 +169,19 @@ export const columns: ColumnDef<TMajor>[] = [
           className='text-sm p-0 text-start font-semibold text-black'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          KEPALA PRODI
+          KEPALA FAKULTAS
           <TiArrowSortedDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
     cell: ({ row }) => (
       <div className='text-start font-semibold text-sm'>
-        {row.getValue('head_of_major')}
+        {row.getValue('head_of_faculty')}
       </div>
     ),
   },
   {
-    accessorKey: 'subject_count',
+    accessorKey: 'major_count',
     header: ({ column }) => {
       return (
         <Button
@@ -189,17 +189,17 @@ export const columns: ColumnDef<TMajor>[] = [
           className='text-sm p-0 text-start font-semibold text-black'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          JUMLAH MATKUL
+          JUMLAH PRODI
           <TiArrowSortedDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
     cell: ({ row }) => (
       <Link
-        href={'/rencana-studi/program-studi/1/mata-kuliah/1'}
+        href={'/rencana-studi/program-studi/1'}
         className='text-start font-semibold text-sm text-primary-500'
       >
-        {row.getValue('subject_count')} Mata Kuliah
+        {row.getValue('major_count')} Program Studi
       </Link>
     ),
   },
@@ -218,7 +218,7 @@ export const columns: ColumnDef<TMajor>[] = [
     },
     cell: ({ row }) => (
       <Link
-        href={'/rencana-studi/program-studi/1/detail/2'}
+        href={'/rencana-studi/detail/1'}
         className='text-start font-semibold text-sm text-primary-500'
       >
         Lihat Detail
@@ -241,7 +241,7 @@ export const columns: ColumnDef<TMajor>[] = [
   },
 ];
 
-export const MajorTable = () => {
+export const FacultyTable = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -322,19 +322,6 @@ export const MajorTable = () => {
             )}
           </TableBody>
         </Table>
-      </div>
-      <div className='flex items-center justify-end space-x-2 py-4'>
-        <div className='flex-1 text-sm text-muted-foreground'>
-          {table.getFilteredSelectedRowModel().rows.length} of{' '}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className='space-x-2'>
-          <Pagination
-            currentPage={2}
-            totalPages={10}
-            onPageChange={handlePageChange}
-          />
-        </div>
       </div>
     </>
   );
