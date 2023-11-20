@@ -1,6 +1,7 @@
-import { EditorState, ContentState } from 'draft-js';
+import { EditorState } from 'draft-js';
 import React from 'react';
 import { Editor as WysiwygEditor } from 'react-draft-wysiwyg';
+
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 export interface DraftEditorProps {

@@ -14,7 +14,7 @@ export const MainStudiKu = () => {
 
   const filter = [{ title: 'Pertemuan 1' }];
   return (
-    <div className='bg-white p-5 flex flex-col gap-2 w-full'>
+    <div className='bg-white p-5 flex flex-col gap-2 w-full rounded-md shadow-md'>
       <div className='gap-10 flex flex-row w-full'>
         <Filter
           icon={<FaClipboard />}
