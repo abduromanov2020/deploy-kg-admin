@@ -10,7 +10,7 @@ import { VerifikasiRencanaStudiModule } from '@/modules/verifikasi/rencana-studi
 export default function VerifikasiRencanaStudiPage() {
   return (
     <main>
-      <div className='min-h-screen w-full'>
+      <div className='w-full'>
         <VerifikasiRencanaStudiModule />
       </div>
     </main>
