@@ -30,7 +30,7 @@ export const EditorComponent: React.FC<EditorProps> = ({
 }) => {
   return (
     <div className={editorStyle}>
-      <div className='flex gap-2 w-full grid grid-cols-2'>
+      <div className='gap-2 w-full grid grid-cols-2'>
         <InputComponent
           {...input1Props}
           styleWrapper='w-full col-span-1 flex flex-col'
@@ -40,6 +40,7 @@ export const EditorComponent: React.FC<EditorProps> = ({
           styleWrapper='w-full col-span-1 flex flex-col'
         />
       </div>
+      <p className='text-dark'>Deskripsi Video</p>
       <DraftEditor {...editorInput} />
     </div>
   );
