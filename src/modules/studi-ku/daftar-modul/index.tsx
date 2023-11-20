@@ -75,15 +75,6 @@ export const DaftarModul = () => {
     setInputCover(newInputs);
   };
 
-  const handleInputCover2 = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number,
-  ) => {
-    const newInputs = [...inputCover];
-    newInputs[index].input2 = e.target.value;
-    setInputCover(newInputs);
-  };
-
   const handleEditorChangeCover = (editorState: EditorState, index: number) => {
     const newEditorStates = [...editorStates];
     newEditorStates[index] = editorState;
