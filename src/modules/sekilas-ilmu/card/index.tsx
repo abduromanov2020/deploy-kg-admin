@@ -30,11 +30,11 @@ const CardComponent = () => {
   ];
 
   return (
-    <div className='grid grid-cols-3 gap-4'>
+    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2'>
       {CARDS.map((_, index) => (
         <Card
           key={index}
-          className='w-[350px] rounded-lg overflow-hidden mx-auto'
+          className='w-[350px] rounded-lg overflow-hidden mx-auto mt-4'
         >
           <CardHeader className='p-0'>
             <Image src={ArtikelImage} alt='artikel' width={350} height={200} />
