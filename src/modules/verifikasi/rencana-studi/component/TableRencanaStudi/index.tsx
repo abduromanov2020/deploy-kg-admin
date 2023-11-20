@@ -10,9 +10,9 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { ArrowUpDown } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -25,47 +25,12 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-const data: Payment[] = [
-  {
-    id: 'm5gr84i9',
-    amount: 316,
-    status: 'success',
-    email: 'ken99@yahoo.com',
-  },
-  {
-    id: '3u1reuv4',
-    amount: 242,
-    status: 'success',
-    email: 'Abe45@gmail.com',
-  },
-  {
-    id: 'derv1ws0',
-    amount: 837,
-    status: 'processing',
-    email: 'Monserrat44@gmail.com',
-  },
-  {
-    id: '5kma53ae',
-    amount: 874,
-    status: 'success',
-    email: 'Silas22@gmail.com',
-  },
-  {
-    id: 'bhqecj4p',
-    amount: 721,
-    status: 'failed',
-    email: 'carmella@hotmail.com',
-  },
-];
+import { AccConfirmModal } from '@/modules/verifikasi/rencana-studi/component/AccConfirmModal';
+import { AccRejectModal } from '@/modules/verifikasi/rencana-studi/component/AccRejectModal';
 
-export type Payment = {
-  id: string;
-  amount: number;
-  status: 'pending' | 'processing' | 'success' | 'failed';
-  email: string;
-};
+import { TStudyPlanRequest } from '@/types/verifikasi/rencana-studi/types';
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<TStudyPlanRequest>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -98,7 +63,7 @@ export const columns: ColumnDef<Payment>[] = [
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-xs px-0'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           NAMA MAHASISWA
@@ -110,16 +75,26 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: 'created_at',
-    header: () => <div className=''>TANGGAL PENGAJUAN</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-xs px-0'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          TANGGAL PENGAJUAN <ArrowUpDown className='ml-2 h-4 w-4' />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const rawDate: unknown = row.getValue('created_at');
 
-      if (rawDate instanceof Date) {
-        const formatted = format(rawDate, 'PPP');
-        return <div className=' font-medium'>{formatted}</div>;
+      if (typeof rawDate === 'string') {
+        const dateObject = parseISO(rawDate);
+        const formatted = format(dateObject, 'PPP'); // Adjust the format as needed
+        return <div>{formatted}</div>;
       } else {
-        console.error('Invalid date format:', rawDate);
-        return <div className=' font-medium'>Invalid Date</div>;
+        return <div>Invalid Date</div>;
       }
     },
   },
@@ -129,7 +104,7 @@ export const columns: ColumnDef<Payment>[] = [
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-xs px-0'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           PROGRAM STUDI
@@ -140,12 +115,12 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => <div>{row.getValue('subject_name')}</div>,
   },
   {
-    accessorKey: 'student_id',
+    accessorKey: 'national_student_number',
     header: ({ column }) => {
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-xs px-0'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           NIM/NPM
@@ -153,28 +128,16 @@ export const columns: ColumnDef<Payment>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('student_id')}</div>,
+    cell: ({ row }) => <div>{row.getValue('national_student_number')}</div>,
   },
   {
-    accessorKey: 'status',
-    header: () => <div className=''>STATUS KRS</div>,
-    cell: ({ row }) => <div>{row.getValue('status')}</div>,
-  },
-  {
-    accessorKey: 'status',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant='ghost'
-          className='text-xs'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          INFORMASI
-          <ArrowUpDown className='ml-2 h-4 w-4' />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div>detail</div>,
+    accessorKey: 'detail',
+    header: 'INFORMASI',
+    cell: ({ row }) => (
+      <div className='text-primary-500 font-medium cursor-pointer hover:underline'>
+        Detail
+      </div>
+    ),
   },
   {
     id: 'actions',
@@ -184,14 +147,17 @@ export const columns: ColumnDef<Payment>[] = [
 
       return (
         <div className='flex gap-3'>
-          <Button className='bg-red-800'>Tolak</Button>
-          <Button className='bg-primary-500'>Setuju</Button>
+          <AccRejectModal />
+          <AccConfirmModal />
         </div>
       );
     },
   },
 ];
-export const TableRencanaStudi = () => {
+
+export const TableRencanaStudi: FC<{ data: TStudyPlanRequest[] }> = ({
+  data,
+}) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -217,9 +183,9 @@ export const TableRencanaStudi = () => {
   });
 
   return (
-    <div className='w-full'>
+    <div className='w-full '>
       <div className='rounded-md border '>
-        <Table className='text-xs'>
+        <Table className='text-xs max-w-full'>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
