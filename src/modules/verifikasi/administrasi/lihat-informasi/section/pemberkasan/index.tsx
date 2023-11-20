@@ -13,7 +13,7 @@ const PemberkasanSection = () => {
           key='1'
           className='rounded-lg overflow-hidden'
         >
-          <CardTitle className='p-2 text-md'>Kartu Tanda Penduduk</CardTitle>
+          <CardTitle className='p-2 text-sm'>Kartu Tanda Penduduk</CardTitle>
           <CardHeader className='p-0 '>
             <Image
               src={PlaceholderImg}
@@ -28,7 +28,7 @@ const PemberkasanSection = () => {
           key='1'
           className='rounded-lg overflow-hidden'
         >
-          <CardTitle className='p-2 text-md'>Pas Foto</CardTitle>
+          <CardTitle className='p-2 text-sm'>Pas Foto</CardTitle>
           <CardHeader className='p-0 '>
             <Image
               src={PlaceholderImg}
@@ -43,7 +43,7 @@ const PemberkasanSection = () => {
           key='1'
           className='rounded-lg overflow-hidden'
         >
-          <CardTitle className='p-2 text-md'>Ijazah Terakhir</CardTitle>
+          <CardTitle className='p-2 text-sm'>Ijazah Terakhir</CardTitle>
           <CardHeader className='p-0 '>
             <Image
               src={PlaceholderImg}
@@ -58,7 +58,7 @@ const PemberkasanSection = () => {
           key='1'
           className='rounded-lg overflow-hidden'
         >
-          <CardTitle className='p-2 text-md'>Transkrip Nilai Terakhir</CardTitle>
+          <CardTitle className='p-2 text-sm'>Transkrip Nilai Terakhir</CardTitle>
           <CardHeader className='p-0 '>
             <Image
               src={PlaceholderImg}
@@ -73,7 +73,7 @@ const PemberkasanSection = () => {
           key='1'
           className='rounded-lg overflow-hidden'
         >
-          <CardTitle className='p-2 text-md'>Kartu Keluarga</CardTitle>
+          <CardTitle className='p-2 text-sm'>Kartu Keluarga</CardTitle>
           <CardHeader className='p-0 '>
             <Image
               src={PlaceholderImg}
@@ -88,7 +88,7 @@ const PemberkasanSection = () => {
           key='1'
           className='rounded-lg overflow-hidden'
         >
-          <CardTitle className='p-2 text-md'>Surat Rekomendasi</CardTitle>
+          <CardTitle className='p-2 text-sm'>Surat Rekomendasi</CardTitle>
           <CardHeader className='p-0 '>
             <Image
               src={PlaceholderImg}
