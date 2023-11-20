@@ -32,7 +32,7 @@ const LihatInformasiModule = () => {
     if (query.get('tab') === 'informasi-diri') {
       setactive('informasi-diri');
     } else if (query.get('tab') === 'informasi-pekerjaan') {
-      setactive('konversi-balik');
+      setactive('informasi-pekerjaan');
     } else if (query.get('tab') === 'pemberkasan') {
       setactive('pemberkasan');
     }

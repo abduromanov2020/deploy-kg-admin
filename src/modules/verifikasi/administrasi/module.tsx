@@ -386,10 +386,10 @@ const VerifikasiAdministrasiModule = () => {
                 </DropdownMenuRadioGroup>
                 <DropdownMenuItem
                   onSelect={handleDropdownSelect}
-                  className='text-center border-none'
+                  className='text-end border-none'
                 >
                   <Button className='text-primary-500 bg-transparent hover:bg-transparent'>
-                    Terapkan{' '}
+                    Terapkan
                   </Button>
                 </DropdownMenuItem>
               </DropdownMenuContent>
