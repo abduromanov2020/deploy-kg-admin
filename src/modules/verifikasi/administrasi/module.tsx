@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { FaFilter, FaCalendarAlt } from "react-icons/fa";
-import { FaFileExport } from "react-icons/fa6";
+import { FaCalendarAlt, FaFilter } from 'react-icons/fa';
+import { FaFileExport } from 'react-icons/fa6';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,7 +17,7 @@ const VerifikasiAdministrasiModule = () => {
         <Separator />
         <div className='flex justify-between items-center'>
           <div className='w-1/3 relative'>
-            <Input type='text' placeholder='Search' className='pl-10'/>
+            <Input type='text' placeholder='Search' className='pl-10' />
             <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
               <AiOutlineSearch className='text-gray-400' size={20} />
             </div>

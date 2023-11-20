@@ -10,12 +10,10 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
-import { format } from 'date-fns';
 import { ArrowUpDown } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Table,
   TableBody,
@@ -25,103 +23,29 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-const data: Payment[] = [
-  {
-    id: 'm5gr84i9',
-    amount: 316,
-    status: 'success',
-    email: 'ken99@yahoo.com',
-  },
-  {
-    id: '3u1reuv4',
-    amount: 242,
-    status: 'success',
-    email: 'Abe45@gmail.com',
-  },
-  {
-    id: 'derv1ws0',
-    amount: 837,
-    status: 'processing',
-    email: 'Monserrat44@gmail.com',
-  },
-  {
-    id: '5kma53ae',
-    amount: 874,
-    status: 'success',
-    email: 'Silas22@gmail.com',
-  },
-  {
-    id: 'bhqecj4p',
-    amount: 721,
-    status: 'failed',
-    email: 'carmella@hotmail.com',
-  },
-];
+import { TStudyPlanDetail } from '@/types/verifikasi/rencana-studi/types';
 
-export type Payment = {
-  id: string;
-  amount: number;
-  status: 'pending' | 'processing' | 'success' | 'failed';
-  email: string;
-};
-
-export const columns: ColumnDef<Payment>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value: boolean) =>
-          table.toggleAllPageRowsSelected(!!value)
-        }
-        aria-label='Select all'
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value: boolean) => row.toggleSelected(!!value)}
-        aria-label='Select row'
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+export const columns: ColumnDef<TStudyPlanDetail>[] = [
   {
     accessorKey: 'no',
     header: 'NO',
     cell: ({ row }) => <div>{row.index + 1}</div>,
   },
   {
-    accessorKey: 'student_name',
+    accessorKey: 'subject_id',
     header: ({ column }) => {
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-xs px-0'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          NAMA MAHASISWA
+          KODE MATKUL
           <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('student_name')}</div>,
-  },
-  {
-    accessorKey: 'created_at',
-    header: () => <div className=''>TANGGAL PENGAJUAN</div>,
-    cell: ({ row }) => {
-      const rawDate: unknown = row.getValue('created_at');
-
-      if (rawDate instanceof Date) {
-        const formatted = format(rawDate, 'PPP');
-        return <div className=' font-medium'>{formatted}</div>;
-      } else {
-        console.error('Invalid date format:', rawDate);
-        return <div className=' font-medium'>Invalid Date</div>;
-      }
-    },
+    cell: ({ row }) => <div>{row.getValue('subject_id')}</div>,
   },
   {
     accessorKey: 'subject_name',
@@ -129,7 +53,22 @@ export const columns: ColumnDef<Payment>[] = [
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-xs px-0'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          NAMA MATA KULIAH <ArrowUpDown className='ml-2 h-4 w-4' />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div>{row.getValue('subject_name')}</div>,
+  },
+  {
+    accessorKey: 'teacher_name',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-xs px-0'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           PROGRAM STUDI
@@ -137,61 +76,45 @@ export const columns: ColumnDef<Payment>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('subject_name')}</div>,
+    cell: ({ row }) => <div>{row.getValue('teacher_name')}</div>,
   },
   {
-    accessorKey: 'student_id',
+    accessorKey: 'subject_semester',
     header: ({ column }) => {
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-xs px-0'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          NIM/NPM
+          SEMESTER
           <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('student_id')}</div>,
+    cell: ({ row }) => <div>{row.getValue('subject_semester')}</div>,
   },
   {
-    accessorKey: 'status',
-    header: () => <div className=''>STATUS KRS</div>,
-    cell: ({ row }) => <div>{row.getValue('status')}</div>,
-  },
-  {
-    accessorKey: 'status',
+    accessorKey: 'sks',
     header: ({ column }) => {
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-xs px-0'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          INFORMASI
+          JUMLAH SKS
           <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
-    cell: ({ row }) => <div>detail</div>,
-  },
-  {
-    id: 'actions',
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original;
-
-      return (
-        <div className='flex gap-3'>
-          <Button className='bg-red-800'>Tolak</Button>
-          <Button className='bg-primary-500'>Setuju</Button>
-        </div>
-      );
-    },
+    cell: ({ row }) => <div>{row.getValue('sks')} SKS</div>,
   },
 ];
-export const TableRencanaStudi = () => {
+
+export const TableDetailRencanaStudi: FC<{ data: TStudyPlanDetail[] }> = ({
+  data,
+}) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -217,9 +140,9 @@ export const TableRencanaStudi = () => {
   });
 
   return (
-    <div className='w-full'>
+    <div className='w-full '>
       <div className='rounded-md border '>
-        <Table className='text-xs'>
+        <Table className='text-xs max-w-full'>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -268,7 +191,7 @@ export const TableRencanaStudi = () => {
           </TableBody>
         </Table>
       </div>
-      <div className='flex items-center justify-end space-x-2 py-4'>
+      {/* <div className='flex items-center justify-end space-x-2 py-4'>
         <div className='flex-1 text-sm text-muted-foreground'>
           {table.getFilteredSelectedRowModel().rows.length} of{' '}
           {table.getFilteredRowModel().rows.length} row(s) selected.
@@ -291,7 +214,7 @@ export const TableRencanaStudi = () => {
             Next
           </Button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
