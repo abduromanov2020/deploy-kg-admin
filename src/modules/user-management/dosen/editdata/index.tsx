@@ -3,6 +3,7 @@ import React from 'react';
 import { FaEdit, FaInfoCircle, FaPlusCircle } from 'react-icons/fa';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
+import InputSubject from '@/components/inputsubject';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -68,12 +69,8 @@ const EditDataDosenModule = () => {
               <h1 className='text-lg'>Mata Kuliah Ajar {i + 1}</h1>
               <div className='flex space-x-5 pt-5'>
                 <div className='grid w-full max-w-sm items-center space-y-4'>
-                  <Label htmlFor='study_program'>Program Studi*</Label>
-                  <Input
-                    type='text'
-                    id='study_program'
-                    placeholder={item.study_program}
-                  />
+                  <Label htmlFor='id_major'>Program Studi*</Label>
+                  <InputSubject defaultValue={item.major} />
                 </div>
                 <div className='grid w-full max-w-sm items-center space-y-4'>
                   <Label htmlFor='id_major'>ID Mata Kuliah*</Label>
