@@ -14,7 +14,7 @@ export const MainStudiKu = () => {
     {
       title: 'Module',
       icon: <IoDocumentText className='text-primary-500 text-xl' />,
-      link: '/',
+      link: '/studi-ku/modul',
     },
     {
       title: 'Quiz',

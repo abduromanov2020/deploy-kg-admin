@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { FC } from 'react';
 
 import {
@@ -10,6 +11,7 @@ import {
 interface Data {
   title: string;
   icon: React.ReactNode;
+  link: string;
 }
 
 interface AccordingModulProps {
@@ -37,10 +39,13 @@ export const AccordingModul: FC<AccordingModulProps> = ({
                   className='flex justify-start items-center p-2 px-5'
                   key={index}
                 >
-                  <button className='w-full flex gap-2 justify-start items-center'>
+                  <Link
+                    href={item.link}
+                    className='w-full flex gap-2 justify-start items-center'
+                  >
                     {item.icon}
                     <span>{item.title}</span>
-                  </button>
+                  </Link>
                 </AccordionContent>
               );
             })}
