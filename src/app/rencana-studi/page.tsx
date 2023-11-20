@@ -1,20 +1,17 @@
-import BaseLayout from "@/components/layouts/base-layout";
-import { RencanaStudiModule } from "@/modules/rencana-studi";
-import { Metadata } from "next";
+import BaseLayout from '@/components/layouts/base-layout';
+import { RencanaStudiModule } from '@/modules/rencana-studi';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Rencana Studi',
 };
 
-
 export default function RencanaStudiPage() {
-  return(
+  return (
     <main>
-      <div className="min-h-screen w-full">
-        <BaseLayout>
-        <RencanaStudiModule/>
-        </BaseLayout>
+      <div className='min-h-screen w-full'>
+        <RencanaStudiModule />
       </div>
     </main>
-  )
+  );
 }
