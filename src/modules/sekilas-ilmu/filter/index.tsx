@@ -28,7 +28,7 @@ const FilterComponent = () => {
     <DropdownMenu>
       <DropdownMenuTrigger className='bg-white px-3 hover:bg-dark-100 py-1 shadow-md rounded-md text-primary-500 flex gap-2 justify-center items-center'>
         <FaFilter size={20} />
-        Filter
+        <p className='font-normal'>Filter</p>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-56'>
         <DropdownMenuLabel>Filter</DropdownMenuLabel>
