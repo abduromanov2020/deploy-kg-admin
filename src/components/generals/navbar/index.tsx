@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import React from 'react';
 import Avatar from 'react-avatar';
 import { AiOutlineAppstore } from 'react-icons/ai';
@@ -63,6 +63,7 @@ const Navbar = () => {
                     refresh_token: session?.user?.token
                       ?.refresh_token as string,
                   });
+                  signOut();
                 }}
               >
                 <IoLogOut className='h-6 w-6' /> Keluar
