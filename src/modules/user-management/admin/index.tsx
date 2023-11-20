@@ -38,6 +38,7 @@ const AdminPageModule = () => {
     searchQuery,
     'ADMIN',
   );
+
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
 

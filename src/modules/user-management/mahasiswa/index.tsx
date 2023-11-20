@@ -138,11 +138,17 @@ const MahasiswaModule = () => {
                       </TableCell>
                       <TableCell>{user.id}</TableCell>
                       <TableCell>{user.full_name}</TableCell>
-                      <TableCell>{user.role}</TableCell>
-                      <TableCell>{user.gender}</TableCell>
+                      <TableCell>{user.faculty}</TableCell>
+                      <TableCell>{user.major}</TableCell>
                       <TableCell>
-                        <div className='bg-green-500 text-white px-4 py-1 rounded'>
-                          Aktif
+                        <div
+                          className={`${
+                            user.status === 'active'
+                              ? 'bg-green-600'
+                              : 'bg-red-600'
+                          } text-white px-4 py-1 rounded flex text-center justify-center`}
+                        >
+                          {user.status === 'active' ? 'Aktif' : 'Non-Aktif'}
                         </div>
                       </TableCell>
                       <TableCell className='text-center'>

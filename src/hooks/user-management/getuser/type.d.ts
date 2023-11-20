@@ -2,25 +2,25 @@ export interface TUserDataResponse {
   code: number;
   status: string;
   message: string;
-  data: {
-    users: [
-      {
-        id: string;
-        full_name: string;
-        user_name?: string;
-        email: string;
-        email_verified_at?: string;
-        avatar?: string;
-        gender: string | null;
-        phone_number: string | null;
-        role: string;
-        created_at: string;
-        updated_at: string;
-      },
-    ];
-    page_size: number;
-    total_data: number;
-    current_page: number;
-    max_page: number;
-  };
+  data: Data;
+}
+
+export interface Data {
+  users: User[];
+  page_size: number;
+  total_data: number;
+  current_page: number;
+  max_page: number;
+}
+
+export interface User {
+  id: string;
+  full_name: string;
+  avatar_id?: number;
+  created_at: string;
+  updated_at: string;
+  status: string;
+  role: string;
+  major?: string;
+  faculty?: string;
 }
