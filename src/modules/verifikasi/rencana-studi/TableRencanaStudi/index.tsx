@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/table';
 
 import { AccConfirmModal } from '@/modules/verifikasi/rencana-studi/AccConfirmModal';
+import { AccRejectModal } from '@/modules/verifikasi/rencana-studi/AccRejectModal';
 
 import { TStudyPlanRequest } from '@/types/verifikasi/rencana-studi/types';
 
@@ -146,7 +147,7 @@ export const columns: ColumnDef<TStudyPlanRequest>[] = [
 
       return (
         <div className='flex gap-3'>
-          <Button className='bg-red-800'>Tolak</Button>
+          <AccRejectModal />
           <AccConfirmModal />
         </div>
       );
