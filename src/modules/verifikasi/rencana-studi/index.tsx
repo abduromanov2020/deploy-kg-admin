@@ -9,9 +9,9 @@ import { useGetStudyPlanRequest } from '@/hooks/verifikasi/rencana-studi/hooks';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import { DateRangePicker } from '@/modules/verifikasi/rencana-studi/DateRangePicker';
-import { TableFilter } from '@/modules/verifikasi/rencana-studi/filter';
-import { TableRencanaStudi } from '@/modules/verifikasi/rencana-studi/TableRencanaStudi';
+import { DateRangePicker } from '@/modules/verifikasi/rencana-studi/component/DateRangePicker';
+import { TableFilter } from '@/modules/verifikasi/rencana-studi/component/Filter';
+import { TableRencanaStudi } from '@/modules/verifikasi/rencana-studi/component/TableRencanaStudi';
 
 export const VerifikasiRencanaStudiModule = () => {
   const [date, setDate] = useState<Date>();

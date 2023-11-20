@@ -25,8 +25,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { AccConfirmModal } from '@/modules/verifikasi/rencana-studi/AccConfirmModal';
-import { AccRejectModal } from '@/modules/verifikasi/rencana-studi/AccRejectModal';
+import { AccConfirmModal } from '@/modules/verifikasi/rencana-studi/component/AccConfirmModal';
+import { AccRejectModal } from '@/modules/verifikasi/rencana-studi/component/AccRejectModal';
 
 import { TStudyPlanRequest } from '@/types/verifikasi/rencana-studi/types';
 
