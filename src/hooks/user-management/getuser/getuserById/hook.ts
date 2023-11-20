@@ -5,8 +5,8 @@ import { TUserDataByIdResponse } from '@/hooks/user-management/getuser/getuserBy
 
 import { TMetaErrorResponse } from '@/types';
 
-export const useUser = (
-  id: string,
+export const useUserById = (
+  id: string | string[],
 ): UseQueryResult<TUserDataByIdResponse, TMetaErrorResponse> => {
   return useQuery({
     queryKey: ['get-userAdmin'],
