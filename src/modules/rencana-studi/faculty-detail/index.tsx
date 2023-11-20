@@ -3,10 +3,19 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { CiCirclePlus } from 'react-icons/ci';
-import { IoGridOutline } from 'react-icons/io5';
 import { BiSolidFileExport } from 'react-icons/bi';
 import { FaTrash } from 'react-icons/fa';
+import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import ArtikelImage from '~/images/sekilas-ilmu/artikel.png';
+import Image from 'next/image';
 
 const RencanaStudiDetailFaculty = () => {
   const ITEMS = [
@@ -51,8 +60,55 @@ const RencanaStudiDetailFaculty = () => {
               </Button>
             </div>
           </section>
-          <div className='my-8'>
-            <h1>TEST</h1>
+          <div className='my-8 w-full'>
+            <Table className='border-2'>
+              <TableBody>
+                <TableRow>
+                  <TableCell className='font-medium w-[30%]'>
+                    ID Fakultas
+                  </TableCell>
+                  <TableCell className='border-2'>129391132</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='font-medium'>Nama Fakultas</TableCell>
+                  <TableCell className='border-2'>Raul</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='font-medium'>
+                    Kepala Program Studi
+                  </TableCell>
+                  <TableCell className='border-2'>440</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='font-medium'>Jumlah Prodi</TableCell>
+                  <TableCell className='border-2'>3.92</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='font-medium'>Deskripsi</TableCell>
+                  <TableCell className='border-2'>122</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='font-medium'>Cover Fakultas</TableCell>
+                  <TableCell className='border-2'>
+                    <Card
+                      key={'1'}
+                      className='w-[228px] min-h-[112px] rounded-lg overflow-hidden'
+                    >
+                      <CardTitle className='p-2 text-md'>Cover</CardTitle>
+                      <CardHeader className='p-0 '>
+                        <Image
+                          src={ArtikelImage}
+                          alt='artikel'
+                          width={350}
+                          height={200}
+                          className='object-cover'
+                        />
+                      </CardHeader>
+                    </Card>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
           </div>
         </div>
       </div>
