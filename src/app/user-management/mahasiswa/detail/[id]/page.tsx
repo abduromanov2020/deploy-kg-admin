@@ -3,16 +3,16 @@ import React from 'react';
 
 import BaseLayout from '@/components/layouts/base-layout';
 
-import MahasiswaModule from '@/modules/user-management/mahasiswa';
+import DetailMahasiswaModule from '@/modules/user-management/mahasiswa/detail';
 
-const MahasiswaPage = () => {
+const DetailMahasiswa = () => {
   return (
     <>
       <BaseLayout>
-        <MahasiswaModule />
+        <DetailMahasiswaModule />
       </BaseLayout>
     </>
   );
 };
 
-export default MahasiswaPage;
+export default DetailMahasiswa;
