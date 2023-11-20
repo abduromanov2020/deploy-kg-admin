@@ -1,6 +1,7 @@
 // import { format } from 'date-fns';
 import React, { useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { BiLoaderAlt } from 'react-icons/bi';
 import { FaFileExport } from 'react-icons/fa6';
 
 import { useGetStudyPlanRequest } from '@/hooks/verifikasi/rencana-studi/hooks';
@@ -66,10 +67,16 @@ export const VerifikasiRencanaStudiModule = () => {
           </div>
         </div>
         <div className='my-8'>
-          {data && data.data ? (
+          {isLoading ? (
+            <div className='w-full flex justify-center items-center pt-5'>
+              <BiLoaderAlt className='animate-spin' size={30} />
+            </div>
+          ) : data && data.data ? (
             <TableRencanaStudi data={data.data} />
           ) : (
-            'Tidak Ada Data'
+            <div className='w-full flex justify-center items-center pt-5'>
+              Tidak Ada Data
+            </div>
           )}{' '}
         </div>
       </div>

@@ -25,6 +25,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
+import { AccConfirmModal } from '@/modules/verifikasi/rencana-studi/AccConfirmModal';
+
 import { TStudyPlanRequest } from '@/types/verifikasi/rencana-studi/types';
 
 export const columns: ColumnDef<TStudyPlanRequest>[] = [
@@ -60,7 +62,7 @@ export const columns: ColumnDef<TStudyPlanRequest>[] = [
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-xs px-0'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           NAMA MAHASISWA
@@ -72,17 +74,26 @@ export const columns: ColumnDef<TStudyPlanRequest>[] = [
   },
   {
     accessorKey: 'created_at',
-    header: () => <div className=''>TANGGAL PENGAJUAN</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-xs px-0'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          TANGGAL PENGAJUAN <ArrowUpDown className='ml-2 h-4 w-4' />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const rawDate: unknown = row.getValue('created_at');
 
       if (typeof rawDate === 'string') {
         const dateObject = parseISO(rawDate);
         const formatted = format(dateObject, 'PPP'); // Adjust the format as needed
-        return <div className='font-medium'>{formatted}</div>;
+        return <div>{formatted}</div>;
       } else {
-        console.error('Invalid date format:', rawDate);
-        return <div className='font-medium'>Invalid Date</div>;
+        return <div>Invalid Date</div>;
       }
     },
   },
@@ -92,7 +103,7 @@ export const columns: ColumnDef<TStudyPlanRequest>[] = [
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-xs px-0'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           PROGRAM STUDI
@@ -103,12 +114,12 @@ export const columns: ColumnDef<TStudyPlanRequest>[] = [
     cell: ({ row }) => <div>{row.getValue('subject_name')}</div>,
   },
   {
-    accessorKey: 'student_id',
+    accessorKey: 'national_student_number',
     header: ({ column }) => {
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-xs px-0'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           NIM/NPM
@@ -116,28 +127,16 @@ export const columns: ColumnDef<TStudyPlanRequest>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('student_id')}</div>,
-  },
-  {
-    accessorKey: 'status',
-    header: () => <div className=''>STATUS KRS</div>,
-    cell: ({ row }) => <div>{row.getValue('status')}</div>,
+    cell: ({ row }) => <div>{row.getValue('national_student_number')}</div>,
   },
   {
     accessorKey: 'detail',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant='ghost'
-          className='text-xs'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          INFORMASI
-          <ArrowUpDown className='ml-2 h-4 w-4' />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div>detail</div>,
+    header: 'INFORMASI',
+    cell: ({ row }) => (
+      <div className='text-primary-500 font-medium cursor-pointer hover:underline'>
+        Detail
+      </div>
+    ),
   },
   {
     id: 'actions',
@@ -148,7 +147,7 @@ export const columns: ColumnDef<TStudyPlanRequest>[] = [
       return (
         <div className='flex gap-3'>
           <Button className='bg-red-800'>Tolak</Button>
-          <Button className='bg-primary-500'>Setuju</Button>
+          <AccConfirmModal />
         </div>
       );
     },
@@ -191,7 +190,7 @@ export const TableRencanaStudi: FC<{ data: TStudyPlanRequest[] }> = ({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className='text-center '>
+                    <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
