@@ -7,9 +7,8 @@ import LoginModule from '@/modules/authentications/login';
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
-
   if (session) {
-    redirect('/dashboard');
+    redirect('/beranda');
   }
   return <LoginModule />;
 }
