@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
+import { Button } from '@/components/ui/button';
 import { UploadFile } from '@/components/upload-file';
 
 import { EditorCoverComponent } from '@/modules/studi-ku/daftar-modul/component/EditorCoverComponent';
@@ -240,11 +241,11 @@ export const DaftarModul = () => {
           </div>
         </div>
         <div className='px-5'>
-          <div className='flex flex-col bg-dark-200 p-5'>
+          <div className='flex flex-col bg-dark-200 p-5 rounded-md'>
             <h3 className='font-semibold text-xl mb-4 text-dark-900'>
               Dokumen Pembelajaran
             </h3>
-            <div className='flex-col flex gap-3 bg-dark-200 p-5 rounded-md'>
+            <div className='flex-col flex gap-3 bg-dark-200 rounded-md'>
               {uploadFile.map((file, index) => (
                 <div className='gap-2 flex flex-col' key={index}>
                   <label className='text-dark font-semibold' htmlFor=''>
@@ -268,6 +269,15 @@ export const DaftarModul = () => {
               </button>
             </div>
           </div>
+        </div>
+        <div className='flex w-full justify-end gap-5 px-5'>
+          <Button variant='primaryOutline'>Kembali</Button>
+          <Button
+            variant='primary'
+            className='bg-primary-500 text-white px-4 py-2 rounded-md'
+          >
+            Simpan Perubahan
+          </Button>
         </div>
       </div>
     </div>
