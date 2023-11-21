@@ -47,6 +47,11 @@ const EditDataDosenModule = () => {
       id_major: '2001726',
       major: 'Kedokteran',
     },
+    {
+      study_program: 'Kedokteran',
+      id_major: '2001726',
+      major: 'Kedokteran',
+    },
   ];
   const handleLookUp = () => {
     setLookUp(true);

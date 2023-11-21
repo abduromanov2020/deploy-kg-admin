@@ -25,6 +25,8 @@ const DetailMahasiswaModule = () => {
   ];
   const params = useParams();
   const { id } = params;
+  console.log(id);
+
   const { data, isLoading } = useUserById(id);
   console.log(data);
 

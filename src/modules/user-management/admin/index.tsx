@@ -59,7 +59,10 @@ const AdminPageModule = () => {
               </div>
             </div>
             <div className='space-x-5'>
-              <button className='px-6 py-2 shadow-md text-white bg-blue-600 rounded-md hover:text-blue-600  hover:bg-white hover:transition'>
+              <button
+                onClick={() => router.push('/user-management/admin/addadmin')}
+                className='px-6 py-2 shadow-md text-white bg-blue-600 rounded-md hover:text-blue-600  hover:bg-white hover:transition'
+              >
                 <div className='flex place-items-center gap-2'>
                   <FaPlus /> Tambah Admin
                 </div>
@@ -137,7 +140,7 @@ const AdminPageModule = () => {
                       <TableCell className='font-medium'>
                         {i + 1 + (Number(page) - 1) * 10}
                       </TableCell>
-                      <TableCell>{user.id}</TableCell>
+                      <TableCell className='w-[30%]'>{user.id}</TableCell>
                       <TableCell>{user.full_name}</TableCell>
                       <TableCell>{user.role}</TableCell>
 
@@ -150,7 +153,14 @@ const AdminPageModule = () => {
                         </Link>
                       </TableCell>
                       <TableCell>
-                        <button className='px-6 py-2 shadow-md text-white bg-blue-600 rounded-md  hover:bg-blue-800 hover:transition'>
+                        <button
+                          onClick={() =>
+                            router.push(
+                              `/user-management/admin/editdata/${user.id}`,
+                            )
+                          }
+                          className='px-6 py-2 shadow-md text-white bg-blue-600 rounded-md  hover:bg-blue-800 hover:transition'
+                        >
                           Edit
                         </button>
                       </TableCell>

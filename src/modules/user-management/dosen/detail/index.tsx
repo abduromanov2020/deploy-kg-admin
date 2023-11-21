@@ -3,6 +3,8 @@ import { useParams } from 'next/navigation';
 import React from 'react';
 import { FaEdit, FaFileDownload } from 'react-icons/fa';
 
+import { useUserById } from '@/hooks/user-management/getuser/getuserById/hook';
+
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
@@ -19,13 +21,17 @@ const DetailDosenModule = () => {
   ];
   const params = useParams();
   const { id } = params;
+  console.log(id);
+  const { data } = useUserById(id);
+  console.log(data);
+
   return (
     <>
       <div className='bg-white mb-3 rounded-md'>
         <BreadCrumb items={ConstantDetailDosen} className='lg:px-6' />
       </div>
       <div className='bg-white py-5 px-6 rounded-md'>
-        <div className='flex justify-between  pb-4'>
+        <div className='flex justify-between border-b-2 mb-2  pb-4'>
           <div>
             <h1 className='font-semibold text-lg'>
               Detail User Management Dosen : Raul
