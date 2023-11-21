@@ -118,7 +118,7 @@ const dataSideBar = [
           },
           {
             title: 'Rencana Studi',
-            link: '/verifikasi/administrasi',
+            link: '/verifikasi/rencana-studi',
           },
           {
             title: 'Konversi',

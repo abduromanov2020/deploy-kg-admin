@@ -87,7 +87,7 @@ const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
 });
 
-export const AddFacultyModule = ({ editorInput }: any) => {
+export const EditFacultyModule = ({ editorInput }: any) => {
   const [uploadFile, setUploadFile] = useState<Array<{ upload: File | null }>>([
     { upload: null },
   ]);
@@ -100,8 +100,8 @@ export const AddFacultyModule = ({ editorInput }: any) => {
       link: '/rencana-studi',
     },
     {
-      name: 'Tambah Fakultas',
-      link: '/rencana-studi/tambah-fakultas',
+      name: 'Edit Fakultas',
+      link: '/rencana-studi/edit-fakultas/1',
     },
   ];
 
@@ -155,12 +155,7 @@ export const AddFacultyModule = ({ editorInput }: any) => {
           <p className='text-base font-semibold'>Tambah Fakultas</p>
         </div>
         <div className='p-8'>
-          <div className='flex text-blue-500 place-items-center justify-center space-x-2'>
-            <FaInfoCircle /> <h1>Info Fakultas</h1>{' '}
-            <div className='h-[1.5px] w-[150px] bg-black'></div>
-            <h1 className='text-blue-500'>Info Program Studi</h1>
-          </div>
-          <div className='my-8 w-full'>
+          <div className='w-full'>
             <div className='grid gap-6'>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
@@ -267,7 +262,7 @@ export const AddFacultyModule = ({ editorInput }: any) => {
                       type='submit'
                       className='bg-primary-500 hover:bg-primary-600'
                     >
-                      Tambah Fakultas
+                      Edit Fakultas
                     </Button>
                   </div>
                 </form>

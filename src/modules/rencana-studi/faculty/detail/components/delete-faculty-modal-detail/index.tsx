@@ -11,12 +11,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { FaTrash } from 'react-icons/fa';
 
 export const DeleteFacultyModalDetail = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className='bg-red-800'>Hapus</Button>
+        <Button className='shadow-md bg-white border-2 border-red-800 text-red-800 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base hover:bg-red-800 hover:text-white'>
+          <FaTrash size={20} />
+          <p className='leading-none'>Hapus Fakultas</p>
+        </Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px] text-center p-12'>
         <DialogHeader>
@@ -42,7 +46,7 @@ export const DeleteFacultyModalDetail = () => {
             </Button>
           </DialogClose>
 
-          <Button type='submit' className='bg-red-800 w-full'>
+          <Button type='submit' className='bg-red-800 hover:bg-red-900 w-full'>
             Hapus
           </Button>
         </DialogFooter>

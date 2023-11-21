@@ -14,6 +14,7 @@ import {
 
 import MajorImage from '~/images/rencana-studi/major/cover-prodi.png';
 import Link from 'next/link';
+import { PopoverMajor } from '@/modules/rencana-studi/major/components/pop-over';
 
 const MajorGrid = () => {
   const CARDS = [0, 1, 2, 3, 4, 5];
@@ -57,8 +58,10 @@ const MajorGrid = () => {
           </CardContent>
           <CardFooter className='flex gap-2 justify-between'>
             <div className='flex gap-2'>
-              <Button className='bg-primary-500 hover:bg-primary-400'>
-                Daftar Mata Kuliah
+              <Button className='bg-primary-500 hover:bg-primary-600' asChild>
+                <Link href={'/rencana-studi/program-studi/1/mata-kuliah/1'}>
+                  Daftar Mata Kuliah
+                </Link>
               </Button>
               <Button
                 className='bg-white border-primary-500 border text-primary-500 hover:bg-gray-200 px-9'
@@ -69,9 +72,7 @@ const MajorGrid = () => {
                 </Link>
               </Button>
             </div>
-            <Button className='bg-transparent text-gray-900 hover:bg-transparent hover:text-gray-900 px-2'>
-              <IoMdMore size={25} />
-            </Button>
+            <PopoverMajor />
           </CardFooter>
         </Card>
       ))}

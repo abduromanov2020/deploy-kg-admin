@@ -52,16 +52,22 @@ const MAX_FILE_SIZE = 3000000;
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
 
 const FormSchema = z.object({
+  major_id: z.string().min(1, {
+    message: 'Major count must be at least 1.',
+  }),
+  major_name: z.string().min(2, {
+    message: 'Faculty must be at least 2 characters.',
+  }),
   faculty_name: z.string().min(2, {
     message: 'Faculty must be at least 2 characters.',
   }),
-  head_of_faculty: z.string().min(1, {
+  head_of_major: z.string().min(1, {
     message: 'A head of faculty is required.',
   }),
-  major_count: z.string().min(1, {
+  sks: z.string().min(1, {
     message: 'Major count must be at least 1.',
   }),
-  faculty_image: z
+  major_image: z
     .any()
     .refine(
       (files: File[]) => files !== undefined && files?.length >= 1,
@@ -75,8 +81,7 @@ const FormSchema = z.object({
     .refine(
       (files: File[]) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       'hanya menerima .jpg, .jpeg, dan .png.',
-    )
-    .optional(),
+    ),
 });
 
 interface EditorProps {
@@ -87,7 +92,7 @@ const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
 });
 
-export const AddFacultyModule = ({ editorInput }: any) => {
+export const EditSubjectModule = ({ editorInput }: any) => {
   const [uploadFile, setUploadFile] = useState<Array<{ upload: File | null }>>([
     { upload: null },
   ]);
@@ -100,18 +105,24 @@ export const AddFacultyModule = ({ editorInput }: any) => {
       link: '/rencana-studi',
     },
     {
-      name: 'Tambah Fakultas',
-      link: '/rencana-studi/tambah-fakultas',
+      name: 'Daftar Matkul',
+      link: '/rencana-studi/program-studi/1/mata-kuliah/1',
+    },
+    {
+      name: 'Tambah Matkul',
+      link: '/rencana-studi/program-studi/1/mata-kuliah/1/tambah-matkul',
     },
   ];
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
+      major_id: '',
+      major_name: '',
       faculty_name: '',
-      head_of_faculty: '',
-      major_count: '',
-      faculty_image: undefined,
+      head_of_major: '',
+      sks: '',
+      major_image: undefined,
     },
   });
 
@@ -155,22 +166,17 @@ export const AddFacultyModule = ({ editorInput }: any) => {
           <p className='text-base font-semibold'>Tambah Fakultas</p>
         </div>
         <div className='p-8'>
-          <div className='flex text-blue-500 place-items-center justify-center space-x-2'>
-            <FaInfoCircle /> <h1>Info Fakultas</h1>{' '}
-            <div className='h-[1.5px] w-[150px] bg-black'></div>
-            <h1 className='text-blue-500'>Info Program Studi</h1>
-          </div>
-          <div className='my-8 w-full'>
+          <div className='w-full'>
             <div className='grid gap-6'>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
                   <div className='grid grid-cols-3 gap-6'>
                     <FormField
                       control={form.control}
-                      name='faculty_name'
+                      name='major_id'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Nama Fakultas</FormLabel>
+                          <FormLabel>ID Program Studi*</FormLabel>
                           <FormControl>
                             <Input placeholder='shadcn' {...field} />
                           </FormControl>
@@ -180,10 +186,36 @@ export const AddFacultyModule = ({ editorInput }: any) => {
                     />
                     <FormField
                       control={form.control}
-                      name='head_of_faculty'
+                      name='major_name'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Kepala Fakultas*</FormLabel>
+                          <FormLabel>Nama Program Studi*</FormLabel>
+                          <FormControl>
+                            <Input placeholder='shadcn' {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name='faculty_name'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Fakultas*</FormLabel>
+                          <FormControl>
+                            <Input placeholder='shadcn' {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name='head_of_major'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Kepala Program Studi*</FormLabel>
                           <Select
                             onValueChange={field.onChange}
                             defaultValue={field.value}
@@ -208,10 +240,10 @@ export const AddFacultyModule = ({ editorInput }: any) => {
                     />
                     <FormField
                       control={form.control}
-                      name='major_count'
+                      name='sks'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Jumlah Prodi</FormLabel>
+                          <FormLabel>Jumlah SKS*</FormLabel>
                           <FormControl>
                             <Input placeholder='shadcn' {...field} />
                           </FormControl>
@@ -220,16 +252,14 @@ export const AddFacultyModule = ({ editorInput }: any) => {
                         </FormItem>
                       )}
                     />
-                  </div>
-                  <div className='my-8'>
                     {uploadFile.map((files, index) => (
                       <FormField
                         control={form.control}
-                        name='faculty_image'
+                        name='major_image'
                         key={index}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>File Tugas</FormLabel>
+                            <FormLabel>Gambar Cover*</FormLabel>
                             <FormControl>
                               <Input
                                 type='file'
@@ -252,6 +282,8 @@ export const AddFacultyModule = ({ editorInput }: any) => {
                         )}
                       />
                     ))}
+                  </div>
+                  <div className='my-8'>
                     <h1>WYSIWYG OTW</h1>
                     {/* <DraftEditor {...editorInput} /> */}
                   </div>
@@ -261,13 +293,15 @@ export const AddFacultyModule = ({ editorInput }: any) => {
                       asChild
                       className='text-primary-500 border border-primary-500 bg-white hover:bg-gray-200'
                     >
-                      <Link href={'/rencana-studi'}>Kembali</Link>
+                      <Link href={'/rencana-studi/program-studi/1'}>
+                        Kembali
+                      </Link>
                     </Button>
                     <Button
                       type='submit'
                       className='bg-primary-500 hover:bg-primary-600'
                     >
-                      Tambah Fakultas
+                      Tambah Prodi
                     </Button>
                   </div>
                 </form>

@@ -11,12 +11,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { FaTrash } from 'react-icons/fa';
 
-export const DeleteFacultyModal = () => {
+export const DeleteMajorModalDetail = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className='bg-red-800 w-full hover:bg-red-900'>Hapus</Button>
+        <Button className='shadow-md bg-white border-2 border-red-800 text-red-800 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base hover:bg-red-800 hover:text-white'>
+          <FaTrash size={20} />
+          <p className='leading-none'>Hapus Prodi</p>
+        </Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px] text-center p-12'>
         <DialogHeader>
@@ -27,12 +31,12 @@ export const DeleteFacultyModal = () => {
           </div>
           <DialogTitle>
             <h6 className='text-center'>
-              Apakah Anda yakin akan menghapus fakultas ?
+              Apakah Anda yakin akan menghapus Program Studi ?
             </h6>
           </DialogTitle>
 
           <DialogDescription className='text-center'>
-            Cek kembali informasi fakultas dengan benar.
+            Cek kembali informasi program studi dengan benar.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className='flex w-full justify-between'>

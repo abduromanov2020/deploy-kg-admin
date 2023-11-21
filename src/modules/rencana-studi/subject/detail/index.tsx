@@ -1,3 +1,5 @@
+'use client';
+
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,6 +20,7 @@ import ArtikelImage from '~/images/sekilas-ilmu/artikel.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import { BiEdit } from 'react-icons/bi';
+import { DeleteSubjectModalDetail } from '@/modules/rencana-studi/subject/detail/components/delete-subject-modal-detail';
 
 const RencanaStudiDetailSubject = () => {
   const ITEMS = [
@@ -61,10 +64,7 @@ const RencanaStudiDetailSubject = () => {
                 <BiSolidFileExport size={24} />
                 <p className='leading-none'>Unduh</p>
               </Button>
-              <Button className='shadow-md bg-white border-2 border-red-800 text-red-800 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
-                <FaTrash size={20} />
-                <p className='leading-none'>Hapus Matkul</p>
-              </Button>
+              <DeleteSubjectModalDetail />
               <Button className='shadow-md bg-white border-2 border-primary-500 text-primary-500 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
                 <BiEdit size={24} />
                 <p className='leading-none'>Edit Data</p>

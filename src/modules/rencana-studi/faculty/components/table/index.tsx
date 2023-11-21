@@ -83,27 +83,27 @@ const data: TFaculty[] = [
 ];
 
 export const columns: ColumnDef<TFaculty>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value: any) =>
-          table.toggleAllPageRowsSelected(!!value)
-        }
-        aria-label='Select all'
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value: any) => row.toggleSelected(!!value)}
-        aria-label='Select row'
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+  // {
+  //   id: 'select',
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       checked={table.getIsAllPageRowsSelected()}
+  //       onCheckedChange={(value: any) =>
+  //         table.toggleAllPageRowsSelected(!!value)
+  //       }
+  //       aria-label='Select all'
+  //     />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value: any) => row.toggleSelected(!!value)}
+  //       aria-label='Select row'
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
     accessorKey: 'no',
     header: ({ column }) => {
@@ -235,7 +235,12 @@ export const columns: ColumnDef<TFaculty>[] = [
       return (
         <div className='flex gap-3'>
           <DeleteFacultyModal />
-          <Button className='bg-primary-500'>Edit</Button>
+          <Button
+            className='bg-primary-500 w-full hover:bg-primary-600'
+            asChild
+          >
+            <Link href={'/rencana-studi/edit-fakultas/1'}>Edit</Link>
+          </Button>
         </div>
       );
     },

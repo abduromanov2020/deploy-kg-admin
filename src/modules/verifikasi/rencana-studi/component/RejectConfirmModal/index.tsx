@@ -3,7 +3,6 @@ import { IoWarningOutline } from 'react-icons/io5';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -12,11 +11,11 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-export const DeleteFacultyModal = () => {
+export const RejectConfirmModal = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className='bg-red-800 w-full hover:bg-red-900'>Hapus</Button>
+        <Button className='bg-red-800'>Tolak</Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px] text-center p-12'>
         <DialogHeader>
@@ -27,23 +26,20 @@ export const DeleteFacultyModal = () => {
           </div>
           <DialogTitle>
             <h6 className='text-center'>
-              Apakah Anda yakin akan menghapus fakultas ?
+              Apakah Anda ingin menolak Verifikasi Administrasi ini?
             </h6>
           </DialogTitle>
 
           <DialogDescription className='text-center'>
-            Cek kembali informasi fakultas dengan benar.
+            Cek kembali administrasi bila dirasa belum benar.{' '}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className='flex w-full justify-between'>
-          <DialogClose asChild>
-            <Button variant='outline' className='w-full'>
-              Tinjau Ulang
-            </Button>
-          </DialogClose>
-
-          <Button type='submit' className='bg-red-800 hover:bg-red-900 w-full'>
-            Hapus
+          <Button variant='outline' className='w-full'>
+            Batal
+          </Button>
+          <Button type='submit' className='bg-red-800 w-full'>
+            Tolak
           </Button>
         </DialogFooter>
       </DialogContent>

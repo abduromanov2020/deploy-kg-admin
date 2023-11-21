@@ -23,5 +23,15 @@ export type TStudyPlanRequest = {
   updated_at: string;
 };
 
+export type TStudyPlanDetail = {
+  subject_id: number;
+  subject_name: string;
+  teacher_name: string;
+  subject_semester: number;
+  sks: number;
+};
+
 export type TAllStudyplanRequestResponse = TMetaResponse<TStudyPlanRequest> &
+  TMeta;
+export type TStudyplanDetailRequestResponse = TMetaResponse<TStudyPlanDetail> &
   TMeta;

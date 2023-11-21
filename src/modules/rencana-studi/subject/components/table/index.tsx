@@ -34,6 +34,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import Pagination from '@/components/generals/pagination';
 import { TiArrowSortedDown } from 'react-icons/ti';
 import Link from 'next/link';
+import { DeleteSubjectModal } from '@/modules/rencana-studi/subject/components/delete-subject-modal';
 
 export type TSubject = {
   subject_id: string;
@@ -82,27 +83,27 @@ const data: TSubject[] = [
 ];
 
 export const columns: ColumnDef<TSubject>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value: any) =>
-          table.toggleAllPageRowsSelected(!!value)
-        }
-        aria-label='Select all'
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value: any) => row.toggleSelected(!!value)}
-        aria-label='Select row'
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+  // {
+  //   id: 'select',
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       checked={table.getIsAllPageRowsSelected()}
+  //       onCheckedChange={(value: any) =>
+  //         table.toggleAllPageRowsSelected(!!value)
+  //       }
+  //       aria-label='Select all'
+  //     />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value: any) => row.toggleSelected(!!value)}
+  //       aria-label='Select row'
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
     accessorKey: 'no',
     header: ({ column }) => {
@@ -230,8 +231,19 @@ export const columns: ColumnDef<TSubject>[] = [
 
       return (
         <div className='flex gap-3'>
-          <Button className='bg-red-800'>Hapus</Button>
-          <Button className='bg-primary-500'>Edit</Button>
+          <DeleteSubjectModal />
+          <Button
+            className='bg-primary-500 w-full hover:bg-primary-600'
+            asChild
+          >
+            <Link
+              href={
+                '/rencana-studi/program-studi/1/mata-kuliah/1/edit-matkul/1'
+              }
+            >
+              Edit
+            </Link>
+          </Button>
         </div>
       );
     },

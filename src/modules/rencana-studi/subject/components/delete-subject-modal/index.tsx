@@ -12,7 +12,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-export const DeleteFacultyModal = () => {
+export const DeleteSubjectModal = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -27,12 +27,12 @@ export const DeleteFacultyModal = () => {
           </div>
           <DialogTitle>
             <h6 className='text-center'>
-              Apakah Anda yakin akan menghapus fakultas ?
+              Apakah Anda yakin akan menghapus Mata Kuliah ?
             </h6>
           </DialogTitle>
 
           <DialogDescription className='text-center'>
-            Cek kembali informasi fakultas dengan benar.
+            Cek kembali informasi mata kuliah dengan benar.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className='flex w-full justify-between'>

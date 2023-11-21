@@ -20,9 +20,6 @@ import React, { useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaCalendarAlt, FaFilter } from 'react-icons/fa';
 import { FaFileExport } from 'react-icons/fa6';
-import { TiArrowSortedDown } from 'react-icons/ti';
-
-import { cn } from '@/lib/utils';
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';

@@ -10,13 +10,10 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
-import { format, parseISO } from 'date-fns';
 import { ArrowUpDown } from 'lucide-react';
-import Link from 'next/link';
 import React, { FC, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Table,
   TableBody,
@@ -26,40 +23,16 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { AccConfirmModal } from '@/modules/verifikasi/rencana-studi/component/AccConfirmModal';
-import { RejectConfirmModal } from '@/modules/verifikasi/rencana-studi/component/RejectConfirmModal';
+import { TStudyPlanDetail } from '@/types/verifikasi/rencana-studi/types';
 
-import { TStudyPlanRequest } from '@/types/verifikasi/rencana-studi/types';
-
-export const columns: ColumnDef<TStudyPlanRequest>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value: boolean) =>
-          table.toggleAllPageRowsSelected(!!value)
-        }
-        aria-label='Select all'
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value: boolean) => row.toggleSelected(!!value)}
-        aria-label='Select row'
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+export const columns: ColumnDef<TStudyPlanDetail>[] = [
   {
     accessorKey: 'no',
     header: 'NO',
     cell: ({ row }) => <div>{row.index + 1}</div>,
   },
   {
-    accessorKey: 'student_name',
+    accessorKey: 'subject_id',
     header: ({ column }) => {
       return (
         <Button
@@ -67,15 +40,15 @@ export const columns: ColumnDef<TStudyPlanRequest>[] = [
           className='text-xs px-0'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          NAMA MAHASISWA
+          KODE MATKUL
           <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('student_name')}</div>,
+    cell: ({ row }) => <div>{row.getValue('subject_id')}</div>,
   },
   {
-    accessorKey: 'created_at',
+    accessorKey: 'subject_name',
     header: ({ column }) => {
       return (
         <Button
@@ -83,24 +56,14 @@ export const columns: ColumnDef<TStudyPlanRequest>[] = [
           className='text-xs px-0'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          TANGGAL PENGAJUAN <ArrowUpDown className='ml-2 h-4 w-4' />
+          NAMA MATA KULIAH <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
-    cell: ({ row }) => {
-      const rawDate: unknown = row.getValue('created_at');
-
-      if (typeof rawDate === 'string') {
-        const dateObject = parseISO(rawDate);
-        const formatted = format(dateObject, 'PPP'); // Adjust the format as needed
-        return <div>{formatted}</div>;
-      } else {
-        return <div>Invalid Date</div>;
-      }
-    },
+    cell: ({ row }) => <div>{row.getValue('subject_name')}</div>,
   },
   {
-    accessorKey: 'subject_name',
+    accessorKey: 'teacher_name',
     header: ({ column }) => {
       return (
         <Button
@@ -113,10 +76,10 @@ export const columns: ColumnDef<TStudyPlanRequest>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('subject_name')}</div>,
+    cell: ({ row }) => <div>{row.getValue('teacher_name')}</div>,
   },
   {
-    accessorKey: 'national_student_number',
+    accessorKey: 'subject_semester',
     header: ({ column }) => {
       return (
         <Button
@@ -124,42 +87,32 @@ export const columns: ColumnDef<TStudyPlanRequest>[] = [
           className='text-xs px-0'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          NIM/NPM
+          SEMESTER
           <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('national_student_number')}</div>,
+    cell: ({ row }) => <div>{row.getValue('subject_semester')}</div>,
   },
   {
-    accessorKey: 'detail',
-    header: 'INFORMASI',
-    cell: ({ row }) => (
-      <Link
-        className='text-primary-500 font-medium cursor-pointer hover:underline'
-        href={`/verifikasi/rencana-studi/${row.index}`}
-      >
-        Detail
-      </Link>
-    ),
-  },
-  {
-    id: 'actions',
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original;
-
+    accessorKey: 'sks',
+    header: ({ column }) => {
       return (
-        <div className='flex gap-3'>
-          <RejectConfirmModal />
-          <AccConfirmModal />
-        </div>
+        <Button
+          variant='ghost'
+          className='text-xs px-0'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          JUMLAH SKS
+          <ArrowUpDown className='ml-2 h-4 w-4' />
+        </Button>
       );
     },
+    cell: ({ row }) => <div>{row.getValue('sks')} SKS</div>,
   },
 ];
 
-export const TableRencanaStudi: FC<{ data: TStudyPlanRequest[] }> = ({
+export const TableDetailRencanaStudi: FC<{ data: TStudyPlanDetail[] }> = ({
   data,
 }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -238,7 +191,7 @@ export const TableRencanaStudi: FC<{ data: TStudyPlanRequest[] }> = ({
           </TableBody>
         </Table>
       </div>
-      <div className='flex items-center justify-end space-x-2 py-4'>
+      {/* <div className='flex items-center justify-end space-x-2 py-4'>
         <div className='flex-1 text-sm text-muted-foreground'>
           {table.getFilteredSelectedRowModel().rows.length} of{' '}
           {table.getFilteredRowModel().rows.length} row(s) selected.
@@ -261,7 +214,7 @@ export const TableRencanaStudi: FC<{ data: TStudyPlanRequest[] }> = ({
             Next
           </Button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -34,6 +34,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import Pagination from '@/components/generals/pagination';
 import { TiArrowSortedDown } from 'react-icons/ti';
 import Link from 'next/link';
+import { DeleteMajorModal } from '@/modules/rencana-studi/major/components/delete-major-modal';
 
 export type TMajor = {
   major_id: string;
@@ -82,27 +83,27 @@ const data: TMajor[] = [
 ];
 
 export const columns: ColumnDef<TMajor>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value: any) =>
-          table.toggleAllPageRowsSelected(!!value)
-        }
-        aria-label='Select all'
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value: any) => row.toggleSelected(!!value)}
-        aria-label='Select row'
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+  // {
+  //   id: 'select',
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       checked={table.getIsAllPageRowsSelected()}
+  //       onCheckedChange={(value: any) =>
+  //         table.toggleAllPageRowsSelected(!!value)
+  //       }
+  //       aria-label='Select all'
+  //     />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value: any) => row.toggleSelected(!!value)}
+  //       aria-label='Select row'
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
     accessorKey: 'no',
     header: ({ column }) => {
@@ -233,8 +234,15 @@ export const columns: ColumnDef<TMajor>[] = [
 
       return (
         <div className='flex gap-3'>
-          <Button className='bg-red-800'>Hapus</Button>
-          <Button className='bg-primary-500'>Edit</Button>
+          <DeleteMajorModal />
+          <Button
+            className='bg-primary-500 w-full hover:bg-primary-600'
+            asChild
+          >
+            <Link href={'/rencana-studi/program-studi/1/edit-prodi/1'}>
+              Edit
+            </Link>
+          </Button>
         </div>
       );
     },
