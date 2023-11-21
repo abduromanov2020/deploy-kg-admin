@@ -38,6 +38,7 @@ const MahasiswaModule = () => {
     searchQuery,
     'STUDENT',
   );
+
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
 
@@ -160,7 +161,14 @@ const MahasiswaModule = () => {
                         </Link>
                       </TableCell>
                       <TableCell>
-                        <button className='px-6 py-2 shadow-md text-white bg-blue-600 rounded-md  hover:bg-blue-800 hover:transition'>
+                        <button
+                          onClick={() =>
+                            router.push(
+                              `/user-management/mahasiswa/editdata/${user.id}`,
+                            )
+                          }
+                          className='px-6 py-2 shadow-md text-white bg-blue-600 rounded-md  hover:bg-blue-800 hover:transition'
+                        >
                           Edit
                         </button>
                       </TableCell>

@@ -1,4 +1,5 @@
 import { Tab } from '@headlessui/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React, { Fragment } from 'react';
@@ -177,7 +178,19 @@ const DetailMahasiswaModule = () => {
                             <TableCell className='font-medium'>
                               Pas Foto
                             </TableCell>
-                            <TableCell className='border-2'>test</TableCell>
+                            <TableCell className='border-2'>
+                              {data?.data?.avatar ? (
+                                <Image
+                                  key={1}
+                                  src={data?.data?.avatar}
+                                  width={100}
+                                  height={100}
+                                  alt='avatar'
+                                />
+                              ) : (
+                                'No Picture'
+                              )}
+                            </TableCell>
                           </TableRow>
                         </TableBody>
                       </Table>

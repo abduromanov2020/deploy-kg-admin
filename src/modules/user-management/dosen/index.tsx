@@ -141,7 +141,7 @@ const DosenModule = () => {
                       <TableCell className='font-medium'>
                         {i + 1 + (Number(page) - 1) * 10}
                       </TableCell>
-                      <TableCell>{user.id}</TableCell>
+                      <TableCell className='w-[20%]'>{user.id}</TableCell>
                       <TableCell>{user.full_name}</TableCell>
                       <TableCell>{user.role}</TableCell>
                       <TableCell>{user.role}</TableCell>
