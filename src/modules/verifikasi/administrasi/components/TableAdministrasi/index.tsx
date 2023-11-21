@@ -27,9 +27,9 @@ import {
 } from '@/components/ui/table';
 
 import { AccConfirmModal } from '@/modules/verifikasi/rencana-studi/component/AccConfirmModal';
-import { AccRejectModal } from '@/modules/verifikasi/rencana-studi/component/AccRejectModal';
 
 import { TPengajuanAdm } from '@/types/verifikasi/administrasi';
+import { AccRejectModal } from '@/modules/verifikasi/administrasi/components/AccRejectModal';
 
 export const columns: ColumnDef<TPengajuanAdm>[] = [
   {
