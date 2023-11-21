@@ -1,15 +1,15 @@
+import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 import { BiEdit, BiSolidFileExport } from 'react-icons/bi';
 import { FaTrash } from 'react-icons/fa6';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
 import { ITEMSDETAIL } from '../constants';
-import { Card, CardHeader, CardTitle } from '@/components/ui/card';
-import Link from 'next/link';
-import Image from 'next/image';
 
 import ArtikelImage from '~/images/sekilas-ilmu/artikel.png';
 
@@ -30,10 +30,12 @@ const DetailArtikelModule = () => {
                 <BiSolidFileExport size={24} />
                 <p className='leading-none'>Unduh</p>
               </Button>
-              <Button className='shadow-md bg-white border-2 hover:bg-dark-200 border-primary-500 text-primary-500 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
-                <BiEdit size={24} />
-                <p className='leading-none'>Edit Artikel</p>
-              </Button>
+              <Link href='/sekilas-ilmu/edit-artikel'>
+                <Button className='shadow-md bg-white border-2 hover:bg-dark-200 border-primary-500 text-primary-500 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
+                  <BiEdit size={24} />
+                  <p className='leading-none'>Edit Artikel</p>
+                </Button>
+              </Link>
               <Button className='shadow-md bg-white border-2 hover:bg-dark-200 border-red-800 text-red-800 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
                 <FaTrash size={20} />
                 <p className='leading-none'>Hapus Artikel</p>
@@ -69,7 +71,9 @@ const DetailArtikelModule = () => {
                   </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className='font-medium flex items-start'>Isi Artikel</TableCell>
+                  <TableCell className='font-medium flex items-start'>
+                    Isi Artikel
+                  </TableCell>
                   <TableCell className='border-2'>
                     Public speaking atau berbicara di depan umum merupakan
                     keterampilan yang sangat penting dalam dunia kerja maupun
@@ -121,11 +125,11 @@ const DetailArtikelModule = () => {
                   </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className='font-medium flex items-start'>Thumbnail</TableCell>
+                  <TableCell className='font-medium flex items-start'>
+                    Thumbnail
+                  </TableCell>
                   <TableCell className='border-2'>
-                    <Card
-                      className='w-[228px] min-h-[112px] rounded-lg overflow-hidden'
-                    >
+                    <Card className='w-[228px] min-h-[112px] rounded-lg overflow-hidden'>
                       <CardTitle className='p-2 text-md'>
                         <p>Cover</p>
                       </CardTitle>

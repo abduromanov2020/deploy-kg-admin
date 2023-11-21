@@ -1,6 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import { ArrowUpDown } from 'lucide-react';
+import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 
@@ -111,7 +112,9 @@ export const columns: ColumnDef<unknown>[] = [
       return (
         <div className='flex gap-3'>
           <Button className='bg-red-800'>Hapus</Button>
-          <Button className='bg-primary-500'>Edit</Button>
+          <Link href='/sekilas-ilmu/edit-artikel'>
+            <Button className='bg-primary-500'>Edit</Button>
+          </Link>
         </div>
       );
     },

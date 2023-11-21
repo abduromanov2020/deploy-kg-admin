@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
@@ -55,10 +56,12 @@ const SekilasIlmuModule = () => {
               </div>
             </section>
             <section className='flex gap-2'>
-              <Button className='bg-primary-500 px-3 py-2 flex justify-center items-center gap-1 hover:bg-primary-400'>
-                <CiCirclePlus className='w-[20px] h-[20px]' />
-                <p className='leading-none'>Tambah Artikel</p>
-              </Button>
+              <Link href='/sekilas-ilmu/tambah-artikel'>
+                <Button className='bg-primary-500 px-3 py-2 flex justify-center items-center gap-1 hover:bg-primary-400'>
+                  <CiCirclePlus className='w-[20px] h-[20px]' />
+                  <p className='leading-none'>Tambah Artikel</p>
+                </Button>
+              </Link>
               <DatePickerSekilasIlmu />
               <FilterComponent />
               {active === 'table' ? (
