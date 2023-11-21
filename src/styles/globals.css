@@ -74,7 +74,7 @@ body,
 .wrapper-class {
   border: 3px solid #d1d5db !important;
   border-radius: 12px !important;
-  overflow: hidden !important;
+  /* overflow: hidden !important; */
 }
 
 .rdw-editor-main {
