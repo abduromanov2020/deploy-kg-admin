@@ -4,10 +4,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import dynamic from 'next/dynamic';
-import React, { useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { z } from 'zod';
+import { BiMinusCircle, BiPlusCircle } from 'react-icons/bi';
 
 import { ValidationSchemaCoverModul } from '@/lib/validation/studi-ku';
 
@@ -34,19 +34,30 @@ const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
 });
 
+type FormFields = {
+  cover_title: string;
+  cover_description: string;
+  video_title_1: string;
+  video_link_1: string;
+  video_description_1: string;
+  [key: string]: string; // This allows any string as a key
+};
+
 const TambahModul = () => {
-  const form = useForm<z.infer<typeof ValidationSchemaCoverModul>>({
-    resolver: zodResolver(ValidationSchemaCoverModul),
-    defaultValues: {
-      cover_title: '',
-      cover_description: '<p></p>\n',
-      /* dynamic value */
-      /* 
-        video_description_${index}
-        video_title_${index}
-        video_link_${index}
-      */
-    },
+  const [countVideo, setCountVideo] = useState<number>(1);
+  const defaultValues: Record<string, string> = {
+    cover_title: '',
+    cover_description: '<p></p>\n',
+  };
+
+  for (let index = 0; index < countVideo; index++) {
+    defaultValues[`video_title_${index + 1}`] = '';
+    defaultValues[`video_link_${index + 1}`] = '';
+    defaultValues[`video_description_${index + 1}`] = '<p></p>\n';
+  }
+  const form = useForm<FormFields>({
+    resolver: zodResolver(ValidationSchemaCoverModul(countVideo)),
+    defaultValues,
   });
 
   /* Start Cover  */
@@ -69,11 +80,10 @@ const TambahModul = () => {
   /* End Cover */
 
   /* Start Video Pembelajaran */
+
   const [editorStateVideo, setEditorStateVideo] = useState<Array<EditorState>>([
     EditorState.createEmpty(),
   ]);
-
-  const [countVideo, setCountVideo] = useState<number>(1);
 
   const handleEditorChangeVideo = (editorState: EditorState, index: number) => {
     const newEditorState = [...editorStateVideo];
@@ -84,18 +94,23 @@ const TambahModul = () => {
     const rawContentState = convertToRaw(contentState);
     const htmlContent = draftToHtml(rawContentState);
 
-    // form.setValue('video_description_${index + 1}', htmlContent, {
-    //   shouldValidate: true,
-    //   shouldDirty: true,
-    // });
+    form.setValue(`video_description_${index + 1}`, htmlContent, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
   };
 
-  const handleAddVideo = () => {
-    setCountVideo((prev) => prev + 1);
-  };
+  // const handleAddVideo = () => {
+  //   setCountVideo((prev) => prev + 1);
+  // };
 
   /* End Video Pembelajaran */
-  function onSubmit(data: z.infer<typeof ValidationSchemaCoverModul>) {
+
+  useEffect(() => {
+    console.log(form.formState.errors);
+  }, [form.formState.errors]);
+
+  function onSubmit(data: FormFields) {
     console.log(data);
 
     toast.success('Form submitted!');
@@ -147,25 +162,80 @@ const TambahModul = () => {
                 {Array(countVideo)
                   .fill('')
                   .map((_, index) => (
-                    <div
-                      className='grid grid-cols-1 lg:grid-cols-2 gap-4'
-                      key={index}
-                    >
-                      <FormField
-                        control={form.control}
-                        name='cover_title'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Judul Modul</FormLabel>
-                            <FormControl>
-                              <Input placeholder='Modul 1' {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
+                    <Fragment key={index}>
+                      <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+                        <FormField
+                          control={form.control}
+                          name={`video_title_${index + 1}`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Judul Video {index + 1}</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder={`Masukkan Judul Video ${
+                                    index + 1
+                                  }`}
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name={`video_link_${index + 1}`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Link Video {index + 1}</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder={`Masukkan Link Video ${
+                                    index + 1
+                                  }`}
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <DraftEditor
+                        editorState={editorStateVideo[index]}
+                        setEditorState={(editorState: EditorState) => {
+                          handleEditorChangeVideo(editorState, index);
+                        }}
+                        label={`Deskripsi Video ${index + 1}`}
+                        error={
+                          form.formState.errors[
+                            `video_description_${index + 1}`
+                          ]?.message
+                        }
                       />
-                    </div>
+                    </Fragment>
                   ))}
+              </div>
+              <div className='flex justify-end mt-2 gap-2'>
+                <div
+                  className='text-primary-500 cursor-pointer flex items-center'
+                  onClick={() =>
+                    setCountVideo((prev) => {
+                      if (prev === 1) return prev;
+                      return prev - 1;
+                    })
+                  }
+                >
+                  <BiMinusCircle className='inline-block text-xl mr-2' />
+                  Kurangi Video
+                </div>
+                <div
+                  className='text-primary-500 cursor-pointer flex items-center'
+                  onClick={() => setCountVideo((prev) => prev + 1)}
+                >
+                  <BiPlusCircle className='inline-block text-xl mr-2' />
+                  Tambah Video
+                </div>
               </div>
             </div>
           </div>
