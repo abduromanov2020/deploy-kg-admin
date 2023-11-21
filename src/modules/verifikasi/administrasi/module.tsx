@@ -1,49 +1,40 @@
 'use client';
 
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { BiLoaderAlt } from 'react-icons/bi';
 import { FaFileExport } from 'react-icons/fa6';
 
-
-import { Button } from '@/components/ui/button';
-
-import { Input } from '@/components/ui/input';
-
+import { useGetPengjuanAdm } from '@/hooks/verifikasi/administrasi/hook';
 
 import Pagination from '@/components/generals/pagination';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 import { DateRangePicker } from '@/modules/verifikasi/administrasi/components/DateRangePicker';
 import { TableFilter } from '@/modules/verifikasi/administrasi/components/Filter';
 import { TableAdministrasi } from '@/modules/verifikasi/administrasi/components/TableAdministrasi';
-import { useSearchParams } from 'next/navigation';
-import { useGetPengjuanAdm } from '@/hooks/verifikasi/administrasi/hook';
-import { BiLoaderAlt } from 'react-icons/bi';
 
 const VerifikasiAdministrasiModule = () => {
-
   const params = useSearchParams();
+  const router = useRouter();
+
   const [filter, setFilter] = useState('');
 
   const page = Number(params.get('page')) || 1;
   const searchQuery = params.get('search') || '';
 
-  const [option, setOption] = useState({
-    page: 1,
-    search: '',
-    limit: 10,
-    sort_by: '',
-  });
-
   const {
     data: pengajuan,
     refetch: refetchPengajuan,
     isLoading,
-  } = useGetPengjuanAdm(option.page, option.search, option.limit, filter);
+  } = useGetPengjuanAdm(page, searchQuery, 10, filter);
 
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
-    // refetchPengajuan();
-    // router.push(`/pengajuan/administrasi?page=${page}`);
+    refetchPengajuan();
+    router.push(`/verifikasi/administrasi?page=${page}`);
   };
 
   return (
@@ -71,12 +62,30 @@ const VerifikasiAdministrasiModule = () => {
           </div>
         </div>
         <div className='my-3'>
-        {isLoading ? (
+          {isLoading ? (
             <div className='w-full flex justify-center items-center pt-5'>
               <BiLoaderAlt className='animate-spin' size={30} />
             </div>
           ) : pengajuan && pengajuan?.data ? (
-            <TableAdministrasi data={pengajuan?.data} />
+            <div>
+              <TableAdministrasi data={pengajuan?.data} />
+              <div className='flex items-center justify-end space-x-2 py-4'>
+                <div className='flex-1 text-sm text-muted-foreground'>
+                  <p>
+                    Menampilkan {pengajuan?.data.length > 0 ? 1 : 0} hingga{' '}
+                    {pengajuan?.data.length} data dari{' '}
+                    {pengajuan?.meta.max_page} entries
+                  </p>
+                </div>
+                <div className='space-x-2'>
+                  <Pagination
+                    currentPage={Number(page)}
+                    totalPages={Number(pengajuan?.meta.max_page)}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              </div>
+            </div>
           ) : (
             <div className='w-full flex justify-center items-center pt-5'>
               Tidak Ada Data
