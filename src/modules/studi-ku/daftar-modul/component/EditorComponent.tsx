@@ -3,6 +3,7 @@ import React from 'react';
 
 import { InputComponent } from '@/components/input';
 import { DraftEditorProps } from '@/components/text-editor';
+// import { DraftEditorProps } from '@/components/text-editor';
 
 interface InputProps {
   title: string;
