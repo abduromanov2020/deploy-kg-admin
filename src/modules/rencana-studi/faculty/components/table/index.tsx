@@ -34,6 +34,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import Pagination from '@/components/generals/pagination';
 import { TiArrowSortedDown } from 'react-icons/ti';
 import Link from 'next/link';
+import { DeleteFacultyModal } from '@/modules/rencana-studi/faculty/components/delete-faculty-modal';
 
 export type TFaculty = {
   faculty_id: string;
@@ -233,7 +234,7 @@ export const columns: ColumnDef<TFaculty>[] = [
 
       return (
         <div className='flex gap-3'>
-          <Button className='bg-red-800'>Hapus</Button>
+          <DeleteFacultyModal />
           <Button className='bg-primary-500'>Edit</Button>
         </div>
       );

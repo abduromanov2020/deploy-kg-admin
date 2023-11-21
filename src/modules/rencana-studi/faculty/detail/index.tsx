@@ -4,18 +4,13 @@ import { Input } from '@/components/ui/input';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiSolidFileExport } from 'react-icons/bi';
-import { FaTrash } from 'react-icons/fa';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import ArtikelImage from '~/images/sekilas-ilmu/artikel.png';
 import Image from 'next/image';
+import { DeleteFacultyModal } from '@/modules/rencana-studi/faculty/components/delete-faculty-modal';
+import { DeleteFacultyModalDetail } from '@/modules/rencana-studi/faculty/detail/components/delete-faculty-modal-detail';
+import { FaTrash } from 'react-icons/fa';
 
 const RencanaStudiDetailFaculty = () => {
   const ITEMS = [
@@ -55,6 +50,9 @@ const RencanaStudiDetailFaculty = () => {
                 <FaTrash size={20} />
                 <p className='leading-none'>Hapus Fakultas</p>
               </Button>
+
+              {/* <DeleteFacultyModal /> */}
+
               <Button className='shadow-md bg-white border-2 border-primary-500 text-primary-500 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
                 <p className='leading-none'>Edit Fakultas</p>
               </Button>

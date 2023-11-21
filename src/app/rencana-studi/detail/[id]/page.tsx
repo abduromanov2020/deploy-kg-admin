@@ -1,4 +1,4 @@
-import RencanaStudiDetailFaculty from '@/modules/rencana-studi/faculty/faculty-detail';
+import RencanaStudiDetailFaculty from '@/modules/rencana-studi/faculty/detail';
 import React from 'react';
 
 const FacultyDetailsPage = () => {

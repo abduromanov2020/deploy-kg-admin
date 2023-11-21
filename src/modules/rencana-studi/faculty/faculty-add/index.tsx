@@ -27,23 +27,73 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import Link from 'next/link';
+import { DraftEditorProps } from '@/components/text-editor';
+import dynamic from 'next/dynamic';
+import { UploadFile } from '@/components/upload-file';
+
+interface InputProps {
+  title: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder: string;
+  styleInput: string;
+  styleTitle: string;
+}
+
+const MAX_FILE_SIZE = 3000000;
+const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
 
 const FormSchema = z.object({
   faculty_name: z.string().min(2, {
     message: 'Faculty must be at least 2 characters.',
   }),
-  head_of_faculty: z.string().min(2, {
-    message: 'Head of faculty must be at least 2 characters.',
+  head_of_faculty: z.string().min(1, {
+    message: 'A head of faculty is required.',
   }),
-  major_count: z.string().min(0, {
-    message: 'Major count must be at least 0.',
+  major_count: z.string().min(1, {
+    message: 'Major count must be at least 1.',
   }),
-  file: z.string({
-    required_error: 'A file is required.',
-  }),
+  faculty_image: z
+    .any()
+    .refine(
+      (files: File[]) => files !== undefined && files?.length >= 1,
+      'Harus ada file yang di upload.',
+    )
+    .refine(
+      (files: File[]) =>
+        files !== undefined && files?.[0]?.size <= MAX_FILE_SIZE,
+      'Ukuran maksimun adalah 3mb.',
+    )
+    .refine(
+      (files: File[]) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+      'hanya menerima .jpg, .jpeg, dan .png.',
+    )
+    .optional(),
 });
 
-export const AddFacultyModule = () => {
+interface EditorProps {
+  editorStyle: string;
+  editorInput: DraftEditorProps;
+}
+const DraftEditor = dynamic(() => import('@/components/text-editor'), {
+  ssr: false,
+});
+
+export const AddFacultyModule = ({ editorInput }: any) => {
+  const [uploadFile, setUploadFile] = useState<Array<{ upload: File | null }>>([
+    { upload: null },
+  ]);
+
+  console.log('uploadFile', uploadFile);
+
   const ITEMS = [
     {
       name: 'Rencana Studi',
@@ -61,13 +111,38 @@ export const AddFacultyModule = () => {
       faculty_name: '',
       head_of_faculty: '',
       major_count: '',
-      file: '',
+      faculty_image: undefined,
     },
   });
+
+  const headFaculty = [
+    {
+      value: '1',
+      label: 'Head 1',
+    },
+    {
+      value: '2',
+      label: 'Head 2',
+    },
+    {
+      value: '3',
+      label: 'Head 3',
+    },
+  ];
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log('data', data);
   }
+
+  // const handleFileChange = (file: File | null, index: number) => {
+  //   setUploadFile((prevUploads) => {
+  //     const newUploadFile = [...prevUploads];
+  //     newUploadFile[index] = { upload: file };
+  //     console.log('newUploadFile', newUploadFile[index].upload);
+
+  //     return newUploadFile;
+  //   });
+  // };
 
   return (
     <main className='flex flex-col gap-6'>
@@ -99,9 +174,6 @@ export const AddFacultyModule = () => {
                           <FormControl>
                             <Input placeholder='shadcn' {...field} />
                           </FormControl>
-                          <FormDescription>
-                            This is your public display name.
-                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -111,13 +183,25 @@ export const AddFacultyModule = () => {
                       name='head_of_faculty'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Kepala Fakultas</FormLabel>
-                          <FormControl>
-                            <Input placeholder='shadcn' {...field} />
-                          </FormControl>
-                          <FormDescription>
-                            This is your public display name.
-                          </FormDescription>
+                          <FormLabel>Kepala Fakultas*</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder='Pilih Kepala Fakultas' />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {headFaculty.map((head) => (
+                                <SelectItem key={head.value} value={head.value}>
+                                  {head.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+
                           <FormMessage />
                         </FormItem>
                       )}
@@ -131,28 +215,45 @@ export const AddFacultyModule = () => {
                           <FormControl>
                             <Input placeholder='shadcn' {...field} />
                           </FormControl>
-                          <FormDescription>
-                            This is your public display name.
-                          </FormDescription>
+
                           <FormMessage />
                         </FormItem>
                       )}
                     />
                   </div>
                   <div className='my-8'>
-                    <FormField
-                      control={form.control}
-                      name='file'
-                      render={({ field }) => (
-                        <FormItem className='grid w-full items-center gap-1.5'>
-                          <FormLabel>File Tugas</FormLabel>
-                          <FormControl>
-                            <Input type='file' {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    {uploadFile.map((files, index) => (
+                      <FormField
+                        control={form.control}
+                        name='faculty_image'
+                        key={index}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>File Tugas</FormLabel>
+                            <FormControl>
+                              <Input
+                                type='file'
+                                {...field}
+                                className='file:bg-black file:text-white'
+                              />
+                              {/* <UploadFile
+                                key={index}
+                                title='Upload File'
+                                onChange={(files: File | null) =>
+                                  handleFileChange(files, index)
+                                }
+                                nameFile={files.upload?.name}
+                                // {...field}
+                                className='bg-white border-2 border-dark-300'
+                              /> */}
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    ))}
+
+                    {/* <DraftEditor {...editorInput} /> */}
                   </div>
                   <Button type='submit'>Submit</Button>
                 </form>
