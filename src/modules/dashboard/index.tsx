@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ArticleCard } from '@/modules/dashboard/component/ArticleCard';
 import { DashboardCard } from '@/modules/dashboard/component/DashboardCard';
 import { MahasiswaBaruCard } from '@/modules/dashboard/component/MahasiswaBaruCard';
 import { PendaftaranChart } from '@/modules/dashboard/component/PendaftaranChart';
@@ -42,6 +43,7 @@ export const DashboardModule = () => {
       </div>
       <div className='grid grid-cols-7 gap-5'>
         <PengajarCard />
+        <ArticleCard />
       </div>
     </div>
   );

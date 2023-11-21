@@ -13,7 +13,6 @@ import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { IoIosArrowDown } from 'react-icons/io';
 
-import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -76,9 +75,9 @@ export const PendaftaranChart = () => {
         <span className='font-semibold '>Grafik Pendaftaran</span>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Button variant='outline' className='w-32 flex justify-between'>
+            <div className='flex px-3 py-2 h-full text-primary-500 border border-primary-500 items-center justify-between gap-1 rounded-md hover:bg-dark-100 w-32'>
               Bulan <IoIosArrowDown />
-            </Button>
+            </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             {labels.map((item) => (
