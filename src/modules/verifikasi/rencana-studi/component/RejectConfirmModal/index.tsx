@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-export const AccRejectModal = () => {
+export const RejectConfirmModal = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
