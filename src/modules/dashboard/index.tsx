@@ -3,6 +3,7 @@ import React from 'react';
 import { DashboardCard } from '@/modules/dashboard/component/DashboardCard';
 import { MahasiswaBaruCard } from '@/modules/dashboard/component/MahasiswaBaruCard';
 import { PendaftaranChart } from '@/modules/dashboard/component/PendaftaranChart';
+import { PengajarCard } from '@/modules/dashboard/component/pengajarCard';
 
 export const DashboardModule = () => {
   const cardItems = [
@@ -38,6 +39,9 @@ export const DashboardModule = () => {
       <div className='grid grid-cols-5 gap-5'>
         <PendaftaranChart />
         <MahasiswaBaruCard />
+      </div>
+      <div className='grid grid-cols-7 gap-5'>
+        <PengajarCard />
       </div>
     </div>
   );
