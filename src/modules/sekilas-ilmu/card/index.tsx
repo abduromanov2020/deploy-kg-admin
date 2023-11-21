@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 import { Badge } from '@/components/ui/badge';
@@ -58,9 +59,11 @@ const CardComponent = () => {
             </section>
           </CardContent>
           <CardFooter>
-            <Button className='bg-primary-500 hover:bg-primary-400'>
-              Detail Artikel
-            </Button>
+            <Link href='/sekilas-ilmu/detail-artikel'>
+              <Button className='bg-primary-500 hover:bg-primary-400'>
+                Detail Artikel
+              </Button>
+            </Link>
           </CardFooter>
         </Card>
       ))}
