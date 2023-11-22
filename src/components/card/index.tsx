@@ -34,11 +34,12 @@ export const CardComponent: React.FC<CardComponentProps> = ({
     <Card>
       <div className='w-full object-contain'>
         <Image
-          src={`${img === null ? '/images/new-tab-png' : img}`}
+          src={`${img === null ? '/images/studi-ku/modul-default.png' : img}`}
           alt={`${title}`}
-          className=' object-fill w-full h-[200px]'
-          width={200}
-          height={200}
+          className=' object-cover w-full h-[200px]'
+          width={0}
+          height={0}
+          sizes='100vw'
         />
       </div>
       <CardHeader>
@@ -47,7 +48,7 @@ export const CardComponent: React.FC<CardComponentProps> = ({
             return (
               <span
                 key={index}
-                className='flex justify-center items-center bg-dark-200 p-2 rounded-md'
+                className='flex justify-center items-center bg-dark-200 p-2 rounded-md mb-3'
               >
                 {item.slug}
               </span>
