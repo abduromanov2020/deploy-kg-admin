@@ -1,10 +1,10 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
-import { ArrowUpDown } from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { DeteleArticleModal } from '@/modules/sekilas-ilmu/components/DeleteModal';
+import { TiArrowSortedDown } from 'react-icons/ti';
 
 export type Payment = {
   id: string;
@@ -38,7 +38,7 @@ export const columns: ColumnDef<unknown>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           JUDUL ARTIKEL
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
@@ -54,7 +54,7 @@ export const columns: ColumnDef<unknown>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           PENULIS
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
@@ -84,7 +84,7 @@ export const columns: ColumnDef<unknown>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           JUMLAH DISIMPAN
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
@@ -100,7 +100,7 @@ export const columns: ColumnDef<unknown>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           INFORMASi
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },

@@ -16,10 +16,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 import CardComponent from './components/card';
-import { ITESMS } from './constants';
 import DatePickerSekilasIlmu from './components/datepicker';
 import FilterComponent from './components/filter';
 import TableSekilasIlmu from './components/table';
+import { ITESMS } from './constants';
+import Pagination from '@/components/generals/pagination';
 
 const SekilasIlmuModule = () => {
   const query = useSearchParams();
@@ -35,6 +36,12 @@ const SekilasIlmuModule = () => {
       setactive('grid');
     }
   }, [query, active, router]);
+
+  const handlePageChange = async (page: number) => {
+    window.scrollTo(0, 0);
+    // refetchPengajuan();
+    // router.push(`/verifikasi/administrasi?page=${page}`);
+  };
 
   return (
     <main className='flex flex-col gap-6'>
@@ -109,7 +116,25 @@ const SekilasIlmuModule = () => {
           active === 'grid' ? (
             <CardComponent />
           ) : (
-            <TableSekilasIlmu />
+            <div className=''>
+              <TableSekilasIlmu />
+              <div className='flex items-center justify-end space-x-2 py-4'>
+                <div className='flex-1 text-sm text-muted-foreground pl-3'>
+                  <p>
+                    Menampilkan 1 hingga{' '}
+                    10 data dari{' '}
+                    10000 entries
+                  </p>
+                </div>
+                <div className='space-x-2'>
+                  <Pagination
+                    currentPage={1}
+                    totalPages={10}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              </div>
+            </div>
           )}
         </section>
       </div>
