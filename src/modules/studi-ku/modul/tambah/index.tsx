@@ -29,7 +29,7 @@ import { TAMBAH_MODULE_BREADCRUMBS } from '@/modules/studi-ku/daftar-modul/const
 import {
   SubTitleModule,
   TitleModule,
-} from '@/modules/studi-ku/tambah-modul/TitleModule';
+} from '@/modules/studi-ku/modul/tambah/TitleModule';
 
 import { FormFields } from '@/types/studi-ku';
 
