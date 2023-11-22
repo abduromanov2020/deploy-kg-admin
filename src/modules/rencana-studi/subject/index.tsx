@@ -10,7 +10,6 @@ import { FaTrash } from 'react-icons/fa';
 import { CiCirclePlus } from 'react-icons/ci';
 import { IoGridOutline, IoListOutline } from 'react-icons/io5';
 import { MajorTable } from '@/modules/rencana-studi/major/components/table';
-import FilterComponent from '@/modules/sekilas-ilmu/filter';
 import { FilterComponentMajor } from '@/modules/rencana-studi/major/components/filter';
 import MajorGrid from '@/modules/rencana-studi/major/components/grid';
 import { SubjectTable } from '@/modules/rencana-studi/subject/components/table';

@@ -15,11 +15,11 @@ import { BreadCrumb } from '@/components/BreadCrumb';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import CardComponent from './card';
+import CardComponent from './components/card';
 import { ITESMS } from './constants';
-import DatePickerSekilasIlmu from './datepicker';
-import FilterComponent from './filter';
-import TableSekilasIlmu from './table';
+import DatePickerSekilasIlmu from './components/datepicker';
+import FilterComponent from './components/filter';
+import TableSekilasIlmu from './components/table';
 
 const SekilasIlmuModule = () => {
   const query = useSearchParams();
