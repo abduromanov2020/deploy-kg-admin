@@ -13,6 +13,7 @@ import { ValidationSchemaCoverModul } from '@/lib/validation/studi-ku';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { Input } from '@/components/input';
+import { UploadField } from '@/components/input/upload-file';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -30,21 +31,16 @@ import {
   TitleModule,
 } from '@/modules/studi-ku/tambah-modul/TitleModule';
 
+import { FormFields } from '@/types/studi-ku';
+
 const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
 });
 
-type FormFields = {
-  cover_title: string;
-  cover_description: string;
-  video_title_1: string;
-  video_link_1: string;
-  video_description_1: string;
-  [key: string]: string; // This allows any string as a key
-};
-
 const TambahModul = () => {
   const [countVideo, setCountVideo] = useState<number>(1);
+  const [countDocument, setCountDocument] = useState<number>(1);
+
   const defaultValues: Record<string, string> = {
     cover_title: '',
     cover_description: '<p></p>\n',
@@ -55,8 +51,15 @@ const TambahModul = () => {
     defaultValues[`video_link_${index + 1}`] = '';
     defaultValues[`video_description_${index + 1}`] = '<p></p>\n';
   }
+
+  for (let index = 0; index < countDocument; index++) {
+    defaultValues[`document_${index + 1}`] = '';
+  }
+
   const form = useForm<FormFields>({
-    resolver: zodResolver(ValidationSchemaCoverModul(countVideo)),
+    resolver: zodResolver(
+      ValidationSchemaCoverModul(countVideo, countDocument),
+    ),
     defaultValues,
   });
 
@@ -99,10 +102,6 @@ const TambahModul = () => {
       shouldDirty: true,
     });
   };
-
-  // const handleAddVideo = () => {
-  //   setCountVideo((prev) => prev + 1);
-  // };
 
   /* End Video Pembelajaran */
 
@@ -235,6 +234,55 @@ const TambahModul = () => {
                 >
                   <BiPlusCircle className='inline-block text-xl mr-2' />
                   Tambah Video
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className='px-5'>
+            <div className='flex-col flex bg-dark-200 p-5 rounded-md'>
+              <SubTitleModule title='Dokumen Pembelajaran' />
+              <div className='flex flex-col gap-4'>
+                {Array(countDocument)
+                  .fill('')
+                  .map((_, index) => (
+                    <UploadField
+                      key={index}
+                      control={form.control}
+                      required
+                      name={`document_file_${index + 1}`}
+                      accepted='.pdf'
+                      label={`Dokumen ${index + 1}`}
+                      variant='sm'
+                      message={form?.formState?.errors?.[
+                        `document_file_${index + 1}`
+                      ]?.message?.toString()}
+                      status={
+                        form?.formState?.errors?.[`document_file_${index + 1}`]
+                          ? 'error'
+                          : 'none'
+                      }
+                    />
+                  ))}
+              </div>
+              <div className='flex justify-end mt-2 gap-2'>
+                <div
+                  className='text-primary-500 cursor-pointer flex items-center'
+                  onClick={() =>
+                    setCountDocument((prev) => {
+                      if (prev === 1) return prev;
+                      return prev - 1;
+                    })
+                  }
+                >
+                  <BiMinusCircle className='inline-block text-xl mr-2' />
+                  Kurangi Dokumen
+                </div>
+                <div
+                  className='text-primary-500 cursor-pointer flex items-center'
+                  onClick={() => setCountDocument((prev) => prev + 1)}
+                >
+                  <BiPlusCircle className='inline-block text-xl mr-2' />
+                  Tambah Dokumen
                 </div>
               </div>
             </div>

@@ -28,7 +28,36 @@ export const generateDynamicValidationSchema = (count: number) => {
   return dynamicValidationSchema;
 };
 
-export const ValidationSchemaCoverModul = (count: number) =>
+const MAX_FILE_SIZE = 2000000;
+const ACCEPTED_PDF_TYPES = ['application/pdf'];
+
+export const generateDynamicValidationSchemaDocument = (count: number) => {
+  const dynamicValidationSchema: Record<string, any> = {};
+
+  for (let i = 0; i < count; i++) {
+    dynamicValidationSchema[`document_file_${i + 1}`] = z
+      .any()
+      .refine(
+        (files: File[]) => files !== undefined && files?.length >= 1,
+        'Harus ada file yang di upload.',
+      )
+      .refine((files: File[]) => {
+        console.log(files);
+
+        return files !== undefined && files?.[0]?.size <= MAX_FILE_SIZE;
+      }, 'Ukuran maksimun adalah 2mb.')
+      .refine(
+        (files: File[]) => ACCEPTED_PDF_TYPES.includes(files?.[0].type),
+        'hanya menerima .pdf.',
+      );
+  }
+
+  return dynamicValidationSchema;
+};
+export const ValidationSchemaCoverModul = (
+  count: number,
+  countDocument: number,
+) =>
   z.object({
     cover_title: z
       .string({
@@ -43,20 +72,7 @@ export const ValidationSchemaCoverModul = (count: number) =>
       .refine((value) => value.trim() !== '<p></p>', {
         message: 'A modul description is required',
       }),
-    // video_title_1: z
-    //   .string({
-    //     required_error: 'A modul title is required.',
-    //   })
-    //   .min(1, { message: 'A modul title is required.' }),
-    // video_link_1: z
-    //   .string({
-    //     required_error: 'A modul title is required.',
-    //   })
-    //   .min(1, { message: 'A modul title is required.' }),
-    // video_description_1: z
-    //   .string({
-    //     required_error: 'A modul title is required.',
-    //   })
-    //   .min(1, { message: 'A modul title is required.' }),
+
     ...generateDynamicValidationSchema(count),
+    ...generateDynamicValidationSchemaDocument(countDocument),
   });
