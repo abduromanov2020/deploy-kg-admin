@@ -24,7 +24,7 @@ export const ListModul = () => {
           </p>
           <Button asChild variant='primary'>
             <Link
-              href='/studi-ku/modul/tambah-modul'
+              href='/studi-ku/modul/tambah'
               className='flex gap-2 items-center'
             >
               <BiPlusCircle className='text-white text-xl' />
