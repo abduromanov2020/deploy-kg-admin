@@ -3,7 +3,6 @@ import {
   DropdownMenuCheckboxItemProps,
   DropdownMenuItem,
 } from '@radix-ui/react-dropdown-menu';
-
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -16,22 +15,12 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-
 import { format } from 'date-fns';
 import React, { useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaCalendarAlt, FaFilter } from 'react-icons/fa';
 import { FaFileExport } from 'react-icons/fa6';
-import { TiArrowSortedDown } from "react-icons/ti";
+import { TiArrowSortedDown } from 'react-icons/ti';
 
 import { cn } from '@/lib/utils';
 
@@ -54,9 +43,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 type Checked = DropdownMenuCheckboxItemProps['checked'];
-import { ArrowUpDown } from 'lucide-react';
 
 import { Checkbox } from '@/components/ui/checkbox';
 
@@ -106,7 +102,9 @@ export const columns: ColumnDef<Payment>[] = [
     header: ({ table }) => (
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value: unknown) => table.toggleAllPageRowsSelected(!!value)}
+        onCheckedChange={(value: unknown) =>
+          table.toggleAllPageRowsSelected(!!value)
+        }
         aria-label='Select all'
         className='mr-5'
       />
@@ -172,7 +170,9 @@ export const columns: ColumnDef<Payment>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className='text-center'>{row.getValue('email')}</div>,
+    cell: ({ row }) => (
+      <div className='text-center'>{row.getValue('email')}</div>
+    ),
   },
   {
     accessorKey: 'student_id',
@@ -184,7 +184,6 @@ export const columns: ColumnDef<Payment>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           NIM/NPM
-          
         </Button>
       );
     },
@@ -209,9 +208,7 @@ export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: 'status',
     header: ({ column }) => {
-      return (
-        <div className='text-center'>BERKAS</div>
-      );
+      return <div className='text-center'>BERKAS</div>;
     },
     cell: ({ row }) => <div>detail</div>,
   },
@@ -224,7 +221,9 @@ export const columns: ColumnDef<Payment>[] = [
       return (
         <div className='flex gap-3'>
           <Button className='bg-red-800 hover:bg-red-900'>Tolak</Button>
-          <Button className='bg-primary-500 hover:bg-primary-600'>Setuju</Button>
+          <Button className='bg-primary-500 hover:bg-primary-600'>
+            Setuju
+          </Button>
         </div>
       );
     },
@@ -237,7 +236,7 @@ const VerifikasiAdministrasiModule = () => {
   const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
   const [showPanel, setShowPanel] = React.useState<Checked>(false);
   const [position, setPosition] = React.useState('bottom');
-  const [dropdownOpen, setDropdownOpen] = useState(false); 
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -370,7 +369,10 @@ const VerifikasiAdministrasiModule = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button variant='outline' className='bg-primary-500 shadow-md hover:bg-primary-600 text-white hover:text-white font-normal'>
+            <Button
+              variant='outline'
+              className='bg-primary-500 shadow-md hover:bg-primary-600 text-white hover:text-white font-normal'
+            >
               <FaFileExport className='mr-2' /> Unduh
             </Button>
           </div>

@@ -1,3 +1,4 @@
+'use client';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -10,12 +11,13 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
-import { format } from 'date-fns';
 import { ArrowUpDown } from 'lucide-react';
-import React, { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import React, { FC, useState } from 'react';
+import Avatar from 'react-avatar';
 
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Table,
   TableBody,
@@ -25,111 +27,113 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-const data: Payment[] = [
+export type TMahasiswa = {
+  name: string;
+  email: string;
+  faculty: string;
+  studyProgram: string;
+  image?: string | null;
+};
+
+export const data: TMahasiswa[] = [
   {
-    id: 'm5gr84i9',
-    amount: 316,
-    status: 'success',
-    email: 'ken99@yahoo.com',
+    name: 'Mahasiswa 1',
+    email: 'mahasiswa1@mail.com',
+    faculty: 'Fakultas 1',
+    studyProgram: 'Prodi 1',
+    image: null,
   },
   {
-    id: '3u1reuv4',
-    amount: 242,
-    status: 'success',
-    email: 'Abe45@gmail.com',
+    name: 'Mahasiswa 2',
+    email: 'mahasiswa2@mail.com',
+    faculty: 'Fakultas 2',
+    studyProgram: 'Prodi 2',
+    image: null,
   },
   {
-    id: 'derv1ws0',
-    amount: 837,
-    status: 'processing',
-    email: 'Monserrat44@gmail.com',
+    name: 'Mahasiswa 3',
+    email: 'mahasiswa3@mail.com',
+    faculty: 'Fakultas 3',
+    studyProgram: 'Prodi 3',
+    image: null,
   },
   {
-    id: '5kma53ae',
-    amount: 874,
-    status: 'success',
-    email: 'Silas22@gmail.com',
+    name: 'Mahasiswa 4',
+    email: 'mahasiswa4@mail.com',
+    faculty: 'Fakultas 4',
+    studyProgram: 'Prodi 4',
+    image: null,
   },
   {
-    id: 'bhqecj4p',
-    amount: 721,
-    status: 'failed',
-    email: 'carmella@hotmail.com',
+    name: 'Mahasiswa 5',
+    email: 'mahasiswa5@mail.com',
+    faculty: 'Fakultas 5',
+    studyProgram: 'Prodi 5',
+    image: null,
+  },
+  {
+    name: 'Mahasiswa 6',
+    email: 'mahasiswa6@mail.com',
+    faculty: 'Fakultas 6',
+    studyProgram: 'Prodi 6',
+    image: null,
   },
 ];
 
-export type Payment = {
-  id: string;
-  amount: number;
-  status: 'pending' | 'processing' | 'success' | 'failed';
-  email: string;
-};
-
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<TMahasiswa>[] = [
   {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value: boolean) =>
-          table.toggleAllPageRowsSelected(!!value)
-        }
-        aria-label='Select all'
-      />
-    ),
+    accessorKey: 'mahasiswa',
+    header: 'MAHASISWA',
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value: boolean) => row.toggleSelected(!!value)}
-        aria-label='Select row'
-      />
+      <div className='flex gap-2'>
+        <div>
+          {row?.original.image !== null ? (
+            <Image
+              src={row?.original.image as string}
+              width={35}
+              height={35}
+              alt='avatar'
+              className='w-10 h-10 rounded-md object-cover bg-center'
+            />
+          ) : (
+            <Avatar
+              name={row?.original?.name || 'a'}
+              color='#F26800'
+              className='rounded-md'
+              size='35'
+            />
+          )}
+        </div>
+        <div className='flex flex-col justify-between'>
+          <p>{row?.original?.name}</p>
+          <p className='text-[10px]'>{row?.original?.email}</p>
+        </div>
+      </div>
     ),
-    enableSorting: false,
-    enableHiding: false,
   },
   {
-    accessorKey: 'no',
-    header: 'NO',
-    cell: ({ row }) => <div>{row.index + 1}</div>,
-  },
-  {
-    accessorKey: 'student_name',
+    accessorKey: 'faculty',
     header: ({ column }) => {
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-xs px-0'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          NAMA MAHASISWA
+          FAKULTAS
           <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('student_name')}</div>,
+    cell: ({ row }) => <div>{row.getValue('faculty')}</div>,
   },
   {
-    accessorKey: 'created_at',
-    header: () => <div className=''>TANGGAL PENGAJUAN</div>,
-    cell: ({ row }) => {
-      const rawDate: unknown = row.getValue('created_at');
-
-      if (rawDate instanceof Date) {
-        const formatted = format(rawDate, 'PPP');
-        return <div className=' font-medium'>{formatted}</div>;
-      } else {
-        console.error('Invalid date format:', rawDate);
-        return <div className=' font-medium'>Invalid Date</div>;
-      }
-    },
-  },
-  {
-    accessorKey: 'subject_name',
+    accessorKey: 'studyProgram',
     header: ({ column }) => {
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-xs px-0'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           PROGRAM STUDI
@@ -137,61 +141,23 @@ export const columns: ColumnDef<Payment>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('subject_name')}</div>,
+    cell: ({ row }) => <div>{row.getValue('studyProgram')}</div>,
   },
   {
-    accessorKey: 'student_id',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant='ghost'
-          className='text-xs'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          NIM/NPM
-          <ArrowUpDown className='ml-2 h-4 w-4' />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div>{row.getValue('student_id')}</div>,
-  },
-  {
-    accessorKey: 'status',
-    header: () => <div className=''>STATUS KRS</div>,
-    cell: ({ row }) => <div>{row.getValue('status')}</div>,
-  },
-  {
-    accessorKey: 'status',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant='ghost'
-          className='text-xs'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          INFORMASI
-          <ArrowUpDown className='ml-2 h-4 w-4' />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div>detail</div>,
-  },
-  {
-    id: 'actions',
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original;
-
-      return (
-        <div className='flex gap-3'>
-          <Button className='bg-red-800'>Tolak</Button>
-          <Button className='bg-primary-500'>Setuju</Button>
-        </div>
-      );
-    },
+    accessorKey: 'detail',
+    header: 'INFORMASI',
+    cell: ({ row }) => (
+      <Link
+        className='text-primary-500 font-medium cursor-pointer hover:underline'
+        href={`/verifikasi/rencana-studi/${row.index}`}
+      >
+        Detail
+      </Link>
+    ),
   },
 ];
-export const TableRencanaStudi = () => {
+
+export const TableMahasiswaBaru: FC = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -217,15 +183,15 @@ export const TableRencanaStudi = () => {
   });
 
   return (
-    <div className='w-full'>
+    <div className='w-full '>
       <div className='rounded-md border '>
-        <Table className='text-xs'>
+        <Table className='text-xs max-w-full scrollbar-thumb-primary-500  scrollbar-  scrollbar-track-sidebar scrollbar-thumb-rounded-md'>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className='font-semibold'>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -246,7 +212,7 @@ export const TableRencanaStudi = () => {
                   data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className='py-2 px-4'>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),
