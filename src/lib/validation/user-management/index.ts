@@ -21,7 +21,7 @@ export const AddAdminUserValidationSchema = z.object({
       required_error: 'Nama Pengguna Akun Dibutuhkan',
     })
     .min(1, { message: 'Nama Pengguna Akun Dibutuhkan' }),
-  study_program: z
+  status: z
     .string({
       required_error: 'Program Studi Dibutuhkan',
     })
