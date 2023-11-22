@@ -37,19 +37,35 @@ export const generateDynamicValidationSchemaDocument = (count: number) => {
   for (let i = 0; i < count; i++) {
     dynamicValidationSchema[`document_file_${i + 1}`] = z
       .any()
-      .refine(
-        (files: File[]) => files !== undefined && files?.length >= 1,
-        'Harus ada file yang di upload.',
-      )
+      // .refine(
+      //   (files: File[]) => files !== undefined && files?.length >= 1,
+      //   'Harus ada file yang di upload.',
+      // )
       .refine((files: File[]) => {
         console.log(files);
 
         return files !== undefined && files?.[0]?.size <= MAX_FILE_SIZE;
       }, 'Ukuran maksimun adalah 2mb.')
       .refine(
-        (files: File[]) => ACCEPTED_PDF_TYPES.includes(files?.[0].type),
+        (files: File[]) => ACCEPTED_PDF_TYPES.includes(files?.[0]?.type),
         'hanya menerima .pdf.',
-      );
+      )
+      .optional();
+
+    // .array(
+    //   z
+    //     .any()
+    //     .refine(
+    //       (files: File) =>
+    //         files !== undefined && files?.size <= MAX_FILE_SIZE,
+    //       'Ukuran maksimum adalah 3mb.',
+    //     )
+    //     .refine(
+    //       (files: File) => ACCEPTED_PDF_TYPES.includes(files?.type),
+    //       'hanya menerima .jpg, .jpeg, .png, .webp, dan .mp4.',
+    //     ),
+    // )
+    // .optional();
   }
 
   return dynamicValidationSchema;

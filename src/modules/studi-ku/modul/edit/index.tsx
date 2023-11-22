@@ -274,7 +274,7 @@ const EditModulModule = () => {
                       <div className='w-full'>
                         <UploadField
                           control={form.control}
-                          required
+                          // disabled={data?.document[index]?.file ? true : false}
                           name={`document_file_${index + 1}`}
                           accepted='.pdf'
                           label={`Dokumen ${index + 1}`}
@@ -291,13 +291,17 @@ const EditModulModule = () => {
                           }
                         />
                       </div>
-                      <Link
-                        href={data?.document[index]?.file || '#'}
-                        className='flex gap-2 items-center px-4 py-2 bg-primary-500 rounded-md mt-5 text-white font-semibold'
-                      >
-                        <BiDownload className='text-white text-2xl' />
-                        Unduh
-                      </Link>
+
+                      {!form.getValues(`document_file_${index + 1}`) && (
+                        <Link
+                          target='_blank'
+                          href={data?.document[index]?.file || '#'}
+                          className='flex gap-2 items-center px-4 py-2 bg-primary-500 rounded-md mt-5 text-white font-semibold'
+                        >
+                          <BiDownload className='text-white text-2xl' />
+                          Unduh
+                        </Link>
+                      )}
                     </div>
                   ))}
               </div>
