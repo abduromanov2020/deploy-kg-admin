@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 import {
@@ -67,12 +68,12 @@ export const CardComponent: React.FC<CardComponentProps> = ({
         >
           Detail Modul
         </button>
-        <button
-          className='border-2 rounded-md w-[170px] border-primary-500 px-3 py-2 text-primary-500'
-          onClick={onEdit}
+        <Link
+          href='/studi-ku/modul/edit'
+          className='border-2 rounded-md w-[170px] border-primary-500 px-3 py-2 text-primary-500 text-center'
         >
           Edit
-        </button>
+        </Link>
       </CardContent>
     </Card>
   );
