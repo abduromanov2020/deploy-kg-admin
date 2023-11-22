@@ -9,7 +9,7 @@ const BaseLayout: FC<{ children: ReactNode }> = ({ children }) => {
       <Sidebar />
       <div className='w-[calc(100%-280px)]'>
         <Navbar />
-        <div className='bg-background px-16 py-10 min-w-[calc(100%-280px)] min-h-[calc(100%-60px)]'>
+        <div className='bg-background px-16 py-10 min-w-[calc(100%-280px)] min-h-[calc(100%-65px)]'>
           {children}
         </div>
       </div>
