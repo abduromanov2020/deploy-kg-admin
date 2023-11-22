@@ -37,11 +37,19 @@ export const ValidationSchemaCoverEvent = () =>
         required_error: 'Nama acara harus diisi.',
       })
       .min(1, { message: 'Nama acara terlalu pendek. ' }),
-    price: z
-      .number({
-        required_error: 'Biaya harus diisi.',
-      })
-      .min(1, { message: 'Biaya harus diisi.' }),
+    // price: z
+    //   .number({
+    //     required_error: 'Biaya harus diisi.',
+    //   })
+    //   .min(1, { message: 'Biaya harus diisi.' }),
+    price: z.string({ required_error: 'Biaya harus diisi.' }).refine(
+      (val) => {
+        if (val === '') return false;
+        const num = Number(val);
+        return !isNaN(num) && num > 0;
+      },
+      { message: 'Biaya harus berupa angka yang lebih besar dari 0.' },
+    ),
     date: z.string({
       required_error: 'Tanggal acara harus diisi.',
     }),
@@ -53,16 +61,28 @@ export const ValidationSchemaCoverEvent = () =>
         required_error: 'Manfaat acara harus diisi.',
       })
       .min(1, { message: 'Manfaat acara harus diisi' }),
-    thumbnail: z.array(
-      z
-        .any()
-        .refine(
-          (files: File) => files !== undefined && files?.size <= MAX_FILE_SIZE,
-          'Ukuran maksimum adalah 3mb.',
-        )
-        .refine(
-          (files: File) => ACCEPTED_MEDIA_TYPES.includes(files?.type),
-          'hanya menerima .jpg, .jpeg, .png, dan .webp.',
-        ),
-    ),
+    // thumbnail: z
+    //   .any()
+    //   .refine(
+    //     (files: File) => files !== undefined && files?.size <= MAX_FILE_SIZE,
+    //     'Ukuran maksimum adalah 3mb.',
+    //   )
+    //   .refine(
+    //     (files: File) => ACCEPTED_MEDIA_TYPES.includes(files?.type),
+    //     'hanya menerima .jpg, .jpeg, .png, dan .webp.',
+    //   ),
+    thumbnail: z
+      .any()
+      .refine(
+        (files: File[]) => files !== undefined && files?.length >= 1,
+        'Harus ada file yang di upload.',
+      )
+      .refine((files: File[]) => {
+        console.log(files);
+        return files !== undefined && files?.[0]?.size <= MAX_FILE_SIZE;
+      }, 'Ukuran maksimun adalah 3mb.')
+      .refine(
+        (files: File[]) => ACCEPTED_MEDIA_TYPES.includes(files?.[0].type),
+        'hanya menerima .jpg, .jpeg, .png, dan .webp',
+      ),
   });

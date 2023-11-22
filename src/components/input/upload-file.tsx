@@ -66,7 +66,7 @@ export const UploadField = <T extends FieldValues>(
         <span
           className={`${
             props.status === 'error'
-              ? 'text-red-base'
+              ? 'text-red-700'
               : props.status === 'success'
                 ? 'text-green-base'
                 : props.status === 'warning'
@@ -111,9 +111,9 @@ export const UploadField = <T extends FieldValues>(
                 `border-[0.5px] border-neutral-400 shadow-sm ${props.className}`)
             }
 
-           rounded-lg p-4 outline-none focus:outline-none
+           rounded-lg p-4 outline-none focus:outline-none sr-only
         `}
-        hidden
+        // hidden
       />
     </section>
   );

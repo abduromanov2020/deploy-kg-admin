@@ -13,6 +13,7 @@ import { cn } from '@/lib/utils';
 import { ValidationSchemaCoverEvent } from '@/lib/validation/acara-kampus-gratis';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
+import { UploadField } from '@/components/input/upload-file';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -39,6 +40,7 @@ const DraftEditor = dynamic(() => import('@/components/text-editor'), {
 
 export const TambahAcaraModule = () => {
   const [date, setDate] = React.useState<Date>();
+  const [coverFilled, setCoverFilled] = useState(false);
 
   const BreadcrumbItems = [
     {
@@ -51,17 +53,10 @@ export const TambahAcaraModule = () => {
     },
   ];
 
-  const defaultValues: Record<string, string> = {
-    cover_title: '',
-    cover_description: '<p></p>\n',
-  };
-
   const form = useForm<TCoverAcara>({
     resolver: zodResolver(ValidationSchemaCoverEvent()),
-    defaultValues,
   });
 
-  /* Start Cover  */
   const [editorStateCover, setEditorStateCover] = useState<EditorState>(
     EditorState.createEmpty(),
   );
@@ -80,14 +75,19 @@ export const TambahAcaraModule = () => {
   };
 
   useEffect(() => {
-    console.log(form.formState.errors);
-  }, [form.formState.errors]);
+    date &&
+      form.setValue('date', date.toString(), {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+  }, [date]);
 
   function onSubmit(data: TCoverAcara) {
     console.log(data);
-
+    setCoverFilled(true);
     toast.success('Form submitted!');
   }
+
   return (
     <div className='flex flex-col gap-6'>
       <div className='bg-white rounded-md'>
@@ -98,84 +98,25 @@ export const TambahAcaraModule = () => {
           <span className='font-semibold '>Tambah Acara Kampus</span>
         </div>
         <div className='p-8'>
-          <Tabs defaultValue='account' className='w-full'>
+          <Tabs defaultValue='cover' className='w-full'>
             <TabsList className='flex gap-5 items-center'>
               <TabsTrigger value='cover' className='flex gap-2'>
                 <FaInfoCircle />
                 Cover Acara Kampus
               </TabsTrigger>
               <hr className='border-dark-600 w-20 border' />
-              <TabsTrigger value='detail'>Detail Acara Kampus</TabsTrigger>
+              <TabsTrigger value='detail' disabled={!coverFilled}>
+                Detail Acara Kampus
+              </TabsTrigger>
             </TabsList>
             <div className='mt-8'>
               <TabsContent value='cover'>
-                {/* <form action=''>
-                  <div className='grid grid-cols-2 w-full gap-5'>
-                    <div className='grid w-full items-center gap-1.5'>
-                      <Label htmlFor='namaAcara'>Nama Acara*</Label>
-                      <Input
-                        type='text'
-                        id='namaAcara'
-                        placeholder='UI/UX Design untuk Pemula'
-                      />
-                    </div>
-                    <div className='grid w-full items-center gap-1.5'>
-                      <Label htmlFor='biaya'>Biaya*</Label>
-                      <Input type='text' id='biaya' placeholder='50.000' />
-                    </div>
-                    <div className='grid w-full items-center gap-1.5'>
-                      <Label htmlFor='date'>Tanggal Pelaksana*</Label>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant='outline'
-                            className={cn(
-                              'w-full justify-start text-left font-normal',
-                              !date && 'text-muted-foreground',
-                            )}
-                          >
-                            <CalendarIcon className='mr-2 h-4 w-4' />
-                            {date ? (
-                              format(date, 'PPP')
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className='w-auto p-0'>
-                          <Calendar
-                            mode='single'
-                            selected={date}
-                            onSelect={setDate}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>{' '}
-                    </div>
-                    <div className='grid w-full items-center gap-1.5'>
-                      <Label htmlFor='biaya'>Waktu Pelaksana*</Label>
-                      <Input type='text' id='biaya' placeholder='50.000' />
-                    </div>
-                  </div>
-                  <div className='my-5 grid w-full items-center gap-1.5'>
-                    <Label htmlFor='manfaat'>Manfaat Acara*</Label>
-                    <Input
-                      type='text'
-                      id='manfaat'
-                      placeholder='Manfaat Acara'
-                    />
-                  </div>
-                  <div className='grid w-full items-center gap-1.5'>
-                    <Label htmlFor='thumbnail'>Unggah Thumbnail*</Label>
-                    <Input id='thumbnail' type='file' />
-                  </div>
-                </form> */}
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}
                     className='bg-white flex flex-col gap-5 rounded-md pb-5 '
                   >
-                    <div className='grid grid-cols-2 w-full gap-5'>
+                    <div className='grid grid-cols-2 w-full gap-5 items-start'>
                       <FormField
                         control={form.control}
                         name='event_name'
@@ -268,28 +209,17 @@ export const TambahAcaraModule = () => {
                       label='Manfaat Acara'
                       error={form.formState.errors.benefit?.message}
                     />
-                    <FormField
+                    <UploadField
                       control={form.control}
+                      // required
                       name='thumbnail'
-                      render={({ field }) => (
-                        <FormItem className='grid w-full items-center gap-1.5'>
-                          <FormLabel>Thumbnail*</FormLabel>
-                          <FormControl>
-                            <Input
-                              {...field}
-                              type='file'
-                              name='thumbnail'
-                              value={undefined}
-                              onChange={(e) => {
-                                const file = e.target.files?.[0];
-                                form.setValue('thumbnail', file as File);
-                              }}
-                              className='file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 file:border file:border-solid file:border-blue-700 file:rounded-md '
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+                      accepted='.jpg, .png, .jpeg'
+                      label='Unggah Thumbnail*'
+                      message={form?.formState?.errors?.thumbnail?.message?.toString()}
+                      status={
+                        form?.formState?.errors?.thumbnail ? 'error' : 'none'
+                      }
+                      variant='md'
                     />
                     <div className='flex w-full justify-end gap-5 px-5'>
                       <Button variant='primaryOutline'>Kembali</Button>
@@ -298,7 +228,7 @@ export const TambahAcaraModule = () => {
                         type='submit'
                         className='bg-primary-500 text-white px-4 py-2 rounded-md'
                       >
-                        Simpan Perubahan
+                        Selanjutnya
                       </Button>
                     </div>
                   </form>
