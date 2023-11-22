@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
@@ -35,10 +36,12 @@ export const AcaraKampusGratisModule = () => {
     <div className='bg-white rounded-md'>
       <div className='border-b border-dark-200 p-4 flex items-center justify-between'>
         <span className='font-semibold '>Acara Kampus Gratis</span>
-        <Button className='bg-primary-500 px-3 py-2 flex justify-center items-center gap-1 hover:bg-primary-400'>
-          <CiCirclePlus className='w-[20px] h-[20px]' />
-          <p className='leading-none'>Tambah Acara</p>
-        </Button>
+        <Link href='/acara-kampus-gratis/tambah-acara'>
+          <Button className='bg-primary-500 px-3 py-2 flex justify-center items-center gap-1 hover:bg-primary-400'>
+            <CiCirclePlus className='w-[20px] h-[20px]' />
+            <p className='leading-none'>Tambah Acara</p>
+          </Button>
+        </Link>
       </div>
       <div className='p-8'>
         <div className='flex justify-between'>
