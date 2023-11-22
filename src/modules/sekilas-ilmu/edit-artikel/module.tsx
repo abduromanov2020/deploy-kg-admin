@@ -1,8 +1,12 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
+import { convertToRaw, EditorState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import dynamic from 'next/dynamic';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { z } from 'zod';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
@@ -10,7 +14,6 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,6 +22,11 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { ITEMSEDIT } from '@/modules/sekilas-ilmu/constants';
+import { AccArticleModal } from '@/modules/sekilas-ilmu/components/AccArticleModal';
+
+const DraftEditor = dynamic(() => import('@/components/text-editor'), {
+  ssr: false,
+});
 
 const FormSchema = z.object({
   article_title: z.string().min(2, {
@@ -36,10 +44,17 @@ const FormSchema = z.object({
   file: z.string({
     required_error: 'A file is required.',
   }),
+  article_content: z
+    .string({
+      required_error: 'A content description is required.',
+    })
+    .min(1, { message: 'A content description is required.' })
+    .refine((value) => value.trim() !== '<p></p>', {
+      message: 'A content description is required',
+    }),
 });
 
 const EditArtikelModule = () => {
-
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -47,12 +62,36 @@ const EditArtikelModule = () => {
       hashtag: '',
       writer: '',
       created_at: new Date().toLocaleDateString(),
+      article_content: '<p></p>\n',
       file: '',
     },
   });
 
+  const [editorStateCover, setEditorStateCover] = useState<EditorState>(
+    EditorState.createEmpty(),
+  );
+
+  const handleEditorChange = (editorState: EditorState) => {
+    setEditorStateCover(editorState);
+
+    const contentState = editorState.getCurrentContent();
+    const rawContentState = convertToRaw(contentState);
+    const htmlContent = draftToHtml(rawContentState);
+
+    form.setValue('article_content', htmlContent, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
+  useEffect(() => {
+    console.log(form.formState.errors);
+  }, [form.formState.errors]);
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log('data', data);
+
+    toast.success('Form submitted!');
   }
 
   return (
@@ -68,7 +107,10 @@ const EditArtikelModule = () => {
           <div className='w-full'>
             <div className='grid gap-6'>
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className='w-full flex flex-col gap-6'
+                >
                   <div className='grid grid-cols-2 gap-6'>
                     <FormField
                       control={form.control}
@@ -116,20 +158,33 @@ const EditArtikelModule = () => {
                         <FormItem>
                           <FormLabel>Tanggal Unggah</FormLabel>
                           <FormControl>
-                            <Input {...field} defaultValue={field.value || new Date().toLocaleDateString()} />
+                            <Input
+                              {...field}
+                              defaultValue={
+                                field.value || new Date().toLocaleDateString()
+                              }
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
                   </div>
-                  <div className='my-8'>
+                  <DraftEditor
+                    editorState={editorStateCover}
+                    setEditorState={(editorState) => {
+                      handleEditorChange(editorState);
+                    }}
+                    label='Isi Artikel'
+                    error={form.formState.errors.article_content?.message}
+                  />
+                  <div className='w-full'>
                     <FormField
                       control={form.control}
                       name='file'
                       render={({ field }) => (
                         <FormItem className='grid w-full items-center gap-1.5'>
-                          <FormLabel>File Tugas</FormLabel>
+                          <FormLabel>Unggah Thumbnail</FormLabel>
                           <FormControl>
                             <Input type='file' {...field} />
                           </FormControl>
@@ -138,7 +193,15 @@ const EditArtikelModule = () => {
                       )}
                     />
                   </div>
-                  <Button type='submit'>Submit</Button>
+                  <div className='flex justify-end gap-3 my-3'>
+                    <Button
+                      onClick={() => window.history.back()}
+                      className='shadow-md bg-white border-2 hover:bg-dark-200 border-primary-500 text-primary-500'
+                    >
+                      Kembali
+                    </Button>
+                    <AccArticleModal titleButton='Simpan Perubahan' />
+                  </div>
                 </form>
               </Form>
             </div>

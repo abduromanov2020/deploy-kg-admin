@@ -4,6 +4,7 @@ import { ArrowUpDown } from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
+import { DeteleArticleModal } from '@/modules/sekilas-ilmu/components/DeleteModal';
 
 export type Payment = {
   id: string;
@@ -108,10 +109,10 @@ export const columns: ColumnDef<unknown>[] = [
   {
     id: 'actions',
     enableHiding: false,
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div className='flex gap-3'>
-          <Button className='bg-red-800'>Hapus</Button>
+          <DeteleArticleModal />
           <Link href='/sekilas-ilmu/edit-artikel'>
             <Button className='bg-primary-500'>Edit</Button>
           </Link>
