@@ -159,7 +159,14 @@ const DosenModule = () => {
                         </Link>
                       </TableCell>
                       <TableCell>
-                        <button className='px-6 py-2 shadow-md text-white bg-blue-600 rounded-md  hover:bg-blue-800 hover:transition'>
+                        <button
+                          onClick={() =>
+                            router.push(
+                              `/user-management/dosen/editdata/${user.id}`,
+                            )
+                          }
+                          className='px-6 py-2 shadow-md text-white bg-blue-600 rounded-md  hover:bg-blue-800 hover:transition'
+                        >
                           Edit
                         </button>
                       </TableCell>
