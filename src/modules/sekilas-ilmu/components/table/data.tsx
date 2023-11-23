@@ -1,10 +1,11 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import Link from 'next/link';
+import { TiArrowSortedDown } from 'react-icons/ti';
 
 import { Button } from '@/components/ui/button';
+
 import { DeteleArticleModal } from '@/modules/sekilas-ilmu/components/DeleteModal';
-import { TiArrowSortedDown } from 'react-icons/ti';
 
 export type Payment = {
   id: string;
@@ -112,7 +113,9 @@ export const columns: ColumnDef<unknown>[] = [
     cell: () => {
       return (
         <div className='flex gap-3'>
-          <DeteleArticleModal />
+          <DeteleArticleModal
+            modalTrigger={<Button className='bg-red-800'>Hapus</Button>}
+          />
           <Link href='/sekilas-ilmu/edit-artikel'>
             <Button className='bg-primary-500'>Edit</Button>
           </Link>
