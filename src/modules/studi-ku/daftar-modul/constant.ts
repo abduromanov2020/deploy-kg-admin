@@ -27,3 +27,18 @@ export const EDIT_MODULE_BREADCRUMBS = [
     link: '/studi-ku/edit-modul',
   },
 ];
+
+export const DETAIL_MODULE_BREADCRUMBS = [
+  {
+    name: 'Studi-Ku',
+    link: '/studi-ku',
+  },
+  {
+    name: 'Daftar Modul',
+    link: '/studi-ku/modul',
+  },
+  {
+    name: 'Detail Modul',
+    link: '/studi-ku/detail-modul',
+  },
+];
