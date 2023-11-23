@@ -133,5 +133,8 @@ export default {
     },
   },
   darkMode: 'class',
-  plugins: [tailwindScrollbar({ nocompatible: true })],
+  plugins: [
+    tailwindScrollbar({ nocompatible: true }),
+    require('tailwindcss-animate'),
+  ],
 } satisfies Config;

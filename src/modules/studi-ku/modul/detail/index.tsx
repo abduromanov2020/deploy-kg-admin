@@ -1,3 +1,5 @@
+'use client';
+
 import { PlayCircleIcon } from 'lucide-react';
 import Link from 'next/link';
 import React, { Fragment } from 'react';
@@ -6,6 +8,7 @@ import { FaFileAlt } from 'react-icons/fa';
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { Button } from '@/components/ui/button';
 
+import { DeleteModul } from '@/modules/studi-ku/components/delete-dialog';
 import { DETAIL_MODULE_BREADCRUMBS } from '@/modules/studi-ku/daftar-modul/constant';
 import { DETAIL_MODULE_DATA } from '@/modules/studi-ku/modul/detail/constant';
 import { TitleModule } from '@/modules/studi-ku/modul/tambah/TitleModule';
@@ -30,7 +33,7 @@ const ModulDetailModule = () => {
                 Edit
               </Link>
             </Button>
-            <Button variant='destructive'>Hapus</Button>
+            <DeleteModul />
           </div>
         </div>
         <div className='px-5 '>
@@ -107,10 +110,10 @@ const ItemDetailModul2 = ({
       <p className='text-[15px] col-span-2 font-semibold text-dark-900'>
         {label}
       </p>
-      <p
+      <div
         className='col-span-4 text-dark-900 text-sm'
         dangerouslySetInnerHTML={{ __html: content }}
-      ></p>
+      ></div>
     </div>
   );
 };

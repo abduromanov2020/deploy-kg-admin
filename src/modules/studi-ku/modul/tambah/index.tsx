@@ -248,7 +248,7 @@ const TambahModul = () => {
                     <UploadField
                       key={index}
                       control={form.control}
-                      required
+                      // required
                       name={`document_file_${index + 1}`}
                       accepted='.pdf'
                       label={`Dokumen ${index + 1}`}
