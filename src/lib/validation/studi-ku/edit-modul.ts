@@ -37,17 +37,14 @@ export const generateDynamicValidationSchemaDocument = (count: number) => {
   for (let i = 0; i < count; i++) {
     dynamicValidationSchema[`document_file_${i + 1}`] = z
       .any()
-      .refine(
-        (files: File[]) => files !== undefined && files?.length >= 1,
-        'Harus ada file yang di upload.',
-      )
       .refine((files: File[]) => {
         return files !== undefined && files?.[0]?.size <= MAX_FILE_SIZE;
       }, 'Ukuran maksimun adalah 2mb.')
       .refine(
         (files: File[]) => ACCEPTED_PDF_TYPES.includes(files?.[0]?.type),
         'hanya menerima .pdf.',
-      );
+      )
+      .optional();
   }
 
   return dynamicValidationSchema;

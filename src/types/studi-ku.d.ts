@@ -4,5 +4,5 @@ export type FormFields = {
   video_title_1: string;
   video_link_1: string;
   video_description_1: string;
-  [key: string]: string; // This allows any string as a key
+  [key: string]: string | undefined; // This allows any string as a key
 };

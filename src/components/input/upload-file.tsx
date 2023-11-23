@@ -39,7 +39,13 @@ export const UploadField = <T extends FieldValues>(
           } flex overflow-hidden border mb-1 rounded-lg ${props.className}`}
         >
           <div className='w-full flex items-center bg-white'>
-            <h1 className='bg-dark-900 w-fit text-white h-full  cursor-pointer hover:bg-dark-700 transition-colors ease-in-out duration-300 px-4 rounded-l-lg flex items-center'>
+            <h1
+              className={`${
+                props.disabled
+                  ? 'bg-dark-500 cursor-not-allowed'
+                  : 'bg-dark-900 hover:bg-dark-700 cursor-pointer'
+              } w-fit text-white h-full    transition-colors ease-in-out duration-300 px-4 rounded-l-lg flex items-center`}
+            >
               Pilih File
             </h1>
             <p
@@ -66,7 +72,7 @@ export const UploadField = <T extends FieldValues>(
         <span
           className={`${
             props.status === 'error'
-              ? 'text-red-base'
+              ? 'text-red-700'
               : props.status === 'success'
                 ? 'text-green-base'
                 : props.status === 'warning'
@@ -111,9 +117,9 @@ export const UploadField = <T extends FieldValues>(
                 `border-[0.5px] border-neutral-400 shadow-sm ${props.className}`)
             }
 
-           rounded-lg p-4 outline-none focus:outline-none
+           rounded-lg p-4 outline-none focus:outline-none sr-only
         `}
-        hidden
+        // hidden
       />
     </section>
   );
