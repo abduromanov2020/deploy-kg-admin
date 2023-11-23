@@ -4,13 +4,25 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
+import { UploadField } from '@/components/input/upload-file';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -20,38 +32,68 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 
-import { ITEMSTAMBAH } from '@/modules/sekilas-ilmu/constants';
-import Link from 'next/link';
-import { AccArticleModal } from '@/modules/sekilas-ilmu/components/AccArticleModal';
+import { ITEMSEDIT } from '@/modules/sekilas-ilmu/constants';
 
 const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
 });
 
+const MAX_FILE_SIZE = 3 * 1024 * 1024;
+const ACCEPTED_MEDIA_TYPES = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+];
+
 const FormSchema = z.object({
-  article_title: z.string().min(2, {
-    message: 'Title must be at least 2 characters.',
-  }),
-  hashtag: z.string().min(2, {
-    message: 'Hashtag must be at least 2 characters.',
-  }),
-  writer: z.string().min(2, {
-    message: 'Penulis must be at least 2 characters.',
-  }),
+  article_title: z
+    .string({
+      required_error: 'Title harus diisi.',
+    })
+    .min(2, {
+      message: 'Title harus di isi minimal 2 karakter',
+    }),
+  hashtag: z
+    .string({
+      required_error: 'Hashtag harus diisi.',
+    })
+    .min(2, {
+      message: 'Hashtag harus di isi minimal 2 karakter',
+    }),
+  writer: z
+    .string({
+      required_error: 'Penulis harus diisi.',
+    })
+    .min(2, {
+      message: 'Penulis harus di isi minimal 2 karakter',
+    }),
   created_at: z.string({
-    required_error: 'Date is required.',
+    required_error: 'Tanggal harus di isi',
   }),
-  file: z.string({
-    required_error: 'A file is required.',
-  }),
+  file: z
+    .any()
+    .refine(
+      (files: File[]) => files !== undefined && files?.length >= 1,
+      'Harus ada file yang di upload.',
+    )
+    .refine((files: File[]) => {
+      return files !== undefined && files?.[0]?.size <= MAX_FILE_SIZE;
+    }, 'Ukuran maksimun adalah 3mb.')
+    .refine(
+      (files: File[]) => ACCEPTED_MEDIA_TYPES.includes(files?.[0].type),
+      'hanya menerima .jpg, .jpeg, .png, dan .webp',
+    ),
   article_content: z
     .string({
-      required_error: 'A content description is required.',
+      required_error: 'Deskripsi harus di isi',
     })
-    .min(1, { message: 'A content description is required.' })
+    .min(5, { message: 'Deskripsi harus di isi minimal 5 karakter' })
     .refine((value) => value.trim() !== '<p></p>', {
-      message: 'A content description is required',
+      message: 'Deskripsi harus di isi',
     }),
 });
 
@@ -64,7 +106,7 @@ const TambahArtikelModule = () => {
       writer: '',
       created_at: new Date().toLocaleDateString(),
       article_content: '<p></p>\n',
-      file: '',
+      file: undefined,
     },
   });
 
@@ -98,7 +140,7 @@ const TambahArtikelModule = () => {
   return (
     <main className='flex flex-col gap-6'>
       <div className='bg-white rounded-md'>
-        <BreadCrumb items={ITEMSTAMBAH} className='lg:px-6 lg:py-4' />
+        <BreadCrumb items={ITEMSEDIT} className='lg:px-6 lg:py-4' />
       </div>
       <div className='bg-white w-full rounded-md flex flex-col gap-5'>
         <div className='border-b border-dark-200 p-5'>
@@ -120,7 +162,7 @@ const TambahArtikelModule = () => {
                         <FormItem>
                           <FormLabel>Judul Artikel</FormLabel>
                           <FormControl>
-                            <Input placeholder='shadcn' {...field} />
+                            <Input placeholder='Isi Judul Disini' {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -133,7 +175,7 @@ const TambahArtikelModule = () => {
                         <FormItem>
                           <FormLabel>Hashtag</FormLabel>
                           <FormControl>
-                            <Input placeholder='shadcn' {...field} />
+                            <Input placeholder='Isi Hashtag Disini' {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -146,7 +188,7 @@ const TambahArtikelModule = () => {
                         <FormItem>
                           <FormLabel>Penulis</FormLabel>
                           <FormControl>
-                            <Input placeholder='shadcn' {...field} />
+                            <Input placeholder='Isi Penulis Disini' {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -180,18 +222,18 @@ const TambahArtikelModule = () => {
                     error={form.formState.errors.article_content?.message}
                   />
                   <div className='w-full'>
-                    <FormField
+                    <Label>Unggah Thumbnail</Label>
+                    <UploadField
                       control={form.control}
                       name='file'
-                      render={({ field }) => (
-                        <FormItem className='grid w-full items-center gap-1.5'>
-                          <FormLabel>Unggah Thumbnail</FormLabel>
-                          <FormControl>
-                            <Input type='file' {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+                      accepted='.jpg, .jpeg, .png'
+                      variant='sm'
+                      message={form?.formState?.errors?.[
+                        `file`
+                      ]?.message?.toString()}
+                      status={
+                        form?.formState?.errors?.[`file`] ? 'error' : 'none'
+                      }
                     />
                   </div>
                   <div className='flex justify-end gap-3 my-3'>
@@ -200,7 +242,40 @@ const TambahArtikelModule = () => {
                         Kembali
                       </Button>
                     </Link>
-                    <AccArticleModal titleButton='Tambah Artikel' />
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button className='bg-primary-500 hover:bg-primary-600'>
+                          Tambah Artikel
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className='sm:max-w-[425px] text-center p-12 z-[9999]'>
+                        <DialogHeader>
+                          <DialogTitle className='text-center'>
+                            Apakah Anda yakin informasi sudah sesuai ?
+                          </DialogTitle>
+                          <div className='py-3'>
+                            <Separator className='h-1 bg-primary-500 rounded-full w-1/3 mx-auto' />
+                          </div>
+                          <DialogDescription className='text-center'>
+                            Cek kembali informasi Acara dengan benar.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter className='flex w-full justify-between'>
+                          <Button variant='outline' className='w-full'>
+                            Tinjau Ulang
+                          </Button>
+                          <DialogClose className='w-full'>
+                            <Button
+                              onClick={() => form.handleSubmit(onSubmit)()}
+                              type='submit'
+                              className='bg-primary-500 hover:bg-primary-600 w-full'
+                            >
+                              Selesai
+                            </Button>
+                          </DialogClose>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                 </form>
               </Form>
