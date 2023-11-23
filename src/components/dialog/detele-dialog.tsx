@@ -12,11 +12,22 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-export const DeleteModul = () => {
+type DeleteDialogProps = {
+  label: string;
+  title: string;
+  description: string;
+  onClick?: () => void;
+};
+
+export const DeleteDialog = ({
+  label,
+  title,
+  description,
+}: DeleteDialogProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className='bg-red-800 w-full hover:bg-red-900'>Hapus</Button>
+        <Button className='bg-red-800 w-full hover:bg-red-900'>{label}</Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[500px] text-center p-12'>
         <DialogHeader>
@@ -26,13 +37,11 @@ export const DeleteModul = () => {
             </div>
           </div>
           <DialogTitle>
-            <div className='text-center'>
-              Apakah Anda yakin akan menghapus Modul ini ?
-            </div>
+            <p className='text-center tracking-wide'>{title}</p>
           </DialogTitle>
 
           <DialogDescription className='text-center'>
-            Cek kembali informasi modul ini dengan benar.
+            {description}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className='flex w-full justify-between'>

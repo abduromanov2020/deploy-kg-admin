@@ -6,9 +6,9 @@ import React, { Fragment } from 'react';
 import { FaFileAlt } from 'react-icons/fa';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
+import { DeleteDialog } from '@/components/dialog/detele-dialog';
 import { Button } from '@/components/ui/button';
 
-import { DeleteModul } from '@/modules/studi-ku/components/delete-dialog';
 import { DETAIL_MODULE_BREADCRUMBS } from '@/modules/studi-ku/daftar-modul/constant';
 import { DETAIL_MODULE_DATA } from '@/modules/studi-ku/modul/detail/constant';
 import { TitleModule } from '@/modules/studi-ku/modul/tambah/TitleModule';
@@ -33,7 +33,11 @@ const ModulDetailModule = () => {
                 Edit
               </Link>
             </Button>
-            <DeleteModul />
+            <DeleteDialog
+              description='Cek kembali informasi dengan benar.'
+              label='Hapus'
+              title='Apakah Anda yakin akan menghapus Modul 1 Mata Kuliah Manajemen Keuangan ?'
+            />
           </div>
         </div>
         <div className='px-5 '>
