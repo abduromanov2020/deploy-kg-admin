@@ -8,6 +8,7 @@ import { useUser } from '@/hooks/user-management/getuser/hook';
 
 import Pagination from '@/components/generals/pagination';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
+import { Badge } from '@/components/ui/badge';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -138,18 +139,20 @@ const MahasiswaModule = () => {
                       </TableCell>
                       <TableCell>{user.id}</TableCell>
                       <TableCell>{user.full_name}</TableCell>
-                      <TableCell>{user.faculty}</TableCell>
-                      <TableCell>{user.major}</TableCell>
+                      <TableCell>{user.faculty ?? '-'}</TableCell>
+                      <TableCell>{user.major ?? '-'}</TableCell>
                       <TableCell>
-                        <div
+                        <Badge
                           className={`${
-                            user.status === 'active'
-                              ? 'bg-green-600'
-                              : 'bg-red-600'
-                          } text-white px-4 py-1 rounded flex text-center justify-center`}
+                            user.status == 'active'
+                              ? 'bg-green-100 text-green-800 py-2'
+                              : 'bg-red-400 text-red-600'
+                          } flex justify-center rounded-md w-full text-center`}
                         >
-                          {user.status === 'active' ? 'Aktif' : 'Non-Aktif'}
-                        </div>
+                          <h1>
+                            {user.status == 'active' ? 'Aktif' : 'Tidak Aktif'}
+                          </h1>
+                        </Badge>
                       </TableCell>
                       <TableCell className='text-center'>
                         <button type='button'>

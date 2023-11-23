@@ -9,6 +9,7 @@ import { useUser } from '@/hooks/user-management/getuser/hook';
 
 import Pagination from '@/components/generals/pagination';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
+import { Badge } from '@/components/ui/badge';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -146,9 +147,17 @@ const DosenModule = () => {
                       <TableCell>{user.role}</TableCell>
                       <TableCell>{user.role}</TableCell>
                       <TableCell>
-                        <div className='bg-green-500 text-white px-4 py-1 rounded'>
-                          Aktif
-                        </div>
+                        <Badge
+                          className={`${
+                            user.status == 'active'
+                              ? 'bg-green-100 text-green-800 py-2'
+                              : 'bg-red-400 text-red-600'
+                          } flex justify-center rounded-md w-full text-center`}
+                        >
+                          <h1>
+                            {user.status == 'active' ? 'Aktif' : 'Tidak Aktif'}
+                          </h1>
+                        </Badge>
                       </TableCell>
                       <TableCell className='text-center'>
                         <Link

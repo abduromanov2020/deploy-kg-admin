@@ -6,6 +6,7 @@ import { FaEdit, FaFileDownload } from 'react-icons/fa';
 import { useUserById } from '@/hooks/user-management/getuser/getuserById/hook';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
+import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
 const DetailDosenModule = () => {
@@ -23,6 +24,7 @@ const DetailDosenModule = () => {
   const { id } = params;
   console.log(id);
   const { data } = useUserById(id);
+  const useData = data?.data;
   console.log(data);
 
   return (
@@ -59,34 +61,50 @@ const DetailDosenModule = () => {
             <TableBody>
               <TableRow>
                 <TableCell className='font-medium w-[30%]'>ID Dosen</TableCell>
-                <TableCell className='border-2'>129391132</TableCell>
+                <TableCell className='border-2'>{useData?.id ?? '-'}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className='font-medium'>Nama Dosen</TableCell>
-                <TableCell className='border-2'>Raul</TableCell>
+                <TableCell className='border-2'>
+                  {useData?.full_name ?? '-'}
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className='font-medium'>Email</TableCell>
-                <TableCell className='border-2'>raul@gmail.com</TableCell>
+                <TableCell className='border-2'>
+                  {useData?.email ?? '-'}
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className='font-medium'>Fakultas</TableCell>
-                <TableCell className='border-2'>Tata boga</TableCell>
+                <TableCell className='border-2'>
+                  {useData?.faculty ?? '-'}
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className='font-medium'>Program Studi</TableCell>
-                <TableCell className='border-2'>Masak </TableCell>
+                <TableCell className='border-2'>
+                  {useData?.major ?? '-'}{' '}
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className='font-medium'>Mata Kuliah</TableCell>
-                <TableCell className='border-2'>Pak Hansen walaw we</TableCell>
+                <TableCell className='border-2'>
+                  {useData?.major ?? '-'}
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className='font-medium'>Status</TableCell>
                 <TableCell className='border-2'>
-                  <h1 className='bg-green-300 px-4 py-1 w-[60px] text-green-800 rounded-md'>
-                    Aktif
-                  </h1>
+                  <Badge
+                    className={`${
+                      useData?.status == 'active'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-400 text-red-600'
+                    } px-4 py-1 rounded-md`}
+                  >
+                    {useData?.status == 'active' ? 'Aktif' : 'Tidak Aktif'}
+                  </Badge>
                 </TableCell>
               </TableRow>
               <TableRow>

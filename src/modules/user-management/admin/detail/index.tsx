@@ -6,16 +6,17 @@ import { FaEdit, FaFileDownload } from 'react-icons/fa';
 import { useUserById } from '@/hooks/user-management/getuser/getuserById/hook';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
+import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
 const DetailAdminModule = () => {
   const ConstantDetailAdmin = [
     {
-      name: 'User Management Dosen',
+      name: 'User Management Admin',
       link: '/user-management/admin',
     },
     {
-      name: 'Detail Dosen',
+      name: 'Detail Admin',
       link: '',
     },
   ];
@@ -79,15 +80,15 @@ const DetailAdminModule = () => {
               <TableRow>
                 <TableCell className='font-medium'>Program Studi</TableCell>
                 <TableCell className='border-2'>
-                  <div
+                  <Badge
                     className={`${
-                      data?.data?.status === 'active'
-                        ? 'bg-green-600'
-                        : 'bg-red-600'
-                    } text-white px-4 py-1 rounded flex text-center justify-center w-[10%]`}
+                      data?.data?.status == 'active'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-400 text-red-600'
+                    } px-4 py-1 rounded-md`}
                   >
-                    {data?.data?.status === 'active' ? 'Aktif' : 'Non-Aktif'}
-                  </div>
+                    {data?.data?.status == 'active' ? 'Aktif' : 'Tidak Aktif'}
+                  </Badge>
                 </TableCell>
               </TableRow>
             </TableBody>

@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
@@ -38,6 +38,10 @@ const TambahAdminModule = () => {
   const onSubmit = (data: z.infer<typeof AddAdminUserValidationSchema>) => {
     console.log(data);
     toast.success('Form submitted!');
+  };
+  const [isChecked, setIsChecked] = useState(true);
+  const handleLookUp = () => {
+    setIsChecked(!isChecked);
   };
   return (
     <>
@@ -129,7 +133,7 @@ const TambahAdminModule = () => {
                 </div>
               </div>
               <div className='flex items-center space-x-3 pt-7'>
-                <Checkbox id='terms' />
+                <Checkbox id='terms' onClick={handleLookUp} />
                 <label
                   htmlFor='terms'
                   className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
@@ -143,14 +147,26 @@ const TambahAdminModule = () => {
                     <Link href='/user-management/admin'>Kembali</Link>
                   </div>
                 </button>
-                <button
-                  type='submit'
-                  className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'
-                >
-                  <div className='flex place-items-center gap-2'>
-                    Tambah Admin
-                  </div>
-                </button>
+                {!isChecked ? (
+                  <button
+                    type='submit'
+                    className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'
+                  >
+                    <div className='flex place-items-center gap-2'>
+                      Tambahkan Admin
+                    </div>
+                  </button>
+                ) : (
+                  <button
+                    type='submit'
+                    disabled
+                    className='px-6 py-3 shadow-md text-slate-400 bg-slate-300 rounded-md '
+                  >
+                    <div className='flex place-items-center gap-2'>
+                      Tambahkan Admin
+                    </div>
+                  </button>
+                )}
               </div>
             </div>
           </form>

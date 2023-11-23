@@ -10,6 +10,7 @@ import { useUserById } from '@/hooks/user-management/getuser/getuserById/hook';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
+import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
 const DetailMahasiswaModule = () => {
@@ -27,7 +28,7 @@ const DetailMahasiswaModule = () => {
   const { id } = params;
   console.log(id);
 
-  const { data, isLoading, refetch } = useUserById(id);
+  const { data, isLoading } = useUserById(id);
   console.log(data);
 
   return (
@@ -163,17 +164,19 @@ const DetailMahasiswaModule = () => {
                               Status
                             </TableCell>
                             <TableCell className='border-2'>
-                              <div
+                              <Badge
                                 className={`${
-                                  data?.data?.status === 'active'
-                                    ? 'bg-green-600'
-                                    : 'bg-red-600'
-                                } text-white px-4 py-1 rounded flex text-center justify-center w-[10%]`}
+                                  data?.data?.status == 'active'
+                                    ? 'bg-green-100 text-green-800 py-2'
+                                    : 'bg-red-400 text-red-600'
+                                } flex justify-center rounded-md w-[20%] text-center`}
                               >
-                                {data?.data?.status === 'active'
-                                  ? 'Aktif'
-                                  : 'Non-Aktif'}
-                              </div>
+                                <h1>
+                                  {data?.data?.status == 'active'
+                                    ? 'Aktif'
+                                    : 'Tidak Aktif'}
+                                </h1>
+                              </Badge>
                             </TableCell>
                           </TableRow>
                           <TableRow>
