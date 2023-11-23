@@ -28,13 +28,13 @@ export const BreadCrumb: FC<TBreadCrumbProps> = ({
   return (
     <div
       className={cn(
-        `px-8 md:px-14 lg:px-16 place-content-start w-full text-xs md:text-sm py-4 !font-extrabold  ${bgColor}`,
+        `place-content-start w-full text-xs md:text-sm py-4 !font-extrabold  ${bgColor}`,
         className,
       )}
       aria-label='Breadcrumb'
       style={style}
     >
-      <div className='max-w-[1440px] mx-auto grid'>
+      <div className=' grid'>
         <ol className='flex w-full items-center gap-x-2 flex-wrap'>
           {items.map((crumb, index) => {
             const isLastItem = index === items.length - 1;

@@ -28,7 +28,7 @@ export const UploadFile: React.FC<UploadFileProps> = ({
     <div
       className={`relative flex gap-3 rounded-md overflow-hidden border-2 h-10 ${className}`}
     >
-      <div className='text-white font-semibold flex justify-center items-center bg-dark-800 w-[13%]'>
+      <div className='text-white font-semibold flex justify-center items-center bg-dark-800 min-w-[160px]'>
         {title}
       </div>
       <div className={`${styleTitle} flex justify-start items-center w-[87%]`}>
