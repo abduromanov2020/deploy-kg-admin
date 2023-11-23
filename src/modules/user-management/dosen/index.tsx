@@ -35,8 +35,8 @@ const DosenModule = () => {
   const { data, isLoading, refetch } = useUser(
     Number(page),
     10,
-    searchQuery,
     'TEACHER',
+    searchQuery,
   );
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);

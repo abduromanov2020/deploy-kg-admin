@@ -35,8 +35,8 @@ const AdminPageModule = () => {
   const { data, isLoading, refetch } = useUser(
     Number(page),
     10,
-    searchQuery,
     'ADMIN',
+    searchQuery,
   );
 
   const handlePageChange = async (page: number) => {

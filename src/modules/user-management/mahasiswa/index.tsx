@@ -35,13 +35,12 @@ const MahasiswaModule = () => {
   const { data, isLoading, refetch } = useUser(
     Number(page),
     10,
-    searchQuery,
     'STUDENT',
+    searchQuery,
   );
 
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
-
     router.push(`/user-management/mahasiswa?page=${page}`);
   };
   return (
@@ -53,7 +52,7 @@ const MahasiswaModule = () => {
         <div className='pt-6 px-4'>
           <div className='flex place-items-center justify-between'>
             <div className='w-1/3 relative'>
-              <Input type='text' placeholder='Search' className='pl-10' />
+              <Input type='search' placeholder='Search' className='pl-10' />
               <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
                 <AiOutlineSearch className='text-gray-400' size={20} />
               </div>

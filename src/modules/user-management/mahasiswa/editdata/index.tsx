@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FaEdit } from 'react-icons/fa';
@@ -37,7 +38,6 @@ const EditDataMahasiwaModule = () => {
       link: '',
     },
   ];
-  const router = useRouter();
   const params = useParams();
   const { id } = params;
   const { data, isLoading } = useUserById(id);
@@ -47,9 +47,6 @@ const EditDataMahasiwaModule = () => {
     resolver: zodResolver(EditMahasiswaUserValidationSchema),
   });
 
-  const handleBack = () => {
-    router.back();
-  };
   return (
     <>
       <div className='bg-white mb-3 rounded-md'>
@@ -114,7 +111,7 @@ const EditDataMahasiwaModule = () => {
                           <FormControl>
                             <Input
                               {...field}
-                              defaultValue={data?.data?.full_name}
+                              defaultValue={data?.data?.email}
                             />
                           </FormControl>
                           <FormMessage />
@@ -229,12 +226,11 @@ const EditDataMahasiwaModule = () => {
                     </label>
                   </div>
                   <div className='flex space-x-5 justify-end'>
-                    <button
-                      onClick={handleBack}
-                      className='px-6 py-3 shadow-md border text-blue-600 rounded-md hover:text-white hover:bg-blue-600 hover:transition'
-                    >
+                    <button className='px-6 py-3 shadow-md border text-blue-600 rounded-md hover:text-white hover:bg-blue-600 hover:transition'>
                       <div className='flex place-items-center gap-2'>
-                        Kembali
+                        <Link href={`/user-management/mahasiswa/detail/${id}`}>
+                          Kembali
+                        </Link>
                       </div>
                     </button>
                     <button className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'>
