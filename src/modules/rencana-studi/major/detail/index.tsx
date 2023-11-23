@@ -62,7 +62,6 @@ const RencanaStudiDetailMajor = () => {
                 <p className='leading-none'>Unduh</p>
               </Button>
               <DeleteMajorModalDetail />
-
               <Button className='shadow-md bg-white border-2 border-primary-500 text-primary-500 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base hover:bg-blue-500 hover:text-white'>
                 <BiEdit size={24} />
                 <p className='leading-none'>Edit Prodi</p>

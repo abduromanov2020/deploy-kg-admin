@@ -28,7 +28,7 @@ export function PopoverFaculty() {
               className='bg-primary-500 w-full hover:bg-primary-600'
               asChild
             >
-              <Link href={'/rencana-studi/edit-fakultas/1'}>Edit</Link>
+              <Link  href={'/rencana-studi/edit-fakultas/1'}>Edit</Link>
             </Button>
           </div>
         </div>
