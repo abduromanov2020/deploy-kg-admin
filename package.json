@@ -44,6 +44,7 @@
     "core-js-pure": "^3.33.2",
     "date-fns": "^2.30.0",
     "draft-js": "^0.11.7",
+    "draft-js-import-html": "^1.4.1",
     "draftjs-to-html": "^0.9.1",
     "lucide-react": "^0.292.0",
     "next": "14.0.1",
