@@ -9,8 +9,7 @@ export const useUserById = (
   id: string | string[],
 ): UseQueryResult<TUserDataByIdResponse, TMetaErrorResponse> => {
   return useQuery({
-    queryKey: ['get-userAdmin'],
+    queryKey: ['get-userAdmin', id],
     queryFn: async () => await userByIdRequest(id),
-    staleTime: Infinity,
   });
 };

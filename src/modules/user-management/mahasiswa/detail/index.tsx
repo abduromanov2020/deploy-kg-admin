@@ -27,7 +27,7 @@ const DetailMahasiswaModule = () => {
   const { id } = params;
   console.log(id);
 
-  const { data, isLoading } = useUserById(id);
+  const { data, isLoading, refetch } = useUserById(id);
   console.log(data);
 
   return (
@@ -109,7 +109,7 @@ const DetailMahasiswaModule = () => {
                               ID Mahasiswa
                             </TableCell>
                             <TableCell className='border-2'>
-                              {data?.data?.id}
+                              {data?.data?.id && data?.data?.id}
                             </TableCell>
                           </TableRow>
                           <TableRow>
@@ -117,13 +117,13 @@ const DetailMahasiswaModule = () => {
                               Nama Mahasiswa
                             </TableCell>
                             <TableCell className='border-2'>
-                              {data?.data?.full_name}
+                              {data?.data?.full_name && data?.data?.full_name}
                             </TableCell>
                           </TableRow>
                           <TableRow>
                             <TableCell className='font-medium'>Email</TableCell>
                             <TableCell className='border-2'>
-                              {data?.data?.email}
+                              {data?.data?.email && data?.data?.email}
                             </TableCell>
                           </TableRow>
                           <TableRow>
@@ -131,7 +131,7 @@ const DetailMahasiswaModule = () => {
                               Fakultas
                             </TableCell>
                             <TableCell className='border-2'>
-                              {data?.data?.faculty}
+                              {data?.data?.faculty && data?.data?.faculty}
                             </TableCell>
                           </TableRow>
                           <TableRow>
@@ -139,7 +139,7 @@ const DetailMahasiswaModule = () => {
                               Program Studi
                             </TableCell>
                             <TableCell className='border-2'>
-                              {data?.data?.major}{' '}
+                              {data?.data?.major && data?.data?.major}{' '}
                             </TableCell>
                           </TableRow>
                           <TableRow>
@@ -147,7 +147,7 @@ const DetailMahasiswaModule = () => {
                               Dosen Pembimbing
                             </TableCell>
                             <TableCell className='border-2'>
-                              {data?.data?.lecturer}
+                              {data?.data?.lecturer && data?.data?.lecturer}
                             </TableCell>
                           </TableRow>
                           <TableRow>
@@ -155,7 +155,7 @@ const DetailMahasiswaModule = () => {
                               Semester
                             </TableCell>
                             <TableCell className='border-2'>
-                              {data?.data?.semester}
+                              {data?.data?.semester && data?.data?.semester}
                             </TableCell>
                           </TableRow>
                           <TableRow>

@@ -153,12 +153,14 @@ const MahasiswaModule = () => {
                         </div>
                       </TableCell>
                       <TableCell className='text-center'>
-                        <Link
-                          href={`/user-management/mahasiswa/detail/${user.id}`}
-                          className='text-blue-600 font-semibold'
-                        >
-                          Detail
-                        </Link>
+                        <button type='button'>
+                          <Link
+                            href={`/user-management/mahasiswa/detail/${user.id}`}
+                            className='text-blue-600 font-semibold'
+                          >
+                            Detail
+                          </Link>
+                        </button>
                       </TableCell>
                       <TableCell>
                         <button
