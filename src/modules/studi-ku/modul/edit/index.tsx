@@ -48,7 +48,7 @@ const EditModulModule = () => {
     data?.document?.length || 1,
   );
 
-  const defaultValues: Record<string, string> = {
+  const defaultValues: Record<string, string | undefined> = {
     cover_title: data?.cover?.title || '',
     cover_description: data?.cover?.description || '<p></p>\n',
   };
@@ -61,7 +61,7 @@ const EditModulModule = () => {
   }
 
   for (let index = 0; index < data?.document?.length; index++) {
-    defaultValues[`document_file_${index + 1}`] = '';
+    defaultValues[`document_file_${index + 1}`] = undefined;
   }
 
   const form = useForm<FormFields>({
@@ -70,8 +70,6 @@ const EditModulModule = () => {
     ),
     defaultValues,
   });
-
-  console.log(defaultValues);
 
   /* Start Cover  */
   const [editorStateCover, setEditorStateCover] = useState<EditorState>(

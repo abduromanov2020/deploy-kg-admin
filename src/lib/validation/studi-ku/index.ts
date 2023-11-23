@@ -42,12 +42,10 @@ export const generateDynamicValidationSchemaDocument = (count: number) => {
         'Harus ada file yang di upload.',
       )
       .refine((files: File[]) => {
-        console.log(files);
-
         return files !== undefined && files?.[0]?.size <= MAX_FILE_SIZE;
       }, 'Ukuran maksimun adalah 2mb.')
       .refine(
-        (files: File[]) => ACCEPTED_PDF_TYPES.includes(files?.[0].type),
+        (files: File[]) => ACCEPTED_PDF_TYPES.includes(files?.[0]?.type),
         'hanya menerima .pdf.',
       );
   }
