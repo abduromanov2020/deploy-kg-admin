@@ -35,7 +35,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 
-import { ITEMSEDIT } from '@/modules/sekilas-ilmu/constants';
+import { ITEMSTAMBAH } from '@/modules/sekilas-ilmu/constants';
 
 const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
@@ -140,7 +140,7 @@ const TambahArtikelModule = () => {
   return (
     <main className='flex flex-col gap-6'>
       <div className='bg-white rounded-md'>
-        <BreadCrumb items={ITEMSEDIT} className='lg:px-6 lg:py-4' />
+        <BreadCrumb items={ITEMSTAMBAH} className='lg:px-6 lg:py-4' />
       </div>
       <div className='bg-white w-full rounded-md flex flex-col gap-5'>
         <div className='border-b border-dark-200 p-5'>
