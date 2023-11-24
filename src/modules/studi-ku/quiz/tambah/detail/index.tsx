@@ -1,7 +1,7 @@
 'use client';
 
-import { Plus } from 'lucide-react';
 import React, { useState } from 'react';
+import { BiPlus } from 'react-icons/bi';
 import { useRecoilState } from 'recoil';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
@@ -75,13 +75,16 @@ const TambahDetailSoalQuizModule = () => {
                   }
                   key={index}
                   onClick={() => handlePageChange(index + 1)}
-                  className=' rounded-md'
                 >
                   {index + 1}
                 </Button>
               ))}
-              <Button onClick={handleAddQuestion} variant='primary'>
-                <Plus />
+              <Button
+                onClick={handleAddQuestion}
+                variant='primary'
+                className='w-fit'
+              >
+                <BiPlus />
               </Button>
             </div>
           </div>
