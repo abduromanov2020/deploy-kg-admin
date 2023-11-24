@@ -1,6 +1,10 @@
+import { format } from 'date-fns';
 import Image from 'next/image';
-import React from 'react';
+import Link from 'next/link';
+import React, { FC } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import { RiDeleteBin6Line } from 'react-icons/ri';
+import { TbEdit } from 'react-icons/tb';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -12,10 +16,36 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Separator } from '@/components/ui/separator';
+
+import { TAcaraCard } from '@/types/acara-kampus-gratis/types';
 
 import AcaraImage from '~/images/acara-kampus-gratis/acara1.png';
 
-export const CardAcara = () => {
+export const CardAcara: FC<{ id: number; data: TAcaraCard }> = ({
+  id,
+  data,
+}) => {
+  const formatDate = (date: string) => {
+    return format(new Date(date), 'dd MMMM yyyy');
+  };
+
+  const formatTime = (time: string) => {
+    return format(new Date(time), 'HH:mm');
+  };
+
+  const formatStatus = (status: string) => {
+    return status
+      .split('_')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
   return (
     <Card className='w-full'>
       <CardHeader className='p-0'>
@@ -31,25 +61,55 @@ export const CardAcara = () => {
       <CardContent className='pt-4 flex flex-col gap-2'>
         <div>
           <Badge className='rounded-md bg-neutral-100 text-black'>
-            Berlangsung
+            {formatStatus(data.status)}
           </Badge>
         </div>
-        <CardTitle className='text-xl font-semibold'>Blockchain</CardTitle>
+        <CardTitle className='text-xl font-semibold'>
+          {data.event_name}
+        </CardTitle>
         <CardDescription className='line-clamp-2'>
-          Prodi Pembiayaan dan Optimalisasi Bisnis adalah Lorem ipsum dolor sit
-          amet, consectetur adipisicing elit. Omnis a quae nemo explicabo
-          recusandae. Fuga nihil labore eum qui commodi aperiam impedit. Fugit
-          ratione eius perspiciatis. Sint aperiam non minus?
+          {data.description}
         </CardDescription>
         <div className='flex justify-between items-center mt-4'>
-          <Button className='bg-primary-500'>Detail Acara</Button>
-          <Button variant='ghost'>
-            <BsThreeDotsVertical size={20} />
-          </Button>
+          <div className='flex gap-2'>
+            <Button className='bg-primary-500'>Detail Acara</Button>
+            <Button variant='primaryOutline'>Detail Acara</Button>
+          </div>
+
+          <Popover>
+            <PopoverTrigger>
+              <Button variant='ghost' className='w-fit px-0'>
+                <BsThreeDotsVertical size={20} />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className='w-fit p-0 ' align='start'>
+              <div className='flex flex-col '>
+                <Link href={`/acara-kampus-gratis/edit-acara/${id}`}>
+                  <Button
+                    variant='ghost'
+                    className='px-3 py-2 flex justify-start items-center gap-2 text-primary-500 min-w-[125px] hover:text-primary-600 text-xs'
+                  >
+                    <TbEdit size={15} />
+                    Edit
+                  </Button>
+                </Link>
+                <Separator />
+                <Button
+                  variant='ghost'
+                  className=' px-3 py-2 flex justify-start items-center gap-2 text-red-800 min-w-[125px] hover:text-red-900 text-xs'
+                >
+                  <RiDeleteBin6Line size={15} />
+                  Hapus
+                </Button>
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
       </CardContent>
       <CardFooter className='flex justify-between text-sm text-neutral-500 border-t items-center py-4'>
-        <p>12 Desember 2023 | 12.00 WIB</p>
+        <p>
+          {formatDate(data.dateTime)} | {formatTime(data.dateTime)} WIB
+        </p>
       </CardFooter>
     </Card>
   );

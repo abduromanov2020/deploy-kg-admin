@@ -20,3 +20,12 @@ export type TDetailAcara = {
   email: string;
   description: string;
 };
+
+export type TAcaraCard = {
+  event_name: string;
+  dateTime: string;
+  description: string;
+  status: string;
+  capacity: number;
+  registered: number;
+};
