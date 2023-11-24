@@ -95,3 +95,67 @@ export const TAMBAH_QUIZ_MODULE_BREADCRUMBS = [
     link: '/studi-ku/tambah-quiz',
   },
 ];
+export const DETAIL_SOAL_QUIZ_MODULE_BREADCRUMBS = [
+  {
+    name: 'Studi-Ku',
+    link: '/studi-ku',
+  },
+  {
+    name: 'Quiz',
+    link: '/studi-ku/quiz',
+  },
+  {
+    name: 'Detail Quiz',
+    link: '/studi-ku/detail-quiz',
+  },
+];
+
+export const DATA_DETAIL_SOAL_QUIZ = {
+  data: [
+    {
+      question: 'Pertanyaan 1',
+      options: [
+        {
+          option: 'Opsi 1',
+          correct: true,
+        },
+        {
+          option: 'Opsi 2',
+          correct: false,
+        },
+        {
+          option: 'Opsi 3',
+          correct: false,
+        },
+        {
+          option: 'Opsi 4',
+          correct: false,
+        },
+      ],
+    },
+    // create  24 dummy data
+    ...Array.from({ length: 24 }, (_, i) => ({
+      question: `Pertanyaan ${i + 2}`,
+      options: [
+        {
+          option: 'Opsi 1',
+          correct: true,
+        },
+        {
+          option: 'Opsi 2',
+          correct: false,
+        },
+        {
+          option: 'Opsi 3',
+          correct: false,
+        },
+        {
+          option: 'Opsi 4',
+          correct: false,
+        },
+      ],
+    })),
+  ],
+  max_page: 3,
+  total_data: 25,
+};

@@ -85,7 +85,7 @@ const QuizModule = () => {
                 <TableCell className='border-2 flex gap-2'>
                   <Button asChild variant='primary'>
                     <Link
-                      href='/studi-ku/quiz/detail'
+                      href='/studi-ku/quiz/detail-soal'
                       className='flex gap-2 items-center'
                     >
                       Detail Soal
