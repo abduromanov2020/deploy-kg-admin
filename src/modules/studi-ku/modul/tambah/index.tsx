@@ -25,7 +25,7 @@ import {
 } from '@/components/ui/form';
 
 // import { Input } from '@/components/ui/input';
-import { TAMBAH_MODULE_BREADCRUMBS } from '@/modules/studi-ku/daftar-modul/constant';
+import { TAMBAH_MODULE_BREADCRUMBS } from '@/modules/studi-ku/modul/constant';
 import {
   SubTitleModule,
   TitleModule,

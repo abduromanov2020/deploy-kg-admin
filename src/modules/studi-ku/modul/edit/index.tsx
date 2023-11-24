@@ -26,7 +26,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-import { EDIT_MODULE_BREADCRUMBS } from '@/modules/studi-ku/daftar-modul/constant';
+import { EDIT_MODULE_BREADCRUMBS } from '@/modules/studi-ku/modul/constant';
 import { EDIT_DATA_MODULE } from '@/modules/studi-ku/modul/edit/constant';
 import {
   SubTitleModule,

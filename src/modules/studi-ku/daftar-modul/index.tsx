@@ -12,7 +12,7 @@ import { Form } from '@/components/ui/form';
 import { UploadFile } from '@/components/upload-file';
 
 import { EditorCoverComponent } from '@/modules/studi-ku/daftar-modul/component/EditorCoverComponent';
-import { TAMBAH_MODULE_BREADCRUMBS } from '@/modules/studi-ku/daftar-modul/constant';
+import { TAMBAH_MODULE_BREADCRUMBS } from '@/modules/studi-ku/modul/constant';
 
 import { EditorComponent } from './component/EditorComponent'; // Sesuaikan path dengan file Anda
 

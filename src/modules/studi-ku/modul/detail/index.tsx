@@ -9,7 +9,7 @@ import { BreadCrumb } from '@/components/BreadCrumb';
 import { DeleteDialog } from '@/components/dialog/detele-dialog';
 import { Button } from '@/components/ui/button';
 
-import { DETAIL_MODULE_BREADCRUMBS } from '@/modules/studi-ku/daftar-modul/constant';
+import { DETAIL_MODULE_BREADCRUMBS } from '@/modules/studi-ku/modul/constant';
 import { DETAIL_MODULE_DATA } from '@/modules/studi-ku/modul/detail/constant';
 import { TitleModule } from '@/modules/studi-ku/modul/tambah/TitleModule';
 
