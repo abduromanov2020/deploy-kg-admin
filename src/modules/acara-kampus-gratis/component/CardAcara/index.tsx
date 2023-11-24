@@ -76,7 +76,9 @@ export const CardAcara: FC<{ id: number; data: TAcaraCard }> = ({
             <Link href={`/acara-kampus-gratis/detail-acara/${id}`}>
               <Button className='bg-primary-500'>Detail Acara</Button>
             </Link>
-            <Button variant='primaryOutline'>Daftar Peserta</Button>
+            <Link href={`/acara-kampus-gratis/daftar-peserta/${id}`}>
+              <Button variant='primaryOutline'>Daftar Peserta</Button>
+            </Link>
           </div>
 
           <Popover>

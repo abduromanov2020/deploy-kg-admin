@@ -34,7 +34,7 @@ export const DetailAcaraModule = () => {
           <span className='font-semibold '>Detail Acara</span>
         </div>
         <div className='p-8'>
-          <Tabs defaultValue='account' className='w-full'>
+          <Tabs defaultValue='preview' className='w-full'>
             <TabsList className='mb-5 flex justify-between'>
               <div>
                 <TabsTrigger value='preview' className='px-5'>

@@ -29,3 +29,10 @@ export type TAcaraCard = {
   capacity: number;
   registered: number;
 };
+
+export type TPesertaData = {
+  name: string;
+  email: string;
+  phone_number: string;
+  status: string;
+};
