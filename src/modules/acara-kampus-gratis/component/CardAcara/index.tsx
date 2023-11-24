@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { FC } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { RiDeleteBin6Line } from 'react-icons/ri';
 import { TbEdit } from 'react-icons/tb';
 
 import { Badge } from '@/components/ui/badge';
@@ -22,6 +21,8 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
+
+import { DeleteConfirmModal } from '@/modules/acara-kampus-gratis/component/DeleteConfirmationModal';
 
 import { TAcaraCard } from '@/types/acara-kampus-gratis/types';
 
@@ -72,8 +73,10 @@ export const CardAcara: FC<{ id: number; data: TAcaraCard }> = ({
         </CardDescription>
         <div className='flex justify-between items-center mt-4'>
           <div className='flex gap-2'>
-            <Button className='bg-primary-500'>Detail Acara</Button>
-            <Button variant='primaryOutline'>Detail Acara</Button>
+            <Link href={`/acara-kampus-gratis/detail-acara/${id}`}>
+              <Button className='bg-primary-500'>Detail Acara</Button>
+            </Link>
+            <Button variant='primaryOutline'>Daftar Peserta</Button>
           </div>
 
           <Popover>
@@ -94,13 +97,7 @@ export const CardAcara: FC<{ id: number; data: TAcaraCard }> = ({
                   </Button>
                 </Link>
                 <Separator />
-                <Button
-                  variant='ghost'
-                  className=' px-3 py-2 flex justify-start items-center gap-2 text-red-800 min-w-[125px] hover:text-red-900 text-xs'
-                >
-                  <RiDeleteBin6Line size={15} />
-                  Hapus
-                </Button>
+                <DeleteConfirmModal type='other' />
               </div>
             </PopoverContent>
           </Popover>

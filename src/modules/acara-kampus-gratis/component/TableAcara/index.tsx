@@ -122,7 +122,7 @@ export const columns: ColumnDef<TAcara>[] = [
     cell: ({ row }) => (
       <Link
         className='text-primary-500 font-medium cursor-pointer hover:underline'
-        href={`/acara-kampus-gratis/${row.index}`}
+        href={`/acara-kampus-gratis/detail-acara/${row.index}`}
       >
         Detail
       </Link>
@@ -134,7 +134,7 @@ export const columns: ColumnDef<TAcara>[] = [
     cell: ({ row }) => {
       return (
         <div className='flex gap-3'>
-          <DeleteConfirmModal />
+          <DeleteConfirmModal type='button' />
           <Link
             href={`/acara-kampus-gratis/edit-acara/${row.index}`}
             className='text-sm bg-primary-500 px-5 py-1 rounded-md text-white flex justify-center items-center gap-1 hover:bg-primary-400'
