@@ -187,8 +187,8 @@ const DosenModule = () => {
           </div>
           <div className='flex justify-between place-items-center pt-5'>
             <p className='text-slate-500'>
-              Menampilkan {page} hingga {Number(page) * 10} dari{' '}
-              {data?.data?.max_page} entri
+              Menampilkan {1 + (Number(page) - 1) * 10} hingga{' '}
+              {Number(page) * 10} dari {data?.data?.max_page} entri
             </p>
             <Pagination
               currentPage={Number(page)}
