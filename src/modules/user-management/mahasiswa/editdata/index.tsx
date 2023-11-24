@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaEdit } from 'react-icons/fa';
 import { z } from 'zod';
@@ -42,6 +42,10 @@ const EditDataMahasiwaModule = () => {
   const { id } = params;
   const { data, isLoading } = useUserById(id);
   console.log(data);
+  const [isChecked, setIsChecked] = useState(true);
+  const handleLookUp = () => {
+    setIsChecked(!isChecked);
+  };
 
   const form = useForm<z.infer<typeof EditMahasiswaUserValidationSchema>>({
     resolver: zodResolver(EditMahasiswaUserValidationSchema),
@@ -217,7 +221,7 @@ const EditDataMahasiwaModule = () => {
                     Pastikan Informasi sudah benar!
                   </p>
                   <div className='flex items-center space-x-2'>
-                    <Checkbox id='terms' />
+                    <Checkbox id='terms' onClick={handleLookUp} />
                     <label
                       htmlFor='terms'
                       className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
@@ -233,11 +237,26 @@ const EditDataMahasiwaModule = () => {
                         </Link>
                       </div>
                     </button>
-                    <button className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'>
-                      <div className='flex place-items-center gap-2'>
-                        <FaEdit /> Edit Data
-                      </div>
-                    </button>
+                    {!isChecked ? (
+                      <button
+                        type='submit'
+                        className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'
+                      >
+                        <div className='flex place-items-center gap-2'>
+                          <FaEdit /> Edit Data
+                        </div>
+                      </button>
+                    ) : (
+                      <button
+                        type='submit'
+                        disabled
+                        className='px-6 py-3 shadow-md text-slate-400 bg-slate-300 rounded-md '
+                      >
+                        <div className='flex place-items-center gap-2'>
+                          <FaEdit /> Edit Data
+                        </div>
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
