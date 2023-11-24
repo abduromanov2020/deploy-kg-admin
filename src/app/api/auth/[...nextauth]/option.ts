@@ -3,7 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 
 import { loginRequest } from '@/hooks/auth/hook';
 
-import { TLoginData } from '@/types/auth';
+import { TLoginData } from '@/types/authentications/auth';
 
 // import { TLoginData } from '../../../../types';
 // import { loginRequest } from '../../../../hooks/auth/request';

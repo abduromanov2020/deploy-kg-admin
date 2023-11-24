@@ -33,7 +33,7 @@ import {
   TitleModule,
 } from '@/modules/studi-ku/modul/tambah/TitleModule';
 
-import { FormFields } from '@/types/studi-ku';
+import { FormFields } from '@/types/studi-ku/modul';
 
 const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
