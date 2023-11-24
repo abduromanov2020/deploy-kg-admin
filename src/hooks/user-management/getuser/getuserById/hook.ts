@@ -11,5 +11,6 @@ export const useUserById = (
   return useQuery({
     queryKey: ['get-userAdmin', id],
     queryFn: async () => await userByIdRequest(id),
+    staleTime: Infinity,
   });
 };
