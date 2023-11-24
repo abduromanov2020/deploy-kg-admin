@@ -1,5 +1,14 @@
-import * as React from 'react';
+'use client';
+import React from 'react';
 
-export default function MahasiswaPage() {
-  return <div>halo</div>;
-}
+import MahasiswaModule from '@/modules/user-management/mahasiswa';
+
+const MahasiswaPage = () => {
+  return (
+    <>
+      <MahasiswaModule />
+    </>
+  );
+};
+
+export default MahasiswaPage;
