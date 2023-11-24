@@ -6,3 +6,15 @@ export type TTambahQuizDescriptionPayload = {
   duration: number;
   count_question: number;
 };
+
+export type TQuizDataPayload = {
+  id: string;
+  number: number;
+  question: string;
+  options: TOptionsQuizData[];
+};
+
+type TOptionsQuizData = {
+  option: string;
+  correct: boolean;
+};
