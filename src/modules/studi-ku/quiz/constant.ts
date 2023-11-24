@@ -80,3 +80,18 @@ export const DATA_TABLE_RESPONDENTS_QUIZ = {
     })),
   ],
 };
+
+export const TAMBAH_QUIZ_MODULE_BREADCRUMBS = [
+  {
+    name: 'Studi-Ku',
+    link: '/studi-ku',
+  },
+  {
+    name: 'Quiz',
+    link: '/studi-ku/quiz',
+  },
+  {
+    name: 'Tambah Quiz',
+    link: '/studi-ku/tambah-quiz',
+  },
+];
