@@ -4,11 +4,11 @@ import { TUserDataResponse } from '@/hooks/user-management/getuser/type';
 export const userRequest = async (
   page: number,
   limit: number,
-  search: string,
   role: string,
+  search: string,
 ): Promise<TUserDataResponse> => {
   const { data } = await api.get(
-    `v1/admin/users?page=${page}&limit=${limit}&search=${search}&role=${role}`,
+    `v1/admin/users?page=${page}&limit=${limit}&role=${role}&search=${search}`,
   );
 
   return data;

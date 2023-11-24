@@ -8,12 +8,12 @@ import { TMetaErrorResponse } from '@/types';
 export const useUser = (
   page: number,
   limit: number,
-  search: string,
   role: string,
+  search: string,
 ): UseQueryResult<TUserDataResponse, TMetaErrorResponse> => {
   return useQuery({
     queryKey: ['get-userAdmin', page, role],
-    queryFn: async () => await userRequest(page, limit, search, role),
+    queryFn: async () => await userRequest(page, limit, role, search),
     staleTime: Infinity,
   });
 };

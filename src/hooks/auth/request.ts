@@ -9,7 +9,7 @@ import {
   TLoginResponse,
   TRefreshTokenPayload,
   TRefreshTokenResponse,
-} from '@/types/auth';
+} from '@/types/authentications/auth';
 
 export const loginRequest = async (
   payload?: TLoginPayload,

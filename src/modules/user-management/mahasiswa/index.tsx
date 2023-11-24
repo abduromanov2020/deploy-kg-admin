@@ -8,6 +8,7 @@ import { useUser } from '@/hooks/user-management/getuser/hook';
 
 import Pagination from '@/components/generals/pagination';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
+import { Badge } from '@/components/ui/badge';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,12 +36,12 @@ const MahasiswaModule = () => {
   const { data, isLoading, refetch } = useUser(
     Number(page),
     10,
-    searchQuery,
     'STUDENT',
+    searchQuery,
   );
+
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
-
     router.push(`/user-management/mahasiswa?page=${page}`);
   };
   return (
@@ -52,7 +53,7 @@ const MahasiswaModule = () => {
         <div className='pt-6 px-4'>
           <div className='flex place-items-center justify-between'>
             <div className='w-1/3 relative'>
-              <Input type='text' placeholder='Search' className='pl-10' />
+              <Input type='search' placeholder='Search' className='pl-10' />
               <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
                 <AiOutlineSearch className='text-gray-400' size={20} />
               </div>
@@ -138,23 +139,40 @@ const MahasiswaModule = () => {
                       </TableCell>
                       <TableCell>{user.id}</TableCell>
                       <TableCell>{user.full_name}</TableCell>
-                      <TableCell>{user.role}</TableCell>
-                      <TableCell>{user.gender}</TableCell>
+                      <TableCell>{user.faculty ?? '-'}</TableCell>
+                      <TableCell>{user.major ?? '-'}</TableCell>
                       <TableCell>
-                        <div className='bg-green-500 text-white px-4 py-1 rounded'>
-                          Aktif
-                        </div>
+                        <Badge
+                          className={`${
+                            user.status == 'active'
+                              ? 'bg-green-100 text-green-800 py-2'
+                              : 'bg-red-400 text-red-600'
+                          } flex justify-center rounded-md w-full text-center`}
+                        >
+                          <h1>
+                            {user.status == 'active' ? 'Aktif' : 'Tidak Aktif'}
+                          </h1>
+                        </Badge>
                       </TableCell>
                       <TableCell className='text-center'>
-                        <Link
-                          href={`/user-management/mahasiswa/detail/${user.id}`}
-                          className='text-blue-600 font-semibold'
-                        >
-                          Detail
-                        </Link>
+                        <button type='button'>
+                          <Link
+                            href={`/user-management/mahasiswa/detail/${user.id}`}
+                            className='text-blue-600 font-semibold'
+                          >
+                            Detail
+                          </Link>
+                        </button>
                       </TableCell>
                       <TableCell>
-                        <button className='px-6 py-2 shadow-md text-white bg-blue-600 rounded-md  hover:bg-blue-800 hover:transition'>
+                        <button
+                          onClick={() =>
+                            router.push(
+                              `/user-management/mahasiswa/editdata/${user.id}`,
+                            )
+                          }
+                          className='px-6 py-2 shadow-md text-white bg-blue-600 rounded-md  hover:bg-blue-800 hover:transition'
+                        >
                           Edit
                         </button>
                       </TableCell>

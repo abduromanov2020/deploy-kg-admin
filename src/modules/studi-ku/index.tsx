@@ -19,7 +19,7 @@ export const MainStudiKu = () => {
     {
       title: 'Quiz',
       icon: <BsQuestionCircle className='text-yellow-500 text-xl' />,
-      link: '/',
+      link: '/studi-ku/quiz',
     },
     {
       title: 'Tugas',

@@ -9,6 +9,7 @@ import { useUser } from '@/hooks/user-management/getuser/hook';
 
 import Pagination from '@/components/generals/pagination';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
+import { Badge } from '@/components/ui/badge';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,8 +36,8 @@ const DosenModule = () => {
   const { data, isLoading, refetch } = useUser(
     Number(page),
     10,
-    searchQuery,
     'TEACHER',
+    searchQuery,
   );
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
@@ -141,14 +142,22 @@ const DosenModule = () => {
                       <TableCell className='font-medium'>
                         {i + 1 + (Number(page) - 1) * 10}
                       </TableCell>
-                      <TableCell>{user.id}</TableCell>
+                      <TableCell className='w-[20%]'>{user.id}</TableCell>
                       <TableCell>{user.full_name}</TableCell>
                       <TableCell>{user.role}</TableCell>
                       <TableCell>{user.role}</TableCell>
                       <TableCell>
-                        <div className='bg-green-500 text-white px-4 py-1 rounded'>
-                          Aktif
-                        </div>
+                        <Badge
+                          className={`${
+                            user.status == 'active'
+                              ? 'bg-green-100 text-green-800 py-2'
+                              : 'bg-red-400 text-red-600'
+                          } flex justify-center rounded-md w-full text-center`}
+                        >
+                          <h1>
+                            {user.status == 'active' ? 'Aktif' : 'Tidak Aktif'}
+                          </h1>
+                        </Badge>
                       </TableCell>
                       <TableCell className='text-center'>
                         <Link
@@ -159,7 +168,14 @@ const DosenModule = () => {
                         </Link>
                       </TableCell>
                       <TableCell>
-                        <button className='px-6 py-2 shadow-md text-white bg-blue-600 rounded-md  hover:bg-blue-800 hover:transition'>
+                        <button
+                          onClick={() =>
+                            router.push(
+                              `/user-management/dosen/editdata/${user.id}`,
+                            )
+                          }
+                          className='px-6 py-2 shadow-md text-white bg-blue-600 rounded-md  hover:bg-blue-800 hover:transition'
+                        >
                           Edit
                         </button>
                       </TableCell>
