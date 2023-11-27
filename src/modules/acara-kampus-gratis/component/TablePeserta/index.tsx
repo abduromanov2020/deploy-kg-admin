@@ -11,12 +11,9 @@ import {
   VisibilityState,
 } from '@tanstack/react-table';
 import { format } from 'date-fns';
-import { ArrowUpDown } from 'lucide-react';
-import Link from 'next/link';
 import React, { FC, useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -26,7 +23,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { DeleteConfirmModal } from '@/modules/acara-kampus-gratis/component/DeleteConfirmationModal';
+import { TPesertaData } from '@/types/acara-kampus-gratis/types';
 
 const formatDate = (date: string) => {
   return format(new Date(date), 'dd/MM/yyyy');
@@ -36,60 +33,28 @@ const formatTime = (time: string) => {
   return format(new Date(time), 'HH:mm');
 };
 
-export type TAcara = {
-  event_name: string;
-  description: string;
-  status: string;
-  dateTime: string;
-  capacity: number;
-  registered: number;
-};
-export const columns: ColumnDef<TAcara>[] = [
+export const columns: ColumnDef<TPesertaData>[] = [
   {
     accessorKey: 'no',
     header: 'NO',
     cell: ({ row }) => <div>{row.index + 1}</div>,
   },
   {
-    accessorKey: 'event_name',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant='ghost'
-          className='text-xs px-0'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          NAMA ACARA
-          <ArrowUpDown className='ml-2 h-4 w-4' />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div>{row.getValue('event_name')}</div>,
+    accessorKey: 'name',
+    header: ' NAMA PESERTA',
+    cell: ({ row }) => <div>{row.getValue('name')}</div>,
   },
   {
-    accessorKey: 'dateTime',
-    header: 'TANGGAL ACARA',
-    cell: ({ row }) => <div>{formatDate(row.getValue('dateTime'))}</div>,
+    accessorKey: 'email',
+    header: ' EMAIL',
+    cell: ({ row }) => <div>{row.getValue('email')}</div>,
   },
   {
-    accessorKey: 'dateTime',
-    header: 'WAKTU ACARA',
-    cell: ({ row }) => <div>{formatTime(row.getValue('dateTime'))}</div>,
+    accessorKey: 'phone_number',
+    header: 'NOMOR TELEPON',
+    cell: ({ row }) => <div>{row.getValue('phone_number')}</div>,
   },
-  {
-    accessorKey: 'registered',
-    header: 'JUMLAH PESERTA',
-    cell: ({ row }) => (
-      <div>
-        <Link
-          href={`/acara-kampus-gratis/daftar-peserta/${row.index}`}
-          className='text-primary-500 hover:underline'
-        >
-          {row.original.registered}/{row.original.capacity}
-        </Link>
-      </div>
-    ),
-  },
+
   {
     accessorKey: 'status',
     header: 'STATUS',
@@ -106,11 +71,12 @@ export const columns: ColumnDef<TAcara>[] = [
         return (
           <Badge
             className={
-              (statusValue === 'berlangsung'
+              (statusValue === 'lunas'
                 ? 'bg-green-100 text-green-800 hover:bg-green-200'
-                : statusValue === 'segera_hadir'
-                  ? 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
-                  : 'bg-red-100 text-red-800 hover:bg-red-200') + 'rounded-md'
+                : statusValue === 'belum_lunas'
+                  ? 'bg-red-100 text-red-800 hover:bg-red-200'
+                  : 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200') +
+              ' rounded-md w-full justify-center'
             }
           >
             {formattedStatus}
@@ -121,38 +87,9 @@ export const columns: ColumnDef<TAcara>[] = [
       return <Badge>-</Badge>;
     },
   },
-  {
-    accessorKey: 'detail',
-    header: 'INFORMASI',
-    cell: ({ row }) => (
-      <Link
-        className='text-primary-500 font-medium cursor-pointer hover:underline'
-        href={`/acara-kampus-gratis/detail-acara/${row.index}`}
-      >
-        Detail
-      </Link>
-    ),
-  },
-  {
-    id: 'actions',
-    enableHiding: false,
-    cell: ({ row }) => {
-      return (
-        <div className='flex gap-3'>
-          <DeleteConfirmModal type='button' />
-          <Link
-            href={`/acara-kampus-gratis/edit-acara/${row.index}`}
-            className='text-sm bg-primary-500 px-5 py-1 rounded-md text-white flex justify-center items-center gap-1 hover:bg-primary-400'
-          >
-            Edit
-          </Link>
-        </div>
-      );
-    },
-  },
 ];
 
-export const TableAcara: FC<{ data: TAcara[] }> = ({ data }) => {
+export const TablePeserta: FC<{ data: TPesertaData[] }> = ({ data }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});

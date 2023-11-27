@@ -102,7 +102,7 @@ export const AcaraKampusGratisModule = () => {
           active === 'grid' ? (
             <div className='grid grid-cols-3 gap-5'>
               {ArticleData.map((item, index) => (
-                <CardAcara key={`article-${index}`} />
+                <CardAcara key={`article-${index}`} id={index} data={item} />
               ))}
             </div>
           ) : (
