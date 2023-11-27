@@ -1,49 +1,76 @@
-import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
 import React, { useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaFileDownload, FaFilter } from 'react-icons/fa';
 
-import { useUser } from '@/hooks/user-management/getuser/hook';
-
-import Pagination from '@/components/generals/pagination';
-import { LoadingSpinner } from '@/components/LoadingSpinner';
-import { Badge } from '@/components/ui/badge';
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 
+import MahasiswaDataTable from '@/modules/user-management/mahasiswa/datatable';
+type Checked = DropdownMenuCheckboxItemProps['checked'];
 const MahasiswaModule = () => {
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const searchParams = useSearchParams();
-  const page = searchParams.get('page') || 1;
-  const router = useRouter();
-  const { data, isLoading, refetch } = useUser(
-    Number(page),
-    10,
-    'STUDENT',
-    searchQuery,
-  );
+  const [faculty, setFaculty] = useState('1');
 
-  const handlePageChange = async (page: number) => {
-    window.scrollTo(0, 0);
-    router.push(`/user-management/mahasiswa?page=${page}`);
-  };
+  const filterFaculty = [
+    {
+      name: 'Pembiayaan dan Optimalisasi Bisnis',
+      value: '1',
+    },
+    {
+      name: 'Desain Digital',
+      value: '2',
+    },
+    {
+      name: 'Teknologi Ekonomi dan Bisnis',
+      value: '3',
+    },
+  ];
+  const filterMajor = [
+    {
+      name: 'Semua',
+      value: 'all',
+    },
+    {
+      name: 'Prodi 1',
+      value: '2',
+    },
+    {
+      name: 'Prodi 2',
+      value: '3',
+    },
+    {
+      name: 'Prodi 3',
+      value: '4',
+    },
+  ];
+  const filterStatus = [
+    {
+      name: 'Semua',
+      value: 'all',
+    },
+    {
+      name: 'Aktif',
+      value: '1',
+    },
+    {
+      name: 'Non-Aktif',
+      value: '2',
+    },
+    {
+      name: 'Berhenti',
+      value: '3',
+    },
+  ];
+
   return (
     <>
       <div className='bg-white py-10 px-6 mx-auto rounded-md'>
@@ -68,31 +95,33 @@ const MahasiswaModule = () => {
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className='w-56'>
-                  <DropdownMenuLabel>Select Status</DropdownMenuLabel>
+                  <DropdownMenuLabel>Filter</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                      <span className='text-slate-800 bg-slate-300 px-4 rounded py-1 cursor-pointer'>
-                        All Status
-                      </span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <span className='text-green-800 bg-green-300 px-4 rounded py-1 cursor-pointer'>
-                        Aktif
-                      </span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <span className='text-red-800 bg-red-300 px-4 rounded py-1 cursor-pointer'>
-                        Tidak Aktif
-                      </span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <span className='text-yellow-800 bg-yellow-300 px-4 rounded py-1 cursor-pointer'>
-                        Cuti
-                      </span>
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
+                  <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
+                  <DropdownMenuRadioGroup
+                    value={faculty}
+                    onValueChange={setFaculty}
+                  >
+                    {filterFaculty.map((item, i) => (
+                      <DropdownMenuRadioItem key={i} value={item.value}>
+                        {item.name}
+                      </DropdownMenuRadioItem>
+                    ))}
+                  </DropdownMenuRadioGroup>
                   <DropdownMenuSeparator />
+                  <DropdownMenuLabel>Prodi</DropdownMenuLabel>
+                  {filterMajor.map((item, i) => (
+                    <DropdownMenuCheckboxItem key={i}>
+                      {item.name}
+                    </DropdownMenuCheckboxItem>
+                  ))}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuLabel>Status</DropdownMenuLabel>
+                  {filterStatus.map((item, i) => (
+                    <DropdownMenuCheckboxItem key={i}>
+                      {item.name}
+                    </DropdownMenuCheckboxItem>
+                  ))}
                 </DropdownMenuContent>
               </DropdownMenu>
               <button className='px-6 py-2 shadow-md text-blue-600 rounded-md hover:text-white  hover:bg-blue-600 hover:transition'>
@@ -102,97 +131,7 @@ const MahasiswaModule = () => {
               </button>
             </div>
           </div>
-          <div className='border-2 mt-2'>
-            {isLoading ? (
-              <LoadingSpinner />
-            ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className='text-black font-bold'>No</TableHead>
-                    <TableHead className='text-black font-bold '>
-                      ID MAHASISWA
-                    </TableHead>
-                    <TableHead className='text-black font-bold '>
-                      NAMA MAHASISWA
-                    </TableHead>
-                    <TableHead className='text-black font-bold '>
-                      FAKULTAS
-                    </TableHead>
-                    <TableHead className='text-black font-bold '>
-                      PROGRAM STUDI
-                    </TableHead>
-                    <TableHead className='text-black font-bold text-center '>
-                      STATUS
-                    </TableHead>
-                    <TableHead className='text-black font-bold text-center  '>
-                      INFORMASI
-                    </TableHead>
-                    <TableHead className='invisible'>Edit</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {data?.data?.users.map((user, i) => (
-                    <TableRow key={i}>
-                      <TableCell className='font-medium'>
-                        {i + 1 + (Number(page) - 1) * 10}
-                      </TableCell>
-                      <TableCell>{user.id}</TableCell>
-                      <TableCell>{user.full_name}</TableCell>
-                      <TableCell>{user.faculty ?? '-'}</TableCell>
-                      <TableCell>{user.major ?? '-'}</TableCell>
-                      <TableCell>
-                        <Badge
-                          className={`${
-                            user.status == 'active'
-                              ? 'bg-green-100 text-green-800 py-2'
-                              : 'bg-red-400 text-red-600'
-                          } flex justify-center rounded-md w-full text-center`}
-                        >
-                          <h1>
-                            {user.status == 'active' ? 'Aktif' : 'Tidak Aktif'}
-                          </h1>
-                        </Badge>
-                      </TableCell>
-                      <TableCell className='text-center'>
-                        <button type='button'>
-                          <Link
-                            href={`/user-management/mahasiswa/detail/${user.id}`}
-                            className='text-blue-600 font-semibold'
-                          >
-                            Detail
-                          </Link>
-                        </button>
-                      </TableCell>
-                      <TableCell>
-                        <button
-                          onClick={() =>
-                            router.push(
-                              `/user-management/mahasiswa/editdata/${user.id}`,
-                            )
-                          }
-                          className='px-6 py-2 shadow-md text-white bg-blue-600 rounded-md  hover:bg-blue-800 hover:transition'
-                        >
-                          Edit
-                        </button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            )}
-          </div>
-          <div className='flex justify-between place-items-center pt-5'>
-            <p className='text-slate-500'>
-              Menampilkan {1 + (Number(page) - 1) * 10} hingga{' '}
-              {Number(page) * 10} dari {data?.data?.max_page} entri
-            </p>
-            <Pagination
-              currentPage={Number(page)}
-              totalPages={Number(data?.data?.max_page)}
-              onPageChange={handlePageChange}
-            />
-          </div>
+          <MahasiswaDataTable />
         </div>
       </div>
     </>
