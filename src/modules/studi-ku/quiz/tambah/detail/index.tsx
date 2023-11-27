@@ -22,6 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 import {
   SubTitleModule,
@@ -52,7 +53,7 @@ const TambahDetailSoalQuizModule = () => {
 
   const defaultValues: Record<string, string | number> = {};
 
-  for (let index = 0; index < quizData.length; index++) {
+  for (let index = 0; index < countQuestions; index++) {
     defaultValues[`quiz_question_${index + 1}`] = '<p></p>\n';
     defaultValues[`quiz_option_${index + 1}_1`] = '';
     defaultValues[`quiz_option_${index + 1}_2`] = '';
@@ -143,53 +144,97 @@ const TambahDetailSoalQuizModule = () => {
                     ?.message
                 }
               />
+              <div className='flex flex-col gap-4'>
+                <FormField
+                  control={form.control}
+                  name={`quiz_option_${currentQuestion}_1`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Jawaban A</FormLabel>
+                      <FormControl>
+                        <Input placeholder='Jawaban A' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name={`quiz_option_${currentQuestion}_2`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Jawaban B</FormLabel>
+                      <FormControl>
+                        <Input placeholder='Jawaban B' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name={`quiz_option_${currentQuestion}_3`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Jawaban C</FormLabel>
+                      <FormControl>
+                        <Input placeholder='Jawaban C' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name={`quiz_option_${currentQuestion}_4`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Jawaban D</FormLabel>
+                      <FormControl>
+                        <Input placeholder='Jawaban D' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormField
                 control={form.control}
-                name={`quiz_option_${currentQuestion}_1`}
+                name={`quiz_correct_${currentQuestion}`}
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Jawaban A</FormLabel>
+                  <FormItem className='space-y-3'>
+                    <FormLabel>Jawaban Benar</FormLabel>
                     <FormControl>
-                      <Input placeholder='Jawaban A' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`quiz_option_${currentQuestion}_2`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Jawaban B</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Jawaban B' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`quiz_option_${currentQuestion}_1`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Jawaban C</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Jawaban C' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={`quiz_option_${currentQuestion}_1`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Jawaban D</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Jawaban D' {...field} />
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        // defaultValue={field.value}
+                        className='flex space-x-1'
+                      >
+                        <FormItem className='flex items-center space-x-3 space-y-0'>
+                          <FormControl>
+                            <RadioGroupItem value='A' />
+                          </FormControl>
+                          <FormLabel className='font-normal'>A</FormLabel>
+                        </FormItem>
+                        <FormItem className='flex items-center space-x-3 space-y-0'>
+                          <FormControl>
+                            <RadioGroupItem value='B' />
+                          </FormControl>
+                          <FormLabel className='font-normal'>B</FormLabel>
+                        </FormItem>
+                        <FormItem className='flex items-center space-x-3 space-y-0'>
+                          <FormControl>
+                            <RadioGroupItem value='C' />
+                          </FormControl>
+                          <FormLabel className='font-normal'>C</FormLabel>
+                        </FormItem>
+                        <FormItem className='flex items-center space-x-3 space-y-0'>
+                          <FormControl>
+                            <RadioGroupItem value='D' />
+                          </FormControl>
+                          <FormLabel className='font-normal'>D</FormLabel>
+                        </FormItem>
+                      </RadioGroup>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
