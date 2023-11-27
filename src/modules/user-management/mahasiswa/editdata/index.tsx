@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { FaEdit } from 'react-icons/fa';
@@ -45,6 +45,16 @@ const EditDataMahasiwaModule = () => {
       link: '',
     },
   ];
+  const dummyStatus = [
+    {
+      name: 'Active',
+      value: 'Active',
+    },
+    {
+      name: 'Inactive',
+      value: 'Inactive',
+    },
+  ];
   const params = useParams();
   const { id } = params;
   const { data, isLoading } = useUserById(id);
@@ -58,11 +68,23 @@ const EditDataMahasiwaModule = () => {
 
   const form = useForm<z.infer<typeof EditMahasiswaUserValidationSchema>>({
     resolver: zodResolver(EditMahasiswaUserValidationSchema),
-    defaultValues: {
-      email: useData?.email,
-    },
   });
 
+  useEffect(() => {
+    if (useData) {
+      const defaultValues = {
+        id_mahasiswa: useData?.id ?? '-',
+        full_name: useData?.full_name ?? '-',
+        email: useData?.email ?? '-',
+        faculty: useData?.role ?? '-',
+        study_program: useData?.major ?? '-',
+        lecturer: useData?.lecturer ?? '-',
+        status: useData?.status === 'Active' ? 'Active' : 'Inactive',
+        self_foto: undefined,
+      };
+      form.reset(defaultValues);
+    }
+  }, [useData, form.reset]);
   const onSubmit = (
     data: z.infer<typeof EditMahasiswaUserValidationSchema>,
   ) => {
@@ -200,17 +222,16 @@ const EditDataMahasiwaModule = () => {
                             value={field.value}
                           >
                             <FormControl>
-                              <SelectTrigger id='framework'>
+                              <SelectTrigger id='status'>
                                 <SelectValue placeholder='Pilih Status...' />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent position='popper'>
-                              <SelectItem value='next'>Next.js</SelectItem>
-                              <SelectItem value='sveltekit'>
-                                SvelteKit
-                              </SelectItem>
-                              <SelectItem value='astro'>Astro</SelectItem>
-                              <SelectItem value='nuxt'>Nuxt.js</SelectItem>
+                              {dummyStatus.map((item, i) => (
+                                <SelectItem key={i} value={item.value}>
+                                  {item.name}
+                                </SelectItem>
+                              ))}
                             </SelectContent>
                             <FormMessage />
                           </Select>
@@ -229,8 +250,12 @@ const EditDataMahasiwaModule = () => {
                             <Input
                               id='self_foto'
                               type='file'
-                              onChange={field.onChange}
-                              value={field.value}
+                              onChange={(e) => {
+                                if (e.target.files) {
+                                  field.onChange(e.target.files);
+                                }
+                              }}
+                              // value={field.value}
                             />
                           </FormControl>
                           <FormMessage />
@@ -245,6 +270,7 @@ const EditDataMahasiwaModule = () => {
                   </p>
                   <div className='flex items-center space-x-2'>
                     <Checkbox id='terms' onClick={handleLookUp} />
+
                     <label
                       htmlFor='terms'
                       className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
