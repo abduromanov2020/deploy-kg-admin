@@ -70,6 +70,7 @@ export const KalenderMahasiswaCard = () => {
                   ? 'bg-primary-500 text-white'
                   : 'bg-primary-100 text-dark-500 hover:bg-primary-200'
               }`}
+              onClick={() => setSelectedDate(date)}
             >
               <div>{format(date, 'dd')}</div>
               <div>{format(date, 'eee', { locale: idLocale })}</div>
