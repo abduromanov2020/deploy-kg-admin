@@ -31,6 +31,17 @@ const MahasiswaDataTable = () => {
     window.scrollTo(0, 0);
     router.push(`/user-management/mahasiswa?page=${page}`);
   };
+
+  const tableHead = [
+    'No',
+    'ID MAHASISWA',
+    'NAMA MAHASISWA',
+    'FAKULTAS',
+    'PROGRAM STUDI',
+    'STATUS',
+    'INFORMASI',
+    'EDIT',
+  ];
   return (
     <>
       <div className='border-2 mt-2'>
@@ -40,26 +51,11 @@ const MahasiswaDataTable = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className='text-black font-bold'>No</TableHead>
-                <TableHead className='text-black font-bold '>
-                  ID MAHASISWA
-                </TableHead>
-                <TableHead className='text-black font-bold '>
-                  NAMA MAHASISWA
-                </TableHead>
-                <TableHead className='text-black font-bold '>
-                  FAKULTAS
-                </TableHead>
-                <TableHead className='text-black font-bold '>
-                  PROGRAM STUDI
-                </TableHead>
-                <TableHead className='text-black font-bold text-center '>
-                  STATUS
-                </TableHead>
-                <TableHead className='text-black font-bold text-center  '>
-                  INFORMASI
-                </TableHead>
-                <TableHead className='invisible'>Edit</TableHead>
+                {tableHead.map((head, i) => (
+                  <TableHead key={i} className='text-black font-bold'>
+                    {head}
+                  </TableHead>
+                ))}
               </TableRow>
             </TableHeader>
             <TableBody>
