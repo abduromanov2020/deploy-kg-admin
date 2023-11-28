@@ -1,6 +1,6 @@
 import { useParams, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-import { FaEdit, FaInfoCircle, FaPlusCircle } from 'react-icons/fa';
+import { FaInfoCircle, FaPlusCircle } from 'react-icons/fa';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import InputSubject from '@/components/inputsubject';
@@ -9,12 +9,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 import { EditorComponent } from '@/modules/user-management/dosen/editdata/component/card';
+import { EditConfirmModal } from '@/modules/user-management/dosen/editdata/component/modal';
 
 const EditDataDosenModule = () => {
   const params = useParams();
   const { id } = params;
   const [lookup, setLookUp] = useState(false);
   const [lookup2, setLookUp2] = useState(true);
+  const [confirm, setConfirm] = useState(false);
   const ConstantEditDosen = [
     {
       name: 'User Management Dosen',
@@ -48,7 +50,9 @@ const EditDataDosenModule = () => {
     setLookUp(false);
     setLookUp2(true);
   };
-
+  const handlePopUpConfirm = () => {
+    setConfirm(true);
+  };
   const [inputs, setInputs] = useState<
     Array<{
       input1: string;
@@ -193,26 +197,6 @@ const EditDataDosenModule = () => {
                     <Label htmlFor='id_major'>Program Studi*</Label>
                     <InputSubject defaultValue='Select' />
                   </div>
-                  {/* <div className='grid w-full max-w-sm items-center space-y-4'>
-                    <Label htmlFor='id_major'>ID Mata Kuliah*</Label>
-                    <Input
-                      type='text'
-                      id='id_major'
-                      placeholder='2001726'
-                      value={newCard.title}
-                      onChange={handleTitleChange}
-                    />
-                  </div>
-                  <div className='grid w-full max-w-sm items-center space-y-4'>
-                    <Label htmlFor='major'>Mata Kuliah*</Label>
-                    <Input
-                      type='text'
-                      id='text'
-                      placeholder='Kedokteran'
-                      value={newCard.content}
-                      onChange={handleContentChange}
-                    />
-                  </div> */}
                 </div>
               </div>
               <div className='space-y-5'>
@@ -279,16 +263,21 @@ const EditDataDosenModule = () => {
                 >
                   <div className='flex place-items-center gap-2'>Kembali</div>
                 </button>
-                <button className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'>
+                {/* <button
+                  onClick={handlePopUpConfirm}
+                  className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'
+                >
                   <div className='flex place-items-center gap-2'>
                     <FaEdit /> Edit Data
                   </div>
-                </button>
+                </button> */}
+                <EditConfirmModal />
               </div>
             </div>
           )}
         </div>
       </div>
+      {confirm && <EditConfirmModal />}
     </>
   );
 };
