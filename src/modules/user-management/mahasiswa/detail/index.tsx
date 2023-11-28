@@ -169,7 +169,7 @@ const DetailMahasiswaModule = () => {
                                   data?.data?.status == 'active'
                                     ? 'bg-green-100 text-green-800 py-2'
                                     : 'bg-red-400 text-red-600'
-                                } flex justify-center rounded-md w-[20%] text-center`}
+                                } flex justify-center rounded-md w-[10%] text-center`}
                               >
                                 <h1>
                                   {data?.data?.status == 'active'
@@ -184,17 +184,23 @@ const DetailMahasiswaModule = () => {
                               Pas Foto
                             </TableCell>
                             <TableCell className='border-2'>
-                              {data?.data?.avatar ? (
-                                <Image
-                                  key={1}
-                                  src={data?.data?.avatar}
-                                  width={100}
-                                  height={100}
-                                  alt='avatar'
-                                />
-                              ) : (
-                                'No Picture'
-                              )}
+                              <div className='rouned-md '>
+                                <h1 className='border-2  px-2 py-1 w-[194px] pl-2'>
+                                  4 x 6
+                                </h1>
+                                {data?.data?.avatar ? (
+                                  <Image
+                                    key={1}
+                                    src={data?.data?.avatar}
+                                    width={194}
+                                    height={200}
+                                    alt='avatar'
+                                    className='object-cover'
+                                  />
+                                ) : (
+                                  'No Picture'
+                                )}
+                              </div>
                             </TableCell>
                           </TableRow>
                         </TableBody>
