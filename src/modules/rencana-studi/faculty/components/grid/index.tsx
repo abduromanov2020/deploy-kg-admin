@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import React from 'react';
 import { IoMdMore } from 'react-icons/io';
@@ -13,6 +15,8 @@ import {
 } from '@/components/ui/card';
 
 import ArtikelImage from '~/images/sekilas-ilmu/artikel.png';
+import { PopoverFaculty } from '@/modules/rencana-studi/faculty/components/pop-over';
+import Link from 'next/link';
 
 const FacultyGridCardComponent = () => {
   const CARDS = [0, 1, 2, 3, 4, 5];
@@ -56,16 +60,20 @@ const FacultyGridCardComponent = () => {
           </CardContent>
           <CardFooter className='flex gap-2 justify-between'>
             <div className='flex gap-2'>
-              <Button className='bg-primary-500 hover:bg-primary-400'>
-                Daftar Prodi
+              <Button className='bg-primary-500 hover:bg-primary-600' asChild>
+                <Link href={'/rencana-studi/program-studi/1'}>
+                  Daftar Prodi
+                </Link>
               </Button>
-              <Button className='bg-white border-primary-500 border text-primary-500 hover:bg-gray-200 px-9'>
-                Detail
+              <Button
+                className='bg-white border-primary-500 border text-primary-500 hover:bg-gray-200 px-9'
+                asChild
+              >
+                <Link href={'/rencana-studi/detail/1'}>Detail</Link>
               </Button>
             </div>
-            <Button className='bg-transparent text-gray-900 hover:bg-transparent hover:text-gray-900 px-2'>
-              <IoMdMore size={25} />
-            </Button>
+
+            <PopoverFaculty />
           </CardFooter>
         </Card>
       ))}

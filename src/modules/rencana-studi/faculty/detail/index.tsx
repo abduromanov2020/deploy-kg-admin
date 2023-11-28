@@ -1,21 +1,18 @@
+'use client';
+
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiSolidFileExport } from 'react-icons/bi';
-import { FaTrash } from 'react-icons/fa';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import ArtikelImage from '~/images/sekilas-ilmu/artikel.png';
 import Image from 'next/image';
+import { FaTrash } from 'react-icons/fa';
+import { DeleteFacultyModal } from '@/modules/rencana-studi/faculty/components/delete-faculty-modal';
+import { DeleteFacultyModalDetail } from './components/delete-faculty-modal-detail';
 
 const RencanaStudiDetailFaculty = () => {
   const ITEMS = [
@@ -51,15 +48,14 @@ const RencanaStudiDetailFaculty = () => {
                 <BiSolidFileExport size={24} />
                 <p className='leading-none'>Unduh</p>
               </Button>
-              <Button className='shadow-md bg-white border-2 border-red-800 text-red-800 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
-                <FaTrash size={20} />
-                <p className='leading-none'>Hapus Fakultas</p>
-              </Button>
-              <Button className='shadow-md bg-white border-2 border-primary-500 text-primary-500 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
+              <DeleteFacultyModalDetail />
+
+              <Button className='shadow-md bg-white border-2 border-primary-500 text-primary-500 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base hover:bg-primary-500 hover:text-white'>
                 <p className='leading-none'>Edit Fakultas</p>
               </Button>
             </div>
           </section>
+
           <div className='my-8 w-full'>
             <Table className='border-2'>
               <TableBody>

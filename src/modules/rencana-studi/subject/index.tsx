@@ -13,6 +13,7 @@ import { MajorTable } from '@/modules/rencana-studi/major/components/table';
 import { FilterComponentMajor } from '@/modules/rencana-studi/major/components/filter';
 import MajorGrid from '@/modules/rencana-studi/major/components/grid';
 import { SubjectTable } from '@/modules/rencana-studi/subject/components/table';
+import Link from 'next/link';
 
 const SubjectModule = () => {
   const [showGrid, setShowGrid] = React.useState(false);
@@ -55,9 +56,18 @@ const SubjectModule = () => {
               </div>
             </div>
             <div className='flex items-center gap-3'>
-              <Button className='hover:bg-white shadow-md bg-primary-500 hover:text-primary-500 text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
-                <CiCirclePlus size={20} />
-                <p className='leading-none'>Tambah Mata Kuliah</p>
+              <Button
+                className='hover:bg-white shadow-md bg-primary-500 hover:text-primary-500 text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'
+                asChild
+              >
+                <Link
+                  href={
+                    '/rencana-studi/program-studi/1/mata-kuliah/1/tambah-matkul'
+                  }
+                >
+                  <CiCirclePlus size={20} />
+                  <p className='leading-none'>Tambah Mata Kuliah</p>
+                </Link>
               </Button>
               <FilterComponentMajor />
               <Button className='bg-white shadow-md hover:bg-primary-500 text-primary-500 hover:text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>

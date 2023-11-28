@@ -1,3 +1,5 @@
+'use client';
+
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,6 +20,8 @@ import ArtikelImage from '~/images/sekilas-ilmu/artikel.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import { BiEdit } from 'react-icons/bi';
+import { DeleteFacultyModal } from '@/modules/rencana-studi/faculty/components/delete-faculty-modal';
+import { DeleteMajorModalDetail } from '@/modules/rencana-studi/major/detail/components/delete-major-modal-detail';
 
 const RencanaStudiDetailMajor = () => {
   const ITEMS = [
@@ -57,11 +61,8 @@ const RencanaStudiDetailMajor = () => {
                 <BiSolidFileExport size={24} />
                 <p className='leading-none'>Unduh</p>
               </Button>
-              <Button className='shadow-md bg-white border-2 border-red-800 text-red-800 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
-                <FaTrash size={20} />
-                <p className='leading-none'>Hapus Prodi</p>
-              </Button>
-              <Button className='shadow-md bg-white border-2 border-primary-500 text-primary-500 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
+              <DeleteMajorModalDetail />
+              <Button className='shadow-md bg-white border-2 border-primary-500 text-primary-500 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base hover:bg-blue-500 hover:text-white'>
                 <BiEdit size={24} />
                 <p className='leading-none'>Edit Prodi</p>
               </Button>

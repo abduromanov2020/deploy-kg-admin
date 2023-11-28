@@ -94,6 +94,8 @@ export const DetailAcaraForm = () => {
   function onSubmitDetail(data: TDetailAcara) {
     console.log(data);
     toast.success('Form submitted!');
+    setCoverFilled(false);
+    setActiveTab('cover');
   }
   return (
     <Form {...formDetail}>

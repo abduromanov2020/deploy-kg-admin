@@ -1,8 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { FaEdit } from 'react-icons/fa';
 import { z } from 'zod';
 
@@ -21,7 +22,13 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 const EditDataMahasiwaModule = () => {
   const ConstantEditMahasiswa = [
@@ -38,14 +45,52 @@ const EditDataMahasiwaModule = () => {
       link: '',
     },
   ];
+  const dummyStatus = [
+    {
+      name: 'Active',
+      value: 'Active',
+    },
+    {
+      name: 'Inactive',
+      value: 'Inactive',
+    },
+  ];
   const params = useParams();
   const { id } = params;
   const { data, isLoading } = useUserById(id);
-  console.log(data);
+  const useData = data?.data;
+  console.log(useData);
+
+  const [isChecked, setIsChecked] = useState(true);
+  const handleLookUp = () => {
+    setIsChecked(!isChecked);
+  };
 
   const form = useForm<z.infer<typeof EditMahasiswaUserValidationSchema>>({
     resolver: zodResolver(EditMahasiswaUserValidationSchema),
   });
+
+  useEffect(() => {
+    if (useData) {
+      const defaultValues = {
+        id_mahasiswa: useData?.id ?? '-',
+        full_name: useData?.full_name ?? '-',
+        email: useData?.email ?? '-',
+        faculty: useData?.role ?? '-',
+        study_program: useData?.major ?? '-',
+        lecturer: useData?.lecturer ?? '-',
+        status: useData?.status === 'Active' ? 'Active' : 'Inactive',
+        self_foto: undefined,
+      };
+      form.reset(defaultValues);
+    }
+  }, [useData, form.reset]);
+  const onSubmit = (
+    data: z.infer<typeof EditMahasiswaUserValidationSchema>,
+  ) => {
+    console.log(data);
+    toast.success('Form submitted!');
+  };
 
   return (
     <>
@@ -60,7 +105,7 @@ const EditDataMahasiwaModule = () => {
             Edit User Management Mahasiswa : {data?.data?.full_name}
           </h1>
           <Form {...form}>
-            <form>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className='pt-5 w-full'>
                 <div className='grid grid-cols-3 gap-5'>
                   <div className='grid w-full max-w-sm items-center space-y-4'>
@@ -74,7 +119,6 @@ const EditDataMahasiwaModule = () => {
                             <Input
                               {...field}
                               className='bg-slate-300'
-                              defaultValue={data?.data?.id}
                               disabled
                             />
                           </FormControl>
@@ -91,10 +135,7 @@ const EditDataMahasiwaModule = () => {
                         <FormItem className='grid w-full gap-1.5'>
                           <FormLabel>Nama Lengkap Mahasiswa*</FormLabel>
                           <FormControl>
-                            <Input
-                              {...field}
-                              defaultValue={data?.data?.full_name}
-                            />
+                            <Input {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -109,10 +150,7 @@ const EditDataMahasiwaModule = () => {
                         <FormItem className='grid w-full gap-1.5'>
                           <FormLabel>Email*</FormLabel>
                           <FormControl>
-                            <Input
-                              {...field}
-                              defaultValue={data?.data?.email}
-                            />
+                            <Input {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -130,9 +168,6 @@ const EditDataMahasiwaModule = () => {
                             <Input
                               {...field}
                               className='bg-slate-300'
-                              defaultValue={
-                                data?.data?.faculty ?? 'Belum Ada Fakultas'
-                              }
                               disabled
                             />
                           </FormControl>
@@ -152,9 +187,6 @@ const EditDataMahasiwaModule = () => {
                             <Input
                               {...field}
                               className='bg-slate-300'
-                              defaultValue={
-                                data?.data?.major ?? 'Belum Ada Program Studi'
-                              }
                               disabled
                             />
                           </FormControl>
@@ -171,13 +203,7 @@ const EditDataMahasiwaModule = () => {
                         <FormItem className='grid w-full gap-1.5'>
                           <FormLabel>Dosen Pembimbing*</FormLabel>
                           <FormControl>
-                            <Input
-                              {...field}
-                              defaultValue={
-                                data?.data?.lecturer ??
-                                'Belum Ada Dosen Pembimbing'
-                              }
-                            />
+                            <Input {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -189,26 +215,52 @@ const EditDataMahasiwaModule = () => {
                       control={form.control}
                       name='status'
                       render={({ field }) => (
+                        <div className='flex flex-col space-y-1.5'>
+                          <FormLabel htmlFor='status'>Status*</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger id='status'>
+                                <SelectValue placeholder='Pilih Status...' />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent position='popper'>
+                              {dummyStatus.map((item, i) => (
+                                <SelectItem key={i} value={item.value}>
+                                  {item.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                            <FormMessage />
+                          </Select>
+                        </div>
+                      )}
+                    />
+                  </div>
+                  <div className='grid w-full max-w-sm items-center gap-1.5'>
+                    <FormField
+                      control={form.control}
+                      name='self_foto'
+                      render={({ field }) => (
                         <FormItem className='grid w-full gap-1.5'>
-                          <FormLabel>Status*</FormLabel>
+                          <FormLabel htmlFor='self_foto'>PasFoto*</FormLabel>
                           <FormControl>
                             <Input
-                              {...field}
-                              defaultValue={data?.data?.status}
+                              id='self_foto'
+                              type='file'
+                              onChange={(e) => {
+                                if (e.target.files) {
+                                  field.onChange(e.target.files);
+                                }
+                              }}
+                              // value={field.value}
                             />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
-                    />
-                  </div>
-                  <div className='grid w-full max-w-sm items-center gap-1.5'>
-                    <Label htmlFor='status'>PasFoto*</Label>
-                    <Input
-                      type='file'
-                      id='file'
-                      placeholder='Tidak Aktif'
-                      className=' text-white'
                     />
                   </div>
                 </div>
@@ -217,7 +269,8 @@ const EditDataMahasiwaModule = () => {
                     Pastikan Informasi sudah benar!
                   </p>
                   <div className='flex items-center space-x-2'>
-                    <Checkbox id='terms' />
+                    <Checkbox id='terms' onClick={handleLookUp} />
+
                     <label
                       htmlFor='terms'
                       className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
@@ -233,11 +286,26 @@ const EditDataMahasiwaModule = () => {
                         </Link>
                       </div>
                     </button>
-                    <button className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'>
-                      <div className='flex place-items-center gap-2'>
-                        <FaEdit /> Edit Data
-                      </div>
-                    </button>
+                    {!isChecked ? (
+                      <button
+                        type='submit'
+                        className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'
+                      >
+                        <div className='flex place-items-center gap-2'>
+                          <FaEdit /> Edit Data
+                        </div>
+                      </button>
+                    ) : (
+                      <button
+                        type='submit'
+                        disabled
+                        className='px-6 py-3 shadow-md text-slate-400 bg-slate-300 rounded-md '
+                      >
+                        <div className='flex place-items-center gap-2'>
+                          <FaEdit /> Edit Data
+                        </div>
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

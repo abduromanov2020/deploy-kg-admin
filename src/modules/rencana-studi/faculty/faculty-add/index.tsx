@@ -8,7 +8,7 @@ import {
   DropdownMenuCheckboxItemProps,
   DropdownMenuItem,
 } from '@radix-ui/react-dropdown-menu';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Input } from '@/components/ui/input';
 
@@ -27,21 +27,74 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import Link from 'next/link';
+import { DraftEditorProps } from '@/components/text-editor';
+import dynamic from 'next/dynamic';
+import { EditorState, convertToRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import { UploadField } from '@/components/input/upload-file';
+import toast from 'react-hot-toast';
+
+interface InputProps {
+  title: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder: string;
+  styleInput: string;
+  styleTitle: string;
+}
+
+const DraftEditor = dynamic(() => import('@/components/text-editor'), {
+  ssr: false,
+});
+
+const MAX_FILE_SIZE = 3000000;
+const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
 
 const FormSchema = z.object({
-  faculty_name: z.string().min(2, {
-    message: 'Faculty must be at least 2 characters.',
+  faculty_name: z.string().min(1, { message: 'Nama Fakultas Harus Diisi' }),
+  head_of_faculty: z.string().min(1, {
+    message: 'Kepala Fakultas Harus Diisi',
   }),
-  head_of_faculty: z.string().min(2, {
-    message: 'Head of faculty must be at least 2 characters.',
+  major_count: z.string().min(1, {
+    message: 'Jumlah Program Studi Harus Diisi',
   }),
-  major_count: z.string().min(0, {
-    message: 'Major count must be at least 0.',
-  }),
-  file: z.string({
-    required_error: 'A file is required.',
-  }),
+  faculty_image: z
+    .any()
+    .refine(
+      (files: File[]) => files !== undefined && files?.length >= 1,
+      'Harus ada file yang di upload.',
+    )
+    .refine(
+      (files: File[]) =>
+        files !== undefined && files?.[0]?.size <= MAX_FILE_SIZE,
+      'Ukuran maksimun adalah 3mb.',
+    )
+    .refine(
+      (files: File[]) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+      'hanya menerima .jpg, .jpeg, dan .png.',
+    ),
+  faculty_description: z
+    .string({
+      required_error: 'Deskripsi Fakultas Harus Diisi',
+    })
+    .min(1, { message: 'Deskripsi Fakultas Harus Diisi' })
+    .refine((value) => value.trim() !== '<p></p>', {
+      message: 'Deskripsi Fakultas Harus Diisi',
+    }),
 });
+
+interface EditorProps {
+  editorStyle: string;
+  editorInput: DraftEditorProps;
+}
 
 export const AddFacultyModule = () => {
   const ITEMS = [
@@ -61,13 +114,61 @@ export const AddFacultyModule = () => {
       faculty_name: '',
       head_of_faculty: '',
       major_count: '',
-      file: '',
+      faculty_image: undefined,
+      faculty_description: '<p></p>\n',
     },
   });
 
+  const headFaculty = [
+    {
+      value: '1',
+      label: 'Head 1',
+    },
+    {
+      value: '2',
+      label: 'Head 2',
+    },
+    {
+      value: '3',
+      label: 'Head 3',
+    },
+  ];
+
+  const [editorStateCover, setEditorStateCover] = useState<EditorState>(
+    EditorState.createEmpty(),
+  );
+
+  const handleEditorChange = (editorState: EditorState) => {
+    setEditorStateCover(editorState);
+
+    const contentState = editorState.getCurrentContent();
+    const rawContentState = convertToRaw(contentState);
+    const htmlContent = draftToHtml(rawContentState);
+
+    form.setValue('faculty_description', htmlContent, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
+  useEffect(() => {
+    console.log(form.formState.errors);
+  }, [form.formState.errors]);
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log('data', data);
+    toast.success('Form submitted!');
   }
+
+  // const handleFileChange = (file: File | null, index: number) => {
+  //   setUploadFile((prevUploads) => {
+  //     const newUploadFile = [...prevUploads];
+  //     newUploadFile[index] = { upload: file };
+  //     console.log('newUploadFile', newUploadFile[index].upload);
+
+  //     return newUploadFile;
+  //   });
+  // };
 
   return (
     <main className='flex flex-col gap-6'>
@@ -99,9 +200,6 @@ export const AddFacultyModule = () => {
                           <FormControl>
                             <Input placeholder='shadcn' {...field} />
                           </FormControl>
-                          <FormDescription>
-                            This is your public display name.
-                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -111,13 +209,25 @@ export const AddFacultyModule = () => {
                       name='head_of_faculty'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Kepala Fakultas</FormLabel>
-                          <FormControl>
-                            <Input placeholder='shadcn' {...field} />
-                          </FormControl>
-                          <FormDescription>
-                            This is your public display name.
-                          </FormDescription>
+                          <FormLabel>Kepala Fakultas*</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder='Pilih Kepala Fakultas' />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {headFaculty.map((head) => (
+                                <SelectItem key={head.value} value={head.value}>
+                                  {head.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+
                           <FormMessage />
                         </FormItem>
                       )}
@@ -131,30 +241,54 @@ export const AddFacultyModule = () => {
                           <FormControl>
                             <Input placeholder='shadcn' {...field} />
                           </FormControl>
-                          <FormDescription>
-                            This is your public display name.
-                          </FormDescription>
+
                           <FormMessage />
                         </FormItem>
                       )}
                     />
                   </div>
-                  <div className='my-8'>
-                    <FormField
-                      control={form.control}
-                      name='file'
-                      render={({ field }) => (
-                        <FormItem className='grid w-full items-center gap-1.5'>
-                          <FormLabel>File Tugas</FormLabel>
-                          <FormControl>
-                            <Input type='file' {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+                  <div className='my-8 flex flex-col gap-y-8'>
+                    <label htmlFor='' className='text-sm font-semibold'>
+                      Gambar Cover*
+                      <UploadField
+                        control={form.control}
+                        name='faculty_image'
+                        accepted='.jpg, .png'
+                        variant='sm'
+                        message={form?.formState?.errors?.[
+                          `faculty_image`
+                        ]?.message?.toString()}
+                        status={
+                          form?.formState?.errors?.[`faculty_image`]
+                            ? 'error'
+                            : 'none'
+                        }
+                      />
+                    </label>
+                    <DraftEditor
+                      editorState={editorStateCover}
+                      setEditorState={(editorState) => {
+                        handleEditorChange(editorState);
+                      }}
+                      label='Deskripsi Fakultas'
+                      error={form.formState.errors.faculty_description?.message}
                     />
                   </div>
-                  <Button type='submit'>Submit</Button>
+                  <div className='flex justify-end gap-2'>
+                    <Button
+                      type='button'
+                      asChild
+                      className='text-primary-500 border border-primary-500 bg-white hover:bg-gray-200'
+                    >
+                      <Link href={'/rencana-studi'}>Kembali</Link>
+                    </Button>
+                    <Button
+                      type='submit'
+                      className='bg-primary-500 hover:bg-primary-600'
+                    >
+                      Tambah Fakultas
+                    </Button>
+                  </div>
                 </form>
               </Form>
             </div>

@@ -18,3 +18,7 @@ type TOptionsQuizData = {
   option: string;
   correct: boolean;
 };
+
+export type TQuizDataQuestionForm = {
+  [key: string]: string | undefined | number;
+};
