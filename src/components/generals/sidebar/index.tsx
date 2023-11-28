@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import React, { FC, useState } from 'react';
+import { AiFillDashboard } from 'react-icons/ai';
 import { IoChevronDown } from 'react-icons/io5';
 
 import BookBookmark from '~/svg/BookBookmark.svg';
@@ -9,7 +10,6 @@ import BookOpen from '~/svg/BookOpen.svg';
 import CalendarMonth from '~/svg/CalendarMonth.svg';
 import ChartLineUp from '~/svg/ChartLineUp.svg';
 import Chats from '~/svg/Chats.svg';
-import Dashboard from '~/svg/Dashboard.svg';
 import FileCheck from '~/svg/FileCheck.svg';
 import Logo from '~/svg/Logo.svg';
 import MonitorLock from '~/svg/MonitorLock.svg';
@@ -106,7 +106,9 @@ const dataSideBar = [
       {
         title: 'Beranda',
         link: '/beranda',
-        icon: <Dashboard className='w-6 h-6 group-hover:text-primary-500' />,
+        icon: (
+          <AiFillDashboard className='w-6 h-6 group-hover:text-primary-500' />
+        ),
       },
       {
         title: 'Verifikasi',
