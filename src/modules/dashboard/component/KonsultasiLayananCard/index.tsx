@@ -9,15 +9,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { TablePapanScore } from '@/modules/dashboard/component/PapanScoreCard/TablePapanScore';
-
-const filter = ['Top Global', 'Top Fakultas', 'Top Prodi'];
+const filter = ['Karir & cita-cita', 'Kesehatan mental', 'Keluarga', 'Lainnya'];
 
 export const KonsultasiLayananCard = () => {
   return (
     <div className='bg-white rounded-md col-span-1'>
       <div className='border-b border-dark-200 p-4 flex justify-between items-center'>
-        <span className='font-semibold '>Papan Skor</span>
+        <span className='font-semibold '>Konsultasi Layanan</span>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <div className='flex px-3 py-2 h-full text-primary-500 border border-primary-500 items-center justify-between gap-1 rounded-md hover:bg-dark-100 w-32'>
@@ -31,9 +29,7 @@ export const KonsultasiLayananCard = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className=''>
-        <TablePapanScore />
-      </div>
+      <div className=''></div>
     </div>
   );
 };
