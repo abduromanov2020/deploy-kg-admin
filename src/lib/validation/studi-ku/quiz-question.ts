@@ -36,9 +36,11 @@ export const generateDynamicValidationSchema = (count: number) => {
       })
       .min(1, { message: `Opsi jawaban D harus diisi  ${i + 1}.` });
 
-    dynamicValidationSchema[`quiz_correct_${i + 1}`] = z.number({
-      required_error: `Opsi jawaban benar harus diisi ${i + 1}.`,
-    });
+    dynamicValidationSchema[`quiz_correct_${i + 1}`] = z
+      .string({
+        required_error: `Opsi jawaban benar harus diisi ${i + 1}.`,
+      })
+      .min(1, { message: `Opsi jawaban benar harus diisi  ${i + 1}.` });
   }
 
   return dynamicValidationSchema;
