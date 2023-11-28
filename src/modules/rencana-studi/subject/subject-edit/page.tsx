@@ -37,7 +37,6 @@ import {
 import Link from 'next/link';
 import { DraftEditorProps } from '@/components/text-editor';
 import dynamic from 'next/dynamic';
-import { UploadFile } from '@/components/upload-file';
 
 interface InputProps {
   title: string;
@@ -52,36 +51,27 @@ const MAX_FILE_SIZE = 3000000;
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
 
 const FormSchema = z.object({
-  major_id: z.string().min(1, {
+  subject_id: z.string().min(1, {
     message: 'Major count must be at least 1.',
+  }),
+  subject_name: z.string().min(2, {
+    message: 'Faculty must be at least 2 characters.',
   }),
   major_name: z.string().min(2, {
     message: 'Faculty must be at least 2 characters.',
   }),
-  faculty_name: z.string().min(2, {
-    message: 'Faculty must be at least 2 characters.',
-  }),
-  head_of_major: z.string().min(1, {
+  lecturer: z.string().min(1, {
     message: 'A head of faculty is required.',
   }),
   sks: z.string().min(1, {
     message: 'Major count must be at least 1.',
   }),
-  major_image: z
-    .any()
-    .refine(
-      (files: File[]) => files !== undefined && files?.length >= 1,
-      'Harus ada file yang di upload.',
-    )
-    .refine(
-      (files: File[]) =>
-        files !== undefined && files?.[0]?.size <= MAX_FILE_SIZE,
-      'Ukuran maksimun adalah 3mb.',
-    )
-    .refine(
-      (files: File[]) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      'hanya menerima .jpg, .jpeg, dan .png.',
-    ),
+  meeting_count: z.string().min(1, {
+    message: 'Major count must be at least 1.',
+  }),
+  status: z.string().min(1, {
+    message: 'Major count must be at least 1.',
+  }),
 });
 
 interface EditorProps {
@@ -109,20 +99,21 @@ export const EditSubjectModule = ({ editorInput }: any) => {
       link: '/rencana-studi/program-studi/1/mata-kuliah/1',
     },
     {
-      name: 'Tambah Matkul',
-      link: '/rencana-studi/program-studi/1/mata-kuliah/1/tambah-matkul',
+      name: 'Edit Matkul',
+      link: '/rencana-studi/program-studi/1/mata-kuliah/1/edit-matkul/1',
     },
   ];
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      major_id: '',
+      subject_id: '',
+      subject_name: '',
       major_name: '',
-      faculty_name: '',
-      head_of_major: '',
+      lecturer: '',
       sks: '',
-      major_image: undefined,
+      meeting_count: '',
+      status: '',
     },
   });
 
@@ -163,7 +154,7 @@ export const EditSubjectModule = ({ editorInput }: any) => {
 
       <div className='bg-white rounded'>
         <div className='p-4 border-b-2'>
-          <p className='text-base font-semibold'>Tambah Fakultas</p>
+          <p className='text-base font-semibold'>Edit Mata Kuliah</p>
         </div>
         <div className='p-8'>
           <div className='w-full'>
@@ -173,10 +164,23 @@ export const EditSubjectModule = ({ editorInput }: any) => {
                   <div className='grid grid-cols-3 gap-6'>
                     <FormField
                       control={form.control}
-                      name='major_id'
+                      name='subject_id'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>ID Program Studi*</FormLabel>
+                          <FormLabel>ID Mata Kuliah*</FormLabel>
+                          <FormControl>
+                            <Input placeholder='shadcn' {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name='subject_name'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Nama Mata Kuliah*</FormLabel>
                           <FormControl>
                             <Input placeholder='shadcn' {...field} />
                           </FormControl>
@@ -189,7 +193,7 @@ export const EditSubjectModule = ({ editorInput }: any) => {
                       name='major_name'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Nama Program Studi*</FormLabel>
+                          <FormLabel>Program Studi*</FormLabel>
                           <FormControl>
                             <Input placeholder='shadcn' {...field} />
                           </FormControl>
@@ -199,23 +203,10 @@ export const EditSubjectModule = ({ editorInput }: any) => {
                     />
                     <FormField
                       control={form.control}
-                      name='faculty_name'
+                      name='lecturer'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Fakultas*</FormLabel>
-                          <FormControl>
-                            <Input placeholder='shadcn' {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='head_of_major'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Kepala Program Studi*</FormLabel>
+                          <FormLabel>Dosen Mata Kuliah*</FormLabel>
                           <Select
                             onValueChange={field.onChange}
                             defaultValue={field.value}
@@ -252,48 +243,73 @@ export const EditSubjectModule = ({ editorInput }: any) => {
                         </FormItem>
                       )}
                     />
-                    {uploadFile.map((files, index) => (
-                      <FormField
-                        control={form.control}
-                        name='major_image'
-                        key={index}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Gambar Cover*</FormLabel>
+                    <FormField
+                      control={form.control}
+                      name='meeting_count'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Jumlah Pertemuan*</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
                             <FormControl>
-                              <Input
-                                type='file'
-                                {...field}
-                                className='file:bg-black file:text-white'
-                              />
-                              {/* <UploadFile
-                                key={index}
-                                title='Upload File'
-                                onChange={(files: File | null) =>
-                                  handleFileChange(files, index)
-                                }
-                                nameFile={files.upload?.name}
-                                // {...field}
-                                className='bg-white border-2 border-dark-300'
-                              /> */}
+                              <SelectTrigger>
+                                <SelectValue placeholder='Pilih Kepala Fakultas' />
+                              </SelectTrigger>
                             </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    ))}
+                            <SelectContent>
+                              {headFaculty.map((head) => (
+                                <SelectItem key={head.value} value={head.value}>
+                                  {head.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name='status'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Status*</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder='Status' />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {headFaculty.map((head) => (
+                                <SelectItem key={head.value} value={head.value}>
+                                  {head.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </div>
-                  <div className='my-8'>
-                    <h1>WYSIWYG OTW</h1>
-                    {/* <DraftEditor {...editorInput} /> */}
-                  </div>
+                  <div className='my-8'></div>
                   <div className='flex justify-end gap-2'>
                     <Button
                       type='button'
                       asChild
                       className='text-primary-500 border border-primary-500 bg-white hover:bg-gray-200'
                     >
-                      <Link href={'/rencana-studi/program-studi/1'}>
+                      <Link
+                        href={'/rencana-studi/program-studi/1/mata-kuliah/1'}
+                      >
                         Kembali
                       </Link>
                     </Button>
@@ -301,7 +317,7 @@ export const EditSubjectModule = ({ editorInput }: any) => {
                       type='submit'
                       className='bg-primary-500 hover:bg-primary-600'
                     >
-                      Tambah Prodi
+                      Edit Matkul
                     </Button>
                   </div>
                 </form>

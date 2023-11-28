@@ -8,7 +8,7 @@ import {
   DropdownMenuCheckboxItemProps,
   DropdownMenuItem,
 } from '@radix-ui/react-dropdown-menu';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Input } from '@/components/ui/input';
 
@@ -37,7 +37,10 @@ import {
 import Link from 'next/link';
 import { DraftEditorProps } from '@/components/text-editor';
 import dynamic from 'next/dynamic';
-import { UploadFile } from '@/components/upload-file';
+import { EditorState, convertToRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import { UploadField } from '@/components/input/upload-file';
+import toast from 'react-hot-toast';
 
 interface InputProps {
   title: string;
@@ -48,18 +51,20 @@ interface InputProps {
   styleTitle: string;
 }
 
+const DraftEditor = dynamic(() => import('@/components/text-editor'), {
+  ssr: false,
+});
+
 const MAX_FILE_SIZE = 3000000;
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
 
 const FormSchema = z.object({
-  faculty_name: z.string().min(2, {
-    message: 'Faculty must be at least 2 characters.',
-  }),
+  faculty_name: z.string().min(1, { message: 'Nama Fakultas Harus Diisi' }),
   head_of_faculty: z.string().min(1, {
-    message: 'A head of faculty is required.',
+    message: 'Kepala Fakultas Harus Diisi',
   }),
   major_count: z.string().min(1, {
-    message: 'Major count must be at least 1.',
+    message: 'Jumlah Program Studi Harus Diisi',
   }),
   faculty_image: z
     .any()
@@ -75,25 +80,23 @@ const FormSchema = z.object({
     .refine(
       (files: File[]) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       'hanya menerima .jpg, .jpeg, dan .png.',
-    )
-    .optional(),
+    ),
+  faculty_description: z
+    .string({
+      required_error: 'Deskripsi Fakultas Harus Diisi',
+    })
+    .min(1, { message: 'Deskripsi Fakultas Harus Diisi' })
+    .refine((value) => value.trim() !== '<p></p>', {
+      message: 'Deskripsi Fakultas Harus Diisi',
+    }),
 });
 
 interface EditorProps {
   editorStyle: string;
   editorInput: DraftEditorProps;
 }
-const DraftEditor = dynamic(() => import('@/components/text-editor'), {
-  ssr: false,
-});
 
-export const AddFacultyModule = ({ editorInput }: any) => {
-  const [uploadFile, setUploadFile] = useState<Array<{ upload: File | null }>>([
-    { upload: null },
-  ]);
-
-  console.log('uploadFile', uploadFile);
-
+export const AddFacultyModule = () => {
   const ITEMS = [
     {
       name: 'Rencana Studi',
@@ -112,6 +115,7 @@ export const AddFacultyModule = ({ editorInput }: any) => {
       head_of_faculty: '',
       major_count: '',
       faculty_image: undefined,
+      faculty_description: '<p></p>\n',
     },
   });
 
@@ -130,8 +134,30 @@ export const AddFacultyModule = ({ editorInput }: any) => {
     },
   ];
 
+  const [editorStateCover, setEditorStateCover] = useState<EditorState>(
+    EditorState.createEmpty(),
+  );
+
+  const handleEditorChange = (editorState: EditorState) => {
+    setEditorStateCover(editorState);
+
+    const contentState = editorState.getCurrentContent();
+    const rawContentState = convertToRaw(contentState);
+    const htmlContent = draftToHtml(rawContentState);
+
+    form.setValue('faculty_description', htmlContent, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
+  useEffect(() => {
+    console.log(form.formState.errors);
+  }, [form.formState.errors]);
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log('data', data);
+    toast.success('Form submitted!');
   }
 
   // const handleFileChange = (file: File | null, index: number) => {
@@ -221,39 +247,32 @@ export const AddFacultyModule = ({ editorInput }: any) => {
                       )}
                     />
                   </div>
-                  <div className='my-8'>
-                    {uploadFile.map((files, index) => (
-                      <FormField
+                  <div className='my-8 flex flex-col gap-y-8'>
+                    <label htmlFor='' className='text-sm font-semibold'>
+                      Gambar Cover*
+                      <UploadField
                         control={form.control}
                         name='faculty_image'
-                        key={index}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>File Tugas</FormLabel>
-                            <FormControl>
-                              <Input
-                                type='file'
-                                {...field}
-                                className='file:bg-black file:text-white'
-                              />
-                              {/* <UploadFile
-                                key={index}
-                                title='Upload File'
-                                onChange={(files: File | null) =>
-                                  handleFileChange(files, index)
-                                }
-                                nameFile={files.upload?.name}
-                                // {...field}
-                                className='bg-white border-2 border-dark-300'
-                              /> */}
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
+                        accepted='.jpg, .png'
+                        variant='sm'
+                        message={form?.formState?.errors?.[
+                          `faculty_image`
+                        ]?.message?.toString()}
+                        status={
+                          form?.formState?.errors?.[`faculty_image`]
+                            ? 'error'
+                            : 'none'
+                        }
                       />
-                    ))}
-                    <h1>WYSIWYG OTW</h1>
-                    {/* <DraftEditor {...editorInput} /> */}
+                    </label>
+                    <DraftEditor
+                      editorState={editorStateCover}
+                      setEditorState={(editorState) => {
+                        handleEditorChange(editorState);
+                      }}
+                      label='Deskripsi Fakultas'
+                      error={form.formState.errors.faculty_description?.message}
+                    />
                   </div>
                   <div className='flex justify-end gap-2'>
                     <Button

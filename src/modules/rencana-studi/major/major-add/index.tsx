@@ -8,7 +8,7 @@ import {
   DropdownMenuCheckboxItemProps,
   DropdownMenuItem,
 } from '@radix-ui/react-dropdown-menu';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Input } from '@/components/ui/input';
 
@@ -35,18 +35,14 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import Link from 'next/link';
-import { DraftEditorProps } from '@/components/text-editor';
 import dynamic from 'next/dynamic';
-import { UploadFile } from '@/components/upload-file';
 
-interface InputProps {
-  title: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder: string;
-  styleInput: string;
-  styleTitle: string;
-}
+import { EditorState, convertToRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+
+const DraftEditor = dynamic(() => import('@/components/text-editor'), {
+  ssr: false,
+});
 
 const MAX_FILE_SIZE = 3000000;
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -67,38 +63,31 @@ const FormSchema = z.object({
   sks: z.string().min(1, {
     message: 'Major count must be at least 1.',
   }),
-  major_image: z
-    .any()
-    .refine(
-      (files: File[]) => files !== undefined && files?.length >= 1,
-      'Harus ada file yang di upload.',
-    )
-    .refine(
-      (files: File[]) =>
-        files !== undefined && files?.[0]?.size <= MAX_FILE_SIZE,
-      'Ukuran maksimun adalah 3mb.',
-    )
-    .refine(
-      (files: File[]) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      'hanya menerima .jpg, .jpeg, dan .png.',
-    ),
+  major_image: z.any(),
+  // .refine(
+  //   (files: File[]) => files !== undefined && files?.length >= 1,
+  //   'Harus ada file yang di upload.',
+  // )
+  // .refine(
+  //   (files: File[]) =>
+  //     files !== undefined && files?.[0]?.size <= MAX_FILE_SIZE,
+  //   'Ukuran maksimun adalah 3mb.',
+  // )
+  // .refine(
+  //   (files: File[]) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+  //   'hanya menerima .jpg, .jpeg, dan .png.',
+  // ),
+  major_description: z
+    .string({
+      required_error: 'A content description is required.',
+    })
+    .min(1, { message: 'A content description is required.' })
+    .refine((value) => value.trim() !== '<p></p>', {
+      message: 'A content description is required',
+    }),
 });
 
-interface EditorProps {
-  editorStyle: string;
-  editorInput: DraftEditorProps;
-}
-const DraftEditor = dynamic(() => import('@/components/text-editor'), {
-  ssr: false,
-});
-
-export const AddMajorModule = ({ editorInput }: any) => {
-  const [uploadFile, setUploadFile] = useState<Array<{ upload: File | null }>>([
-    { upload: null },
-  ]);
-
-  console.log('uploadFile', uploadFile);
-
+export const AddMajorModule = () => {
   const ITEMS = [
     {
       name: 'Rencana Studi',
@@ -123,6 +112,7 @@ export const AddMajorModule = ({ editorInput }: any) => {
       head_of_major: '',
       sks: '',
       major_image: undefined,
+      major_description: '<p></p>\n',
     },
   });
 
@@ -140,6 +130,27 @@ export const AddMajorModule = ({ editorInput }: any) => {
       label: 'Head 3',
     },
   ];
+
+  const [editorStateCover, setEditorStateCover] = useState<EditorState>(
+    EditorState.createEmpty(),
+  );
+
+  const handleEditorChange = (editorState: EditorState) => {
+    setEditorStateCover(editorState);
+
+    const contentState = editorState.getCurrentContent();
+    const rawContentState = convertToRaw(contentState);
+    const htmlContent = draftToHtml(rawContentState);
+
+    form.setValue('major_description', htmlContent, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
+  useEffect(() => {
+    console.log(form.formState.errors);
+  }, [form.formState.errors]);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log('data', data);
@@ -163,7 +174,7 @@ export const AddMajorModule = ({ editorInput }: any) => {
 
       <div className='bg-white rounded'>
         <div className='p-4 border-b-2'>
-          <p className='text-base font-semibold'>Tambah Fakultas</p>
+          <p className='text-base font-semibold'>Tambah Program Studi</p>
         </div>
         <div className='p-8'>
           <div className='w-full'>
@@ -252,21 +263,21 @@ export const AddMajorModule = ({ editorInput }: any) => {
                         </FormItem>
                       )}
                     />
-                    {uploadFile.map((files, index) => (
-                      <FormField
-                        control={form.control}
-                        name='major_image'
-                        key={index}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Gambar Cover*</FormLabel>
-                            <FormControl>
-                              <Input
-                                type='file'
-                                {...field}
-                                className='file:bg-black file:text-white'
-                              />
-                              {/* <UploadFile
+
+                    <FormField
+                      control={form.control}
+                      name='major_image'
+                      key={''}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Gambar Cover*</FormLabel>
+                          <FormControl>
+                            <Input
+                              type='file'
+                              {...field}
+                              className='file:bg-black file:text-white'
+                            />
+                            {/* <UploadFile
                                 key={index}
                                 title='Upload File'
                                 onChange={(files: File | null) =>
@@ -276,16 +287,21 @@ export const AddMajorModule = ({ editorInput }: any) => {
                                 // {...field}
                                 className='bg-white border-2 border-dark-300'
                               /> */}
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    ))}
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </div>
                   <div className='my-8'>
-                    <h1>WYSIWYG OTW</h1>
-                    {/* <DraftEditor {...editorInput} /> */}
+                    <DraftEditor
+                      editorState={editorStateCover}
+                      setEditorState={(editorState) => {
+                        handleEditorChange(editorState);
+                      }}
+                      label='Deskripsi Program Studi'
+                      error={form.formState.errors.major_description?.message}
+                    />
                   </div>
                   <div className='flex justify-end gap-2'>
                     <Button

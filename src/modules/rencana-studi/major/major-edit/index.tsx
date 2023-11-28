@@ -8,7 +8,7 @@ import {
   DropdownMenuCheckboxItemProps,
   DropdownMenuItem,
 } from '@radix-ui/react-dropdown-menu';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Input } from '@/components/ui/input';
 
@@ -37,7 +37,9 @@ import {
 import Link from 'next/link';
 import { DraftEditorProps } from '@/components/text-editor';
 import dynamic from 'next/dynamic';
-import { UploadFile } from '@/components/upload-file';
+
+import { EditorState, convertToRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
 
 interface InputProps {
   title: string;
@@ -67,21 +69,28 @@ const FormSchema = z.object({
   sks: z.string().min(1, {
     message: 'Major count must be at least 1.',
   }),
-  major_image: z
-    .any()
-    .refine(
-      (files: File[]) => files !== undefined && files?.length >= 1,
-      'Harus ada file yang di upload.',
-    )
-    .refine(
-      (files: File[]) =>
-        files !== undefined && files?.[0]?.size <= MAX_FILE_SIZE,
-      'Ukuran maksimun adalah 3mb.',
-    )
-    .refine(
-      (files: File[]) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      'hanya menerima .jpg, .jpeg, dan .png.',
-    ),
+  major_image: z.any(),
+  // .refine(
+  //   (files: File[]) => files !== undefined && files?.length >= 1,
+  //   'Harus ada file yang di upload.',
+  // )
+  // .refine(
+  //   (files: File[]) =>
+  //     files !== undefined && files?.[0]?.size <= MAX_FILE_SIZE,
+  //   'Ukuran maksimun adalah 3mb.',
+  // )
+  // .refine(
+  //   (files: File[]) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+  //   'hanya menerima .jpg, .jpeg, dan .png.',
+  // ),
+  major_description: z
+    .string({
+      required_error: 'A content description is required.',
+    })
+    .min(1, { message: 'A content description is required.' })
+    .refine((value) => value.trim() !== '<p></p>', {
+      message: 'A content description is required',
+    }),
 });
 
 interface EditorProps {
@@ -123,6 +132,7 @@ export const EditMajorModule = ({ editorInput }: any) => {
       head_of_major: '',
       sks: '',
       major_image: undefined,
+      major_description: '<p></p>\n',
     },
   });
 
@@ -140,6 +150,27 @@ export const EditMajorModule = ({ editorInput }: any) => {
       label: 'Head 3',
     },
   ];
+
+  const [editorStateCover, setEditorStateCover] = useState<EditorState>(
+    EditorState.createEmpty(),
+  );
+
+  const handleEditorChange = (editorState: EditorState) => {
+    setEditorStateCover(editorState);
+
+    const contentState = editorState.getCurrentContent();
+    const rawContentState = convertToRaw(contentState);
+    const htmlContent = draftToHtml(rawContentState);
+
+    form.setValue('major_description', htmlContent, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
+  useEffect(() => {
+    console.log(form.formState.errors);
+  }, [form.formState.errors]);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log('data', data);
@@ -163,7 +194,7 @@ export const EditMajorModule = ({ editorInput }: any) => {
 
       <div className='bg-white rounded'>
         <div className='p-4 border-b-2'>
-          <p className='text-base font-semibold'>Tambah Fakultas</p>
+          <p className='text-base font-semibold'>Edit Program Studi</p>
         </div>
         <div className='p-8'>
           <div className='w-full'>
@@ -284,8 +315,14 @@ export const EditMajorModule = ({ editorInput }: any) => {
                     ))}
                   </div>
                   <div className='my-8'>
-                    <h1>WYSIWYG OTW</h1>
-                    {/* <DraftEditor {...editorInput} /> */}
+                    <DraftEditor
+                      editorState={editorStateCover}
+                      setEditorState={(editorState) => {
+                        handleEditorChange(editorState);
+                      }}
+                      label='Deskripsi Program Studi'
+                      error={form.formState.errors.major_description?.message}
+                    />
                   </div>
                   <div className='flex justify-end gap-2'>
                     <Button
