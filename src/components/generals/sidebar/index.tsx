@@ -107,7 +107,7 @@ const dataSideBar = [
         title: 'Beranda',
         link: '/beranda',
         icon: (
-          <AiFillDashboard className='w-6 h-6 group-hover:text-primary-500' />
+          <AiFillDashboard className='w-6 h-6 group-hover:text-primary-500 text-white' />
         ),
       },
       {
