@@ -4,6 +4,7 @@ import { HiOutlineUserGroup } from 'react-icons/hi';
 import { ArticleCard } from '@/modules/dashboard/component/ArticleCard';
 import { DashboardCard } from '@/modules/dashboard/component/DashboardCard';
 import { InformasiAkademikCard } from '@/modules/dashboard/component/InformasiAkademikCard';
+import { KalenderMahasiswaCard } from '@/modules/dashboard/component/KalenderMahasiswaCard';
 import { MahasiswaBaruCard } from '@/modules/dashboard/component/MahasiswaBaruCard';
 import { PendaftaranChart } from '@/modules/dashboard/component/PendaftaranChart';
 import { PengajarCard } from '@/modules/dashboard/component/pengajarCard';
@@ -53,6 +54,7 @@ export const DashboardModule = () => {
       </div>
       <div className='grid grid-cols-3 gap-5'>
         <InformasiAkademikCard />
+        <KalenderMahasiswaCard />
       </div>
     </div>
   );
