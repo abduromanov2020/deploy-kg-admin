@@ -8,6 +8,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
+import { EditorComponent } from '@/modules/user-management/dosen/editdata/component/card';
+
 const EditDataDosenModule = () => {
   const params = useParams();
   const { id } = params;
@@ -37,21 +39,6 @@ const EditDataDosenModule = () => {
       id_major: '2001726',
       major: 'Kedokteran',
     },
-    {
-      study_program: 'Kedokteran',
-      id_major: '2001726',
-      major: 'Kedokteran',
-    },
-    {
-      study_program: 'Kedokteran',
-      id_major: '2001726',
-      major: 'Kedokteran',
-    },
-    {
-      study_program: 'Kedokteran',
-      id_major: '2001726',
-      major: 'Kedokteran',
-    },
   ];
   const handleLookUp = () => {
     setLookUp(true);
@@ -61,6 +48,51 @@ const EditDataDosenModule = () => {
     setLookUp(false);
     setLookUp2(true);
   };
+
+  const [inputs, setInputs] = useState<
+    Array<{
+      input1: string;
+      input2: string;
+      input3: string;
+    }>
+  >([
+    {
+      input1: '',
+      input2: '',
+      input3: '',
+    },
+  ]);
+  const [jumlahModul, setJumlahModul] = useState(1);
+  const tambahModul = () => {
+    setJumlahModul(jumlahModul + 1);
+    setInputs([
+      ...inputs,
+      {
+        input1: '',
+        input2: '',
+        input3: '',
+      },
+    ]);
+  };
+
+  const handleInput1 = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+  ) => {
+    const newInputs = [...inputs];
+    newInputs[index].input1 = e.target.value;
+    setInputs(newInputs);
+  };
+
+  const handleInput2 = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+  ) => {
+    const newInputs = [...inputs];
+    newInputs[index].input2 = e.target.value;
+    setInputs(newInputs);
+  };
+
   return (
     <>
       <div className='bg-white mb-3 rounded-md'>
@@ -153,25 +185,75 @@ const EditDataDosenModule = () => {
           </div>
           {lookup && (
             <div className='space-y-5'>
-              {dataDummy.map((item, i: number) => (
-                <div key={i} className='bg-slate-50 rounded px-5 py-5'>
-                  <h1 className='text-lg'>Mata Kuliah Ajar {i + 1}</h1>
-                  <div className='flex space-x-5 pt-5'>
-                    <div className='grid w-full max-w-sm items-center space-y-4'>
-                      <Label htmlFor='id_major'>Program Studi*</Label>
-                      <InputSubject defaultValue={item.major} />
-                    </div>
-                    <div className='grid w-full max-w-sm items-center space-y-4'>
-                      <Label htmlFor='id_major'>ID Mata Kuliah*</Label>
-                      <Input type='text' id='id_major' placeholder='2001726' />
-                    </div>
-                    <div className='grid w-full max-w-sm items-center space-y-4'>
-                      <Label htmlFor='major'>Mata Kuliah*</Label>
-                      <Input type='text' id='text' placeholder='Kedokteran' />
-                    </div>
+              {/* {dataDummy.map((item, i: number) => ( */}
+              <div className='bg-slate-50 rounded px-5 py-5'>
+                <h1 className='text-lg'>Mata Kuliah Ajar </h1>
+                <div className='flex space-x-5 pt-5'>
+                  <div className='grid w-full max-w-sm items-center space-y-4'>
+                    <Label htmlFor='id_major'>Program Studi*</Label>
+                    <InputSubject defaultValue='Select' />
                   </div>
+                  {/* <div className='grid w-full max-w-sm items-center space-y-4'>
+                    <Label htmlFor='id_major'>ID Mata Kuliah*</Label>
+                    <Input
+                      type='text'
+                      id='id_major'
+                      placeholder='2001726'
+                      value={newCard.title}
+                      onChange={handleTitleChange}
+                    />
+                  </div>
+                  <div className='grid w-full max-w-sm items-center space-y-4'>
+                    <Label htmlFor='major'>Mata Kuliah*</Label>
+                    <Input
+                      type='text'
+                      id='text'
+                      placeholder='Kedokteran'
+                      value={newCard.content}
+                      onChange={handleContentChange}
+                    />
+                  </div> */}
                 </div>
-              ))}
+              </div>
+              <div className='space-y-5'>
+                {inputs.map((input, index) => (
+                  <div key={index}>
+                    <EditorComponent
+                      key={index}
+                      input1Props={{
+                        title: `Judul Video ${index + 1}`,
+                        value: input.input1,
+                        onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                          handleInput1(e, index),
+                        placeholder: `Masukan Judul Video ${index + 1}`,
+                        styleInput:
+                          'border-2 mt-3 border-dark-300 px-4 py-1 rounded-md',
+                        styleTitle: 'text-dark',
+                      }}
+                      input2Props={{
+                        title: `Link Video ${index + 1}`,
+                        value: input.input2,
+                        onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                          handleInput2(e, index),
+                        placeholder: `Masukan Link Video ${index + 1}`,
+                        styleInput:
+                          'border-2 mt-3 border-dark-300 px-4 py-1 rounded-md',
+                        styleTitle: 'text-dark',
+                      }}
+                      input3Props={{
+                        title: `Link Video ${index + 1}`,
+                        value: input.input2,
+                        onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                          handleInput2(e, index),
+                        placeholder: `Masukan Link Video ${index + 1}`,
+                        styleInput:
+                          'border-2 mt-3 border-dark-300 px-4 py-1 rounded-md',
+                        styleTitle: 'text-dark',
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
               <div className='flex justify-between pt-5'>
                 <div className='flex items-center space-x-2'>
                   <Checkbox id='terms' />
@@ -182,7 +264,10 @@ const EditDataDosenModule = () => {
                     Saya menyatakan data dosen yang ditambahkan sudah benar
                   </label>
                 </div>
-                <button className='flex place-items-center space-x-2 justify-end font-semibold text-blue-500 hover:bg-blue-500 px-4 py-2 hover:transition hover:text-white rounded-md'>
+                <button
+                  onClick={tambahModul}
+                  className='flex place-items-center space-x-2 justify-end font-semibold text-blue-500 hover:bg-blue-500 px-4 py-2 hover:transition hover:text-white rounded-md'
+                >
                   <FaPlusCircle />
                   <h1>Tambah Mata Kuliah ajar</h1>
                 </button>
