@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
@@ -14,11 +15,12 @@ import { BreadCrumb } from '@/components/BreadCrumb';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import CardComponent from './card';
+import CardComponent from './components/card';
+import DatePickerSekilasIlmu from './components/datepicker';
+import FilterComponent from './components/filter';
+import TableSekilasIlmu from './components/table';
 import { ITESMS } from './constants';
-import DatePickerSekilasIlmu from './datepicker';
-import FilterComponent from './filter';
-import TableSekilasIlmu from './table';
+import Pagination from '@/components/generals/pagination';
 
 const SekilasIlmuModule = () => {
   const query = useSearchParams();
@@ -34,6 +36,12 @@ const SekilasIlmuModule = () => {
       setactive('grid');
     }
   }, [query, active, router]);
+
+  const handlePageChange = async (page: number) => {
+    window.scrollTo(0, 0);
+    // refetchPengajuan();
+    // router.push(`/verifikasi/administrasi?page=${page}`);
+  };
 
   return (
     <main className='flex flex-col gap-6'>
@@ -55,10 +63,12 @@ const SekilasIlmuModule = () => {
               </div>
             </section>
             <section className='flex gap-2'>
-              <Button className='bg-primary-500 px-3 py-2 flex justify-center items-center gap-1 hover:bg-primary-400'>
-                <CiCirclePlus className='w-[20px] h-[20px]' />
-                <p className='leading-none'>Tambah Artikel</p>
-              </Button>
+              <Link href='/sekilas-ilmu/tambah-artikel'>
+                <Button className='bg-primary-500 px-3 py-2 flex justify-center items-center gap-1 hover:bg-primary-400'>
+                  <CiCirclePlus className='w-[20px] h-[20px]' />
+                  <p className='leading-none'>Tambah Artikel</p>
+                </Button>
+              </Link>
               <DatePickerSekilasIlmu />
               <FilterComponent />
               {active === 'table' ? (
@@ -106,7 +116,25 @@ const SekilasIlmuModule = () => {
           active === 'grid' ? (
             <CardComponent />
           ) : (
-            <TableSekilasIlmu />
+            <div className=''>
+              <TableSekilasIlmu />
+              <div className='flex items-center justify-end space-x-2 py-4'>
+                <div className='flex-1 text-sm text-muted-foreground pl-3'>
+                  <p>
+                    Menampilkan 1 hingga{' '}
+                    10 data dari{' '}
+                    10000 entries
+                  </p>
+                </div>
+                <div className='space-x-2'>
+                  <Pagination
+                    currentPage={1}
+                    totalPages={10}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              </div>
+            </div>
           )}
         </section>
       </div>

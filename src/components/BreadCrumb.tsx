@@ -20,7 +20,7 @@ export type TBreadCrumbProps = {
 
 export const BreadCrumb: FC<TBreadCrumbProps> = ({
   items,
-  textColor = 'text-[#106FA4]',
+  textColor = 'text-primary-500',
   bgColor = 'bg-light',
   style,
   className,
