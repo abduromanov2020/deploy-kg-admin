@@ -3,7 +3,7 @@
 import { ReactElement, useState } from 'react';
 import { FieldValues, useController } from 'react-hook-form';
 
-import { TUploadFieldProps } from '@/types/input';
+import { TUploadFieldProps } from '@/types/components/input';
 
 export const UploadField = <T extends FieldValues>(
   props: TUploadFieldProps<T>,
