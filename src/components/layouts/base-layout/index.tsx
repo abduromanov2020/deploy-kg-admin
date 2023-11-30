@@ -19,7 +19,7 @@ const BaseLayout: FC<{ children: ReactNode }> = ({ children }) => {
     return (
       <div className='flex'>
         <Sidebar />
-        <div className='w-[calc(100%-280px)]'>
+        <div className='w-[calc(100%-300px)]'>
           <Navbar />
           <div className='bg-background px-16 py-10 min-w-[calc(100%-280px)] min-h-[calc(100%-65px)]'>
             {children}
