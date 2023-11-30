@@ -25,9 +25,9 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { AccConfirmModal } from '@/modules/verifikasi/rencana-studi/component/AccConfirmModal';
 
-import { AccRejectModal } from '@/modules/verifikasi/administrasi/components/AccRejectModal';
+import { AccRejectModal } from '@/modules/verifikasi/konversi/components/AccRejectModal';
+import { AccConfirmModal } from '@/modules/verifikasi/konversi/components/AccConfirmModal';
 
 export const columns: ColumnDef<unknown>[] = [
   {

@@ -10,10 +10,10 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
+import { format, parseISO } from 'date-fns';
 import Link from 'next/link';
 import React, { FC, useState } from 'react';
 import { TiArrowSortedDown } from 'react-icons/ti';
-import { format, parseISO } from 'date-fns';
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -26,10 +26,10 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { AccConfirmModal } from '@/modules/verifikasi/rencana-studi/component/AccConfirmModal';
+import { AccConfirmModal } from '@/modules/verifikasi/administrasi/components/AccConfirmModal';
+import { AccRejectModal } from '@/modules/verifikasi/administrasi/components/AccRejectModal';
 
 import { TPengajuanAdm } from '@/types/verifikasi/administrasi';
-import { AccRejectModal } from '@/modules/verifikasi/administrasi/components/AccRejectModal';
 
 export const columns: ColumnDef<TPengajuanAdm>[] = [
   {
@@ -58,7 +58,9 @@ export const columns: ColumnDef<TPengajuanAdm>[] = [
   {
     accessorKey: 'no',
     header: 'NO',
-    cell: ({ row }) => <div className='text-sm font-semibold'>{row.index + 1}</div>,
+    cell: ({ row }) => (
+      <div className='text-sm font-semibold'>{row.index + 1}</div>
+    ),
   },
   {
     accessorKey: 'student_name',
@@ -74,7 +76,29 @@ export const columns: ColumnDef<TPengajuanAdm>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className='text-sm font-semibold'>{row.original.user_administration.full_name}</div>,
+    cell: ({ row }) => (
+      <div className='text-sm font-semibold'>
+        {row.original.user_administration.full_name}
+      </div>
+    ),
+  },
+  {
+    accessorKey: 'major',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-sm'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          PROGRAM STUDI
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className='text-sm font-semibold'>{row.original.biodata?.major}</div>
+    ),
   },
   {
     accessorKey: 'created_at',
@@ -114,7 +138,11 @@ export const columns: ColumnDef<TPengajuanAdm>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className='text-sm font-semibold'>{row.original.user_administration.email}</div>,
+    cell: ({ row }) => (
+      <div className='text-sm font-semibold'>
+        {row.original.user_administration.email}
+      </div>
+    ),
   },
   {
     accessorKey: 'status',
@@ -150,7 +178,9 @@ export const columns: ColumnDef<TPengajuanAdm>[] = [
       return <div className='text-center text-sm'>BERKAS</div>;
     },
     cell: ({ row }) => (
-      <Link href={`/verifikasi/administrasi/lihat-informasi/${row.getValue('id')}`}>
+      <Link
+        href={`/verifikasi/administrasi/lihat-informasi/${row.getValue('id')}`}
+      >
         <p className='text-primary-500 hover:underline font-semibold'>Detail</p>
       </Link>
     ),
@@ -158,11 +188,35 @@ export const columns: ColumnDef<TPengajuanAdm>[] = [
   {
     id: 'actions',
     enableHiding: false,
-    cell: () => {
+    cell: ({ row }) => {
       return (
         <div className='flex gap-3'>
-          <AccConfirmModal />
-          <AccRejectModal />
+          <AccConfirmModal
+            trigger={
+              <Button
+                className='bg-primary-500'
+                disabled={
+                  row.getValue('status') === 'ACCEPTED' ||
+                  row.getValue('status') === 'REJECTED'
+                }
+              >
+                Setuju
+              </Button>
+            }
+          />
+          <AccRejectModal
+            trigger={
+              <Button
+                className='bg-red-800'
+                disabled={
+                  row.getValue('status') === 'ACCEPTED' ||
+                  row.getValue('status') === 'REJECTED'
+                }
+              >
+                Tolak
+              </Button>
+            }
+          />
         </div>
       );
     },
@@ -200,7 +254,7 @@ export const TableAdministrasi: FC<{ data: TPengajuanAdm[] }> = ({ data }) => {
         <Table className='text-sm max-w-full'>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} >
+              <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id} className='text-center'>
