@@ -10,12 +10,10 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
-import Link from 'next/link';
 import React, { FC, useState } from 'react';
 import { TiArrowSortedDown } from 'react-icons/ti';
 
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Table,
   TableBody,
@@ -25,41 +23,14 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-
-import { AccRejectModal } from '@/modules/verifikasi/konversi/components/AccRejectModal';
-import { AccConfirmModal } from '@/modules/verifikasi/konversi/components/AccConfirmModal';
-
 export const columns: ColumnDef<unknown>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value: unknown) =>
-          table.toggleAllPageRowsSelected(!!value)
-        }
-        aria-label='Select all'
-        className='mr-5'
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value: unknown) => row.toggleSelected(!!value)}
-        aria-label='Select row'
-        className='mr-5'
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
   {
     accessorKey: 'no',
     header: 'NO',
-    cell: ({ row }) => <div className='text-sm font-semibold'>{row.getValue('no')}</div>,
+    cell: ({ row }) => <div className='text-xs font-normal'>{row.getValue('no')}</div>,
   },
   {
-    accessorKey: 'nama_mahasiswa',
+    accessorKey: 'id_matakuliah',
     header: ({ column }) => {
       return (
         <Button
@@ -67,15 +38,15 @@ export const columns: ColumnDef<unknown>[] = [
           className='text-sm'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          NAMA MAHASISWA
-          <TiArrowSortedDown className='ml-2 h-4 w-4' />
+          ID MATA KULIAH
+          <TiArrowSortedDown className='ml-1 h-4 w-4' />
         </Button>
       );
     },
-    cell: ({ row }) => <div className='text-sm font-semibold'>{row.getValue('nama_mahasiswa')}</div>,
+    cell: ({ row }) => <div className='text-xs font-normal'>{row.getValue('id_matakuliah')}</div>,
   },
   {
-    accessorKey: 'prodi',
+    accessorKey: 'matakuliah',
     header: ({ column }) => {
       return (
         <Button
@@ -83,15 +54,15 @@ export const columns: ColumnDef<unknown>[] = [
           className='text-sm'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          PROGRAM STUDI
-          <TiArrowSortedDown className='ml-2 h-4 w-4' />
+          MATA KULIAH
+          <TiArrowSortedDown className='ml-1 h-4 w-4' />
         </Button>
       );
     },
-    cell: ({ row }) => <div className='text-sm font-semibold'>{row.getValue('prodi')}</div>,
+    cell: ({ row }) => <div className='text-xs font-normal'>{row.getValue('matakuliah')}</div>,
   },
   {
-    accessorKey: 'biaya_konversi',
+    accessorKey: 'sks',
     header: ({ column }) => {
       return (
         <Button
@@ -99,41 +70,72 @@ export const columns: ColumnDef<unknown>[] = [
           className='text-sm'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          BIAYA KONVERSI
-          <TiArrowSortedDown className='ml-2 h-4 w-4' />
+          SKS
+          <TiArrowSortedDown className='ml-1 h-4 w-4' />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className='text-sm font-semibold'>Rp. {row.getValue('biaya_konversi')}</div>
+      <div className='text-xs font-normal'>{row.getValue('sks')} SKS</div>
     ),
   },
   {
-    accessorKey: 'id',
-    header: () => {
-      return <div className='text-center text-sm'>KONVERSI</div>;
-    },
-    cell: ({ row }) => (
-      <Link href={`/verifikasi/konversi/detail-konversi/${row.index}`}>
-        <p className='text-primary-500 hover:underline font-semibold'>Detail</p>
-      </Link>
-    ),
-  },
-  {
-    id: 'actions',
-    enableHiding: false,
-    cell: () => {
+    accessorKey: 'matakuliah_asal',
+    header: ({ column }) => {
       return (
-        <div className='flex gap-3'>
-          <AccConfirmModal />
-          <AccRejectModal />
-        </div>
+        <Button
+          variant='ghost'
+          className='text-sm'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          MATA KULIAH ASAL
+          <TiArrowSortedDown className='ml-1 h-4 w-4' />
+        </Button>
       );
     },
+    cell: ({ row }) => (
+      <div className='text-xs font-normal'>{row.getValue('matakuliah_asal')}</div>
+    ),
+  },
+  {
+    accessorKey: 'sks_asal',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-sm'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          SKS ASAL
+          <TiArrowSortedDown className='ml-1 h-4 w-4' />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className='text-xs font-normal'>{row.getValue('sks_asal')} SKS</div>
+    ),
+  },
+  {
+    accessorKey: 'nilai_akhir',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-sm'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          NILAI AKHIR
+          <TiArrowSortedDown className='ml-1 h-4 w-4' />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className='text-xs font-normal'>{row.getValue('nilai_akhir')}</div>
+    ),
   },
 ];
 
-export const TableKonversiBalik: FC<{ data: unknown[] }> = ({ data }) => {
+export const TableDaftarMatkulKonversiBalik: FC<{ data: unknown[] }> = ({ data }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
