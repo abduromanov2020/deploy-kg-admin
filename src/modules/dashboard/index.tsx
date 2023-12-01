@@ -2,6 +2,7 @@ import React from 'react';
 import { HiOutlineUserGroup } from 'react-icons/hi';
 
 import { ArticleCard } from '@/modules/dashboard/component/ArticleCard';
+import { DaftarAdminCard } from '@/modules/dashboard/component/DaftarAdminCard';
 import { DashboardCard } from '@/modules/dashboard/component/DashboardCard';
 import { InformasiAkademikCard } from '@/modules/dashboard/component/InformasiAkademikCard';
 import { KalenderMahasiswaCard } from '@/modules/dashboard/component/KalenderMahasiswaCard';
@@ -61,6 +62,7 @@ export const DashboardModule = () => {
       <div className='grid grid-cols-3 gap-5'>
         <PapanScoreCard />
         <KonsultasiLayananCard />
+        <DaftarAdminCard />
       </div>
     </div>
   );
