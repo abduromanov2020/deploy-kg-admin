@@ -124,7 +124,7 @@ export const columns: ColumnDef<unknown>[] = [
       return <div className='text-center text-sm'>INFORMASI</div>;
     },
     cell: ({ row }) => (
-      <Link href={`/verifikasi/konversi/detail-konversi-balik/${row.index}/detail-matakuliah/${row.index+1}`}>
+      <Link href={`/verifikasi/konversi/detail-transfer-konversi/${row.index}/detail-mata-kuliah/${row.index+1}`}>
         <p className='text-primary-500 hover:underline font-semibold'>Detail</p>
       </Link>
     ),
