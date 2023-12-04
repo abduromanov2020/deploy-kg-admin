@@ -8,11 +8,12 @@ export const metadata: Metadata = {
   title: 'Detail Transfer Konversi SKS',
 };
 
-export default function VerifikasiTransferKonversiPage() {
+export default function VerifikasiTransferKonversiPage({ params }: { params: { idKonversi: string } }) {
+  const { idKonversi } = params;
   return (
     <main>
       <div className='min-h-screen w-full'>
-        <DetailTransferKonversiModule />
+        <DetailTransferKonversiModule idKonversi={idKonversi} />
       </div>
     </main>
   );

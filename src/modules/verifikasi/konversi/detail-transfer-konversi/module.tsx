@@ -5,14 +5,18 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { FaFileExport } from 'react-icons/fa6';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
+import Pagination from '@/components/generals/pagination';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 import { TableFilter } from '@/modules/verifikasi/konversi/components/Filter';
-import Pagination from '@/components/generals/pagination';
 import { TableDetailTransferKonversi } from '@/modules/verifikasi/konversi/components/TableDetailTransferKonversi';
 
-const DetailTransferKonversiModule = () => {
+interface TProps {
+  idKonversi: string;
+}
+
+const DetailTransferKonversiModule = ({ idKonversi }: TProps) => {
   const DetailTransferKonversiBreadcrumb = [
     {
       name: 'Verifikasi Konversi',
@@ -20,7 +24,7 @@ const DetailTransferKonversiModule = () => {
     },
     {
       name: 'Detail Konversi',
-      link: '/verifikasi/konversi/detail-konversi',
+      link: `/verifikasi/konversi/detail-transfer-konversi/${idKonversi}`,
     },
   ];
 
