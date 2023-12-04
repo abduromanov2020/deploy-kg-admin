@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'Detail Konversi Balik SKS',
 };
 
-export default function VerifikasiKonversiPage() {
+export default function VerifikasiKonversiBalikPage() {
   return (
     <main>
       <div className='min-h-screen w-full'>
