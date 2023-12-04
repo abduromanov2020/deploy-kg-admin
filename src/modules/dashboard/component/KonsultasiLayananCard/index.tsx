@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import Avatar from 'react-avatar';
 import { IoIosArrowDown } from 'react-icons/io';
 
 import {
@@ -10,6 +11,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 const filter = ['Karir & cita-cita', 'Kesehatan mental', 'Keluarga', 'Lainnya'];
+
+const chat = [];
 
 export const KonsultasiLayananCard = () => {
   return (
@@ -29,7 +32,70 @@ export const KonsultasiLayananCard = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className=''></div>
+      <div className='p-8'>
+        <div className='flex flex-col gap-5'>
+          <div className='flex gap-2'>
+            <div>
+              {/* {row?.original.image !== null ? (
+            <Image
+              src={row?.original.image as string}
+              width={35}
+              height={35}
+              alt='avatar'
+              className='w-10 h-10 rounded-md object-cover bg-center'
+            />
+          ) : (
+            <Avatar
+              name={row?.original?.name || 'a'}
+              color='#F26800'
+              className='rounded-md'
+              size='35'
+            />
+          )} */}
+              <Avatar
+                name='Test'
+                color='#F26800'
+                className='rounded-full'
+                size='35'
+              />
+            </div>
+            <div className='flex flex-col justify-between'>
+              <p className='text-sm'>User Name</p>
+              <p className='text-xs'>Chat</p>
+            </div>
+          </div>
+          <div className='flex gap-2'>
+            <div>
+              {/* {row?.original.image !== null ? (
+            <Image
+              src={row?.original.image as string}
+              width={35}
+              height={35}
+              alt='avatar'
+              className='w-10 h-10 rounded-md object-cover bg-center'
+            />
+          ) : (
+            <Avatar
+              name={row?.original?.name || 'a'}
+              color='#F26800'
+              className='rounded-md'
+              size='35'
+            />
+          )} */}
+              <Avatar
+                name='Test'
+                color='#F26800'
+                className='rounded-full'
+                size='35'
+              />
+            </div>
+            <div className='flex flex-col justify-between'>
+              <p className='text-sm'>User Name</p>
+              <p className='text-xs'>Chat</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
