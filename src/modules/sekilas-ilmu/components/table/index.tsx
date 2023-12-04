@@ -21,9 +21,154 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { columns, data } from './data';
+import {
+  TArticleData,
+  TArticleItem,
+  TGetAllArticle,
+} from '@/types/sekilas-ilmu/types';
+import { ColumnDef } from '@tanstack/react-table';
+import { format } from 'date-fns';
+import Link from 'next/link';
+import { DeteleArticleModal } from '@/modules/sekilas-ilmu/components/DeleteModal';
+import { TiArrowSortedDown } from 'react-icons/ti';
 
-const TableSekilasIlmu = () => {
+const getMonthName = (monthIndex: number) => {
+  const months = [
+    'Januari',
+    'Februari',
+    'Maret',
+    'April',
+    'Mei',
+    'Juni',
+    'Juli',
+    'Agustus',
+    'September',
+    'Oktober',
+    'November',
+    'Desember',
+  ];
+
+  if (monthIndex >= 0 && monthIndex < months.length) {
+    return months[monthIndex];
+  } else {
+    return 'Bulan tidak valid';
+  }
+};
+
+export const columns: ColumnDef<TArticleItem>[] = [
+  {
+    accessorKey: 'no',
+    header: 'NO',
+    cell: ({ row }) => <div>{row.index + 1}</div>,
+  },
+  {
+    accessorKey: 'title',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-xs'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          JUDUL ARTIKEL
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div>{row.getValue('title')}</div>,
+  },
+  {
+    accessorKey: 'author.full_name',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-xs'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          PENULIS
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div>{row.original.author.full_name}</div>,
+  },
+  {
+    accessorKey: 'created_at',
+    header: () => <div className=''>TANGGAL UNGGAHAN</div>,
+    cell: ({ row }) => {
+      const rawDate: unknown = row.getValue('created_at');
+
+      if (typeof rawDate === 'string') {
+        const dateObject = new Date(rawDate);
+
+        if (!isNaN(dateObject.getTime())) {
+          const formatted = `${dateObject.getDate()} ${getMonthName(
+            dateObject.getMonth(),
+          )} ${dateObject.getFullYear()}`;
+          return <div className='font-medium'>{formatted}</div>;
+        }
+      }
+
+      return <div className='font-medium'>Invalid Date</div>;
+    },
+  },
+
+  {
+    accessorKey: 'jumlah_disimpan',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-xs'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          JUMLAH DISIMPAN
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div>{row.getValue('jumlah_disimpan')}</div>,
+  },
+  {
+    accessorKey: 'details',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-sm p-0 text-start font-semibold text-black'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          INFORMASI
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <Link
+        href={''}
+        className='text-start font-semibold text-sm text-primary-500'
+      >
+        Detail
+      </Link>
+    ),
+  },
+  {
+    id: 'actions',
+    enableHiding: false,
+    cell: () => {
+      return (
+        <div className='flex gap-3'>
+          <DeteleArticleModal />
+          <Link href='/sekilas-ilmu/edit-artikel'>
+            <Button className='bg-primary-500'>Edit</Button>
+          </Link>
+        </div>
+      );
+    },
+  },
+];
+
+const TableSekilasIlmu = ({ data }: TGetAllArticle) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});

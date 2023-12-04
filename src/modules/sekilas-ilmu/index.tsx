@@ -21,6 +21,7 @@ import FilterComponent from './components/filter';
 import TableSekilasIlmu from './components/table';
 import { ITESMS } from './constants';
 import Pagination from '@/components/generals/pagination';
+import { useGetArticle } from '@/hooks/sekilas-ilmu/hook';
 
 const SekilasIlmuModule = () => {
   const query = useSearchParams();
@@ -42,6 +43,21 @@ const SekilasIlmuModule = () => {
     // refetchPengajuan();
     // router.push(`/verifikasi/administrasi?page=${page}`);
   };
+
+  const [option, setOption] = useState({
+    page: 1,
+    limit: 10,
+    search: '',
+  });
+
+  const { data, isLoading } = useGetArticle(
+    option.page,
+    option.limit,
+    option.search,
+  );
+
+  const dataTable = data ? data?.data?.data : [];
+  console.log(dataTable);
 
   return (
     <main className='flex flex-col gap-6'>
@@ -117,14 +133,10 @@ const SekilasIlmuModule = () => {
             <CardComponent />
           ) : (
             <div className=''>
-              <TableSekilasIlmu />
+              <TableSekilasIlmu data={dataTable} />
               <div className='flex items-center justify-end space-x-2 py-4'>
                 <div className='flex-1 text-sm text-muted-foreground pl-3'>
-                  <p>
-                    Menampilkan 1 hingga{' '}
-                    10 data dari{' '}
-                    10000 entries
-                  </p>
+                  <p>Menampilkan 1 hingga 10 data dari 10000 entries</p>
                 </div>
                 <div className='space-x-2'>
                   <Pagination
