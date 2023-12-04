@@ -58,8 +58,20 @@ const getMonthName = (monthIndex: number) => {
 export const columns: ColumnDef<TArticleItem>[] = [
   {
     accessorKey: 'no',
-    header: 'NO',
-    cell: ({ row }) => <div>{row.index + 1}</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-sm p-0 text-start font-semibold text-black'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          NO
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className='text-center font-semibold text-sm'>{row.index + 1}</div>
+    ),
   },
   {
     accessorKey: 'title',
@@ -67,7 +79,7 @@ export const columns: ColumnDef<TArticleItem>[] = [
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-sm p-0 text-start font-semibold text-black'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           JUDUL ARTIKEL
@@ -75,7 +87,11 @@ export const columns: ColumnDef<TArticleItem>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('title')}</div>,
+    cell: ({ row }) => (
+      <div className='text-start font-semibold text-sm'>
+        {row.getValue('title')}
+      </div>
+    ),
   },
   {
     accessorKey: 'author.full_name',
@@ -83,7 +99,7 @@ export const columns: ColumnDef<TArticleItem>[] = [
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-sm p-0 text-start font-semibold text-black'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           PENULIS
@@ -91,11 +107,19 @@ export const columns: ColumnDef<TArticleItem>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.original.author.full_name}</div>,
+    cell: ({ row }) => (
+      <div className='text-start font-semibold text-sm'>
+        {row.original.author.full_name}
+      </div>
+    ),
   },
   {
     accessorKey: 'created_at',
-    header: () => <div className=''>TANGGAL UNGGAHAN</div>,
+    header: () => (
+      <div className='text-sm text-start font-semibold text-black'>
+        TANGGAL UNGGAHAN
+      </div>
+    ),
     cell: ({ row }) => {
       const rawDate: unknown = row.getValue('created_at');
 
@@ -106,11 +130,15 @@ export const columns: ColumnDef<TArticleItem>[] = [
           const formatted = `${dateObject.getDate()} ${getMonthName(
             dateObject.getMonth(),
           )} ${dateObject.getFullYear()}`;
-          return <div className='font-medium'>{formatted}</div>;
+          return (
+            <div className='text-start font-semibold text-sm'>{formatted}</div>
+          );
         }
       }
 
-      return <div className='font-medium'>Invalid Date</div>;
+      return (
+        <div className='text-start font-semibold text-sm'>Invalid Date</div>
+      );
     },
   },
 
@@ -120,7 +148,7 @@ export const columns: ColumnDef<TArticleItem>[] = [
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-sm p-0 text-start font-semibold text-black'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           JUMLAH DISIMPAN
@@ -128,7 +156,11 @@ export const columns: ColumnDef<TArticleItem>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('jumlah_disimpan')}</div>,
+    cell: ({ row }) => (
+      <div className='text-start font-semibold text-sm'>
+        {row.getValue('jumlah_disimpan')}
+      </div>
+    ),
   },
   {
     accessorKey: 'details',
