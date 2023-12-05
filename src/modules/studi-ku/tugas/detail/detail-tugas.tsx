@@ -1,5 +1,7 @@
 import Image from 'next/image';
+import { TbEdit } from 'react-icons/tb';
 
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
@@ -8,12 +10,12 @@ const DetailTugas = () => {
     <Table className='w-full border border-gray-200'>
       <TableBody>
         <TableRow>
-          <TableCell>Nama Tugas</TableCell>
-          <TableCell>Quiz 1</TableCell>
-        </TableRow>
-        <TableRow>
           <TableCell>Deskripsi Tugas</TableCell>
           <TableCell>Silahkan kerjakan quiz 1 dengan baik dan benar.</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Mata Kuliah</TableCell>
+          <TableCell>Manajemen Keuangan</TableCell>
         </TableRow>
         <TableRow>
           <TableCell>Batas Pengumpulan</TableCell>
@@ -45,6 +47,21 @@ const DetailTugas = () => {
                 />
               </CardContent>
             </Card>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell></TableCell>
+          <TableCell>
+            <div className='flex gap-3'>
+              <Button variant='primaryOutline' className='flex gap-2'>
+                <TbEdit size={15} />
+                Edit Informasi
+              </Button>
+              <Button variant='primary' className='flex gap-2'>
+                <TbEdit size={15} />
+                Edit Nilai
+              </Button>
+            </div>
           </TableCell>
         </TableRow>
       </TableBody>
