@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useParams, useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
@@ -19,11 +19,19 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 const EditDataAdminModule = () => {
   const params = useParams();
   const { id } = params;
   const { data } = useUserById(id);
+  const useData = data?.data;
   console.log(data);
 
   const ConstantEditAdmin = [
@@ -53,17 +61,37 @@ const EditDataAdminModule = () => {
   const form = useForm<z.infer<typeof EditAdminUserValidationSchema>>({
     resolver: zodResolver(EditAdminUserValidationSchema),
     defaultValues: {
-      id_admin: '1',
-      full_name: '2',
-      email: '3',
-      user_name: '4',
-      status: '5',
+      full_name: '',
+      email: '',
+      status: '',
+      self_foto: undefined,
     },
   });
+  useEffect(() => {
+    if (useData) {
+      const defaultValues = {
+        full_name: useData?.full_name ?? '-',
+        email: useData?.email ?? '-',
+        status: useData?.status === 'Active' ? 'Active' : 'Inactive',
+        self_foto: undefined,
+      };
+      form.reset(defaultValues);
+    }
+  }, [useData, form.reset]);
   const onSubmit = (data: z.infer<typeof EditAdminUserValidationSchema>) => {
     console.log(data);
     toast.success('Form submitted!');
   };
+  const dummyStatus = [
+    {
+      name: 'Active',
+      value: 'Active',
+    },
+    {
+      name: 'Inactive',
+      value: 'Inactive',
+    },
+  ];
   return (
     <>
       <div className='bg-white mb-3 rounded-md'>
@@ -76,23 +104,8 @@ const EditDataAdminModule = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className='pt-5 w-full'>
-              <div className='grid grid-cols-3 gap-5'>
-                <div className='grid w-full max-w-sm items-center space-y-4'>
-                  <FormField
-                    control={form.control}
-                    name='id_admin'
-                    render={({ field }) => (
-                      <FormItem className='grid w-full gap-1.5'>
-                        <FormLabel>ID Admin*</FormLabel>
-                        <FormControl>
-                          <Input placeholder='ID Admin' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className='grid w-full max-w-sm items-center space-y-4'>
+              <div className='grid grid-cols-2 gap-5'>
+                <div className='grid w-full  items-center space-y-4'>
                   <FormField
                     control={form.control}
                     name='full_name'
@@ -107,7 +120,7 @@ const EditDataAdminModule = () => {
                     )}
                   />
                 </div>
-                <div className='grid w-full max-w-sm items-center space-y-4'>
+                <div className='grid w-full  items-center space-y-4'>
                   <FormField
                     control={form.control}
                     name='email'
@@ -123,30 +136,53 @@ const EditDataAdminModule = () => {
                   />
                 </div>
 
-                <div className='grid w-full max-w-sm items-center gap-1.5'>
-                  <FormField
-                    control={form.control}
-                    name='user_name'
-                    render={({ field }) => (
-                      <FormItem className='grid w-full gap-1.5'>
-                        <FormLabel>Nama Pengguna Akun*</FormLabel>
-                        <FormControl>
-                          <Input placeholder='Nama Pengguna Akun' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className='grid w-full max-w-sm items-center gap-1.5'>
+                <div className='grid w-full  items-center gap-1.5'>
                   <FormField
                     control={form.control}
                     name='status'
                     render={({ field }) => (
+                      <div className='flex flex-col space-y-1.5'>
+                        <FormLabel htmlFor='status'>Status*</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger id='status'>
+                              <SelectValue placeholder='Pilih Status...' />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent position='popper'>
+                            {dummyStatus.map((item, i) => (
+                              <SelectItem key={i} value={item.value}>
+                                {item.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                          <FormMessage />
+                        </Select>
+                      </div>
+                    )}
+                  />
+                </div>
+                <div className='grid w-full  items-center gap-1.5'>
+                  <FormField
+                    control={form.control}
+                    name='self_foto'
+                    render={({ field }) => (
                       <FormItem className='grid w-full gap-1.5'>
-                        <FormLabel>Status Admin*</FormLabel>
+                        <FormLabel htmlFor='self_foto'>PasFoto*</FormLabel>
                         <FormControl>
-                          <Input placeholder='Status*' {...field} />
+                          <Input
+                            id='self_foto'
+                            type='file'
+                            onChange={(e) => {
+                              if (e.target.files) {
+                                field.onChange(e.target.files);
+                              }
+                            }}
+                            // value={field.value}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

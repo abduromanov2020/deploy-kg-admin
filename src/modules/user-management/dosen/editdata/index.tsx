@@ -1,9 +1,8 @@
 import { useParams, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-import { FaInfoCircle, FaPlusCircle } from 'react-icons/fa';
+import { FaEdit, FaInfoCircle, FaPlusCircle } from 'react-icons/fa';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
-import InputSubject from '@/components/inputsubject';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -35,13 +34,7 @@ const EditDataDosenModule = () => {
   const handleBack = () => {
     router.back();
   };
-  const dataDummy = [
-    {
-      study_program: 'Kedokteran',
-      id_major: '2001726',
-      major: 'Kedokteran',
-    },
-  ];
+
   const handleLookUp = () => {
     setLookUp(true);
     setLookUp2(false);
@@ -50,20 +43,16 @@ const EditDataDosenModule = () => {
     setLookUp(false);
     setLookUp2(true);
   };
-  const handlePopUpConfirm = () => {
-    setConfirm(true);
-  };
+
   const [inputs, setInputs] = useState<
     Array<{
       input1: string;
       input2: string;
-      input3: string;
     }>
   >([
     {
       input1: '',
       input2: '',
-      input3: '',
     },
   ]);
   const [jumlahModul, setJumlahModul] = useState(1);
@@ -74,18 +63,8 @@ const EditDataDosenModule = () => {
       {
         input1: '',
         input2: '',
-        input3: '',
       },
     ]);
-  };
-
-  const handleInput1 = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number,
-  ) => {
-    const newInputs = [...inputs];
-    newInputs[index].input1 = e.target.value;
-    setInputs(newInputs);
   };
 
   const handleInput2 = (
@@ -115,25 +94,16 @@ const EditDataDosenModule = () => {
             Mata Kuliah Ajar
           </h1>
         </div>
-        <div className='pt-8 gap-5'>
+        <div className='pt-8'>
           <div>
             {lookup2 && (
               <div>
-                <div className='grid grid-cols-3 gap-5'>
-                  <div className='grid w-full max-w-sm items-center space-y-4'>
-                    <Label htmlFor='id_mahasiswa'>ID Mahasiswa*</Label>
-                    <Input
-                      type='text'
-                      id='id_mahasiswa'
-                      placeholder='#IDX1212'
-                      defaultValue='test'
-                    />
-                  </div>
-                  <div className='grid w-full max-w-sm items-center space-y-4'>
+                <div className='grid grid-cols-2 gap-5'>
+                  <div className='grid w-full  items-center space-y-4'>
                     <Label htmlFor='full_name'>Nama Lengkap Mahasiswa*</Label>
                     <Input type='text' id='full_nam' placeholder='Roberto' />
                   </div>
-                  <div className='grid w-full max-w-sm items-center space-y-4'>
+                  <div className='grid w-full  items-center space-y-4'>
                     <Label htmlFor='email'>Email*</Label>
                     <Input
                       type='email'
@@ -141,7 +111,7 @@ const EditDataDosenModule = () => {
                       placeholder='aryo12356@gmail.com'
                     />
                   </div>
-                  <div className='grid w-full max-w-sm items-center space-y-4'>
+                  <div className='grid w-full  items-center space-y-4'>
                     <Label htmlFor='faculty'>Fakultas</Label>
                     <Input
                       type='text'
@@ -149,17 +119,13 @@ const EditDataDosenModule = () => {
                       placeholder='Teknik Informatika'
                     />
                   </div>
-                  <div className='grid w-full max-w-sm items-center space-y-4'>
+                  <div className='grid w-full  items-center space-y-4'>
                     <Label htmlFor='major'>Program Studi*</Label>
                     <Input
                       type='text'
                       id='major'
                       placeholder='Bisnis Digital'
                     />
-                  </div>
-                  <div className='grid w-full max-w-sm items-center gap-1.5'>
-                    <Label htmlFor='teacher'>Dosen Pembimbing*</Label>
-                    <Input type='text' id='teacher' placeholder='Uchiha' />
                   </div>
                 </div>
                 <div>
@@ -189,49 +155,20 @@ const EditDataDosenModule = () => {
           </div>
           {lookup && (
             <div className='space-y-5'>
-              {/* {dataDummy.map((item, i: number) => ( */}
-              <div className='bg-slate-50 rounded px-5 py-5'>
-                <h1 className='text-lg'>Mata Kuliah Ajar </h1>
-                <div className='flex space-x-5 pt-5'>
-                  <div className='grid w-full max-w-sm items-center space-y-4'>
-                    <Label htmlFor='id_major'>Program Studi*</Label>
-                    <InputSubject defaultValue='Select' />
-                  </div>
-                </div>
-              </div>
               <div className='space-y-5'>
                 {inputs.map((input, index) => (
                   <div key={index}>
                     <EditorComponent
                       key={index}
+                      titleMajor={`Mata Kuliah ${index + 1}`}
                       input1Props={{
-                        title: `Judul Video ${index + 1}`,
-                        value: input.input1,
-                        onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-                          handleInput1(e, index),
-                        placeholder: `Masukan Judul Video ${index + 1}`,
-                        styleInput:
-                          'border-2 mt-3 border-dark-300 px-4 py-1 rounded-md',
-                        styleTitle: 'text-dark',
-                      }}
-                      input2Props={{
-                        title: `Link Video ${index + 1}`,
+                        title: `Mata Kuliah `,
                         value: input.input2,
                         onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
                           handleInput2(e, index),
-                        placeholder: `Masukan Link Video ${index + 1}`,
+                        placeholder: `Kedokteran`,
                         styleInput:
-                          'border-2 mt-3 border-dark-300 px-4 py-1 rounded-md',
-                        styleTitle: 'text-dark',
-                      }}
-                      input3Props={{
-                        title: `Link Video ${index + 1}`,
-                        value: input.input2,
-                        onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-                          handleInput2(e, index),
-                        placeholder: `Masukan Link Video ${index + 1}`,
-                        styleInput:
-                          'border-2 mt-3 border-dark-300 px-4 py-1 rounded-md',
+                          'border-2 mt-3 border-dark-300 px-4 py-[5px] rounded-md ',
                         styleTitle: 'text-dark',
                       }}
                     />
@@ -240,7 +177,7 @@ const EditDataDosenModule = () => {
               </div>
               <div className='flex justify-between pt-5'>
                 <div className='flex items-center space-x-2'>
-                  <Checkbox id='terms' />
+                  <Checkbox id='terms' onClick={() => setConfirm(!confirm)} />
                   <label
                     htmlFor='terms'
                     className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
@@ -263,21 +200,25 @@ const EditDataDosenModule = () => {
                 >
                   <div className='flex place-items-center gap-2'>Kembali</div>
                 </button>
-                {/* <button
-                  onClick={handlePopUpConfirm}
-                  className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'
-                >
-                  <div className='flex place-items-center gap-2'>
-                    <FaEdit /> Edit Data
-                  </div>
-                </button> */}
-                <EditConfirmModal />
+
+                {confirm ? (
+                  <EditConfirmModal />
+                ) : (
+                  <button
+                    disabled
+                    className='px-6 py-3 shadow-md text-slate-500 rounded-md  bg-slate-300 '
+                  >
+                    <div className='flex place-items-center gap-2'>
+                      <FaEdit /> Edit Data
+                    </div>
+                  </button>
+                )}
+                {/* <EditConfirmModal /> */}
               </div>
             </div>
           )}
         </div>
       </div>
-      {confirm && <EditConfirmModal />}
     </>
   );
 };
