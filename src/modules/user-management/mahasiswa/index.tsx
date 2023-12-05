@@ -1,5 +1,5 @@
 import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
-import React, { useState } from 'react';
+import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaFileDownload, FaFilter } from 'react-icons/fa';
 
@@ -8,66 +8,27 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 
 import MahasiswaDataTable from '@/modules/user-management/mahasiswa/datatable';
+
 type Checked = DropdownMenuCheckboxItemProps['checked'];
 const MahasiswaModule = () => {
-  const [faculty, setFaculty] = useState('1');
+  const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true);
+  const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
+  const [showPanel, setShowPanel] = React.useState<Checked>(false);
 
-  const filterFaculty = [
+  const prodi = [
     {
-      name: 'Pembiayaan dan Optimalisasi Bisnis',
-      value: '1',
+      label: 'Informatika',
+      value: 'informatika',
     },
     {
-      name: 'Desain Digital',
-      value: '2',
-    },
-    {
-      name: 'Teknologi Ekonomi dan Bisnis',
-      value: '3',
-    },
-  ];
-  const filterMajor = [
-    {
-      name: 'Semua',
-      value: 'all',
-    },
-    {
-      name: 'Prodi 1',
-      value: '2',
-    },
-    {
-      name: 'Prodi 2',
-      value: '3',
-    },
-    {
-      name: 'Prodi 3',
-      value: '4',
-    },
-  ];
-  const filterStatus = [
-    {
-      name: 'Semua',
-      value: 'all',
-    },
-    {
-      name: 'Aktif',
-      value: '1',
-    },
-    {
-      name: 'Non-Aktif',
-      value: '2',
-    },
-    {
-      name: 'Berhenti',
-      value: '3',
+      label: 'Sistem Informasi',
+      value: 'sistem informasi',
     },
   ];
 
@@ -96,32 +57,52 @@ const MahasiswaModule = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className='w-56'>
                   <DropdownMenuLabel>Filter</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
-                  <DropdownMenuRadioGroup
-                    value={faculty}
-                    onValueChange={setFaculty}
-                  >
-                    {filterFaculty.map((item, i) => (
-                      <DropdownMenuRadioItem key={i} value={item.value}>
-                        {item.name}
-                      </DropdownMenuRadioItem>
-                    ))}
-                  </DropdownMenuRadioGroup>
-                  <DropdownMenuSeparator />
                   <DropdownMenuLabel>Prodi</DropdownMenuLabel>
-                  {filterMajor.map((item, i) => (
-                    <DropdownMenuCheckboxItem key={i}>
-                      {item.name}
-                    </DropdownMenuCheckboxItem>
-                  ))}
                   <DropdownMenuSeparator />
-                  <DropdownMenuLabel>Status</DropdownMenuLabel>
-                  {filterStatus.map((item, i) => (
-                    <DropdownMenuCheckboxItem key={i}>
-                      {item.name}
+
+                  {prodi.map((item, i) => (
+                    <DropdownMenuCheckboxItem
+                      key={i}
+                      checked={showStatusBar}
+                      onCheckedChange={setShowStatusBar}
+                      textValue={item.value}
+                    >
+                      {item.label}
                     </DropdownMenuCheckboxItem>
                   ))}
+                  {/* <DropdownMenuCheckboxItem
+                    checked={showActivityBar}
+                    onCheckedChange={setShowActivityBar}
+                  >
+                    Activity Bar
+                  </DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem
+                    checked={showPanel}
+                    onCheckedChange={setShowPanel}
+                  >
+                    Panel
+                  </DropdownMenuCheckboxItem> */}
+                  <DropdownMenuLabel>Prodi</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+
+                  <DropdownMenuCheckboxItem
+                    checked={showStatusBar}
+                    onCheckedChange={setShowStatusBar}
+                  >
+                    Status Bar
+                  </DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem
+                    checked={showActivityBar}
+                    onCheckedChange={setShowActivityBar}
+                  >
+                    Activity Bar
+                  </DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem
+                    checked={showPanel}
+                    onCheckedChange={setShowPanel}
+                  >
+                    Panel
+                  </DropdownMenuCheckboxItem>
                 </DropdownMenuContent>
               </DropdownMenu>
               <button className='px-6 py-2 shadow-md text-blue-600 rounded-md hover:text-white  hover:bg-blue-600 hover:transition'>

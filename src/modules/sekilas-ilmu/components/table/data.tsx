@@ -1,10 +1,11 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import Link from 'next/link';
+import { TiArrowSortedDown } from 'react-icons/ti';
 
 import { Button } from '@/components/ui/button';
+
 import { DeteleArticleModal } from '@/modules/sekilas-ilmu/components/DeleteModal';
-import { TiArrowSortedDown } from 'react-icons/ti';
 
 export type Payment = {
   id: string;
@@ -25,8 +26,10 @@ export const data = Array.from({ length: 50 }, (_, i) => ({
 export const columns: ColumnDef<unknown>[] = [
   {
     accessorKey: 'no',
-    header: 'NO',
-    cell: ({ row }) => <div>{row.index + 1}</div>,
+    header: () => {
+      return <div className='text-center text-sm'>NO</div>;
+    },
+    cell: ({ row }) => <div className='text-sm font-semibold'>{row.index + 1}</div>,
   },
   {
     accessorKey: 'judul_artikel',
@@ -34,7 +37,7 @@ export const columns: ColumnDef<unknown>[] = [
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-sm'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           JUDUL ARTIKEL
@@ -42,7 +45,7 @@ export const columns: ColumnDef<unknown>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('judul_artikel')}</div>,
+    cell: ({ row }) => <div className='text-sm font-semibold'>{row.getValue('judul_artikel')}</div>,
   },
   {
     accessorKey: 'penulis_artikel',
@@ -50,7 +53,7 @@ export const columns: ColumnDef<unknown>[] = [
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-sm'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           PENULIS
@@ -58,19 +61,30 @@ export const columns: ColumnDef<unknown>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('penulis_artikel')}</div>,
+    cell: ({ row }) => <div className='text-sm font-semibold'>{row.getValue('penulis_artikel')}</div>,
   },
   {
     accessorKey: 'created_at',
-    header: () => <div className=''>TANGGAL UNGGAHAN</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-sm'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          TANGGAL UNGGAHAN
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const rawDate: unknown = row.getValue('created_at');
 
       if (rawDate instanceof Date) {
         const formatted = format(rawDate, 'PPP');
-        return <div className=' font-medium'>{formatted}</div>;
+        return <div className='text-sm font-semibold'>{formatted}</div>;
       } else {
-        return <div className=' font-medium'>Invalid Date</div>;
+        return <div className='text-sm font-semibold'>Invalid Date</div>;
       }
     },
   },
@@ -80,7 +94,7 @@ export const columns: ColumnDef<unknown>[] = [
       return (
         <Button
           variant='ghost'
-          className='text-xs'
+          className='text-sm'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           JUMLAH DISIMPAN
@@ -88,23 +102,20 @@ export const columns: ColumnDef<unknown>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('jumlah_disimpan')}</div>,
+    cell: ({ row }) => <div className='text-sm font-semibold'>{row.getValue('jumlah_disimpan')}</div>,
   },
   {
-    accessorKey: 'student_id',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant='ghost'
-          className='text-xs'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          INFORMASi
-          <TiArrowSortedDown className='ml-2 h-4 w-4' />
-        </Button>
-      );
+    accessorKey: 'detail',
+    header: () => {
+      return <div className='text-center text-sm'>INFORMASI</div>;
     },
-    cell: ({ row }) => <div>{row.getValue('student_id')}</div>,
+    cell: () => (
+      <Link
+        href="/sekilas-ilmu/detail-artikel"
+      >
+        <p className='text-primary-500 hover:underline font-semibold'>Detail</p>
+      </Link>
+    ),
   },
   {
     id: 'actions',
@@ -112,7 +123,9 @@ export const columns: ColumnDef<unknown>[] = [
     cell: () => {
       return (
         <div className='flex gap-3'>
-          <DeteleArticleModal />
+          <DeteleArticleModal
+            modalTrigger={<Button className='bg-red-800'>Hapus</Button>}
+          />
           <Link href='/sekilas-ilmu/edit-artikel'>
             <Button className='bg-primary-500'>Edit</Button>
           </Link>

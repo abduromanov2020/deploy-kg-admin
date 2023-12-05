@@ -11,11 +11,15 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-export const AccRejectModal = () => {
+interface TProps {
+  trigger: React.ReactNode;
+}
+
+export const AccRejectModal = ({ trigger }: TProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className='bg-red-800'>Tolak</Button>
+        {trigger}
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px] text-center p-12'>
         <DialogHeader>

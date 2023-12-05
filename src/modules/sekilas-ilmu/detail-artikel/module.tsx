@@ -23,7 +23,7 @@ const DetailArtikelModule = () => {
         <div className='border-b border-dark-200 p-5'>
           <div className='flex justify-between items-center'>
             <h3 className='font-semibold text-sm'>
-              Masih sering gugup saat public speaking? Terapin 6 tips Ampuh ini!
+              Detail Artikel
             </h3>
             <div className='flex items-center gap-3'>
               <Button className='hover:bg-primary-600 shadow-md bg-primary-500 hover:text-white text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>

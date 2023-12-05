@@ -10,8 +10,9 @@ import { CiCirclePlus } from 'react-icons/ci';
 import { IoIosList } from 'react-icons/io';
 
 import { cn } from '@/lib/utils';
+import { useGetArticle } from '@/hooks/sekilas-ilmu/hook';
 
-import { BreadCrumb } from '@/components/BreadCrumb';
+import Pagination from '@/components/generals/pagination';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -19,8 +20,6 @@ import CardComponent from './components/card';
 import DatePickerSekilasIlmu from './components/datepicker';
 import FilterComponent from './components/filter';
 import TableSekilasIlmu from './components/table';
-import { ITESMS } from './constants';
-import Pagination from '@/components/generals/pagination';
 
 const SekilasIlmuModule = () => {
   const query = useSearchParams();
@@ -43,14 +42,25 @@ const SekilasIlmuModule = () => {
     // router.push(`/verifikasi/administrasi?page=${page}`);
   };
 
+  const [option, setOption] = useState({
+    page: 1,
+    limit: 10,
+    search: '',
+  });
+
+  const { data, isLoading } = useGetArticle(
+    option.page,
+    option.limit,
+    option.search,
+  );
+
+  const dataArticle = data ? data?.data?.data : [];
+
   return (
     <main className='flex flex-col gap-6'>
       <div className='bg-white'>
-        <BreadCrumb items={ITESMS} className='lg:px-6 lg:py-4' />
-      </div>
-      <div className='bg-white'>
-        <section className='px-4 py-5 border-b-2'>
-          <p>Daftar Artikel</p>
+        <section className='border-b border-dark-200 p-5'>
+          <h3 className='font-semibold text-lg'>Sekilas Ilmu</h3>
         </section>
         <section className='px-4 py-5'>
           <div className='flex justify-between items-center'>
@@ -114,17 +124,13 @@ const SekilasIlmuModule = () => {
           {query.get('view') === 'grid' ||
           query.get('view') === null ||
           active === 'grid' ? (
-            <CardComponent />
+            <CardComponent data={dataArticle} />
           ) : (
             <div className=''>
-              <TableSekilasIlmu />
+              <TableSekilasIlmu data={dataArticle} />
               <div className='flex items-center justify-end space-x-2 py-4'>
                 <div className='flex-1 text-sm text-muted-foreground pl-3'>
-                  <p>
-                    Menampilkan 1 hingga{' '}
-                    10 data dari{' '}
-                    10000 entries
-                  </p>
+                  <p>Menampilkan 1 hingga 10 data dari 10000 entries</p>
                 </div>
                 <div className='space-x-2'>
                   <Pagination

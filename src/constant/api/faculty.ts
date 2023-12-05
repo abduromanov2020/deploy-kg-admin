@@ -1,1 +1,1 @@
-export const FACULTY = '/v1/faculty';
+export const FACULTY = '/v1/faculties';
