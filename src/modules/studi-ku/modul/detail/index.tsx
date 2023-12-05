@@ -82,7 +82,7 @@ const ModulDetailModule = () => {
 
 export default ModulDetailModule;
 
-const ItemDetailModul = ({
+export const ItemDetailModul = ({
   label,
   content,
 }: {
@@ -96,7 +96,7 @@ const ItemDetailModul = ({
     </div>
   );
 };
-const ItemDetailModul2 = ({
+export const ItemDetailModul2 = ({
   label,
   content,
   variant = 'light',
@@ -108,7 +108,7 @@ const ItemDetailModul2 = ({
   return (
     <div
       className={`px-8 py-4 grid grid-cols-6 ${
-        variant ? 'bg-white' : 'bg-dark-200'
+        variant === 'light' ? 'bg-white' : 'bg-dark-200'
       }`}
     >
       <p className='text-[15px] col-span-2 font-semibold text-dark-900'>
@@ -122,7 +122,7 @@ const ItemDetailModul2 = ({
   );
 };
 
-const ItemDetailFile = ({
+export const ItemDetailFile = ({
   label,
   content,
   link,
