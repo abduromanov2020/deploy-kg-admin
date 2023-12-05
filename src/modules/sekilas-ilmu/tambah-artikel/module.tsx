@@ -37,6 +37,16 @@ import { Separator } from '@/components/ui/separator';
 
 import { ITEMSTAMBAH } from '@/modules/sekilas-ilmu/constants';
 import InputBadge from '@/modules/sekilas-ilmu/components/badge';
+import { useGetCategories } from '@/hooks/sekilas-ilmu/categories/hooks';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { useCreateArticle } from '@/hooks/sekilas-ilmu/add-article/hook';
+import { useQueryClient } from '@tanstack/react-query';
 
 const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
@@ -65,6 +75,7 @@ const FormSchema = z.object({
     .min(2, {
       message: 'Hashtag harus di isi minimal 2 karakter',
     }),
+  category_id: z.string().min(1, { message: 'Kategori Harus Dipilih' }),
   writer: z
     .string({
       required_error: 'Penulis harus diisi.',
@@ -98,12 +109,31 @@ const FormSchema = z.object({
     }),
 });
 
+type NameCategories = {
+  id: string;
+  name: string;
+};
+
 const TambahArtikelModule = () => {
+  const { data } = useGetCategories();
+  const { mutate } = useCreateArticle();
+  const queryClient = useQueryClient();
+
+  const getNameCategories = data?.data.map((item: NameCategories) => {
+    return {
+      value: item.id,
+      label: item.name,
+    };
+  });
+
+  console.log(getNameCategories);
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       article_title: '',
       hashtag: '',
+      category_id: '',
       writer: '',
       created_at: new Date().toLocaleDateString(),
       article_content: '<p></p>\n',
@@ -133,9 +163,25 @@ const TambahArtikelModule = () => {
   }, [form.formState.errors]);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log('data', data);
-
-    toast.success('Form submitted!');
+    const formData = new FormData();
+    formData.append('title', data.article_title);
+    formData.append('content', data.article_content.toString());
+    formData.append('category_id', data.category_id);
+    formData.append('tags', data.hashtag.toLowerCase());
+    formData.append('thumbnail', data.file[0]);
+    try {
+      mutate(formData, {
+        onSuccess: () => {
+          console.log(formData);
+          queryClient.invalidateQueries(['create-article'] as any);
+          // setSuccesStatus(true);
+          toast.success('Berhasil Mengunggah');
+          // onreset();
+        },
+      });
+    } catch (err) {
+      console.log('Gagal Mengunggah');
+    }
   }
 
   return (
@@ -169,27 +215,53 @@ const TambahArtikelModule = () => {
                         </FormItem>
                       )}
                     />
-                    {/* <FormField
+                    <FormField
                       control={form.control}
                       name='hashtag'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Hashtag</FormLabel>
                           <FormControl>
-                            <Input placeholder='Isi Hashtag Disini' {...field} />
+                            <InputBadge
+                              label='Hashtag'
+                              required={false}
+                              placeholder='ex: #tags'
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
-                    /> */}
-                    <InputBadge
-                      label='Tags'
+                    />
+                    <FormField
                       control={form.control}
-                      name='hashtag'
-                      required
-                      placeholder='ex: #tags'
-                      // status={errors.tags ? 'error' : 'none'}
-                      // message={errors.tags?.message?.toString()}
+                      name='category_id'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Pilih Kategori*</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder='Pilih Kategori' />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {getNameCategories?.map((categories) => (
+                                <SelectItem
+                                  key={categories.value}
+                                  value={categories.value}
+                                >
+                                  {categories.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
                     <FormField
                       control={form.control}
@@ -219,6 +291,7 @@ const TambahArtikelModule = () => {
                               defaultValue={
                                 field.value || new Date().toLocaleDateString()
                               }
+                              disabled
                             />
                           </FormControl>
                           <FormMessage />

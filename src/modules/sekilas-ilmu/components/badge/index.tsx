@@ -99,10 +99,10 @@ const InputBadge = <T extends FieldValues>({
   };
 
   return (
-    <section className='space-y-3'>
-      <h1 className='font-bold'>
+    <section className='space-y-2'>
+      <h1 className='font-semibold text-sm'>
         {label}
-        <span className='text-warning-700'>*</span>
+        {/* <span className='text-warning-700'>*</span> */}
       </h1>
       <Controller
         // {...{ ...field, ...props }}
