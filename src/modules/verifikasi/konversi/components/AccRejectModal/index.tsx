@@ -11,11 +11,17 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-export const AccRejectModal = () => {
+interface TProps {
+  buttonTrigger: React.ReactNode;
+  dialogTitle: string;
+  buttonSubmit: React.ReactNode;
+}
+
+export const AccRejectModal = ({ buttonTrigger, dialogTitle, buttonSubmit }: TProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className='bg-red-800'>Tolak</Button>
+        {buttonTrigger}
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px] text-center p-12'>
         <DialogHeader>
@@ -26,7 +32,7 @@ export const AccRejectModal = () => {
           </div>
           <DialogTitle>
             <h6 className='text-center'>
-              Apakah Anda ingin menolak Verifikasi Administrasi ini?
+              {dialogTitle}
             </h6>
           </DialogTitle>
 
@@ -36,11 +42,9 @@ export const AccRejectModal = () => {
         </DialogHeader>
         <DialogFooter className='flex w-full justify-between'>
           <Button variant='outline' className='w-full'>
-            Batal
+            Tinjau Ulang
           </Button>
-          <Button type='submit' className='bg-red-800 w-full'>
-            Tolak
-          </Button>
+          {buttonSubmit}
         </DialogFooter>
       </DialogContent>
     </Dialog>

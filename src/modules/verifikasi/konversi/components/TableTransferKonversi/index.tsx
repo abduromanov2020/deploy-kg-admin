@@ -25,9 +25,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-
-import { AccRejectModal } from '@/modules/verifikasi/konversi/components/AccRejectModal';
 import { AccConfirmModal } from '@/modules/verifikasi/konversi/components/AccConfirmModal';
+import { AccRejectModal } from '@/modules/verifikasi/konversi/components/AccRejectModal';
 
 export const columns: ColumnDef<unknown>[] = [
   {
@@ -56,7 +55,9 @@ export const columns: ColumnDef<unknown>[] = [
   {
     accessorKey: 'no',
     header: 'NO',
-    cell: ({ row }) => <div className='text-sm font-semibold'>{row.getValue('no')}</div>,
+    cell: ({ row }) => (
+      <div className='text-sm font-semibold'>{row.getValue('no')}</div>
+    ),
   },
   {
     accessorKey: 'nama_mahasiswa',
@@ -72,7 +73,11 @@ export const columns: ColumnDef<unknown>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className='text-sm font-semibold'>{row.getValue('nama_mahasiswa')}</div>,
+    cell: ({ row }) => (
+      <div className='text-sm font-semibold'>
+        {row.getValue('nama_mahasiswa')}
+      </div>
+    ),
   },
   {
     accessorKey: 'prodi',
@@ -88,7 +93,9 @@ export const columns: ColumnDef<unknown>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className='text-sm font-semibold'>{row.getValue('prodi')}</div>,
+    cell: ({ row }) => (
+      <div className='text-sm font-semibold'>{row.getValue('prodi')}</div>
+    ),
   },
   {
     accessorKey: 'status',
@@ -133,7 +140,9 @@ export const columns: ColumnDef<unknown>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className='text-sm font-semibold'>Rp. {row.getValue('biaya_konversi')}</div>
+      <div className='text-sm font-semibold'>
+        Rp. {row.getValue('biaya_konversi')}
+      </div>
     ),
   },
   {
@@ -153,8 +162,26 @@ export const columns: ColumnDef<unknown>[] = [
     cell: () => {
       return (
         <div className='flex gap-3'>
-          <AccConfirmModal />
-          <AccRejectModal />
+          <AccConfirmModal
+            buttonTrigger={<Button className='bg-primary-500 hover:bg-primary-600'>Setuju</Button>}
+            dialogTitle='Apakah Anda ingin menyetujui
+            Transfer Konversi SKS ini?'
+            buttonSubmit={
+              <Button type='submit' className='bg-primary-500 hover:bg-primary-600 w-full'>
+                Setuju
+              </Button>
+            }
+          />
+          <AccRejectModal
+            buttonTrigger={<Button className='bg-red-800 hover:bg-red-900'>Tolak</Button>}
+            dialogTitle='Apakah Anda ingin menolak
+            Transfer Konversi SKS ini?'
+            buttonSubmit={
+              <Button type='submit' className='bg-red-800 hover:bg-red-900 w-full'>
+                Tolak
+              </Button>
+            }
+          />
         </div>
       );
     },
@@ -192,7 +219,7 @@ export const TableTransferKonversi: FC<{ data: unknown[] }> = ({ data }) => {
         <Table className='text-sm max-w-full'>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} >
+              <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id} className='text-center'>

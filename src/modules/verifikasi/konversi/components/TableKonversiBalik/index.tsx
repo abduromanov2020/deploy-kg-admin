@@ -125,8 +125,26 @@ export const columns: ColumnDef<unknown>[] = [
     cell: () => {
       return (
         <div className='flex gap-3'>
-          <AccConfirmModal />
-          <AccRejectModal />
+          <AccConfirmModal
+            buttonTrigger={<Button className='bg-primary-500 hover:bg-primary-600'>Setuju</Button>}
+            dialogTitle='Apakah Anda ingin menyetujui
+Konversi Balik SKS ini?'
+            buttonSubmit={
+              <Button type='submit' className='bg-primary-500 hover:bg-primary-600 w-full'>
+                Setuju
+              </Button>
+            }
+          />
+          <AccRejectModal
+            buttonTrigger={<Button className='bg-red-800 hover:bg-red-900'>Tolak</Button>}
+            dialogTitle='Apakah Anda ingin menolak
+            Konversi Balik SKS ini?'
+            buttonSubmit={
+              <Button type='submit' className='bg-red-800 hover:bg-red-900 w-full'>
+                Tolak
+              </Button>
+            }
+          />
         </div>
       );
     },
