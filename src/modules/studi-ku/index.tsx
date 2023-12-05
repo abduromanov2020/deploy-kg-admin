@@ -7,7 +7,10 @@ import { IoChatboxEllipses, IoDocumentText } from 'react-icons/io5';
 import { LuClipboardList } from 'react-icons/lu';
 import { TbCloudSearch } from 'react-icons/tb';
 
-import { AccordingModul } from '@/components/according-modul';
+import {
+  AccordingModul,
+  AccourdionModulIntroduction,
+} from '@/components/according-modul';
 import { Filter } from '@/components/filter';
 export const MainStudiKu = () => {
   const data = [
@@ -48,6 +51,15 @@ export const MainStudiKu = () => {
     },
   ];
 
+  const dataPendahuluan = {
+    introduction: 'Pendahuluan Blockchain dan Cryptocurrency',
+    description:
+      'Blockchain dan Cryptocurrency adalah suatu teknologi yang memungkinkan terjadinya transaksi digital yang aman, transparan, dan efisien. Blockchain dan Cryptocurrency adalah suatu teknologi yang memungkinkan terjadinya transaksi digital yang aman, transparan, dan efisien. Blockchain dan Cryptocurrency adalah suatu teknologi yang memungkinkan terjadinya transaksi digital yang aman, transparan, dan efisien. Blockchain dan Cryptocurrency adalah suatu teknologi yang memungkinkan terjadinya transaksi digital yang aman, transparan, dan efisien. Blockchain dan Cryptocurrency adalah suatu teknologi yang memungkinkan terjadinya transaksi digital yang aman, transparan, dan efisien. Blockchain dan Cryptocurrency adalah suatu teknologi yang memungkinkan terjadinya transaksi digital yang aman, transparan, dan efisien.',
+    video_link: 'https://www.youtube.com/watch?v=7YqUZUd6Yd4',
+    document_link:
+      'https://pdfhost.io/v/2~5~.Q~5~.Pendahuluan_Blockchain_dan_Cryptocurrencypdf.pdf',
+  };
+
   const filter = [{ title: 'Pertemuan 1' }];
   return (
     <div className='bg-white w-full rounded-md shadow-md'>
@@ -59,30 +71,20 @@ export const MainStudiKu = () => {
           <Filter
             icon={<BiChevronDown className='text-xl' />}
             className='border-2 py-3 w-[180px] px-4'
-            title='Fakultas'
-            data={filter}
-          />
-
-          <Filter
-            icon={<BiChevronDown className='text-xl' />}
-            className='border-2 py-3 w-[180px] px-4'
             title='Program Studi'
             data={filter}
           />
-
           <Filter
             icon={<BiChevronDown className='text-xl' />}
             className='border-2 py-3 w-[180px] px-4'
             title='Mata Kuliah'
             data={filter}
           />
-          <Filter
-            icon={<BiChevronDown className='text-xl' />}
-            className='border-2 py-3 w-[180px] px-4'
-            title='Kelas'
-            data={filter}
-          />
         </div>
+        <AccourdionModulIntroduction
+          title='Pendahuluan'
+          data={dataPendahuluan}
+        />
         <AccordingModul title='Pertemuan 1' data={data} />
         <AccordingModul title='Pertemuan 2' data={data} />
         <AccordingModul title='Pertemuan 3' data={data} />

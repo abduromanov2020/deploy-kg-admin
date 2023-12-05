@@ -10,6 +10,7 @@ import { CiCirclePlus } from 'react-icons/ci';
 import { IoIosList } from 'react-icons/io';
 
 import { cn } from '@/lib/utils';
+import { useGetArticle } from '@/hooks/sekilas-ilmu/hook';
 
 import Pagination from '@/components/generals/pagination';
 import { Button } from '@/components/ui/button';
@@ -40,6 +41,20 @@ const SekilasIlmuModule = () => {
     // refetchPengajuan();
     // router.push(`/verifikasi/administrasi?page=${page}`);
   };
+
+  const [option, setOption] = useState({
+    page: 1,
+    limit: 10,
+    search: '',
+  });
+
+  const { data, isLoading } = useGetArticle(
+    option.page,
+    option.limit,
+    option.search,
+  );
+
+  const dataArticle = data ? data?.data?.data : [];
 
   return (
     <main className='flex flex-col gap-6'>
@@ -109,10 +124,10 @@ const SekilasIlmuModule = () => {
           {query.get('view') === 'grid' ||
           query.get('view') === null ||
           active === 'grid' ? (
-            <CardComponent />
+            <CardComponent data={dataArticle} />
           ) : (
             <div className=''>
-              <TableSekilasIlmu />
+              <TableSekilasIlmu data={dataArticle} />
               <div className='flex items-center justify-end space-x-2 py-4'>
                 <div className='flex-1 text-sm text-muted-foreground pl-3'>
                   <p>Menampilkan 1 hingga 10 data dari 10000 entries</p>
