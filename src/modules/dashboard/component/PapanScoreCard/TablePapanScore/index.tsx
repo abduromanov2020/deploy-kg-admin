@@ -28,51 +28,74 @@ import {
 
 export type TMahasiswa = {
   name: string;
-  studyProgram: string;
-  image?: string | null;
   email: string;
+  rank: number;
+  point: number;
+  image?: string | null;
 };
 
 export const data: TMahasiswa[] = [
   {
-    name: 'Dosen 1',
-    studyProgram: 'Prodi 1',
+    name: 'Mahasiswa 1',
+    email: 'mahasiswa1@mail.com',
+    rank: 1,
+    point: 700,
     image: null,
-    email: 'dosen1@mail.com',
   },
   {
-    name: 'Dosen 2',
-    studyProgram: 'Prodi 2',
+    name: 'Mahasiswa 2',
+    email: 'mahasiswa2@mail.com',
+    rank: 2,
+    point: 600,
     image: null,
-    email: 'dosen1@mail.com',
   },
   {
-    name: 'Dosen 3',
-    studyProgram: 'Prodi 3',
+    name: 'Mahasiswa 3',
+    email: 'mahasiswa3@mail.com',
+    rank: 3,
+    point: 500,
     image: null,
-    email: 'dosen1@mail.com',
   },
   {
-    name: 'Dosen 4',
-    studyProgram: 'Prodi 4',
+    name: 'Mahasiswa 4',
+    email: 'mahasiswa4@mail.com',
+    rank: 4,
+    point: 400,
     image: null,
-    email: 'dosen1@mail.com',
   },
   {
-    name: 'Dosen 5',
-    studyProgram: 'Prodi 5',
+    name: 'Mahasiswa 5',
+    email: 'mahasiswa5@mail.com',
+    rank: 5,
+    point: 300,
     image: null,
-    email: 'dosen1@mail.com',
   },
   {
-    name: 'Dosen 6',
-    studyProgram: 'Prodi 6',
+    name: 'Mahasiswa 6',
+    email: 'mahasiswa6@mail.com',
+    rank: 6,
+    point: 200,
     image: null,
-    email: 'dosen1@mail.com',
   },
 ];
 
 export const columns: ColumnDef<TMahasiswa>[] = [
+  {
+    accessorKey: 'rank',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-xs px-0'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          PERINGKAT
+          <ArrowUpDown className='ml-2 h-4 w-4' />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div>{row.getValue('rank')}</div>,
+  },
   {
     accessorKey: 'mahasiswa',
     header: 'MAHASISWA',
@@ -104,7 +127,7 @@ export const columns: ColumnDef<TMahasiswa>[] = [
     ),
   },
   {
-    accessorKey: 'studyProgram',
+    accessorKey: 'point',
     header: ({ column }) => {
       return (
         <Button
@@ -112,16 +135,16 @@ export const columns: ColumnDef<TMahasiswa>[] = [
           className='text-xs px-0'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          FAKULTAS
+          POIN
           <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('studyProgram')}</div>,
+    cell: ({ row }) => <div>{row.getValue('point')}</div>,
   },
 ];
 
-export const TableDaftarPengajar: FC = () => {
+export const TablePapanScore: FC = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -198,7 +221,7 @@ export const TableDaftarPengajar: FC = () => {
           </TableBody>
         </Table>
       </div>
-      <div className='flex items-center justify-end space-x-2 py-4'>
+      <div className='flex items-center justify-end space-x-2 py-4 '>
         <div className='flex-1 text-xs text-muted-foreground'>
           {table.getFilteredSelectedRowModel().rows.length} of{' '}
           {table.getFilteredRowModel().rows.length} row(s) selected.

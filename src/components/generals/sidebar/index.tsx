@@ -31,8 +31,8 @@ const Sidebar: FC = () => {
   };
 
   return (
-    <div className='w-[280px] min-h-screen py-10 bg-sidebar relative'>
-      <div className='fixed top-0 left-0 h-screen overflow-y-auto pb-10 pt-2 scrollbar-thin scrollbar-thumb-primary-500 scrollbar-  scrollbar-track-sidebar scrollbar-thumb-rounded-md'>
+    <div className='w-[300px] min-h-screen py-10 bg-sidebar relative'>
+      <div className='fixed top-0 left-0 h-screen bg-sidebar overflow-y-auto pb-10 pt-2 '>
         <div className='pl-[35px] pb-[30px]'>
           <Logo className='w-[96px] h-full' />
         </div>
