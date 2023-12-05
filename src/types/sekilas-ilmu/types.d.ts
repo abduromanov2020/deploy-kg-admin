@@ -1,6 +1,6 @@
 import { TMetaResponse, TMetaResponseSingle } from "@/types"
 
-export interface TArticleData {
+export type TArticleData = {
   data: TArticleItem[]
   page_size: number
   total_data: number

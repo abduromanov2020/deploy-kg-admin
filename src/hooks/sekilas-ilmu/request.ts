@@ -9,5 +9,9 @@ export const articleGetRequest = async (
   const { data } = await api.get(
     `v1/article/filter?page=${page}&limit=${limit}&search=${search}&sort_by=TITLE`
   );
+  console.log(page);
+  
+  console.log(data);
+  
   return data;
 };
