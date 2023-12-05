@@ -31,6 +31,7 @@ export interface Author {
 }
 
 export type TAllArticleResponse = TMetaResponseSingle<TArticleData>
+export type TDetailArticleResponse = TMetaResponseSingle<TArticleItem>
 
 export type TuseArticleData = {
   getArticleData: TAllArticleResponse;

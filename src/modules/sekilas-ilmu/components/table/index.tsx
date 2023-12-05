@@ -163,7 +163,7 @@ export const columns: ColumnDef<TArticleItem>[] = [
     ),
   },
   {
-    accessorKey: 'details',
+    accessorKey: 'slug',
     header: ({ column }) => {
       return (
         <Button
@@ -177,7 +177,7 @@ export const columns: ColumnDef<TArticleItem>[] = [
     },
     cell: ({ row }) => (
       <Link
-        href={''}
+        href={`/sekilas-ilmu/detail/${row.getValue('slug')}`}
         className='text-start font-semibold text-sm text-primary-500'
       >
         Detail
@@ -193,9 +193,9 @@ export const columns: ColumnDef<TArticleItem>[] = [
           <DeteleArticleModal
             modalTrigger={<Button className='bg-red-800'>Hapus</Button>}
           />
-          <Link href='/sekilas-ilmu/edit-artikel'>
-            <Button className='bg-primary-500'>Edit</Button>
-          </Link>
+          <Button className='bg-primary-500' asChild>
+            <Link href='/sekilas-ilmu/edit-artikel'>Edit</Link>
+          </Button>
         </div>
       );
     },

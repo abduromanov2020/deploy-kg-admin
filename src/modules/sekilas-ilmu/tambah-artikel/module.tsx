@@ -36,6 +36,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 
 import { ITEMSTAMBAH } from '@/modules/sekilas-ilmu/constants';
+import InputBadge from '@/modules/sekilas-ilmu/components/badge';
 
 const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
@@ -168,7 +169,7 @@ const TambahArtikelModule = () => {
                         </FormItem>
                       )}
                     />
-                    <FormField
+                    {/* <FormField
                       control={form.control}
                       name='hashtag'
                       render={({ field }) => (
@@ -180,6 +181,15 @@ const TambahArtikelModule = () => {
                           <FormMessage />
                         </FormItem>
                       )}
+                    /> */}
+                    <InputBadge
+                      label='Tags'
+                      control={form.control}
+                      name='hashtag'
+                      required
+                      placeholder='ex: #tags'
+                      // status={errors.tags ? 'error' : 'none'}
+                      // message={errors.tags?.message?.toString()}
                     />
                     <FormField
                       control={form.control}
@@ -188,7 +198,10 @@ const TambahArtikelModule = () => {
                         <FormItem>
                           <FormLabel>Penulis</FormLabel>
                           <FormControl>
-                            <Input placeholder='Isi Penulis Disini' {...field} />
+                            <Input
+                              placeholder='Isi Penulis Disini'
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
