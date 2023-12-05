@@ -8,7 +8,7 @@ import PlaceholderImg from '~/images/placeholderImageFile.jpg';
 const PemberkasanSection = () => {
   return (
     <div className='my-3 w-full'>
-      <div className='grid grid-cols-3 gap-3'>
+      <div className='grid grid-cols-3 gap-5'>
         <Card
           key='1'
           className='rounded-lg overflow-hidden'
@@ -20,7 +20,7 @@ const PemberkasanSection = () => {
               alt='Placeholder-Image'
               width={350}
               height={200}
-              className='object-cover'
+              className='object-cover w-full'
             />
           </CardHeader>
         </Card>
@@ -35,7 +35,7 @@ const PemberkasanSection = () => {
               alt='Placeholder-Image'
               width={350}
               height={200}
-              className='object-cover'
+              className='object-cover w-full'
             />
           </CardHeader>
         </Card>
@@ -50,7 +50,7 @@ const PemberkasanSection = () => {
               alt='Placeholder-Image'
               width={350}
               height={200}
-              className='object-cover'
+              className='object-cover w-full'
             />
           </CardHeader>
         </Card>
@@ -65,7 +65,7 @@ const PemberkasanSection = () => {
               alt='Placeholder-Image'
               width={350}
               height={200}
-              className='object-cover'
+              className='object-cover w-full'
             />
           </CardHeader>
         </Card>
@@ -80,7 +80,7 @@ const PemberkasanSection = () => {
               alt='Placeholder-Image'
               width={350}
               height={200}
-              className='object-cover'
+              className='object-cover w-full'
             />
           </CardHeader>
         </Card>
@@ -95,7 +95,7 @@ const PemberkasanSection = () => {
               alt='Placeholder-Image'
               width={350}
               height={200}
-              className='object-cover'
+              className='object-cover w-full'
             />
           </CardHeader>
         </Card>

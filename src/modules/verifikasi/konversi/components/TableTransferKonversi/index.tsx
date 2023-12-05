@@ -10,7 +10,6 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
-import { format, parseISO } from 'date-fns';
 import Link from 'next/link';
 import React, { FC, useState } from 'react';
 import { TiArrowSortedDown } from 'react-icons/ti';
@@ -26,12 +25,10 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { AccConfirmModal } from '@/modules/verifikasi/administrasi/components/AccConfirmModal';
-import { AccRejectModal } from '@/modules/verifikasi/administrasi/components/AccRejectModal';
+import { AccConfirmModal } from '@/modules/verifikasi/konversi/components/AccConfirmModal';
+import { AccRejectModal } from '@/modules/verifikasi/konversi/components/AccRejectModal';
 
-import { TPengajuanAdm } from '@/types/verifikasi/administrasi';
-
-export const columns: ColumnDef<TPengajuanAdm>[] = [
+export const columns: ColumnDef<unknown>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -59,11 +56,11 @@ export const columns: ColumnDef<TPengajuanAdm>[] = [
     accessorKey: 'no',
     header: 'NO',
     cell: ({ row }) => (
-      <div className='text-sm font-semibold'>{row.index + 1}</div>
+      <div className='text-sm font-semibold'>{row.getValue('no')}</div>
     ),
   },
   {
-    accessorKey: 'student_name',
+    accessorKey: 'nama_mahasiswa',
     header: ({ column }) => {
       return (
         <Button
@@ -78,12 +75,12 @@ export const columns: ColumnDef<TPengajuanAdm>[] = [
     },
     cell: ({ row }) => (
       <div className='text-sm font-semibold'>
-        {row.original.user_administration.full_name}
+        {row.getValue('nama_mahasiswa')}
       </div>
     ),
   },
   {
-    accessorKey: 'major',
+    accessorKey: 'prodi',
     header: ({ column }) => {
       return (
         <Button
@@ -97,51 +94,7 @@ export const columns: ColumnDef<TPengajuanAdm>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className='text-sm font-semibold'>{row.original.biodata?.major}</div>
-    ),
-  },
-  {
-    accessorKey: 'created_at',
-    header: ({ column }) => (
-      <Button
-        variant='ghost'
-        className='text-sm'
-        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-      >
-        TANGGAL PENGAJUAN
-        <TiArrowSortedDown className='ml-2 h-4 w-4' />
-      </Button>
-    ),
-    cell: ({ row }) => {
-      const rawDate: unknown = row.getValue('created_at');
-
-      if (typeof rawDate === 'string') {
-        const dateObject = parseISO(rawDate);
-        const formatted = format(dateObject, 'PPP'); // Adjust the format as needed
-        return <div className='text-sm font-semibold'>{formatted}</div>;
-      } else {
-        return <div className='text-sm font-semibold'>Invalid Date</div>;
-      }
-    },
-  },
-  {
-    accessorKey: 'email',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant='ghost'
-          className='text-sm'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          EMAIL
-          <TiArrowSortedDown className='ml-2 h-4 w-4' />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className='text-sm font-semibold'>
-        {row.original.user_administration.email}
-      </div>
+      <div className='text-sm font-semibold'>{row.getValue('prodi')}</div>
     ),
   },
   {
@@ -161,11 +114,11 @@ export const columns: ColumnDef<TPengajuanAdm>[] = [
     cell: ({ row }) => (
       <div
         className={`rounded-md p-1 text-center w-full font-semibold ${
-          row.getValue('status') === 'ACCEPTED'
+          row.getValue('status') === 'Dibayar'
             ? 'bg-green-300 text-green-800'
-            : row.getValue('status') === 'REJECTED'
-              ? 'bg-red-300 text-red-800'
-              : 'bg-yellow-300 text-yellow-800'
+            : row.getValue('status') === 'Belum Dibayar'
+              ? 'bg-yellow-300 text-yellow-800'
+              : 'bg-red-300 text-red-800'
         }`}
       >
         {row.getValue('status')}
@@ -173,14 +126,32 @@ export const columns: ColumnDef<TPengajuanAdm>[] = [
     ),
   },
   {
-    accessorKey: 'id',
-    header: () => {
-      return <div className='text-center text-sm'>BERKAS</div>;
+    accessorKey: 'biaya_konversi',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-sm'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          BIAYA KONVERSI
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
+        </Button>
+      );
     },
     cell: ({ row }) => (
-      <Link
-        href={`/verifikasi/administrasi/lihat-informasi/${row.getValue('id')}`}
-      >
+      <div className='text-sm font-semibold'>
+        Rp. {row.getValue('biaya_konversi')}
+      </div>
+    ),
+  },
+  {
+    accessorKey: 'id',
+    header: () => {
+      return <div className='text-center text-sm'>KONVERSI</div>;
+    },
+    cell: ({ row }) => (
+      <Link href={`/verifikasi/konversi/detail-transfer-konversi/${row.index}`}>
         <p className='text-primary-500 hover:underline font-semibold'>Detail</p>
       </Link>
     ),
@@ -188,31 +159,25 @@ export const columns: ColumnDef<TPengajuanAdm>[] = [
   {
     id: 'actions',
     enableHiding: false,
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <div className='flex gap-3'>
           <AccConfirmModal
-            trigger={
-              <Button
-                className='bg-primary-500'
-                disabled={
-                  row.getValue('status') === 'ACCEPTED' ||
-                  row.getValue('status') === 'REJECTED'
-                }
-              >
+            buttonTrigger={<Button className='bg-primary-500 hover:bg-primary-600'>Setuju</Button>}
+            dialogTitle='Apakah Anda ingin menyetujui
+            Transfer Konversi SKS ini?'
+            buttonSubmit={
+              <Button type='submit' className='bg-primary-500 hover:bg-primary-600 w-full'>
                 Setuju
               </Button>
             }
           />
           <AccRejectModal
-            trigger={
-              <Button
-                className='bg-red-800'
-                disabled={
-                  row.getValue('status') === 'ACCEPTED' ||
-                  row.getValue('status') === 'REJECTED'
-                }
-              >
+            buttonTrigger={<Button className='bg-red-800 hover:bg-red-900'>Tolak</Button>}
+            dialogTitle='Apakah Anda ingin menolak
+            Transfer Konversi SKS ini?'
+            buttonSubmit={
+              <Button type='submit' className='bg-red-800 hover:bg-red-900 w-full'>
                 Tolak
               </Button>
             }
@@ -223,7 +188,7 @@ export const columns: ColumnDef<TPengajuanAdm>[] = [
   },
 ];
 
-export const TableAdministrasi: FC<{ data: TPengajuanAdm[] }> = ({ data }) => {
+export const TableTransferKonversi: FC<{ data: unknown[] }> = ({ data }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});

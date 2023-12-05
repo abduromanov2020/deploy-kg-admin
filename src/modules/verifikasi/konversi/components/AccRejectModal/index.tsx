@@ -1,3 +1,5 @@
+import { IoWarningOutline } from 'react-icons/io5';
+
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -8,42 +10,41 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Separator } from '@/components/ui/separator';
 
-type modalProps = {
-  modalTrigger: React.ReactNode;
-};
+interface TProps {
+  buttonTrigger: React.ReactNode;
+  dialogTitle: string;
+  buttonSubmit: React.ReactNode;
+}
 
-export const AccArticleModal = ({ modalTrigger }: modalProps) => {
+export const AccRejectModal = ({ buttonTrigger, dialogTitle, buttonSubmit }: TProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        {modalTrigger}
+        {buttonTrigger}
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[425px] text-center p-12 z-[9999]'>
+      <DialogContent className='sm:max-w-[425px] text-center p-12'>
         <DialogHeader>
+          <div className='flex justify-center items-center'>
+            <div className='p-3 rounded-full bg-red-200'>
+              <IoWarningOutline className='text-red-800' size={24} />
+            </div>
+          </div>
           <DialogTitle>
             <h6 className='text-center'>
-              Apakah Anda yakin informasi sudah sesuai ?
+              {dialogTitle}
             </h6>
           </DialogTitle>
-          <div className='py-3'>
-            <Separator className='h-1 bg-primary-500 rounded-full w-1/3 mx-auto' />
-          </div>
+
           <DialogDescription className='text-center'>
-            Cek kembali informasi Acara dengan benar.
+            Cek kembali administrasi bila dirasa belum benar.{' '}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className='flex w-full justify-between'>
           <Button variant='outline' className='w-full'>
             Tinjau Ulang
           </Button>
-          <Button
-            type='submit'
-            className='bg-primary-500 hover:bg-primary-600 w-full'
-          >
-            Selesai
-          </Button>
+          {buttonSubmit}
         </DialogFooter>
       </DialogContent>
     </Dialog>

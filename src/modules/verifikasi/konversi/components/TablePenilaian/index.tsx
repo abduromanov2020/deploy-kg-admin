@@ -10,13 +10,10 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
-import { format, parseISO } from 'date-fns';
-import Link from 'next/link';
 import React, { FC, useState } from 'react';
 import { TiArrowSortedDown } from 'react-icons/ti';
 
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Table,
   TableBody,
@@ -26,44 +23,16 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { AccConfirmModal } from '@/modules/verifikasi/administrasi/components/AccConfirmModal';
-import { AccRejectModal } from '@/modules/verifikasi/administrasi/components/AccRejectModal';
-
-import { TPengajuanAdm } from '@/types/verifikasi/administrasi';
-
-export const columns: ColumnDef<TPengajuanAdm>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value: unknown) =>
-          table.toggleAllPageRowsSelected(!!value)
-        }
-        aria-label='Select all'
-        className='mr-5'
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value: unknown) => row.toggleSelected(!!value)}
-        aria-label='Select row'
-        className='mr-5'
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+export const columns: ColumnDef<unknown>[] = [
   {
     accessorKey: 'no',
     header: 'NO',
     cell: ({ row }) => (
-      <div className='text-sm font-semibold'>{row.index + 1}</div>
+      <div className='text-xs font-normal'>{row.getValue('no')}</div>
     ),
   },
   {
-    accessorKey: 'student_name',
+    accessorKey: 'pertemuan',
     header: ({ column }) => {
       return (
         <Button
@@ -71,19 +40,19 @@ export const columns: ColumnDef<TPengajuanAdm>[] = [
           className='text-sm'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          NAMA MAHASISWA
-          <TiArrowSortedDown className='ml-2 h-4 w-4' />
+          PERTEMUAN
+          <TiArrowSortedDown className='ml-1 h-4 w-4' />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className='text-sm font-semibold'>
-        {row.original.user_administration.full_name}
+      <div className='text-xs font-normal'>
+        Pertemuan {row.getValue('pertemuan')}
       </div>
     ),
   },
   {
-    accessorKey: 'major',
+    accessorKey: 'nilai_tugas',
     header: ({ column }) => {
       return (
         <Button
@@ -91,41 +60,17 @@ export const columns: ColumnDef<TPengajuanAdm>[] = [
           className='text-sm'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          PROGRAM STUDI
-          <TiArrowSortedDown className='ml-2 h-4 w-4' />
+          TUGAS
+          <TiArrowSortedDown className='ml-1 h-4 w-4' />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className='text-sm font-semibold'>{row.original.biodata?.major}</div>
+      <div className='text-xs font-normal'>{row.getValue('nilai_tugas')}</div>
     ),
   },
   {
-    accessorKey: 'created_at',
-    header: ({ column }) => (
-      <Button
-        variant='ghost'
-        className='text-sm'
-        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-      >
-        TANGGAL PENGAJUAN
-        <TiArrowSortedDown className='ml-2 h-4 w-4' />
-      </Button>
-    ),
-    cell: ({ row }) => {
-      const rawDate: unknown = row.getValue('created_at');
-
-      if (typeof rawDate === 'string') {
-        const dateObject = parseISO(rawDate);
-        const formatted = format(dateObject, 'PPP'); // Adjust the format as needed
-        return <div className='text-sm font-semibold'>{formatted}</div>;
-      } else {
-        return <div className='text-sm font-semibold'>Invalid Date</div>;
-      }
-    },
-  },
-  {
-    accessorKey: 'email',
+    accessorKey: 'nilai_quiz',
     header: ({ column }) => {
       return (
         <Button
@@ -133,19 +78,55 @@ export const columns: ColumnDef<TPengajuanAdm>[] = [
           className='text-sm'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          EMAIL
-          <TiArrowSortedDown className='ml-2 h-4 w-4' />
+          QUIZ
+          <TiArrowSortedDown className='ml-1 h-4 w-4' />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className='text-sm font-semibold'>
-        {row.original.user_administration.email}
+      <div className='text-xs font-normal'>{row.getValue('nilai_quiz')}</div>
+    ),
+  },
+  {
+    accessorKey: 'nilai_diskusi',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-sm'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          DISKUSI
+          <TiArrowSortedDown className='ml-1 h-4 w-4' />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className='text-xs font-normal'>{row.getValue('nilai_diskusi')}</div>
+    ),
+  },
+  {
+    accessorKey: 'nilai_keaktifan',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-sm'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          KEAKTIFAN BELAJAR
+          <TiArrowSortedDown className='ml-1 h-4 w-4' />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className='text-xs font-normal'>
+        {row.getValue('nilai_keaktifan')}
       </div>
     ),
   },
   {
-    accessorKey: 'status',
+    accessorKey: 'nilai_modul',
     header: ({ column }) => {
       return (
         <Button
@@ -153,77 +134,38 @@ export const columns: ColumnDef<TPengajuanAdm>[] = [
           className='text-sm'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          STATUS
-          <TiArrowSortedDown className='ml-2 h-4 w-4' />
+          MODUL
+          <TiArrowSortedDown className='ml-1 h-4 w-4' />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div
-        className={`rounded-md p-1 text-center w-full font-semibold ${
-          row.getValue('status') === 'ACCEPTED'
-            ? 'bg-green-300 text-green-800'
-            : row.getValue('status') === 'REJECTED'
-              ? 'bg-red-300 text-red-800'
-              : 'bg-yellow-300 text-yellow-800'
-        }`}
-      >
-        {row.getValue('status')}
-      </div>
+      <div className='text-xs font-normal'>{row.getValue('nilai_modul')}</div>
     ),
   },
   {
-    accessorKey: 'id',
-    header: () => {
-      return <div className='text-center text-sm'>BERKAS</div>;
-    },
-    cell: ({ row }) => (
-      <Link
-        href={`/verifikasi/administrasi/lihat-informasi/${row.getValue('id')}`}
-      >
-        <p className='text-primary-500 hover:underline font-semibold'>Detail</p>
-      </Link>
-    ),
-  },
-  {
-    id: 'actions',
-    enableHiding: false,
-    cell: ({ row }) => {
+    accessorKey: 'nilai_rata_rata',
+    header: ({ column }) => {
       return (
-        <div className='flex gap-3'>
-          <AccConfirmModal
-            trigger={
-              <Button
-                className='bg-primary-500'
-                disabled={
-                  row.getValue('status') === 'ACCEPTED' ||
-                  row.getValue('status') === 'REJECTED'
-                }
-              >
-                Setuju
-              </Button>
-            }
-          />
-          <AccRejectModal
-            trigger={
-              <Button
-                className='bg-red-800'
-                disabled={
-                  row.getValue('status') === 'ACCEPTED' ||
-                  row.getValue('status') === 'REJECTED'
-                }
-              >
-                Tolak
-              </Button>
-            }
-          />
-        </div>
+        <Button
+          variant='ghost'
+          className='text-sm'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          RATA-RATA
+          <TiArrowSortedDown className='ml-1 h-4 w-4' />
+        </Button>
       );
     },
+    cell: ({ row }) => (
+      <div className='text-xs font-normal'>
+        {row.getValue('nilai_rata_rata')}
+      </div>
+    ),
   },
 ];
 
-export const TableAdministrasi: FC<{ data: TPengajuanAdm[] }> = ({ data }) => {
+export const TablePenilaianKonversi: FC<{ data: unknown[] }> = ({ data }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -297,6 +239,12 @@ export const TableAdministrasi: FC<{ data: TPengajuanAdm[] }> = ({ data }) => {
                 </TableCell>
               </TableRow>
             )}
+            <TableRow>
+              <TableCell colSpan={7} className='text-center font-semibold'>
+                NILAI AKHIR
+              </TableCell>
+              <TableCell className='text-center'>95 (A)</TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </div>
