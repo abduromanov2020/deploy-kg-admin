@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-import { CalendarEventCard } from '@/modules/dashboard/component/CalendarEventCard';
+import { CalendarEventCard } from '@/modules/dashboard/component/KalenderMahasiswaCard/CalendarEventCard';
 
 const event = [
   {

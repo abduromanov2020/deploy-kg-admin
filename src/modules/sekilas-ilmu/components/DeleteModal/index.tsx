@@ -16,6 +16,9 @@ interface modalTriggerProps {
 }
 
 export const DeteleArticleModal = ({ modalTrigger }: modalTriggerProps) => {
+  interface modalTriggerProps {
+    modalTrigger: React.ReactNode;
+  }
   return (
     <Dialog>
       <DialogTrigger asChild>{modalTrigger}</DialogTrigger>

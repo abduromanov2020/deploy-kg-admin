@@ -1,6 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { BiEdit } from 'react-icons/bi';
+import { FaTrash } from 'react-icons/fa';
+import { HiDotsVertical } from 'react-icons/hi';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -12,8 +15,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
-import ArtikelImage from '~/images/sekilas-ilmu/artikel.png';
+import { DeteleArticleModal } from '@/modules/sekilas-ilmu/components/DeleteModal';
+
 import { TGetAllArticle } from '@/types/sekilas-ilmu/types';
 import { PopoverArticle } from '@/modules/sekilas-ilmu/components/PopOver';
 

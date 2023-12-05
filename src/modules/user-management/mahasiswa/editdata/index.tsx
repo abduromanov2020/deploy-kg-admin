@@ -76,7 +76,7 @@ const EditDataMahasiwaModule = () => {
         id_mahasiswa: useData?.id ?? '-',
         full_name: useData?.full_name ?? '-',
         email: useData?.email ?? '-',
-        faculty: useData?.role ?? '-',
+        faculty: useData?.faculty ?? '-',
         study_program: useData?.major ?? '-',
         lecturer: useData?.lecturer ?? '-',
         status: useData?.status === 'Active' ? 'Active' : 'Inactive',

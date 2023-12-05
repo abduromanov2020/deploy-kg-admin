@@ -6,39 +6,41 @@ export const generateDynamicValidationSchema = (count: number) => {
   for (let i = 0; i < count; i++) {
     dynamicValidationSchema[`quiz_question_${i + 1}`] = z
       .string({
-        required_error: `Pertanyaan harus diisi ${i + 1}.`,
+        required_error: `Pertanyaan  ${i + 1} harus diisi.`,
       })
       .refine((value) => value.trim() !== '<p></p>', {
-        message: 'Pertanyaan harus diisi',
+        message: `Pertanyaan ${i + 1} harus diisi`,
       });
 
     dynamicValidationSchema[`quiz_option_${i + 1}_1`] = z
       .string({
-        required_error: `Opsi jawaban A harus diisi ${i + 1}.`,
+        required_error: `Opsi jawaban ${i + 1} A  harus diisi .`,
       })
-      .min(1, { message: `Opsi jawaban A harus diisi  ${i + 1}.` });
+      .min(1, { message: `Opsi jawaban ${i + 1} A  harus diisi  .` });
 
     dynamicValidationSchema[`quiz_option_${i + 1}_2`] = z
       .string({
-        required_error: `Opsi jawaban B harus diisi ${i + 1}.`,
+        required_error: `Opsi jawaban ${i + 1} B  harus diisi .`,
       })
-      .min(1, { message: `Opsi jawaban B harus diisi  ${i + 1}.` });
+      .min(1, { message: `Opsi jawaban ${i + 1} B  harus diisi  .` });
 
     dynamicValidationSchema[`quiz_option_${i + 1}_3`] = z
       .string({
-        required_error: `Opsi jawaban C harus diisi ${i + 1}.`,
+        required_error: `Opsi jawaban ${i + 1} C  harus diisi .`,
       })
-      .min(1, { message: `Opsi jawaban C harus diisi  ${i + 1}.` });
+      .min(1, { message: `Opsi jawaban ${i + 1} C  harus diisi  .` });
 
     dynamicValidationSchema[`quiz_option_${i + 1}_4`] = z
       .string({
-        required_error: `Opsi jawaban D harus diisi ${i + 1}.`,
+        required_error: `Opsi jawaban ${i + 1} D  harus diisi .`,
       })
-      .min(1, { message: `Opsi jawaban D harus diisi  ${i + 1}.` });
+      .min(1, { message: `Opsi jawaban ${i + 1} D  harus diisi  .` });
 
-    dynamicValidationSchema[`quiz_correct_${i + 1}`] = z.number({
-      required_error: `Opsi jawaban benar harus diisi ${i + 1}.`,
-    });
+    dynamicValidationSchema[`quiz_correct_${i + 1}`] = z
+      .string({
+        required_error: `Opsi jawaban ${i + 1} benar harus diisi.`,
+      })
+      .min(1, { message: `Opsi jawaban ${i + 1} benar harus diisi. ` });
   }
 
   return dynamicValidationSchema;
