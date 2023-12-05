@@ -1,3 +1,4 @@
+import { Edit } from 'lucide-react';
 import Link from 'next/link';
 import React, { FC } from 'react';
 
@@ -125,11 +126,8 @@ export const AccourdionModulIntroduction: FC<
           </AccordionContent>
           <AccordionContent className='flex border-t-2 p-2 justify-end items-center '>
             <div className='w-full flex gap-5 justify-end items-center text-white '>
-              <button className='bg-green-500 rounded-md px-3 py-2'>
-                Buka Pertemuan
-              </button>
-              <button className='bg-primary-500 rounded-md px-3 py-2'>
-                Tambahkan Sesi
+              <button className='bg-primary-500 rounded-md px-3 py-2 flex gap-2'>
+                <Edit /> Edit Informasi
               </button>
             </div>
           </AccordionContent>
