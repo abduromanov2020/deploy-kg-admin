@@ -32,6 +32,8 @@ export const VerifikasiRencanaStudiModule = () => {
 
   const dataTable = data ? data?.data : [];
 
+  console.log(data?.data);
+
   console.log(dataTable);
 
   return (

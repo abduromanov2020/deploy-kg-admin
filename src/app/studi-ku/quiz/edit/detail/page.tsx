@@ -1,13 +1,13 @@
 import React from 'react';
 
-import TambahDetailSoalQuizModule from '@/modules/studi-ku/quiz/tambah/detail';
+import EditDetailSoalQuizModule from '@/modules/studi-ku/quiz/edit/detail';
 
-const TambahDetailSoalPage = () => {
+const EditDetailSoalPage = () => {
   return (
     <div>
-      <TambahDetailSoalQuizModule />
+      <EditDetailSoalQuizModule />
     </div>
   );
 };
 
-export default TambahDetailSoalPage;
+export default EditDetailSoalPage;

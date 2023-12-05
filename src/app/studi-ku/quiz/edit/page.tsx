@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TambahQuizModule from '@/modules/studi-ku/quiz/tambah';
+import TambahQuizModule from '@/modules/studi-ku/quiz/edit';
 
 const TambahQuizPage = () => {
   return (

@@ -1,21 +1,6 @@
-export const ITESMS = [
-  {
-    name: 'Sekilas Ilmu',
-    link: '/sekilas-ilmu',
-  },
-  {
-    name: 'Daftar Artikel',
-    link: '/sekilas-ilmu',
-  },
-];
-
 export const ITEMSDETAIL = [
   {
     name: 'Sekilas Ilmu',
-    link: '/sekilas-ilmu',
-  },
-  {
-    name: 'Daftar Artikel',
     link: '/sekilas-ilmu',
   },
   {
@@ -30,10 +15,6 @@ export const ITEMSTAMBAH = [
     link: '/sekilas-ilmu',
   },
   {
-    name: 'Daftar Artikel',
-    link: '/sekilas-ilmu',
-  },
-  {
     name: 'Tambah Artikel',
     link: '/sekilas-ilmu/tambah-artikel',
   },
@@ -42,10 +23,6 @@ export const ITEMSTAMBAH = [
 export const ITEMSEDIT = [
   {
     name: 'Sekilas Ilmu',
-    link: '/sekilas-ilmu',
-  },
-  {
-    name: 'Daftar Artikel',
     link: '/sekilas-ilmu',
   },
   {

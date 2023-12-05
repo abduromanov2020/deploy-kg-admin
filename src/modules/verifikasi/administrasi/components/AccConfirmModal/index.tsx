@@ -10,12 +10,14 @@ import {
 } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 
-export const AccConfirmModal = () => {
+interface TProps {
+  trigger: React.ReactNode;
+}
+
+export const AccConfirmModal = ({ trigger }: TProps) => {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button className='bg-primary-500'>Setuju</Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className='sm:max-w-[425px] text-center p-12'>
         <DialogHeader>
           <DialogTitle>
