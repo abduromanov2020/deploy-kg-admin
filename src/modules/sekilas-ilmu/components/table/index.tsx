@@ -88,7 +88,7 @@ export const columns: ColumnDef<TArticleItem>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className='text-start font-semibold text-sm'>
+      <div className='text-start font-semibold text-sm line-clamp-1'>
         {row.getValue('title')}
       </div>
     ),
@@ -190,7 +190,9 @@ export const columns: ColumnDef<TArticleItem>[] = [
     cell: () => {
       return (
         <div className='flex gap-3'>
-          <DeteleArticleModal />
+          <DeteleArticleModal
+            modalTrigger={<Button className='bg-red-800'>Hapus</Button>}
+          />
           <Link href='/sekilas-ilmu/edit-artikel'>
             <Button className='bg-primary-500'>Edit</Button>
           </Link>

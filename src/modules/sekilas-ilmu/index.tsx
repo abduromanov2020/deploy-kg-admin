@@ -72,7 +72,7 @@ const SekilasIlmuModule = () => {
         <section className='px-4 py-5 border-b-2'>
           <p>Daftar Artikel</p>
         </section>
-        <section className='px-4 py-5'>
+        <section className='px-6 py-5'>
           <div className='flex justify-between items-center'>
             <section className='w-full'>
               <div className='w-3/4 relative'>
@@ -126,7 +126,7 @@ const SekilasIlmuModule = () => {
             </section>
           </div>
         </section>
-        <section className='my-8'>
+        <section className='p-6'>
           <div className='w-full'>
             {showGrid ? (
               <section>
@@ -141,7 +141,7 @@ const SekilasIlmuModule = () => {
                 ) : data && data?.data ? (
                   <>
                     <TableSekilasIlmu data={dataArticle} />
-                    <div className='flex items-center justify-end space-x-2 py-4'>
+                    <div className='flex items-center justify-end px-4 py-4'>
                       <div className='flex-1 text-sm text-muted-foreground'>
                         <p>
                           Menampilkan {data?.data?.data.length > 0 ? 1 : 0}{' '}

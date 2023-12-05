@@ -11,12 +11,14 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-export const DeteleArticleModal = () => {
+interface modalTriggerProps {
+  modalTrigger: React.ReactNode;
+}
+
+export const DeteleArticleModal = ({ modalTrigger }: modalTriggerProps) => {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button className='bg-red-800 hover:bg-red-900'>Hapus</Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{modalTrigger}</DialogTrigger>
       <DialogContent className='sm:max-w-[425px] text-center p-12'>
         <DialogHeader>
           <div className='flex justify-center items-center'>
