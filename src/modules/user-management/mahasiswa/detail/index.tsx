@@ -3,8 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React, { Fragment } from 'react';
+import { CiLock, CiWarning } from 'react-icons/ci';
 import { FaEdit, FaFileDownload } from 'react-icons/fa';
-import { FaDeleteLeft } from 'react-icons/fa6';
 
 import { useUserById } from '@/hooks/user-management/getuser/getuserById/hook';
 
@@ -44,26 +44,36 @@ const DetailMahasiswaModule = () => {
             Detail User Management Mahasiswa
           </h1>
           <div className='pt-5 w-full'>
-            <div className='space-x-4 absolute right-4  '>
-              <button className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'>
-                <div className='flex place-items-center gap-2'>
-                  <FaFileDownload /> Unduh
-                </div>
-              </button>
-              <button className='px-6 py-3 shadow-md text-blue-600 rounded-md hover:text-white hover:bg-blue-600 hover:transition'>
-                <div className='flex place-items-center gap-2'>
-                  <FaEdit />{' '}
-                  <Link href={`/user-management/mahasiswa/editdata/${id}`}>
-                    Edit Data
-                  </Link>
-                </div>
-              </button>
-              <button className='px-8 py-3 shadow-md text-red-600 rounded-md  hover:text-white hover:bg-red-600 hover:transition'>
-                <div className='flex place-items-center gap-2'>
-                  <FaDeleteLeft /> Keluarkan Mahasiswa
-                </div>
-              </button>
-            </div>
+            {data?.data?.status == 'active' ? (
+              <div className='space-x-4 absolute right-4  '>
+                <button className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'>
+                  <div className='flex place-items-center gap-2'>
+                    <FaFileDownload /> Unduh
+                  </div>
+                </button>
+                <button className='px-6 py-3 shadow-md text-blue-600 rounded-md hover:text-white hover:bg-blue-600 hover:transition'>
+                  <div className='flex place-items-center gap-2'>
+                    <FaEdit />
+                    <Link href={`/user-management/mahasiswa/editdata/${id}`}>
+                      Edit Data
+                    </Link>
+                  </div>
+                </button>
+                <button className='px-8 py-3 shadow-md text-red-600 rounded-md  hover:text-white hover:bg-red-600 hover:transition'>
+                  <div className='flex place-items-center gap-2'>
+                    <CiWarning /> Keluarkan Mahasiswa
+                  </div>
+                </button>
+              </div>
+            ) : (
+              <div className='space-x-4 absolute right-4  '>
+                <button className='px-3 py-2 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'>
+                  <div className='flex place-items-center gap-2'>
+                    <CiLock /> Aktifkan Mahasiswa
+                  </div>
+                </button>
+              </div>
+            )}
             <div className='pt-6'>
               <Tab.Group>
                 <Tab.List
@@ -195,7 +205,7 @@ const DetailMahasiswaModule = () => {
                                     width={194}
                                     height={200}
                                     alt='avatar'
-                                    className='object-cover'
+                                    className='object-cover max-h-[170px]'
                                   />
                                 ) : (
                                   'No Picture'
