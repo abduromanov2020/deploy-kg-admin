@@ -1,6 +1,6 @@
-import BaseLayout from '@/components/layouts/base-layout';
-import { RencanaStudiModule } from '@/modules/rencana-studi';
 import { Metadata } from 'next';
+
+import { RencanaStudiModule } from '@/modules/rencana-studi';
 
 export const metadata: Metadata = {
   title: 'Rencana Studi',
