@@ -47,6 +47,7 @@ import {
 } from '@/components/ui/select';
 import { useCreateArticle } from '@/hooks/sekilas-ilmu/add-article/hook';
 import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
@@ -117,6 +118,7 @@ type NameCategories = {
 const TambahArtikelModule = () => {
   const { data } = useGetCategories();
   const { mutate } = useCreateArticle();
+  const router = useRouter();
   const queryClient = useQueryClient();
 
   const getNameCategories = data?.data.map((item: NameCategories) => {
@@ -176,7 +178,7 @@ const TambahArtikelModule = () => {
           queryClient.invalidateQueries(['create-article'] as any);
           // setSuccesStatus(true);
           toast.success('Berhasil Mengunggah');
-          form.reset();
+          router.push(`/sekilas-ilmu`);
         },
       });
     } catch (err) {

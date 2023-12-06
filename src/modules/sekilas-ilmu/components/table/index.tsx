@@ -15,7 +15,6 @@ import React, { useState } from 'react';
 import { TiArrowSortedDown } from 'react-icons/ti';
 
 import { Button } from '@/components/ui/button';
-import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -26,6 +25,7 @@ import {
 } from '@/components/ui/table';
 
 import { TArticleItem, TGetAllArticle } from '@/types/sekilas-ilmu/types';
+import { DeteleArticleModal } from '@/modules/sekilas-ilmu/components/DeleteModal';
 
 const getMonthName = (monthIndex: number) => {
   const months = [
