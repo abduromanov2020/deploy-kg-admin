@@ -1,7 +1,5 @@
-import Image from 'next/image';
 import Avatar from 'react-avatar';
 
-import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -61,7 +59,7 @@ const DetailHasil = () => {
           ))}
         </TableBody>
       </Table>
-      <div className='flex justify-end pt-5'>
+      {/* <div className='flex justify-end pt-5'>
         <Button variant='primary'>
           <Image
             src='/svg/edit.svg'
@@ -72,7 +70,7 @@ const DetailHasil = () => {
           />
           Edit Hasil
         </Button>
-      </div>
+      </div> */}
     </>
   );
 };

@@ -1,5 +1,8 @@
 import Image from 'next/image';
+import Link from 'next/link';
+import { TbEdit } from 'react-icons/tb';
 
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
@@ -8,12 +11,12 @@ const DetailTugas = () => {
     <Table className='w-full border border-gray-200'>
       <TableBody>
         <TableRow>
-          <TableCell>Nama Tugas</TableCell>
-          <TableCell>Quiz 1</TableCell>
-        </TableRow>
-        <TableRow>
           <TableCell>Deskripsi Tugas</TableCell>
           <TableCell>Silahkan kerjakan quiz 1 dengan baik dan benar.</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Mata Kuliah</TableCell>
+          <TableCell>Manajemen Keuangan</TableCell>
         </TableRow>
         <TableRow>
           <TableCell>Batas Pengumpulan</TableCell>
@@ -32,8 +35,8 @@ const DetailTugas = () => {
           <TableCell>
             <Card className='w-3/4'>
               <CardHeader className='border-b-2 py-2 px-3'>
-                <CardTitle className='p-0'>
-                  <h2 className='text-base font-medium'>Modul-1.pdf</h2>
+                <CardTitle className='p-0 text-base font-medium'>
+                  Modul-1.pdf
                 </CardTitle>
               </CardHeader>
               <CardContent className='bg-gray-500 flex justify-center h-[200px]'>
@@ -45,6 +48,25 @@ const DetailTugas = () => {
                 />
               </CardContent>
             </Card>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell></TableCell>
+          <TableCell>
+            <div className='flex gap-3'>
+              <Link href='/studi-ku/tugas/edit'>
+                <Button variant='primaryOutline' className='flex gap-2'>
+                  <TbEdit size={15} />
+                  Edit Informasi
+                </Button>
+              </Link>
+              <Link href='/studi-ku/tugas/edit-nilai/1'>
+                <Button variant='primary' className='flex gap-2'>
+                  <TbEdit size={15} />
+                  Edit Nilai
+                </Button>
+              </Link>
+            </div>
           </TableCell>
         </TableRow>
       </TableBody>
