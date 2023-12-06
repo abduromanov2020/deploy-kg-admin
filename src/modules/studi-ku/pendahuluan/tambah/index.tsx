@@ -11,8 +11,19 @@ import logger from '@/lib/logger';
 import { ValidationSchemaPendahuluan } from '@/lib/validation/studi-ku/pendahuluan';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
-import { Form } from '@/components/ui/form';
+import { UploadField } from '@/components/input/upload-file';
+import DraftEditor from '@/components/text-editor';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 
+import { TitleModule } from '@/modules/studi-ku/modul/tambah/TitleModule';
 import { TAMBAH_PENDAHULUAN_BREADCRUMBS } from '@/modules/studi-ku/pendahuluan/constant';
 
 import { FormFieldsPendahuluan } from '@/types/studi-ku/pendahuluan';
@@ -59,7 +70,54 @@ const TambahPendahuluanModule = () => {
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className='bg-white flex flex-col gap-5 rounded-md pb-5 '
-        ></form>
+        >
+          <TitleModule title='Tambah Pendahuluan' />
+          <div className='px-5 flex flex-col gap-4'>
+            <FormField
+              control={form.control}
+              name='title'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Judul Modul</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Modul 1' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <DraftEditor
+              editorState={document}
+              setEditorState={(editorState) => {
+                handleDocumentChange(editorState);
+              }}
+              label='Deskripsi Modul'
+              error={form.formState.errors.description?.message}
+            />
+            <div className='grid grid-cols-2'>
+              <UploadField
+                control={form.control}
+                // required
+                name='document'
+                accepted='.pdf'
+                label='Dokumen Pendahuluan'
+                variant='sm'
+                message={form?.formState?.errors?.document?.message?.toString()}
+                status={form?.formState?.errors?.document ? 'error' : 'none'}
+              />
+              <UploadField
+                control={form.control}
+                // required
+                name='document'
+                accepted='.pdf'
+                label='Dokumen Pendahuluan'
+                variant='sm'
+                message={form?.formState?.errors?.document?.message?.toString()}
+                status={form?.formState?.errors?.document ? 'error' : 'none'}
+              />
+            </div>
+          </div>
+        </form>
       </Form>
     </div>
   );
