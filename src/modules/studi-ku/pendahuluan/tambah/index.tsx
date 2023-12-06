@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
+import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -12,7 +13,9 @@ import { ValidationSchemaPendahuluan } from '@/lib/validation/studi-ku/pendahulu
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { UploadField } from '@/components/input/upload-file';
-import DraftEditor from '@/components/text-editor';
+const DraftEditor = dynamic(() => import('@/components/text-editor'), {
+  ssr: false,
+});
 import { Button } from '@/components/ui/button';
 import {
   Form,
