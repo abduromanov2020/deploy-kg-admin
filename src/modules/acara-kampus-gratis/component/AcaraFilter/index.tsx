@@ -52,22 +52,22 @@ export const AcaraFilter = () => {
             checked={showStatusBar}
             onCheckedChange={setShowStatusBar}
           >
-            Status Bar
+            Terbaru
           </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem
             checked={showActivityBar}
             onCheckedChange={setShowActivityBar}
           >
-            Activity Bar
+            Sedang Tren
           </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem
             checked={showPanel}
             onCheckedChange={setShowPanel}
           >
-            Panel
+            Acara
           </DropdownMenuCheckboxItem>
         </DropdownMenuGroup>
-        <DropdownMenuLabel>Batch</DropdownMenuLabel>
+        <DropdownMenuLabel>Topik</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
           <DropdownMenuRadioItem value='top'>Top</DropdownMenuRadioItem>
