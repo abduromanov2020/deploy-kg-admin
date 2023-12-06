@@ -2,7 +2,7 @@ import { z } from 'zod';
 const MAX_FILE_SIZE = 2000000;
 const ACCEPTED_PDF_TYPES = ['application/pdf'];
 
-export const validationSchemaPendahuluan = z.object({
+export const ValidationSchemaPendahuluan = z.object({
   title: z
     .string({
       required_error: 'Judul pendahuluan harus diisi.',
