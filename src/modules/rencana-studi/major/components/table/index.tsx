@@ -1,11 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-
-import {
-  DropdownMenuCheckboxItemProps,
-  DropdownMenuItem,
-} from '@radix-ui/react-dropdown-menu';
+import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -19,6 +14,8 @@ import {
   VisibilityState,
 } from '@tanstack/react-table';
 import React, { useState } from 'react';
+
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -29,11 +26,11 @@ import {
 } from '@/components/ui/table';
 type Checked = DropdownMenuCheckboxItemProps['checked'];
 
-import { ArrowUpDown } from 'lucide-react';
-import { Checkbox } from '@/components/ui/checkbox';
-import Pagination from '@/components/generals/pagination';
-import { TiArrowSortedDown } from 'react-icons/ti';
 import Link from 'next/link';
+import { TiArrowSortedDown } from 'react-icons/ti';
+
+import Pagination from '@/components/generals/pagination';
+
 import { DeleteMajorModal } from '@/modules/rencana-studi/major/components/delete-major-modal';
 
 export type TMajor = {
@@ -197,7 +194,7 @@ export const columns: ColumnDef<TMajor>[] = [
     },
     cell: ({ row }) => (
       <Link
-        href={'/rencana-studi/program-studi/1/mata-kuliah/1'}
+        href='/rencana-studi/program-studi/1/mata-kuliah/1'
         className='text-start font-semibold text-sm text-primary-500'
       >
         {row.getValue('subject_count')} Mata Kuliah
@@ -219,7 +216,7 @@ export const columns: ColumnDef<TMajor>[] = [
     },
     cell: ({ row }) => (
       <Link
-        href={'/rencana-studi/program-studi/1/detail/2'}
+        href='/rencana-studi/program-studi/1/detail/2'
         className='text-start font-semibold text-sm text-primary-500'
       >
         Lihat Detail
@@ -239,9 +236,7 @@ export const columns: ColumnDef<TMajor>[] = [
             className='bg-primary-500 w-full hover:bg-primary-600'
             asChild
           >
-            <Link href={'/rencana-studi/program-studi/1/edit-prodi/1'}>
-              Edit
-            </Link>
+            <Link href='/rencana-studi/program-studi/1/edit-prodi/1'>Edit</Link>
           </Button>
         </div>
       );

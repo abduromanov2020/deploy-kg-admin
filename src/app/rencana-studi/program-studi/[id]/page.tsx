@@ -1,5 +1,6 @@
-import MajorModule from '@/modules/rencana-studi/major';
 import React from 'react';
+
+import MajorModule from '@/modules/rencana-studi/major';
 
 const MajorPage = () => {
   return <MajorModule />;

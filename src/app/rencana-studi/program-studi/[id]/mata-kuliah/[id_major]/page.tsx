@@ -1,5 +1,6 @@
-import SubjectModule from '@/modules/rencana-studi/subject';
 import React from 'react';
+
+import SubjectModule from '@/modules/rencana-studi/subject';
 
 const SubjectPage = () => {
   return <SubjectModule />;

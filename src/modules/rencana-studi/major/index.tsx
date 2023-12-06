@@ -1,18 +1,19 @@
 'use client';
 
-import { BreadCrumb } from '@/components/BreadCrumb';
-import { Input } from '@/components/ui/input';
+import Link from 'next/link';
 import React from 'react';
-import { Button } from '@/components/ui/button';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiSolidFileExport } from 'react-icons/bi';
-import { FaTrash } from 'react-icons/fa';
 import { CiCirclePlus } from 'react-icons/ci';
 import { IoGridOutline, IoListOutline } from 'react-icons/io5';
-import { MajorTable } from '@/modules/rencana-studi/major/components/table';
+
+import { BreadCrumb } from '@/components/BreadCrumb';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+
 import { FilterComponentMajor } from '@/modules/rencana-studi/major/components/filter';
 import MajorGrid from '@/modules/rencana-studi/major/components/grid';
-import Link from 'next/link';
+import { MajorTable } from '@/modules/rencana-studi/major/components/table';
 
 const MajorModule = () => {
   const [showGrid, setShowGrid] = React.useState(false);
@@ -55,7 +56,7 @@ const MajorModule = () => {
                 className='hover:bg-white shadow-md bg-primary-500 hover:text-primary-500 text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'
                 asChild
               >
-                <Link href={'/rencana-studi/program-studi/1/tambah-prodi'}>
+                <Link href='/rencana-studi/program-studi/1/tambah-prodi'>
                   <CiCirclePlus size={20} />
                   <p className='leading-none'>Tambah Prodi</p>
                 </Link>

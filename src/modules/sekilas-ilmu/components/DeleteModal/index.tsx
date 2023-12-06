@@ -17,17 +17,13 @@ import toast from 'react-hot-toast';
 
 interface modalTriggerProps {
   modalTrigger: React.ReactNode;
-  articleId: string;
+  articleId?: string;
 }
 
 export const DeteleArticleModal = ({
   modalTrigger,
   articleId,
 }: modalTriggerProps) => {
-  interface modalTriggerProps {
-    modalTrigger: React.ReactNode;
-  }
-
   const queryClient = useQueryClient();
 
   const { mutate } = useDeleteArticle();

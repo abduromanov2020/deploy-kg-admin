@@ -1,6 +1,6 @@
-import { AddFacultyModule } from '@/modules/rencana-studi/faculty/faculty-add';
-import { AddMajorModule } from '@/modules/rencana-studi/major/major-add';
 import React from 'react';
+
+import { AddMajorModule } from '@/modules/rencana-studi/major/major-add';
 
 const AddMajorPage = () => {
   return <AddMajorModule />;

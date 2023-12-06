@@ -1,27 +1,25 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { CiCirclePlus } from 'react-icons/ci';
-import { IoGridOutline, IoListOutline } from 'react-icons/io5';
-
-import {
-  DropdownMenuCheckboxItemProps,
-  DropdownMenuItem,
-} from '@radix-ui/react-dropdown-menu';
+import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
 import React, { useEffect, useState } from 'react';
 
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 type Checked = DropdownMenuCheckboxItemProps['checked'];
-import { BreadCrumb } from '@/components/BreadCrumb';
-import { FaInfoCircle } from 'react-icons/fa';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { convertToRaw, EditorState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+
+import { BreadCrumb } from '@/components/BreadCrumb';
+import { DraftEditorProps } from '@/components/text-editor';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -34,12 +32,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import Link from 'next/link';
-import { DraftEditorProps } from '@/components/text-editor';
-import dynamic from 'next/dynamic';
-
-import { EditorState, convertToRaw } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
 
 interface InputProps {
   title: string;
@@ -330,9 +322,7 @@ export const EditMajorModule = ({ editorInput }: any) => {
                       asChild
                       className='text-primary-500 border border-primary-500 bg-white hover:bg-gray-200'
                     >
-                      <Link href={'/rencana-studi/program-studi/1'}>
-                        Kembali
-                      </Link>
+                      <Link href='/rencana-studi/program-studi/1'>Kembali</Link>
                     </Button>
                     <Button
                       type='submit'
