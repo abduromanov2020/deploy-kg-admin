@@ -33,7 +33,7 @@ export const columns: ColumnDef<unknown>[] = [
     ),
   },
   {
-    accessorKey: 'nim',
+    accessorKey: 'semester',
     header: ({ column }) => {
       return (
         <Button
@@ -41,17 +41,17 @@ export const columns: ColumnDef<unknown>[] = [
           className='text-sm'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          NIM MAHASISWA
+          SEMESTER
           <TiArrowSortedDown className='ml-1 h-4 w-4' />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className='text-xs font-normal'>{row.getValue('nim')}</div>
+      <div className='text-xs font-normal'>{row.getValue('semester')}</div>
     ),
   },
   {
-    accessorKey: 'nama_mahasiswa',
+    accessorKey: 'sks',
     header: ({ column }) => {
       return (
         <Button
@@ -59,17 +59,17 @@ export const columns: ColumnDef<unknown>[] = [
           className='text-sm'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          NAMA MAHASISWA
+          SKS DIAMBIL
           <TiArrowSortedDown className='ml-1 h-4 w-4' />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className='text-xs font-normal'>{row.getValue('nama_mahasiswa')}</div>
+      <div className='text-xs font-normal'>{row.getValue('sks')}</div>
     ),
   },
   {
-    accessorKey: 'skor',
+    accessorKey: 'sks_lulus',
     header: ({ column }) => {
       return (
         <Button
@@ -77,13 +77,13 @@ export const columns: ColumnDef<unknown>[] = [
           className='text-sm'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          SKOR
+          SKS LULUS
           <TiArrowSortedDown className='ml-1 h-4 w-4' />
         </Button>
       );
     },
     cell: ({ row }) => (
-      <div className='text-xs font-normal'>{row.getValue('skor')}</div>
+      <div className='text-xs font-normal'>{row.getValue('sks_lulus')}</div>
     ),
   },
   {
@@ -95,7 +95,7 @@ export const columns: ColumnDef<unknown>[] = [
           className='text-sm'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          IP KUMULATIF
+          IP SEMESTER
           <TiArrowSortedDown className='ml-1 h-4 w-4' />
         </Button>
       );
@@ -103,6 +103,34 @@ export const columns: ColumnDef<unknown>[] = [
     cell: ({ row }) => (
       <div className='text-xs font-normal'>
         {row.getValue('ip')}
+      </div>
+    ),
+  },
+  {
+    accessorKey: 'keterangan',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-sm'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          KETERANGAN
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div
+        className={`rounded-md px-2 py-1 text-center w-max font-semibold mx-auto ${
+          row.getValue('keterangan') === 'Lulus'
+            ? 'bg-green-300 text-green-800'
+            : row.getValue('keterangan') === 'Tidak Lulus'
+              ? 'bg-red-300 text-red-800'
+              : 'bg-yellow-300 text-yellow-800'
+        }`}
+      >
+        {row.getValue('keterangan')}
       </div>
     ),
   },
@@ -119,7 +147,7 @@ export const columns: ColumnDef<unknown>[] = [
   },
 ];
 
-export const TableNilai: FC<{ data: unknown[] }> = ({ data }) => {
+export const TableInformasiMatakuliah: FC<{ data: unknown[] }> = ({ data }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});

@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import NilaiModule from '@/modules/nilai-sertifikat/nilai/module';
 
 export const metadata: Metadata = {
-  title: 'Rencana Studi',
+  title: 'Nilai Mahasiswa',
 };
 
 export default function NilaiPage() {

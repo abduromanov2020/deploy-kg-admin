@@ -11,9 +11,6 @@ import {
   VisibilityState,
 } from '@tanstack/react-table';
 import React, { FC, useState } from 'react';
-import { TiArrowSortedDown } from 'react-icons/ti';
-
-import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -22,7 +19,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import Link from 'next/link';
 
 export const columns: ColumnDef<unknown>[] = [
   {
@@ -33,93 +29,65 @@ export const columns: ColumnDef<unknown>[] = [
     ),
   },
   {
-    accessorKey: 'nim',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant='ghost'
-          className='text-sm'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          NIM MAHASISWA
-          <TiArrowSortedDown className='ml-1 h-4 w-4' />
-        </Button>
-      );
-    },
+    accessorKey: 'prodi',
+    header: 'PROGRAM STUDI',
     cell: ({ row }) => (
-      <div className='text-xs font-normal'>{row.getValue('nim')}</div>
+      <div className='text-xs font-normal'>{row.getValue('prodi')}</div>
     ),
   },
   {
-    accessorKey: 'nama_mahasiswa',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant='ghost'
-          className='text-sm'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          NAMA MAHASISWA
-          <TiArrowSortedDown className='ml-1 h-4 w-4' />
-        </Button>
-      );
-    },
+    accessorKey: 'kode_mk',
+    header: 'KODE MATKUL',
     cell: ({ row }) => (
-      <div className='text-xs font-normal'>{row.getValue('nama_mahasiswa')}</div>
+      <div className='text-xs font-normal'>{row.getValue('kode_mk')}</div>
     ),
   },
   {
-    accessorKey: 'skor',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant='ghost'
-          className='text-sm'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          SKOR
-          <TiArrowSortedDown className='ml-1 h-4 w-4' />
-        </Button>
-      );
-    },
+    accessorKey: 'matakuliah',
+    header: 'MATA KULIAH',
     cell: ({ row }) => (
-      <div className='text-xs font-normal'>{row.getValue('skor')}</div>
+      <div className='text-xs font-normal'>{row.getValue('matakuliah')}</div>
     ),
   },
   {
-    accessorKey: 'ip',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant='ghost'
-          className='text-sm'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          IP KUMULATIF
-          <TiArrowSortedDown className='ml-1 h-4 w-4' />
-        </Button>
-      );
-    },
+    accessorKey: 'jumlah_sks',
+    header: 'JUMLAH SKS',
     cell: ({ row }) => (
       <div className='text-xs font-normal'>
-        {row.getValue('ip')}
+        {row.getValue('jumlah_sks')}
       </div>
     ),
   },
   {
-    accessorKey: 'id',
-    header: () => {
-      return <div className='text-center text-sm'>INFORMASI</div>;
-    },
+    accessorKey: 'skor',
+    header: 'SKOR',
     cell: ({ row }) => (
-      <Link href={`/nilai-dan-sertifikat/nilai/detail-mahasiswa/${row.index}`}>
-        <p className='text-primary-500 hover:underline font-semibold'>Detail</p>
-      </Link>
+      <div className='text-xs font-normal'>
+        {row.getValue('skor')}
+      </div>
+    ),
+  },
+  {
+    accessorKey: 'nilai',
+    header: 'NILAI',
+    cell: ({ row }) => (
+      <div className='text-xs font-normal'>
+        {row.getValue('nilai')}
+      </div>
+    ),
+  },
+  {
+    accessorKey: 'mutu',
+    header: 'MUTU',
+    cell: ({ row }) => (
+      <div className='text-xs font-normal'>
+        {row.getValue('mutu')}
+      </div>
     ),
   },
 ];
 
-export const TableNilai: FC<{ data: unknown[] }> = ({ data }) => {
+export const TableTranskripNilai: FC<{ data: unknown[] }> = ({ data }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
