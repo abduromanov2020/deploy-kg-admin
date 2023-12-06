@@ -9,8 +9,12 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
+import { ColumnDef } from '@tanstack/react-table';
+import Link from 'next/link';
 import React, { useState } from 'react';
+import { TiArrowSortedDown } from 'react-icons/ti';
 
+import { Button } from '@/components/ui/button';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -21,16 +25,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import {
-  TArticleData,
-  TArticleItem,
-  TGetAllArticle,
-} from '@/types/sekilas-ilmu/types';
-import { ColumnDef } from '@tanstack/react-table';
-import { format } from 'date-fns';
-import Link from 'next/link';
-import { DeteleArticleModal } from '@/modules/sekilas-ilmu/components/DeleteModal';
-import { TiArrowSortedDown } from 'react-icons/ti';
+import { TArticleItem, TGetAllArticle } from '@/types/sekilas-ilmu/types';
 
 const getMonthName = (monthIndex: number) => {
   const months = [
