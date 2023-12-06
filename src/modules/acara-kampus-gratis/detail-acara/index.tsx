@@ -1,7 +1,10 @@
 'use client';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import React from 'react';
 import { TbEdit } from 'react-icons/tb';
+
+import { useGetDetailEventRequest } from '@/hooks/acara-kampus-gratis/hooks';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { Button } from '@/components/ui/button';
@@ -14,6 +17,9 @@ import { KontakAcaraTabContent } from '@/modules/acara-kampus-gratis/component/d
 import { PreviewAcaraTabContent } from '@/modules/acara-kampus-gratis/component/detailTabContent/PreviewAcaraTab';
 
 export const DetailAcaraModule = () => {
+  const params = useParams();
+  const eventId = params.id;
+
   const BreadcrumbItems = [
     {
       name: 'Acara Kampus Gratis',
@@ -24,6 +30,9 @@ export const DetailAcaraModule = () => {
       link: `/acara-kampus-gratis/detail-acara`,
     },
   ];
+
+  const { data } = useGetDetailEventRequest(eventId.toString());
+
   return (
     <div className='flex flex-col gap-6'>
       <div className='bg-white rounded-md'>
@@ -60,18 +69,24 @@ export const DetailAcaraModule = () => {
                 <DeleteConfirmModal type='buttonIcon' />
               </div>
             </TabsList>
-            <TabsContent value='preview'>
-              <PreviewAcaraTabContent />
-            </TabsContent>
-            <TabsContent value='deskripsi'>
-              <DeskripsiAcaraTabContent />
-            </TabsContent>
-            <TabsContent value='informasi'>
-              <InformasiAcaraTabContent />
-            </TabsContent>
-            <TabsContent value='kontak'>
-              <KontakAcaraTabContent />
-            </TabsContent>
+            {data ? (
+              <div>
+                <TabsContent value='preview'>
+                  <PreviewAcaraTabContent data={data?.data} />
+                </TabsContent>
+                <TabsContent value='deskripsi'>
+                  <DeskripsiAcaraTabContent data={data?.data} />
+                </TabsContent>
+                <TabsContent value='informasi'>
+                  <InformasiAcaraTabContent data={data?.data} />
+                </TabsContent>
+                <TabsContent value='kontak'>
+                  <KontakAcaraTabContent data={data?.data} />
+                </TabsContent>
+              </div>
+            ) : (
+              <p>Tidak ada data</p>
+            )}
           </Tabs>
         </div>
       </div>
