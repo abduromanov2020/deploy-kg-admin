@@ -1,6 +1,7 @@
-import { Edit } from 'lucide-react';
+import { Edit, PlayCircleIcon } from 'lucide-react';
 import Link from 'next/link';
 import React, { FC } from 'react';
+import { FaFileAlt } from 'react-icons/fa';
 
 import {
   Accordion,
@@ -8,12 +9,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-
+import { Button } from '@/components/ui/button';
 import {
-  ItemDetailFile,
-  ItemDetailModul,
-  ItemDetailModul2,
-} from '@/modules/studi-ku/modul/detail';
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 interface Data {
   title: string;
@@ -96,40 +99,75 @@ export const AccourdionModulIntroduction: FC<
           <AccordionTrigger className='data-[state=open]:text-white px-5 data-[state=open]:rounded-t-md  data-[state=closed]:rounded-md data-[state=open]:bg-primary-500  data-[state=open]:shadow-md no-underline'>
             {title}
           </AccordionTrigger>
-          <AccordionContent className='flex border-t-2 py-2 justify-end items-center '>
-            <div className='flex flex-col '>
-              <ItemDetailModul
-                content={data.introduction}
-                label='Pendahuluan'
-              />
-              <ItemDetailModul2
-                content={data.description}
-                // variant='dark'
-                variant='dark'
-                label='Deskripsi Pendahuluan'
-              />
-              <ItemDetailFile
-                content={data.video_link}
-                label='Video Pendahuluan'
-                link={data.video_link}
-                type='video'
-                variant='light'
-              />
-              <ItemDetailFile
-                content={data?.document_link || ''}
-                label='Dokumen Pendahuluan'
-                link={data?.document_link || ''}
-                type='document'
-                variant='dark'
-              />
-            </div>
-          </AccordionContent>
-          <AccordionContent className='flex border-t-2 p-2 justify-end items-center '>
-            <div className='w-full flex gap-5 justify-end items-center text-white '>
-              <button className='bg-primary-500 rounded-md px-3 py-2 flex gap-2'>
-                <Edit /> Edit Informasi
-              </button>
-            </div>
+          <AccordionContent className='w-full'>
+            <Table className='w-full border border-gray-200'>
+              <TableHeader></TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell className='lg:min-w-[350px]'>
+                    Pendahuluan
+                  </TableCell>
+                  <TableCell>{data.introduction}</TableCell>
+                </TableRow>
+                <TableRow className='bg-dark-200'>
+                  <TableCell className='lg:min-w-[350px]'>
+                    Deskripsi Pendahuluan
+                  </TableCell>
+                  <TableCell>{data.description}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='lg:min-w-[350px]'>
+                    Video Pendahuluan
+                  </TableCell>
+                  <TableCell>
+                    <div className='flex flex-col w-[350px] overflow-hidden text-ellipsis'>
+                      <p className='rounded-t-md shadow-md text-sm bg-white px-4 py-2 w-full'>
+                        {data.video_link}
+                      </p>
+                      <Link
+                        href={data.video_link}
+                        target='_blank'
+                        className='bg-dark-300 w-[350px] h-[180px] group rounded-b-md shadow-md flex items-center justify-center'
+                      >
+                        <PlayCircleIcon className='text-dark-600 w-8 h-8 group-hover:scale-110 transition-all duration-300' />
+                      </Link>
+                    </div>
+                  </TableCell>
+                </TableRow>
+                <TableRow className='bg-dark-200'>
+                  <TableCell className='lg:min-w-[350px]'>
+                    Dokumen Pendahuluan
+                  </TableCell>
+                  <TableCell>
+                    <div className='flex flex-col w-[350px] overflow-hidden text-ellipsis'>
+                      <p className='rounded-t-md shadow-md text-sm bg-white px-4 py-2 w-full'>
+                        {data.document_link}
+                      </p>
+                      <Link
+                        href={data.document_link || '#'}
+                        target='_blank'
+                        className='bg-dark-300 w-[350px] h-[180px] group rounded-b-md shadow-md flex items-center justify-center'
+                      >
+                        <FaFileAlt className='text-dark-600 w-8 h-8 group-hover:scale-110 transition-all duration-300' />
+                      </Link>
+                    </div>
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='lg:min-w-[350px]'>
+                    Deskripsi Pendahuluan
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      variant='primary'
+                      className='flex gap-2 items-center'
+                    >
+                      <Edit /> Edit Informasi
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
