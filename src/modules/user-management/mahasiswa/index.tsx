@@ -20,6 +20,7 @@ const MahasiswaModule = () => {
   const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true);
   const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
   const [showPanel, setShowPanel] = React.useState<Checked>(false);
+  const [searchQuery, setSearchQuery] = React.useState<string>('');
 
   const prodi = [
     {
@@ -41,7 +42,12 @@ const MahasiswaModule = () => {
         <div className='pt-6 px-4'>
           <div className='flex place-items-center justify-between'>
             <div className='w-1/3 relative'>
-              <Input type='search' placeholder='Search' className='pl-10' />
+              <Input
+                onChange={(e) => setSearchQuery(e.target.value)}
+                type='search'
+                placeholder='Search'
+                className='pl-10'
+              />
               <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
                 <AiOutlineSearch className='text-gray-400' size={20} />
               </div>
@@ -112,7 +118,7 @@ const MahasiswaModule = () => {
               </button>
             </div>
           </div>
-          <MahasiswaDataTable />
+          <MahasiswaDataTable searchQuery={searchQuery} />
         </div>
       </div>
     </>
