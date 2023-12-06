@@ -8,6 +8,7 @@ import { CiCirclePlus } from 'react-icons/ci';
 import { IoIosList } from 'react-icons/io';
 
 import { cn } from '@/lib/utils';
+import { useGetAllEventRequest } from '@/hooks/acara-kampus-gratis/hooks';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -23,6 +24,8 @@ export const AcaraKampusGratisModule = () => {
   const pathName = usePathname();
   const [active, setactive] = useState<string>('grid');
   const newQuery = new URLSearchParams(query);
+
+  const { data } = useGetAllEventRequest();
 
   useEffect(() => {
     if (query.get('view') === 'table') {
@@ -101,7 +104,7 @@ export const AcaraKampusGratisModule = () => {
           query.get('view') === null ||
           active === 'grid' ? (
             <div className='grid grid-cols-3 gap-5'>
-              {ArticleData.map((item, index) => (
+              {data?.data.map((item, index) => (
                 <CardAcara key={`article-${index}`} id={index} data={item} />
               ))}
             </div>

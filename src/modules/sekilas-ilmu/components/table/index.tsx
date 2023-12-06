@@ -9,8 +9,12 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
+import { ColumnDef } from '@tanstack/react-table';
+import Link from 'next/link';
 import React, { useState } from 'react';
+import { TiArrowSortedDown } from 'react-icons/ti';
 
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -20,16 +24,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import {
-  TArticleData,
-  TArticleItem,
-  TGetAllArticle,
-} from '@/types/sekilas-ilmu/types';
-import { ColumnDef } from '@tanstack/react-table';
-import { format } from 'date-fns';
-import Link from 'next/link';
-import { DeteleArticleModal } from '@/modules/sekilas-ilmu/components/DeleteModal';
-import { TiArrowSortedDown } from 'react-icons/ti';
+import { TArticleItem, TGetAllArticle } from '@/types/sekilas-ilmu/types';
 
 const getMonthName = (monthIndex: number) => {
   const months = [
@@ -176,7 +171,7 @@ export const columns: ColumnDef<TArticleItem>[] = [
     },
     cell: ({ row }) => (
       <Link
-        href={''}
+        href=''
         className='text-start font-semibold text-sm text-primary-500'
       >
         Detail
@@ -189,7 +184,7 @@ export const columns: ColumnDef<TArticleItem>[] = [
     cell: () => {
       return (
         <div className='flex gap-3'>
-          <DeteleArticleModal />
+          {/* <DeteleArticleModal /> */}
           <Link href='/sekilas-ilmu/edit-artikel'>
             <Button className='bg-primary-500'>Edit</Button>
           </Link>
