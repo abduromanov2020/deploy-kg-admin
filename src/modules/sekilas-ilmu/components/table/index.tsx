@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/table';
 
 import { TArticleItem, TGetAllArticle } from '@/types/sekilas-ilmu/types';
+import { DeteleArticleModal } from '@/modules/sekilas-ilmu/components/DeleteModal';
 
 const getMonthName = (monthIndex: number) => {
   const months = [
@@ -82,7 +83,7 @@ export const columns: ColumnDef<TArticleItem>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className='text-start font-semibold text-sm'>
+      <div className='text-start font-semibold text-sm line-clamp-1'>
         {row.getValue('title')}
       </div>
     ),
@@ -157,7 +158,7 @@ export const columns: ColumnDef<TArticleItem>[] = [
     ),
   },
   {
-    accessorKey: 'details',
+    accessorKey: 'slug',
     header: ({ column }) => {
       return (
         <Button
@@ -171,7 +172,7 @@ export const columns: ColumnDef<TArticleItem>[] = [
     },
     cell: ({ row }) => (
       <Link
-        href=''
+        href={`/sekilas-ilmu/detail/${row.getValue('slug')}`}
         className='text-start font-semibold text-sm text-primary-500'
       >
         Detail
@@ -179,15 +180,28 @@ export const columns: ColumnDef<TArticleItem>[] = [
     ),
   },
   {
-    id: 'actions',
+    accessorKey: 'id',
+    id: 'id',
     enableHiding: false,
-    cell: () => {
+    cell: ({ row }) => {
+      const [articleId, setArticleId] = useState<string>('');
+
       return (
         <div className='flex gap-3'>
-          {/* <DeteleArticleModal /> */}
-          <Link href='/sekilas-ilmu/edit-artikel'>
-            <Button className='bg-primary-500'>Edit</Button>
-          </Link>
+          <DeteleArticleModal
+            articleId={articleId}
+            modalTrigger={
+              <Button
+                className='bg-red-800'
+                onClick={() => setArticleId(String(row.getValue('id')))}
+              >
+                Hapus
+              </Button>
+            }
+          />
+          <Button className='bg-primary-500' asChild>
+            <Link href='/sekilas-ilmu/edit-artikel'>Edit</Link>
+          </Button>
         </div>
       );
     },

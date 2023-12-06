@@ -1,6 +1,6 @@
 import { TMetaResponse, TMetaResponseSingle } from "@/types"
 
-export interface TArticleData {
+export type TArticleData = {
   data: TArticleItem[]
   page_size: number
   total_data: number
@@ -30,7 +30,29 @@ export interface Author {
   full_name: string
 }
 
+export type TCategoriesItem = {
+  id: string
+  name: string
+  created_at: string
+  updated_at: string
+}
+
+export type TCreateArticlePayload = {
+  title?: string;
+  content?: string;
+  category_id?: string;
+  thumbnail?: string | StaticImageData;
+  tags?: string;
+  thumbnail?: string;
+};
+
+export type TDeleteArticlePayload = {
+  article_id: string;
+};
+
 export type TAllArticleResponse = TMetaResponseSingle<TArticleData>
+export type TDetailArticleResponse = TMetaResponseSingle<TArticleItem>
+export type TCategoriesResponse = TMetaResponse<TCategoriesItem>
 
 export type TuseArticleData = {
   getArticleData: TAllArticleResponse;

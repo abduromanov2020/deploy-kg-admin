@@ -1,5 +1,5 @@
 import { api } from "@/lib/api";
-import { TAllArticleResponse } from "@/types/sekilas-ilmu/types";
+import { TAllArticleResponse, TDetailArticleResponse } from "@/types/sekilas-ilmu/types";
 
 export const articleGetRequest = async (
   page: number,
@@ -9,5 +9,22 @@ export const articleGetRequest = async (
   const { data } = await api.get(
     `v1/article/filter?page=${page}&limit=${limit}&search=${search}&sort_by=TITLE`
   );
+  console.log(page);
+  
+  console.log(data);
+  
+  return data;
+};
+
+export const articleGetBySlugRequest = async (
+  slug: string
+): Promise<TDetailArticleResponse> => {
+  const { data } = await api.get(
+    `v1/article/${slug}`
+  );
+  console.log(slug);
+  
+  console.log(data);
+  
   return data;
 };
