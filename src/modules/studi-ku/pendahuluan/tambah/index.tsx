@@ -13,6 +13,7 @@ import { ValidationSchemaPendahuluan } from '@/lib/validation/studi-ku/pendahulu
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { UploadField } from '@/components/input/upload-file';
 import DraftEditor from '@/components/text-editor';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -94,7 +95,7 @@ const TambahPendahuluanModule = () => {
               label='Deskripsi Modul'
               error={form.formState.errors.description?.message}
             />
-            <div className='grid grid-cols-2'>
+            <div className='grid grid-cols-2 gap-4'>
               <UploadField
                 control={form.control}
                 // required
@@ -108,14 +109,24 @@ const TambahPendahuluanModule = () => {
               <UploadField
                 control={form.control}
                 // required
-                name='document'
-                accepted='.pdf'
-                label='Dokumen Pendahuluan'
+                name='video'
+                accepted='.mp4, .webm, .ogg'
+                label='Video Pendahuluan'
                 variant='sm'
                 message={form?.formState?.errors?.document?.message?.toString()}
                 status={form?.formState?.errors?.document ? 'error' : 'none'}
               />
             </div>
+          </div>
+          <div className='flex w-full justify-end gap-3 px-5'>
+            <Button variant='primaryOutline'>Kembali</Button>
+            <Button
+              variant='primary'
+              type='submit'
+              className='bg-primary-500 text-white px-4 py-2 rounded-md'
+            >
+              Simpan Perubahan
+            </Button>
           </div>
         </form>
       </Form>
