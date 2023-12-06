@@ -2,9 +2,11 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
+import { convertToRaw, EditorState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
 import { CalendarIcon } from 'lucide-react';
-import Image from 'next/image';
-import React from 'react';
+import dynamic from 'next/dynamic';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import * as z from 'zod';
@@ -12,9 +14,9 @@ import * as z from 'zod';
 import { cn } from '@/lib/utils';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
+import { UploadField } from '@/components/input/upload-file';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -30,9 +32,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { Textarea } from '@/components/ui/textarea';
+
+import { EditConfirmationModal } from '@/modules/studi-ku/tugas/components/EditConfirmationModal';
 
 import { ITEMS } from './constant';
+
+const DraftEditor = dynamic(() => import('@/components/text-editor'), {
+  ssr: false,
+});
 
 const FormSchema = z.object({
   dob: z.date({
@@ -47,6 +54,23 @@ const FormSchema = z.object({
 });
 
 const EditTugasModule = () => {
+  const [editorStateCover, setEditorStateCover] = useState<EditorState>(
+    EditorState.createEmpty(),
+  );
+
+  const handleEditorCoverChange = (editorState: EditorState) => {
+    setEditorStateCover(editorState);
+
+    const contentState = editorState.getCurrentContent();
+    const rawContentState = convertToRaw(contentState);
+    const htmlContent = draftToHtml(rawContentState);
+
+    form.setValue('deskripsi', htmlContent, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -56,40 +80,53 @@ const EditTugasModule = () => {
   }
 
   return (
-    <>
-      <Card className='mb-5'>
-        <CardHeader>
-          <BreadCrumb items={ITEMS} className='!p-0' />
-        </CardHeader>
-      </Card>
-      <Card>
-        <CardHeader className='border-b-2'>
-          <CardTitle>
-            <div className='flex items-center'>
-              <h2 className='text-xl font-semibold'>
-                Edit Tugas 1 Mata Kuliah Manajemen Keuangan
-              </h2>
-            </div>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+    <div className='flex flex-col gap-6'>
+      <div className='bg-white rounded-md'>
+        <BreadCrumb items={ITEMS} className='lg:px-6 lg:py-4' />
+      </div>
+      <div className='bg-white rounded-md'>
+        <div className='border-b border-dark-200 p-4'>
+          <span className='font-semibold '>Edit Tugas : Tugas 1</span>
+        </div>
+        <div className='p-8'>
+          {' '}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-              <FormField
-                control={form.control}
-                name='deskripsi'
-                render={({ field }) => (
-                  <FormItem className='grid w-full gap-1.5'>
-                    <FormLabel>Deskripsi Tugas 1</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder='Silahkan baca dan kerjakan tugas pada modul berikut ini. Berikan tanggapan bukti nyata kemudian sebutkan dan berikan contoh poin terhadap fenomena tersebut.'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+              <div className='flex gap-4'>
+                <FormField
+                  control={form.control}
+                  name='file'
+                  render={({ field }) => (
+                    <FormItem className='grid w-full items-center gap-1.5'>
+                      <FormLabel>Pertemuan</FormLabel>
+                      <FormControl>
+                        <Input type='text' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='file'
+                  render={({ field }) => (
+                    <FormItem className='grid w-full items-center gap-1.5'>
+                      <FormLabel>Modul</FormLabel>
+                      <FormControl>
+                        <Input type='Modul' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <DraftEditor
+                editorState={editorStateCover}
+                setEditorState={(editorState) => {
+                  handleEditorCoverChange(editorState);
+                }}
+                label='Deskripsi Tugas*'
+                error={form.formState.errors.deskripsi?.message}
               />
               <div className='flex gap-4'>
                 <FormField
@@ -142,7 +179,20 @@ const EditTugasModule = () => {
                   />
                 </div>
               </div>
-              <FormField
+              <div className='grid w-full items-center gap-1.5'>
+                <Label htmlFor='thumbnail'>Unggah Thumbnail*</Label>
+                <UploadField
+                  control={form.control}
+                  // required
+                  name='file'
+                  accepted='.jpg, .png, .jpeg'
+                  // label='Unggah Thumbnail*'
+                  message={form?.formState?.errors?.file?.message?.toString()}
+                  status={form?.formState?.errors?.file ? 'error' : 'none'}
+                  variant='md'
+                />
+              </div>
+              {/* <FormField
                 control={form.control}
                 name='file'
                 render={({ field }) => (
@@ -154,25 +204,16 @@ const EditTugasModule = () => {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
               <div className='flex justify-end gap-4'>
                 <Button variant='primaryOutline'>Kembali</Button>
-                <Button variant='primary' type='submit'>
-                  <Image
-                    src='/svg/edit.svg'
-                    alt='edit'
-                    width={20}
-                    height={20}
-                    className='mr-2'
-                  />
-                  Simpan Perubahan
-                </Button>
+                <EditConfirmationModal />
               </div>
             </form>
           </Form>
-        </CardContent>
-      </Card>
-    </>
+        </div>
+      </div>
+    </div>
   );
 };
 
