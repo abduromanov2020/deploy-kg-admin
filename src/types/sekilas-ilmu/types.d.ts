@@ -46,6 +46,9 @@ export type TCreateArticlePayload = {
   thumbnail?: string;
 };
 
+export type TDeleteArticlePayload = {
+  article_id: string;
+};
 
 export type TAllArticleResponse = TMetaResponseSingle<TArticleData>
 export type TDetailArticleResponse = TMetaResponseSingle<TArticleItem>

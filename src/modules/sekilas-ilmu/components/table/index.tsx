@@ -185,13 +185,24 @@ export const columns: ColumnDef<TArticleItem>[] = [
     ),
   },
   {
-    id: 'actions',
+    accessorKey: 'id',
+    id: 'id',
     enableHiding: false,
-    cell: () => {
+    cell: ({ row }) => {
+      const [articleId, setArticleId] = useState<string>('');
+
       return (
         <div className='flex gap-3'>
           <DeteleArticleModal
-            modalTrigger={<Button className='bg-red-800'>Hapus</Button>}
+            articleId={articleId}
+            modalTrigger={
+              <Button
+                className='bg-red-800'
+                onClick={() => setArticleId(String(row.getValue('id')))}
+              >
+                Hapus
+              </Button>
+            }
           />
           <Button className='bg-primary-500' asChild>
             <Link href='/sekilas-ilmu/edit-artikel'>Edit</Link>

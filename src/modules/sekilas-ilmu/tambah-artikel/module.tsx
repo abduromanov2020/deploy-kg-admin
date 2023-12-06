@@ -176,7 +176,7 @@ const TambahArtikelModule = () => {
           queryClient.invalidateQueries(['create-article'] as any);
           // setSuccesStatus(true);
           toast.success('Berhasil Mengunggah');
-          // onreset();
+          form.reset();
         },
       });
     } catch (err) {
