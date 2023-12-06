@@ -1,9 +1,12 @@
+import { format } from 'date-fns';
 import Image from 'next/image';
-import React from 'react';
+import React, { FC } from 'react';
 
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
-export const PreviewAcaraTabContent = () => {
+import { TEventItem } from '@/types/acara-kampus-gratis/types';
+
+export const PreviewAcaraTabContent: FC<{ data: TEventItem }> = ({ data }) => {
   return (
     <Table className=' border border-gray-400'>
       <TableBody>
@@ -11,7 +14,7 @@ export const PreviewAcaraTabContent = () => {
           <TableCell className='font-medium align-top border-r w-[250px]'>
             Nama Acara
           </TableCell>
-          <TableCell>Webinar Cyber Security</TableCell>
+          <TableCell>{data.name}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell className='font-medium align-top border-r'>
@@ -38,7 +41,12 @@ export const PreviewAcaraTabContent = () => {
           <TableCell className='font-medium align-top border-r'>
             Tanggal
           </TableCell>
-          <TableCell>Selasa, 28 Februari 2023 19:00 WIB</TableCell>
+          <TableCell>
+            {format(
+              new Date(data.registration_close_date),
+              'dd MMMM yyyy HH:mm',
+            )}
+          </TableCell>
         </TableRow>
         <TableRow>
           <TableCell className='font-medium align-top border-r'>

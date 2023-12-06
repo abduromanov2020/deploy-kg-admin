@@ -3,9 +3,10 @@ import React from 'react';
 import { BiChevronDown } from 'react-icons/bi';
 import { BsQuestionCircle } from 'react-icons/bs';
 import { FaUserEdit } from 'react-icons/fa';
+import { FaAddressCard } from 'react-icons/fa6';
 import { IoChatboxEllipses, IoDocumentText } from 'react-icons/io5';
 import { LuClipboardList } from 'react-icons/lu';
-import { TbCloudSearch } from 'react-icons/tb';
+import { TbCloudSearch, TbUserStar } from 'react-icons/tb';
 
 import {
   AccordingModul,
@@ -45,8 +46,18 @@ export const MainStudiKu = () => {
       link: '/',
     },
     {
-      title: 'Nilai & Presensi',
-      icon: <FaUserEdit className='text-teal-500 text-xl' />,
+      title: 'Penilaian Keaktifan',
+      icon: <FaAddressCard className='text-teal-500 text-xl' />,
+      link: '/',
+    },
+    {
+      title: 'Kualitas Pengajar & Materi Ajar',
+      icon: <TbUserStar className='text-purple-500 text-xl' />,
+      link: '/',
+    },
+    {
+      title: 'Presensi',
+      icon: <FaUserEdit className='text-amber-500 text-xl' />,
       link: '/',
     },
   ];

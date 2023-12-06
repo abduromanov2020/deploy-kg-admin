@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
-export const KontakAcaraTabContent = () => {
+import { TEventItem } from '@/types/acara-kampus-gratis/types';
+
+export const KontakAcaraTabContent: FC<{ data: TEventItem }> = ({ data }) => {
   return (
     <Table className=' border border-gray-400'>
       <TableBody>
@@ -10,19 +12,19 @@ export const KontakAcaraTabContent = () => {
           <TableCell className='font-medium align-top border-r w-[250px]'>
             Nama Penanggung Jawab
           </TableCell>
-          <TableCell>Abdul - Ketua Panitia</TableCell>
+          <TableCell>{data.contact_person_name} - Ketua Panitia</TableCell>
         </TableRow>
         <TableRow>
           <TableCell className='font-medium align-top border-r w-[250px]'>
             Nomor Telepon
           </TableCell>
-          <TableCell>+62 89647298234</TableCell>
+          <TableCell>{data.contact_person_phone}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell className='font-medium align-top border-r w-[250px]'>
             Email
           </TableCell>
-          <TableCell>Lionelabdul@gmail.com</TableCell>
+          <TableCell>{data.contact_person_email}</TableCell>
         </TableRow>
       </TableBody>
     </Table>

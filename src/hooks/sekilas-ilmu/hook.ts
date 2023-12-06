@@ -1,7 +1,7 @@
-import { articleGetRequest } from "@/hooks/sekilas-ilmu/request";
+import { articleGetBySlugRequest, articleGetRequest} from "@/hooks/sekilas-ilmu/request";
 import { articleDataState } from "@/recoils/sekilas-ilmu/atom";
 import { TMetaErrorResponse } from "@/types";
-import { TAllArticleResponse, TuseArticleData } from "@/types/sekilas-ilmu/types";
+import { TAllArticleResponse, TDetailArticleResponse, TuseArticleData } from "@/types/sekilas-ilmu/types";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
 
@@ -22,3 +22,11 @@ export const useArticleData = (): TuseArticleData => {
     setArticleData: (val) => set(val),
   };
 };
+
+export const useGetArticleBySlug = (
+  slug: string
+): UseQueryResult<TDetailArticleResponse, TMetaErrorResponse> =>
+  useQuery({
+    queryKey: ['article-get-by-slug', slug],
+    queryFn: async () => await articleGetBySlugRequest(slug),
+  });
