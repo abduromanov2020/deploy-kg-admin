@@ -57,7 +57,7 @@ export const generateDynamicValidationSchemaQuiz = (count: number) => {
   const dynamicValidationSchema: Record<string, any> = {};
 
   for (let i = 0; i < count; i++) {
-    dynamicValidationSchema[`quiz_title_${i + 1}_3`] = z
+    dynamicValidationSchema[`quiz_title_${i + 1}`] = z
       .string({
         required_error: `Judul Quiz ${i + 1}  harus diisi .`,
       })
@@ -70,7 +70,7 @@ export const generateDynamicValidationSchemaTugas = (count: number) => {
   const dynamicValidationSchema: Record<string, any> = {};
 
   for (let i = 0; i < count; i++) {
-    dynamicValidationSchema[`assignment_title_${i + 1}_3`] = z
+    dynamicValidationSchema[`assignment_title_${i + 1}`] = z
       .string({
         required_error: `Judul Tugas ${i + 1}  harus diisi .`,
       })
@@ -83,7 +83,7 @@ export const generateDynamicValidationSchemaDiskusi = (count: number) => {
   const dynamicValidationSchema: Record<string, any> = {};
 
   for (let i = 0; i < count; i++) {
-    dynamicValidationSchema[`discuss_title_${i + 1}_3`] = z
+    dynamicValidationSchema[`discuss_title_${i + 1}`] = z
       .string({
         required_error: `Judul Diskusi ${i + 1}  harus diisi .`,
       })
