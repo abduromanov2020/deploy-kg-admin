@@ -147,7 +147,7 @@ export const columns: ColumnDef<unknown>[] = [
   },
 ];
 
-export const TableInformasiMatakuliah: FC<{ data: unknown[] }> = ({ data }) => {
+export const TableMahasiswa: FC<{ data: unknown[] }> = ({ data }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
