@@ -21,8 +21,8 @@ const DetailSemesterModule = () => {
       link: `/nilai-dan-sertifikat/nilai/detail-mahasiswa/1`,
     },
     {
-      name: 'Transkrip Nilai',
-      link: `/nilai-dan-sertifikat/nilai/detail-mahasiswa/1/transkrip-nilai/2`,
+      name: 'Detail Semester',
+      link: `/nilai-dan-sertifikat/nilai/detail-mahasiswa/1/detail-semester/2`,
     },
   ];
 
