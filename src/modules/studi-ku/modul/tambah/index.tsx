@@ -355,6 +355,58 @@ const TambahModul = () => {
               </div>
             </div>
           </div>
+          <div className='px-5'>
+            <div className='flex-col flex bg-dark-200 p-5 rounded-md'>
+              <SubTitleModule title='Tugas' />
+              <div className='flex flex-col gap-4'>
+                {Array(countTugas)
+                  .fill('')
+                  .map((_, index) => (
+                    <Fragment key={index}>
+                      <FormField
+                        control={form.control}
+                        name={`tugas_title_${index + 1}`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Judul Tugas {index + 1}</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder={`Masukkan Judul Tugas ${
+                                  index + 1
+                                }`}
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </Fragment>
+                  ))}
+              </div>
+              <div className='flex justify-end mt-2 gap-2'>
+                <div
+                  className='text-primary-500 cursor-pointer flex items-center'
+                  onClick={() =>
+                    setCountTugas((prev) => {
+                      if (prev === 1) return prev;
+                      return prev - 1;
+                    })
+                  }
+                >
+                  <BiMinusCircle className='inline-block text-xl mr-2' />
+                  Kurangi Tugas
+                </div>
+                <div
+                  className='text-primary-500 cursor-pointer flex items-center'
+                  onClick={() => setCountTugas((prev) => prev + 1)}
+                >
+                  <BiPlusCircle className='inline-block text-xl mr-2' />
+                  Tambah Tugas
+                </div>
+              </div>
+            </div>
+          </div>
           <div className='flex w-full justify-end gap-5 px-5'>
             <Button variant='primaryOutline'>Kembali</Button>
             <Button
