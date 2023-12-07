@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
 
-import { DeleteConfirmModal } from '@/modules/acara-kampus-gratis/component/DeleteConfirmationModal';
+import { DeleteDiscussionConfirmationModal } from '@/modules/studi-ku/diskusi/components/DeleteDiscussionConfirmationModal';
 
 import AcaraImage from '~/images/acara-kampus-gratis/acara1.png';
 
@@ -78,7 +78,7 @@ export const DiskusiCard = () => {
               <p className='text-[10px]'>Dosen FEB</p>
             </div>
           </div>
-          <div className='border-x border-gray-500 px-5'>
+          <div className='border-x border-gray-400 px-5'>
             <p className='font-medium text-black'>28</p>
             <p className='text-[10px]'>Balasan</p>
           </div>
@@ -88,7 +88,7 @@ export const DiskusiCard = () => {
           </div>
         </CardDescription>
         <div className='flex justify-between items-center mt-4'>
-          <Link href='/acara-kampus-gratis/detail-acara/1}'>
+          <Link href='/studi-ku/diskusi/detail-diskusi/1}'>
             <Button className='bg-primary-500'>Detail Diskusi</Button>
           </Link>
 
@@ -110,7 +110,7 @@ export const DiskusiCard = () => {
                   </Button>
                 </Link>
                 <Separator />
-                <DeleteConfirmModal type='other' />
+                <DeleteDiscussionConfirmationModal type='other' />
               </div>
             </PopoverContent>
           </Popover>
