@@ -52,7 +52,7 @@ const TranskripNilaiMahasiswaModule = () => {
             <p className='leading-none'>Unduh</p>
           </Button>
         </div>
-        <div className='px-5'>
+        <div className='px-5 pb-5'>
           <div className='flex flex-col gap-5'>
             <h6 className='font-semibold'>Informasi Mahasiswa</h6>
             <Table className='border-2'>
