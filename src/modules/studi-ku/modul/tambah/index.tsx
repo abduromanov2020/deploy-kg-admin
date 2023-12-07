@@ -40,6 +40,9 @@ const DraftEditor = dynamic(() => import('@/components/text-editor'), {
 const TambahModul = () => {
   const [countVideo, setCountVideo] = useState<number>(1);
   const [countDocument, setCountDocument] = useState<number>(1);
+  const [countQuiz, setCountQuiz] = useState<number>(1);
+  const [countTugas, setCountTugas] = useState<number>(1);
+  const [countDiskusi, setCountDiskusi] = useState<number>(1);
 
   const defaultValues: Record<string, string> = {
     cover_title: '',
@@ -58,7 +61,13 @@ const TambahModul = () => {
 
   const form = useForm<FormFields>({
     resolver: zodResolver(
-      ValidationSchemaCoverModul(countVideo, countDocument),
+      ValidationSchemaCoverModul(
+        countVideo,
+        countDocument,
+        countQuiz,
+        countTugas,
+        countDiskusi,
+      ),
     ),
     defaultValues,
   });
