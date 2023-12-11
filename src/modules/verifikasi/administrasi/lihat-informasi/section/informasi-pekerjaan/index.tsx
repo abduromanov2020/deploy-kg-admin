@@ -18,7 +18,7 @@ const InformasiPekerjaanSection = () => {
                 </TableRow>
                 <TableRow>
                   <TableCell className='font-medium'>
-                  Penghasilan Ayah
+                  Penghasilan Ayah Perbulan
                   </TableCell>
                   <TableCell className='border-2'>440</TableCell>
                 </TableRow>
@@ -33,7 +33,7 @@ const InformasiPekerjaanSection = () => {
                   <TableCell className='border-2'>122</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className='font-medium'>Penghasilan Ibu</TableCell>
+                  <TableCell className='font-medium'>Penghasilan Ibu Perbulan</TableCell>
                   <TableCell className='border-2'>122</TableCell>
                 </TableRow>
                 <TableRow>
