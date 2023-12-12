@@ -1,5 +1,5 @@
 import { api } from '@/lib/api';
-import { TPengajuanAdmResponse } from '@/types/verifikasi/administrasi';
+import { TPengajuanAdmResponse, TPengajuanDataDiriAdmResponse } from '@/types/verifikasi/administrasi';
 
 export const pengajuanAdmGetRequest = async (
   page: number,
@@ -21,5 +21,12 @@ export const pengajuanAdmGetRequest = async (
     url: 'v1/admin/administrations',
   });
 
+  return data;
+};
+
+export const pengajuanAdmDataDiriGetRequest = async (
+  id: string
+): Promise<TPengajuanDataDiriAdmResponse> => {
+  const { data } = await api.get(`v1/admin/administrations/${id}`);
   return data;
 };

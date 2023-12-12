@@ -3,15 +3,24 @@
 import { Tab } from '@headlessui/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import { FaFileExport } from 'react-icons/fa6';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { Button } from '@/components/ui/button';
-import { FaFileExport } from 'react-icons/fa6';
+
 import InformasiDiriSection from '@/modules/verifikasi/administrasi/lihat-informasi/section/informasi-diri';
 import InformasiPekerjaanSection from '@/modules/verifikasi/administrasi/lihat-informasi/section/informasi-pekerjaan';
 import PemberkasanSection from '@/modules/verifikasi/administrasi/lihat-informasi/section/pemberkasan';
+import { useGetPengjuanAdmDataDiri } from '@/hooks/verifikasi/administrasi/hook';
 
-const LihatInformasiModule = () => {
+interface TProps {
+  id: string;
+}
+
+const LihatInformasiModule = ({ id }: TProps) => {
+  
+  const { data } = useGetPengjuanAdmDataDiri(id);
+
   const LihatInformasiBreadcrumb = [
     {
       name: 'Verifikasi Administrasi',
@@ -48,9 +57,7 @@ const LihatInformasiModule = () => {
       </div>
       <div className='bg-white w-full rounded-md flex flex-col gap-5'>
         <div className='border-b border-dark-200 p-5'>
-          <h3 className='font-semibold text-lg'>
-            Detail Berkas Administrasi
-          </h3>
+          <h3 className='font-semibold text-lg'>Detail Berkas Administrasi</h3>
         </div>
         <div className='w-full px-5 pb-4'>
           <Tab.Group>
