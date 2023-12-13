@@ -3,7 +3,10 @@
 import { Tab } from '@headlessui/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import { BiLoaderAlt } from 'react-icons/bi';
 import { FaFileExport } from 'react-icons/fa6';
+
+import { useGetPengjuanAdmDataDiri } from '@/hooks/verifikasi/administrasi/hook';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { Button } from '@/components/ui/button';
@@ -11,15 +14,18 @@ import { Button } from '@/components/ui/button';
 import InformasiDiriSection from '@/modules/verifikasi/administrasi/lihat-informasi/section/informasi-diri';
 import InformasiPekerjaanSection from '@/modules/verifikasi/administrasi/lihat-informasi/section/informasi-pekerjaan';
 import PemberkasanSection from '@/modules/verifikasi/administrasi/lihat-informasi/section/pemberkasan';
-import { useGetPengjuanAdmDataDiri } from '@/hooks/verifikasi/administrasi/hook';
 
 interface TProps {
   id: string;
 }
 
 const LihatInformasiModule = ({ id }: TProps) => {
-  
-  const { data } = useGetPengjuanAdmDataDiri(id);
+  const { data, isLoading } = useGetPengjuanAdmDataDiri(id);
+
+  const dataBio = data?.data?.biodata;
+  const dataUserAdm = data?.data?.user_administration;
+  const dataJob = data?.data?.familial;
+  const dataFile = data?.data?.file;
 
   const LihatInformasiBreadcrumb = [
     {
@@ -119,15 +125,26 @@ const LihatInformasiModule = ({ id }: TProps) => {
               </Button>
             </div>
             <Tab.Panels>
-              <Tab.Panel>
-                <InformasiDiriSection />
-              </Tab.Panel>
-              <Tab.Panel>
-                <InformasiPekerjaanSection />
-              </Tab.Panel>
-              <Tab.Panel>
-                <PemberkasanSection />
-              </Tab.Panel>
+              {isLoading ? (
+                <div className='w-full flex justify-center items-center h-96'>
+                  <BiLoaderAlt className='animate-spin' size={30} />
+                </div>
+              ) : (
+                <>
+                  <Tab.Panel>
+                    <InformasiDiriSection
+                      dataBio={dataBio}
+                      dataUserAdm={dataUserAdm}
+                    />
+                  </Tab.Panel>
+                  <Tab.Panel>
+                    <InformasiPekerjaanSection dataJob={dataJob} />
+                  </Tab.Panel>
+                  <Tab.Panel>
+                    <PemberkasanSection dataFile={dataFile} />
+                  </Tab.Panel>
+                </>
+              )}
             </Tab.Panels>
           </Tab.Group>
         </div>
