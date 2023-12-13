@@ -1,26 +1,29 @@
 'use client';
 
+import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { BiSolidFileExport } from 'react-icons/bi';
+import { BiLoaderAlt, BiSolidFileExport } from 'react-icons/bi';
 import { BsGrid } from 'react-icons/bs';
 import { CiCirclePlus } from 'react-icons/ci';
 import { IoIosList } from 'react-icons/io';
-
 import { cn } from '@/lib/utils';
-
-import { BreadCrumb } from '@/components/BreadCrumb';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import CardComponent from './card';
-import { ITESMS } from './constants';
-import DatePickerSekilasIlmu from './datepicker';
-import FilterComponent from './filter';
-import TableSekilasIlmu from './table';
+import CardComponent from './components/card';
+import DatePickerSekilasIlmu from './components/datepicker';
+import FilterComponent from './components/filter';
+import TableSekilasIlmu from './components/table';
+import Pagination from '@/components/generals/pagination';
+import { useGetArticle } from '@/hooks/sekilas-ilmu/hook';
+import { IoGridOutline, IoListOutline } from 'react-icons/io5';
 
 const SekilasIlmuModule = () => {
+  const [showGrid, setShowGrid] = React.useState(false);
+  const [showList, setShowList] = React.useState(true);
+
   const query = useSearchParams();
   const router = useRouter();
   const pathName = usePathname();
@@ -35,16 +38,34 @@ const SekilasIlmuModule = () => {
     }
   }, [query, active, router]);
 
+  const page = Number(query.get('page')) || 1;
+  const searchQuery = query.get('search') || '';
+
+  // const [option, setOption] = useState({
+  //   page: page,
+  //   limit: 10,
+  //   search: '',
+  // });
+
+  const { data, isLoading, refetch } = useGetArticle(page, 10, searchQuery);
+
+  const dataArticle = data ? data?.data?.data : [];
+
+  const handlePageChange = async (page: number) => {
+    window.scrollTo(0, 0);
+    refetch();
+    console.log(page);
+
+    router.push(`/sekilas-ilmu?page=${page}`);
+  };
+
   return (
     <main className='flex flex-col gap-6'>
       <div className='bg-white'>
-        <BreadCrumb items={ITESMS} className='lg:px-6 lg:py-4' />
-      </div>
-      <div className='bg-white'>
-        <section className='px-4 py-5 border-b-2'>
-          <p>Daftar Artikel</p>
+        <section className='border-b border-dark-200 p-5'>
+          <h3 className='font-semibold text-lg'>Sekilas Ilmu</h3>
         </section>
-        <section className='px-4 py-5'>
+        <section className='px-6 py-5'>
           <div className='flex justify-between items-center'>
             <section className='w-full'>
               <div className='w-3/4 relative'>
@@ -55,59 +76,89 @@ const SekilasIlmuModule = () => {
               </div>
             </section>
             <section className='flex gap-2'>
-              <Button className='bg-primary-500 px-3 py-2 flex justify-center items-center gap-1 hover:bg-primary-400'>
-                <CiCirclePlus className='w-[20px] h-[20px]' />
-                <p className='leading-none'>Tambah Artikel</p>
-              </Button>
+              <Link href='/sekilas-ilmu/tambah-artikel'>
+                <Button className='bg-primary-500 px-3 py-2 flex justify-center items-center gap-1 hover:bg-primary-400'>
+                  <CiCirclePlus className='w-[20px] h-[20px]' />
+                  <p className='leading-none'>Tambah Artikel</p>
+                </Button>
+              </Link>
               <DatePickerSekilasIlmu />
               <FilterComponent />
-              {active === 'table' ? (
+              {showList && (
                 <Button className='flex gap-2 justify-center items-center bg-white hover:bg-dark-100 shadow-md text-primary-500'>
                   <BiSolidFileExport size={20} />
                   <p className='font-normal'>Unduh</p>
                 </Button>
-              ) : null}
+              )}
               <Button
-                className={cn(
-                  `p-2`,
-                  active === 'grid' || query.get('view') === null
-                    ? 'bg-primary-500 hover:bg-primary-400 text-dark-100'
-                    : 'bg-white hover:bg-dark-100 shadow-md text-primary-500',
-                )}
+                className={`${
+                  showGrid
+                    ? 'bg-primary-500 hover:bg-white  hover:text-primary-500 shadow-md'
+                    : 'bg-white hover:bg-primary-500 hover:text-white text-primary-500 shadow-md'
+                }   p-3`}
                 onClick={() => {
-                  newQuery.set('view', 'grid');
-                  router.push(`${pathName}?${newQuery.toString()}`);
-                  setactive('grid');
+                  setShowGrid(!showGrid); // Fix: Use the new state value directly
+                  setShowList(!showList);
                 }}
               >
-                <BsGrid size={20} />
+                <IoGridOutline size={24} />
               </Button>
               <Button
-                className={cn(
-                  `p-2`,
-                  active === 'table'
-                    ? 'bg-primary-500 hover:bg-primary-400 text-dark-100'
-                    : 'bg-white hover:bg-dark-100 shadow-md text-primary-500',
-                )}
+                className={`${
+                  showList
+                    ? 'bg-primary-500 hover:bg-white  hover:text-primary-500 shadow-md'
+                    : 'bg-white hover:bg-primary-500 hover:text-white text-primary-500 shadow-md'
+                }   p-3`}
                 onClick={() => {
-                  newQuery.set('view', 'table');
-                  router.push(`${pathName}?${newQuery.toString()}`);
-                  setactive('table');
+                  setShowGrid(!showGrid);
+                  setShowList(!showList); // Fix: Use the new state value directly
                 }}
               >
-                <IoIosList size={25} />
+                <IoListOutline size={24} />
               </Button>
             </section>
           </div>
         </section>
-        <section className='px-4 pb-5 w-full mx-auto'>
-          {query.get('view') === 'grid' ||
-          query.get('view') === null ||
-          active === 'grid' ? (
-            <CardComponent />
-          ) : (
-            <TableSekilasIlmu />
-          )}
+        <section className='p-6'>
+          <div className='w-full'>
+            {showGrid ? (
+              <section>
+                <CardComponent data={dataArticle} />
+              </section>
+            ) : (
+              <section>
+                {isLoading ? (
+                  <div className='w-full flex justify-center items-center pt-5'>
+                    <BiLoaderAlt className='animate-spin' size={30} />
+                  </div>
+                ) : data && data?.data ? (
+                  <>
+                    <TableSekilasIlmu data={dataArticle} />
+                    <div className='flex items-center justify-end px-4 py-4'>
+                      <div className='flex-1 text-sm text-muted-foreground'>
+                        <p>
+                          Menampilkan {data?.data?.data.length > 0 ? 1 : 0}{' '}
+                          hingga {data?.data?.data.length} data dari{' '}
+                          {data?.data?.max_page} entries
+                        </p>
+                      </div>
+                      <div className='space-x-2'>
+                        <Pagination
+                          currentPage={Number(data?.data?.current_page)}
+                          totalPages={Number(data?.data?.max_page)}
+                          onPageChange={handlePageChange}
+                        />
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className='w-full flex justify-center items-center pt-5'>
+                    Tidak Ada Data
+                  </div>
+                )}
+              </section>
+            )}
+          </div>
         </section>
       </div>
     </main>

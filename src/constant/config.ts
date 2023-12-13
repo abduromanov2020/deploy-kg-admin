@@ -1,7 +1,6 @@
 export const siteConfig = {
-  title: 'Next.js + Tailwind CSS + TypeScript Starter',
+  title: 'Kampus Gratis Admin',
   description:
-    'A starter for Next.js, Tailwind CSS, and TypeScript with Absolute Import, Seo, Link component, pre-configured with Husky',
-  /** Without additional '/' on the end, e.g. https://theodorusclarence.com */
-  url: 'https://tsnext-tw.thcl.dev',
+    'Kampus Gratis Admin adalah aplikasi untuk mengelola data akademik mahasiswa Kampus Gratis.',
+  url: 'https://kg-admin.vercel.app',
 };

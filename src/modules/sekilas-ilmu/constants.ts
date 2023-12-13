@@ -1,10 +1,32 @@
-export const ITESMS = [
+export const ITEMSDETAIL = [
   {
     name: 'Sekilas Ilmu',
     link: '/sekilas-ilmu',
   },
   {
-    name: 'Daftar Artikel',
+    name: 'Detail Artikel',
+    link: '/sekilas-ilmu/detail-artikel',
+  },
+]
+
+export const ITEMSTAMBAH = [
+  {
+    name: 'Sekilas Ilmu',
     link: '/sekilas-ilmu',
   },
-];
+  {
+    name: 'Tambah Artikel',
+    link: '/sekilas-ilmu/tambah-artikel',
+  },
+]
+
+export const ITEMSEDIT = [
+  {
+    name: 'Sekilas Ilmu',
+    link: '/sekilas-ilmu',
+  },
+  {
+    name: 'Edit Artikel',
+    link: '/sekilas-ilmu/edit-artikel',
+  },
+]

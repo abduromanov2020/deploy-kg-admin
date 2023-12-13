@@ -25,13 +25,13 @@ import {
 } from '@/components/ui/form';
 
 // import { Input } from '@/components/ui/input';
-import { TAMBAH_MODULE_BREADCRUMBS } from '@/modules/studi-ku/daftar-modul/constant';
+import { TAMBAH_MODULE_BREADCRUMBS } from '@/modules/studi-ku/modul/constant';
 import {
   SubTitleModule,
   TitleModule,
 } from '@/modules/studi-ku/modul/tambah/TitleModule';
 
-import { FormFields } from '@/types/studi-ku';
+import { FormFields } from '@/types/studi-ku/modul';
 
 const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
@@ -248,7 +248,7 @@ const TambahModul = () => {
                     <UploadField
                       key={index}
                       control={form.control}
-                      required
+                      // required
                       name={`document_file_${index + 1}`}
                       accepted='.pdf'
                       label={`Dokumen ${index + 1}`}

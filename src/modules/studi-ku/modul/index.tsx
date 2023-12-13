@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import {
   MODUL_DATA,
   MODULE_BREADCRUMBS,
-} from '@/modules/studi-ku/modul/contant';
+} from '@/modules/studi-ku/modul/constant';
 
 export const ListModul = () => {
   return (

@@ -2,14 +2,14 @@
 
 import Link from 'next/link';
 import React, { FC, useState } from 'react';
+import { AiFillDashboard } from 'react-icons/ai';
 import { IoChevronDown } from 'react-icons/io5';
 
 import BookBookmark from '~/svg/BookBookmark.svg';
 import BookOpen from '~/svg/BookOpen.svg';
 import CalendarMonth from '~/svg/CalendarMonth.svg';
 import ChartLineUp from '~/svg/ChartLineUp.svg';
-import Chats from '~/svg/chats.svg';
-import Dashboard from '~/svg/dashboard.svg';
+import Chats from '~/svg/Chats.svg';
 import FileCheck from '~/svg/FileCheck.svg';
 import Logo from '~/svg/Logo.svg';
 import MonitorLock from '~/svg/MonitorLock.svg';
@@ -31,8 +31,8 @@ const Sidebar: FC = () => {
   };
 
   return (
-    <div className='w-[280px] min-h-screen py-10 bg-sidebar relative'>
-      <div className='fixed top-0 left-0 h-screen overflow-y-auto pb-10 pt-2 scrollbar-thin scrollbar-thumb-primary-500 scrollbar-  scrollbar-track-sidebar scrollbar-thumb-rounded-md'>
+    <div className='w-[300px] min-h-screen py-10 bg-sidebar relative'>
+      <div className='fixed top-0 left-0 h-screen bg-sidebar overflow-y-auto pb-10 pt-2 '>
         <div className='pl-[35px] pb-[30px]'>
           <Logo className='w-[96px] h-full' />
         </div>
@@ -106,7 +106,9 @@ const dataSideBar = [
       {
         title: 'Beranda',
         link: '/beranda',
-        icon: <Dashboard className='w-6 h-6 group-hover:text-primary-500' />,
+        icon: (
+          <AiFillDashboard className='w-6 h-6 group-hover:text-primary-500 text-white' />
+        ),
       },
       {
         title: 'Verifikasi',

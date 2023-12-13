@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { getServerSession } from 'next-auth';
 import * as React from 'react';
 import { Suspense } from 'react';
 
@@ -9,7 +8,6 @@ import Provider from '@/components/generals/provider';
 import BaseLayout from '@/components/layouts/base-layout';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/option';
 import { siteConfig } from '@/constant/config';
 
 export const metadata: Metadata = {
@@ -33,7 +31,7 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     siteName: siteConfig.title,
-    images: [`${siteConfig.url}/images/og.jpg`],
+    images: [`${siteConfig.url}/images/og.png`],
     type: 'website',
     locale: 'en_US',
   },
@@ -56,13 +54,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
   return (
     <html lang='en'>
       <body>
         <Suspense fallback={<LoadingSpinner />}>
           <Provider>
-            {session ? <BaseLayout>{children}</BaseLayout> : <>{children}</>}
+            <BaseLayout>{children}</BaseLayout>
           </Provider>
         </Suspense>
       </body>
