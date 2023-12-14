@@ -2,31 +2,30 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import React from 'react';
 import { BiEdit, BiLoaderAlt, BiSolidFileExport } from 'react-icons/bi';
 import { FaTrash } from 'react-icons/fa6';
 
+import { useGetArticleBySlug } from '@/hooks/sekilas-ilmu/hook';
+
 import { BreadCrumb } from '@/components/BreadCrumb';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
+import { DeleteArticleModal } from '@/modules/sekilas-ilmu/components/DeleteModal';
+
 import { ITEMSDETAIL } from '../constants';
 
-import ArtikelImage from '~/images/sekilas-ilmu/artikel.png';
-
-import { useParams, useRouter } from 'next/navigation';
-import { useGetArticleBySlug } from '@/hooks/sekilas-ilmu/hook';
-import { Badge } from '@/components/ui/badge';
-
 const DetailArtikelModule = () => {
-  const router = useRouter();
   const params = useParams();
   const { slug } = params;
 
-  const { data, isLoading, refetch } = useGetArticleBySlug(String(slug));
+  const { data, isLoading } = useGetArticleBySlug(String(slug));
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <main className='flex flex-col gap-6'>
@@ -42,16 +41,21 @@ const DetailArtikelModule = () => {
                 <BiSolidFileExport size={24} />
                 <p className='leading-none'>Unduh</p>
               </Button>
-              <Link href='/sekilas-ilmu/edit-artikel'>
+              <Link href={`/sekilas-ilmu/edit-artikel/${slug}`}>
                 <Button className='shadow-md bg-white border-2 hover:bg-dark-200 border-primary-500 text-primary-500 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
                   <BiEdit size={24} />
                   <p className='leading-none'>Edit Artikel</p>
                 </Button>
               </Link>
-              <Button className='shadow-md bg-white border-2 hover:bg-dark-200 border-red-800 text-red-800 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
-                <FaTrash size={20} />
-                <p className='leading-none'>Hapus Artikel</p>
-              </Button>
+              <DeleteArticleModal
+                articleId={data?.data?.id}
+                modalTrigger={
+                  <Button className='shadow-md bg-white border-2 hover:bg-dark-200 border-red-800 text-red-800 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
+                    <FaTrash size={20} />
+                    <p className='leading-none'>Hapus Artikel</p>
+                  </Button>
+                }
+              />
             </div>
           </div>
         </div>
