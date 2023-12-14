@@ -7,6 +7,7 @@ import { useUserById } from '@/hooks/user-management/getuser/getuserById/hook';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 
+import FilesStudentDetail from '@/modules/user-management/mahasiswa/detail/berkas-mahasiswa';
 import StudentInformationDetail from '@/modules/user-management/mahasiswa/detail/informasi-diri';
 import StudentFilesDetail from '@/modules/user-management/mahasiswa/detail/rencana-studi';
 
@@ -109,7 +110,7 @@ const DetailMahasiswaModule = () => {
                   <StudentInformationDetail />
                 </Tab.Panel>
                 <Tab.Panel>
-                  <div>test</div>
+                  <FilesStudentDetail />
                 </Tab.Panel>
                 <Tab.Panel>
                   <StudentFilesDetail />

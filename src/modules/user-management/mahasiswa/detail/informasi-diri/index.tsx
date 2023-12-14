@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import React from 'react';
 
@@ -20,15 +19,21 @@ const StudentInformationDetail = () => {
           <Table className='border-2'>
             <TableBody>
               <TableRow>
-                <TableCell className='font-medium w-[30%]'>
-                  ID Mahasiswa
-                </TableCell>
-                <TableCell className='border-2'>{data?.data?.id}</TableCell>
-              </TableRow>
-              <TableRow>
                 <TableCell className='font-medium'>Nama Mahasiswa</TableCell>
                 <TableCell className='border-2'>
                   {data?.data?.full_name ?? '-'}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className='font-medium'>NIK</TableCell>
+                <TableCell className='border-2'>
+                  {data?.data?.id ?? '-'}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className='font-medium'>Jenis Kelamin</TableCell>
+                <TableCell className='border-2'>
+                  {data?.data?.gender ?? '-'}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -38,27 +43,9 @@ const StudentInformationDetail = () => {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell className='font-medium'>Fakultas</TableCell>
+                <TableCell className='font-medium'>Nomor Handphone</TableCell>
                 <TableCell className='border-2'>
-                  {data?.data?.faculty ?? '-'}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className='font-medium'>Program Studi</TableCell>
-                <TableCell className='border-2'>
-                  {data?.data?.major ?? '-'}{' '}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className='font-medium'>Dosen Pembimbing</TableCell>
-                <TableCell className='border-2'>
-                  {data?.data?.lecturer ?? '-'}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className='font-medium'>Semester</TableCell>
-                <TableCell className='border-2'>
-                  {data?.data?.semester ?? '-'}
+                  {data?.data?.phone_number ?? '-'}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -78,25 +65,71 @@ const StudentInformationDetail = () => {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell className='font-medium'>Pas Foto</TableCell>
+                <TableCell className='font-medium'>Keterangan</TableCell>
                 <TableCell className='border-2'>
-                  <div className='rouned-md '>
-                    <h1 className='border-2  px-2 py-1 w-[194px] pl-2'>
-                      4 x 6
-                    </h1>
-                    {data?.data?.avatar ? (
-                      <Image
-                        key={1}
-                        src={data?.data?.avatar}
-                        width={194}
-                        height={200}
-                        alt='avatar'
-                        className='object-cover max-h-[170px]'
-                      />
-                    ) : (
-                      'No Picture'
-                    )}
-                  </div>
+                  {data?.data?.full_name ?? '-'}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className='font-medium'>
+                  Pendidikan Terakhir
+                </TableCell>
+                <TableCell className='border-2'>
+                  {data?.data?.gpa ?? '-'}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className='font-medium'>Tempat Lahir</TableCell>
+                <TableCell className='border-2'>
+                  {data?.data?.gpa ?? '-'}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className='font-medium'>Tanggal Lahir</TableCell>
+                <TableCell className='border-2'>
+                  {data?.data?.gpa ?? '-'}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className='font-medium'>Alamat Lengkap</TableCell>
+                <TableCell className='border-2'>
+                  {data?.data?.gpa ?? '-'}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className='font-medium'>Provinsi</TableCell>
+                <TableCell className='border-2'>
+                  {data?.data?.gpa ?? '-'}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className='font-medium'>Kode Pos</TableCell>
+                <TableCell className='border-2'>
+                  {data?.data?.gpa ?? '-'}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className='font-medium'>Universitas Asal</TableCell>
+                <TableCell className='border-2'>
+                  {data?.data?.gpa ?? '-'}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className='font-medium'>NIM/NPM</TableCell>
+                <TableCell className='border-2'>
+                  {data?.data?.gpa ?? '-'}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className='font-medium'>Program Studi</TableCell>
+                <TableCell className='border-2'>
+                  {data?.data?.gpa ?? '-'}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className='font-medium'>Semester</TableCell>
+                <TableCell className='border-2'>
+                  {data?.data?.gpa ?? '-'}
                 </TableCell>
               </TableRow>
             </TableBody>

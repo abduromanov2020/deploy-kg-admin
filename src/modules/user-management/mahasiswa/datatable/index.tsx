@@ -41,7 +41,6 @@ const MahasiswaDataTable: React.FC<search> = ({ searchQuery }) => {
     'No',
     'ID MAHASISWA',
     'NAMA MAHASISWA',
-    'FAKULTAS',
     'PROGRAM STUDI',
     'STATUS',
     'INFORMASI',
@@ -71,7 +70,6 @@ const MahasiswaDataTable: React.FC<search> = ({ searchQuery }) => {
                   </TableCell>
                   <TableCell>{user.id}</TableCell>
                   <TableCell>{user.full_name}</TableCell>
-                  <TableCell>{user.faculty ?? '-'}</TableCell>
                   <TableCell>{user.major ?? '-'}</TableCell>
                   <TableCell>
                     <Badge
