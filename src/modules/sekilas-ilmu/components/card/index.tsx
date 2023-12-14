@@ -1,9 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import { BiEdit } from 'react-icons/bi';
-import { FaTrash } from 'react-icons/fa';
-import { HiDotsVertical } from 'react-icons/hi';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -15,16 +12,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
 
-import { DeteleArticleModal } from '@/modules/sekilas-ilmu/components/DeleteModal';
+import { PopoverArticle } from '@/modules/sekilas-ilmu/components/PopOver';
 
 import { TGetAllArticle } from '@/types/sekilas-ilmu/types';
-import { PopoverArticle } from '@/modules/sekilas-ilmu/components/PopOver';
 
 const CardComponent = ({ data }: TGetAllArticle) => {
   const [formattedDate, setFormattedDate] = React.useState<string>('');
@@ -86,33 +77,35 @@ const CardComponent = ({ data }: TGetAllArticle) => {
             </CardHeader>
             <CardContent className='p-6'>
               <section className=' flex gap-2 overflow-x-hidden'>
-                {item?.tags.map((tag, index) => (
-                  <Badge
-                    key={index}
-                    className='rounded-md bg-dark-900 bg-opacity-[0.08] hover:bg-dark-300 text-dark-900 px-3 py-1'
-                  >
-                    #{tag}
-                  </Badge>
-                ))}
+                {/* {item?.tags.map((tag, index) => ( */}
+                <Badge
+                  key={index}
+                  className='rounded-md bg-dark-900 bg-opacity-[0.08] hover:bg-dark-300 text-dark-900 px-3 py-1'
+                >
+                  {item?.author?.full_name}
+                </Badge>
+                {/* ))} */}
               </section>
-              <section className='flex flex-col gap-3 mt-5'>
+              <section className='flex flex-col gap-3 mt-5 min-h-[100px]'>
                 <CardTitle className='line-clamp-1'>{item?.title}</CardTitle>
                 <CardDescription
                   className='line-clamp-3'
-                  dangerouslySetInnerHTML={{ __html: item?.content }}
+                  dangerouslySetInnerHTML={{
+                    __html: item?.content,
+                  }}
                 ></CardDescription>
               </section>
             </CardContent>
             <CardFooter className='flex gap-2 justify-between'>
               <div className='flex gap-2'>
                 <Button className='bg-primary-500 hover:bg-primary-600' asChild>
-                  <Link href={'/rencana-studi/program-studi/1'}>
+                  <Link href={`/sekilas-ilmu/detail/${item.slug}`}>
                     Detail Artikel
                   </Link>
                 </Button>
               </div>
 
-              <PopoverArticle />
+              <PopoverArticle slug={item?.slug} articleId={item?.id} />
             </CardFooter>
             <hr />
             <div className='px-6 py-3'>

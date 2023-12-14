@@ -50,6 +50,16 @@ export type TDeleteArticlePayload = {
   article_id: string;
 };
 
+export type TEditArticlePayload = {
+  id: string;
+  title: string;
+  content: string;
+  thumbnail: string;
+  slug: string;
+  category_id?: string;
+};
+
+
 export type TAllArticleResponse = TMetaResponseSingle<TArticleData>
 export type TDetailArticleResponse = TMetaResponseSingle<TArticleItem>
 export type TCategoriesResponse = TMetaResponse<TCategoriesItem>

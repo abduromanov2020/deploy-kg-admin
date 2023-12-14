@@ -1,11 +1,11 @@
 'use client';
-import { ReactElement, useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 import {
   Controller,
   FieldValues,
-  UseControllerProps,
   useController,
+  UseControllerProps,
 } from 'react-hook-form';
 
 type TInputBagde<T extends FieldValues> = UseControllerProps<T> & {
@@ -36,8 +36,8 @@ const InputBadge = <T extends FieldValues>({
     defaultValue ? defaultValue : [],
   );
   const inputRef = useRef<HTMLInputElement>(null);
-  // console.log(items);
-
+  console.log(items);
+  console.log(inputText);
   useEffect(() => {
     setItems(defaultValue ? defaultValue : []);
   }, [defaultValue]);
@@ -111,11 +111,11 @@ const InputBadge = <T extends FieldValues>({
         rules={{ required: props.required }}
         render={({ field }) => (
           <div
-            className={`overflow-y-clip w-full border-1 h-[40px] rounded-lg flex bg-white justify-center items-center border-[0.5px] border-neutral-400${inputStatus}`}
+            className={`overflow-hidden w-full border-1 h-auto rounded-lg flex bg-white justify-start items-start border-[0.5px] border-neutral-400${inputStatus} flex-wrap`}
           >
             {items?.length > 0 && (
               <>
-                <div className='flex gap-1 text-black px-2'>
+                <div className='flex gap-1 text-black px-2 flex-wrap'>
                   {items?.map((item: string, index: number) => (
                     <div
                       className={
@@ -125,7 +125,7 @@ const InputBadge = <T extends FieldValues>({
                       }
                       key={index}
                     >
-                      <div className='flex gap-2'>
+                      <div className='flex gap-2 flex-wrap'>
                         <span>{item}</span>
                         <button
                           onClick={() => {
