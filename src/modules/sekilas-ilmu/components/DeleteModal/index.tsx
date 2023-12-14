@@ -1,4 +1,9 @@
+import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 import { IoWarningOutline } from 'react-icons/io5';
+
+import { useDeleteArticle } from '@/hooks/sekilas-ilmu/delete-article/hook';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -11,26 +16,26 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { useDeleteArticle } from '@/hooks/sekilas-ilmu/delete-article/hook';
-import { useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 
 interface modalTriggerProps {
   modalTrigger: React.ReactNode;
   articleId?: string;
 }
 
-export const DeteleArticleModal = ({
+export const DeleteArticleModal = ({
   modalTrigger,
   articleId,
 }: modalTriggerProps) => {
   const queryClient = useQueryClient();
+
+  const router = useRouter();
 
   const { mutate } = useDeleteArticle();
 
   const handleSubmitDelete = async () => {
     await mutate(articleId, {
       onSuccess: () => {
+        router.push('/sekilas-ilmu');
         queryClient.invalidateQueries(['article-get'] as any);
         toast.success('Artikel Berhasil Dihapus!');
       },
@@ -60,9 +65,11 @@ export const DeteleArticleModal = ({
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className='flex w-full justify-between'>
-          <Button variant='outline' className='w-full'>
-            Tinjau Ulang
-          </Button>
+          <DialogClose asChild>
+            <Button variant='outline' className='w-full'>
+              Tinjau Ulang
+            </Button>
+          </DialogClose>
           <DialogClose className='w-full'>
             <Button
               type='submit'

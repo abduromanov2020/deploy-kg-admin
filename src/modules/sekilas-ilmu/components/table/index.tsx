@@ -24,7 +24,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { DeteleArticleModal } from '@/modules/sekilas-ilmu/components/DeleteModal';
+import { DeleteArticleModal } from '@/modules/sekilas-ilmu/components/DeleteModal';
 
 import { TArticleItem, TGetAllArticle } from '@/types/sekilas-ilmu/types';
 
@@ -186,25 +186,24 @@ const TableSekilasIlmu = ({ data }: TGetAllArticle) => {
       ),
     },
     {
-      accessorKey: 'id',
       id: 'id',
+      accessorKey: 'id',
+      header: () => null,
       enableHiding: false,
       cell: ({ row }) => {
         return (
           <div className='flex gap-3'>
-            <DeteleArticleModal
-              articleId={articleId}
+            <DeleteArticleModal
+              articleId={row.getValue('id')}
               modalTrigger={
-                <Button
-                  className='bg-red-800'
-                  onClick={() => setArticleId(String(row.getValue('id')))}
-                >
-                  Hapus
-                </Button>
+                <Button className='bg-red-800 w-full'>Hapus</Button>
               }
             />
+
             <Button className='bg-primary-500' asChild>
-              <Link href='/sekilas-ilmu/edit-artikel'>Edit</Link>
+              <Link href={`/sekilas-ilmu/edit-artikel/${row.original.slug}`}>
+                Edit
+              </Link>
             </Button>
           </div>
         );

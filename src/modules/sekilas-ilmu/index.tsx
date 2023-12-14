@@ -5,10 +5,12 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiLoaderAlt, BiSolidFileExport } from 'react-icons/bi';
-import { BsGrid } from 'react-icons/bs';
 import { CiCirclePlus } from 'react-icons/ci';
-import { IoIosList } from 'react-icons/io';
-import { cn } from '@/lib/utils';
+import { IoGridOutline, IoListOutline } from 'react-icons/io5';
+
+import { useGetArticle } from '@/hooks/sekilas-ilmu/hook';
+
+import Pagination from '@/components/generals/pagination';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -16,9 +18,6 @@ import CardComponent from './components/card';
 import DatePickerSekilasIlmu from './components/datepicker';
 import FilterComponent from './components/filter';
 import TableSekilasIlmu from './components/table';
-import Pagination from '@/components/generals/pagination';
-import { useGetArticle } from '@/hooks/sekilas-ilmu/hook';
-import { IoGridOutline, IoListOutline } from 'react-icons/io5';
 
 const SekilasIlmuModule = () => {
   const [showGrid, setShowGrid] = React.useState(false);
@@ -47,7 +46,7 @@ const SekilasIlmuModule = () => {
   //   search: '',
   // });
 
-  const { data, isLoading, refetch } = useGetArticle(page, 10, searchQuery);
+  const { data, isLoading, refetch } = useGetArticle(page, 10, searchQuery, '');
 
   const dataArticle = data ? data?.data?.data : [];
 
