@@ -67,15 +67,19 @@ const DetailAdminModule = () => {
                 <TableCell className='font-medium'>
                   Nama Lengkap Admin
                 </TableCell>
-                <TableCell className='border-2'>Raul</TableCell>
+                <TableCell className='border-2'>
+                  {data?.data?.full_name}
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className='font-medium'>Email</TableCell>
-                <TableCell className='border-2'>raul@gmail.com</TableCell>
+                <TableCell className='border-2'>{data?.data?.email}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className='font-medium'>Nama Pengguna</TableCell>
-                <TableCell className='border-2'>Tata boga</TableCell>
+                <TableCell className='border-2'>
+                  {data?.data?.full_name}
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className='font-medium'>Program Studi</TableCell>
