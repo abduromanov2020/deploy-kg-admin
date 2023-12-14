@@ -1,27 +1,21 @@
 'use client';
 
-import { BreadCrumb } from '@/components/BreadCrumb';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiSolidFileExport } from 'react-icons/bi';
-import { FaTrash } from 'react-icons/fa';
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import ArtikelImage from '~/images/sekilas-ilmu/artikel.png';
-import Image from 'next/image';
-import Link from 'next/link';
 import { BiEdit } from 'react-icons/bi';
-import { DeleteFacultyModal } from '@/modules/rencana-studi/faculty/components/delete-faculty-modal';
+
+import { BreadCrumb } from '@/components/BreadCrumb';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
+
 import { DeleteMajorModalDetail } from '@/modules/rencana-studi/major/detail/components/delete-major-modal-detail';
+
+import ArtikelImage from '~/images/sekilas-ilmu/artikel.png';
 
 const RencanaStudiDetailMajor = () => {
   const ITEMS = [
@@ -101,12 +95,12 @@ const RencanaStudiDetailMajor = () => {
                   <TableCell className='font-medium'>Cover Fakultas</TableCell>
                   <TableCell className='border-2'>
                     <Card
-                      key={'1'}
+                      key='1'
                       className='w-[228px] min-h-[112px] rounded-lg overflow-hidden'
                     >
                       <CardTitle className='p-2 text-md flex justify-between'>
                         <p className=''>Cover</p>
-                        <Link href={'#'} className='text-primary-500 text-xs'>
+                        <Link href='#' className='text-primary-500 text-xs'>
                           Unduh
                         </Link>
                       </CardTitle>

@@ -1,11 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-
-import {
-  DropdownMenuCheckboxItemProps,
-  DropdownMenuItem,
-} from '@radix-ui/react-dropdown-menu';
+import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -19,6 +14,8 @@ import {
   VisibilityState,
 } from '@tanstack/react-table';
 import React, { useState } from 'react';
+
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -29,11 +26,11 @@ import {
 } from '@/components/ui/table';
 type Checked = DropdownMenuCheckboxItemProps['checked'];
 
-import { ArrowUpDown } from 'lucide-react';
-import { Checkbox } from '@/components/ui/checkbox';
-import Pagination from '@/components/generals/pagination';
-import { TiArrowSortedDown } from 'react-icons/ti';
 import Link from 'next/link';
+import { TiArrowSortedDown } from 'react-icons/ti';
+
+import Pagination from '@/components/generals/pagination';
+
 import { DeleteSubjectModal } from '@/modules/rencana-studi/subject/components/delete-subject-modal';
 
 export type TSubject = {
@@ -216,7 +213,7 @@ export const columns: ColumnDef<TSubject>[] = [
     },
     cell: ({ row }) => (
       <Link
-        href={'/rencana-studi/program-studi/1/mata-kuliah/1/detail/1'}
+        href='/rencana-studi/program-studi/1/mata-kuliah/1/detail/1'
         className='text-start font-semibold text-sm text-primary-500'
       >
         Lihat Detail
@@ -236,11 +233,7 @@ export const columns: ColumnDef<TSubject>[] = [
             className='bg-primary-500 w-full hover:bg-primary-600'
             asChild
           >
-            <Link
-              href={
-                '/rencana-studi/program-studi/1/mata-kuliah/1/edit-matkul/1'
-              }
-            >
+            <Link href='/rencana-studi/program-studi/1/mata-kuliah/1/edit-matkul/1'>
               Edit
             </Link>
           </Button>

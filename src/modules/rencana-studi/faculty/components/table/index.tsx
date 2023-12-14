@@ -1,11 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-
-import {
-  DropdownMenuCheckboxItemProps,
-  DropdownMenuItem,
-} from '@radix-ui/react-dropdown-menu';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -18,7 +12,12 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
+// type Checked = DropdownMenuCheckboxItemProps['checked'];
+import Link from 'next/link';
 import React, { useState } from 'react';
+import { TiArrowSortedDown } from 'react-icons/ti';
+
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -27,13 +26,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-type Checked = DropdownMenuCheckboxItemProps['checked'];
 
-import { ArrowUpDown } from 'lucide-react';
-import { Checkbox } from '@/components/ui/checkbox';
-import Pagination from '@/components/generals/pagination';
-import { TiArrowSortedDown } from 'react-icons/ti';
-import Link from 'next/link';
 import { DeleteFacultyModal } from '@/modules/rencana-studi/faculty/components/delete-faculty-modal';
 
 export type TFaculty = {
@@ -197,7 +190,7 @@ export const columns: ColumnDef<TFaculty>[] = [
     },
     cell: ({ row }) => (
       <Link
-        href={'/rencana-studi/program-studi/1'}
+        href='/rencana-studi/program-studi/1'
         className='text-start font-semibold text-sm text-primary-500'
       >
         {row.getValue('major_count')} Program Studi
@@ -219,7 +212,7 @@ export const columns: ColumnDef<TFaculty>[] = [
     },
     cell: ({ row }) => (
       <Link
-        href={'/rencana-studi/detail/1'}
+        href='/rencana-studi/detail/1'
         className='text-start font-semibold text-sm text-primary-500'
       >
         Lihat Detail
@@ -239,7 +232,7 @@ export const columns: ColumnDef<TFaculty>[] = [
             className='bg-primary-500 w-full hover:bg-primary-600'
             asChild
           >
-            <Link href={'/rencana-studi/edit-fakultas/1'}>Edit</Link>
+            <Link href='/rencana-studi/edit-fakultas/1'>Edit</Link>
           </Button>
         </div>
       );

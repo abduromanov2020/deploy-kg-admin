@@ -1,3 +1,4 @@
+import { FaTrash } from 'react-icons/fa';
 import { IoWarningOutline } from 'react-icons/io5';
 
 import { Button } from '@/components/ui/button';
@@ -11,7 +12,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { FaTrash } from 'react-icons/fa';
 
 export const DeleteMajorModalDetail = () => {
   return (

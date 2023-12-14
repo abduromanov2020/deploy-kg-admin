@@ -1,14 +1,19 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
+
+import { useCreateArticle } from '@/hooks/sekilas-ilmu/add-article/hook';
+import { useGetCategories } from '@/hooks/sekilas-ilmu/categories/hooks';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { UploadField } from '@/components/input/upload-file';
@@ -33,11 +38,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-
-import { ITEMSTAMBAH } from '@/modules/sekilas-ilmu/constants';
-import InputBadge from '@/modules/sekilas-ilmu/components/badge';
-import { useGetCategories } from '@/hooks/sekilas-ilmu/categories/hooks';
 import {
   Select,
   SelectContent,
@@ -45,9 +45,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useCreateArticle } from '@/hooks/sekilas-ilmu/add-article/hook';
-import { useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { Separator } from '@/components/ui/separator';
+
+import InputBadge from '@/modules/sekilas-ilmu/components/badge';
+import { ITEMSTAMBAH } from '@/modules/sekilas-ilmu/constants';
 
 const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
@@ -175,7 +176,7 @@ const TambahArtikelModule = () => {
       mutate(formData, {
         onSuccess: () => {
           console.log(formData);
-          queryClient.invalidateQueries(['create-article'] as any);
+          queryClient.invalidateQueries(['article-get'] as any);
           // setSuccesStatus(true);
           toast.success('Berhasil Mengunggah');
           router.push(`/sekilas-ilmu`);

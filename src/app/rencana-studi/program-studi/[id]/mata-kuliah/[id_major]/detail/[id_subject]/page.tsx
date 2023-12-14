@@ -1,6 +1,6 @@
-import RencanaStudiDetailMajor from '@/modules/rencana-studi/major/detail';
-import RencanaStudiDetailSubject from '@/modules/rencana-studi/subject/detail';
 import React from 'react';
+
+import RencanaStudiDetailSubject from '@/modules/rencana-studi/subject/detail';
 
 const SubjectDetailPage = () => {
   return <RencanaStudiDetailSubject />;

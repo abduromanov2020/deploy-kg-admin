@@ -1,6 +1,6 @@
-import SubjectModule from '@/modules/rencana-studi/subject';
-import { EditSubjectModule } from '@/modules/rencana-studi/subject/subject-edit/page';
 import React from 'react';
+
+import { EditSubjectModule } from '@/modules/rencana-studi/subject/subject-edit/page';
 
 const EditSubjectPage = () => {
   return <EditSubjectModule />;

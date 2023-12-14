@@ -1,43 +1,20 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
+import React from 'react';
+import { AiOutlineSearch } from 'react-icons/ai';
 import { CiCirclePlus } from 'react-icons/ci';
 import { IoGridOutline, IoListOutline } from 'react-icons/io5';
 
-import {
-  DropdownMenuCheckboxItemProps,
-  DropdownMenuItem,
-} from '@radix-ui/react-dropdown-menu';
-import {
-  ColumnDef,
-  ColumnFiltersState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
-  VisibilityState,
-} from '@tanstack/react-table';
-import React, { useState } from 'react';
-import { AiOutlineSearch } from 'react-icons/ai';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+
 type Checked = DropdownMenuCheckboxItemProps['checked'];
 
-import { ArrowUpDown } from 'lucide-react';
-import { Checkbox } from '@/components/ui/checkbox';
-import { FacultyTable } from '@/modules/rencana-studi/faculty/components/table';
-import FacultyGridCardComponent from '@/modules/rencana-studi/faculty/components/grid';
 import Link from 'next/link';
+
+import FacultyGridCardComponent from '@/modules/rencana-studi/faculty/components/grid';
+import { FacultyTable } from '@/modules/rencana-studi/faculty/components/table';
 
 export const RencanaStudiModule = () => {
   const [showGrid, setShowGrid] = React.useState(false);
@@ -61,7 +38,7 @@ export const RencanaStudiModule = () => {
               asChild
               className='hover:bg-white shadow-md bg-primary-500 hover:text-primary-500 text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'
             >
-              <Link href={'/rencana-studi/tambah-fakultas'}>
+              <Link href='/rencana-studi/tambah-fakultas'>
                 <CiCirclePlus size={20} />
                 <p className='leading-none'>Fakultas</p>
               </Link>
