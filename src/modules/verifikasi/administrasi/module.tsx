@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { DependencyList, useCallback, useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiLoaderAlt } from 'react-icons/bi';
 import { FaFileExport } from 'react-icons/fa6';
@@ -16,6 +16,20 @@ import { DateRangePicker } from '@/modules/verifikasi/administrasi/components/Da
 import { TableFilter } from '@/modules/verifikasi/administrasi/components/Filter';
 import { TableAdministrasi } from '@/modules/verifikasi/administrasi/components/TableAdministrasi';
 
+export function useDebounce(
+  effect: VoidFunction,
+  dependencies: DependencyList,
+  delay: number,
+): void {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const callback = useCallback(effect, dependencies);
+
+  useEffect(() => {
+    const timeout = setTimeout(callback, delay);
+    return () => clearTimeout(timeout);
+  }, [callback, delay]);
+}
+
 const VerifikasiAdministrasiModule = () => {
   const params = useSearchParams();
   const router = useRouter();
@@ -25,11 +39,31 @@ const VerifikasiAdministrasiModule = () => {
   const page = Number(params.get('page')) || 1;
   const searchQuery = params.get('search') || '';
 
+  const [option, setOption] = useState({
+    search: '',
+    limit: 10,
+  });
+
+  const [deb, setDeb] = useState(searchQuery);
+
   const {
     data: pengajuan,
     refetch: refetchPengajuan,
     isLoading,
-  } = useGetPengjuanAdm(page, searchQuery, 10, filter);
+  } = useGetPengjuanAdm(page, option.search, option.limit, filter);
+
+  useEffect(() => {
+    setOption(option);
+  }, [option]);
+
+  useDebounce(
+    () => {
+      setOption((prev) => ({ ...prev, search: deb, page: 1 }));
+      router.replace(`/verifikasi/administrasi?page=1&search=${deb}`);
+    },
+    [deb],
+    700,
+  );
 
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
@@ -45,7 +79,13 @@ const VerifikasiAdministrasiModule = () => {
       <div className='flex flex-col gap-7 p-7'>
         <div className='flex justify-between items-center'>
           <div className='w-1/3 relative'>
-            <Input type='text' placeholder='Search' className='pl-10' />
+            <Input
+              type='text'
+              placeholder='Cari: Status/Nama'
+              value={deb}
+              onChange={(e) => setDeb(e.target.value)}
+              className='pl-10'
+            />
             <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
               <AiOutlineSearch className='text-gray-400' size={20} />
             </div>
