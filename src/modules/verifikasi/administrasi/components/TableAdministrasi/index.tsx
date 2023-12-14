@@ -194,7 +194,7 @@ export const columns: ColumnDef<TPengajuanAdm>[] = [
           <AccConfirmModal
             trigger={
               <Button
-                className='bg-primary-500'
+                className='bg-primary-500 hover:bg-primary-600'
                 disabled={
                   row.getValue('status') === 'ACCEPTED' ||
                   row.getValue('status') === 'REJECTED'
@@ -207,7 +207,7 @@ export const columns: ColumnDef<TPengajuanAdm>[] = [
           <AccRejectModal
             trigger={
               <Button
-                className='bg-red-800'
+                className='bg-red-800 hover:bg-red-900'
                 disabled={
                   row.getValue('status') === 'ACCEPTED' ||
                   row.getValue('status') === 'REJECTED'
