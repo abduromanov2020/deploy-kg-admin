@@ -1,91 +1,92 @@
-import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
-import React from 'react';
+import {
+  DropdownMenuCheckboxItemProps,
+  DropdownMenuItem,
+} from '@radix-ui/react-dropdown-menu';
+import React, { useState } from 'react';
 import { FaFilter } from 'react-icons/fa6';
 
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-
 type Checked = DropdownMenuCheckboxItemProps['checked'];
 
-interface FilterDropDownProps {
-  showStatusBar: Checked;
-  showActivityBar: Checked;
-  showPanel: Checked;
-  onShowStatusBarChange: (checked: Checked) => void;
-  onShowActivityBarChange: (checked: Checked) => void;
-  onShowPanelChange: (checked: Checked) => void;
-  Prodi: {
-    value: string;
-    label: string;
-  }[];
-}
+export const MahasiswaFilterData = () => {
+  const [showStatusBar, setShowStatusBar] = useState<Checked>(true);
+  const [showActivityBar, setShowActivityBar] = useState<Checked>(false);
+  const [showPanel, setShowPanel] = useState<Checked>(false);
+  const [position, setPosition] = useState('bottom');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-const FilterDropDown: React.FC<FilterDropDownProps> = ({
-  showStatusBar,
-  showActivityBar,
-  showPanel,
-  onShowStatusBarChange,
-  onShowActivityBarChange,
-  onShowPanelChange,
-  Prodi,
-}) => {
+  const handleDropdownToggle = () => {
+    setDropdownOpen(true);
+  };
+
+  const handleDropdownSelect = () => {
+    setDropdownOpen(false);
+  };
   return (
-    <div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <button className='px-6 py-2 shadow-md text-blue-600 rounded-md hover:text-white hover:bg-blue-600 hover:transition'>
-            <div className='flex place-items-center gap-2'>
-              <FaFilter /> Filter
-            </div>
-          </button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className='w-56'>
-          <DropdownMenuLabel>Filter</DropdownMenuLabel>
-          <DropdownMenuLabel>Prodi</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-
-          {Prodi.map((item, i) => (
-            <DropdownMenuCheckboxItem
-              key={i}
-              checked={showStatusBar}
-              onCheckedChange={onShowStatusBarChange}
-              textValue={item.value}
-            >
-              {item.label}
-            </DropdownMenuCheckboxItem>
-          ))}
-
-          <DropdownMenuLabel>Prodi</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-
+    <DropdownMenu
+      onOpenChange={handleDropdownToggle}
+      open={dropdownOpen}
+      // onSelect={handleDropdownSelect}
+    >
+      <DropdownMenuTrigger>
+        <Button
+          variant='outline'
+          className='bg-white flex text-primary-500 shadow-md items-center font-normal gap-1 rounded-md hover:bg-dark-100 hover:text-primary-500'
+        >
+          <FaFilter />
+          Filter
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className='w-56'>
+        <DropdownMenuLabel>Status</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
           <DropdownMenuCheckboxItem
             checked={showStatusBar}
-            onCheckedChange={onShowStatusBarChange}
+            onCheckedChange={setShowStatusBar}
           >
             Status Bar
           </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem
             checked={showActivityBar}
-            onCheckedChange={onShowActivityBarChange}
+            onCheckedChange={setShowActivityBar}
           >
             Activity Bar
           </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem
             checked={showPanel}
-            onCheckedChange={onShowPanelChange}
+            onCheckedChange={setShowPanel}
           >
             Panel
           </DropdownMenuCheckboxItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+        </DropdownMenuGroup>
+        <DropdownMenuLabel>Batch</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+          <DropdownMenuRadioItem value='top'>Top</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value='bottom'>Bottom</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value='right'>Right</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+        <DropdownMenuItem
+          onSelect={handleDropdownSelect}
+          className='text-right border-none'
+        >
+          <Button className='text-primary-500 bg-transparent hover:bg-transparent'>
+            Terapkan{' '}
+          </Button>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
-
-export default FilterDropDown;
