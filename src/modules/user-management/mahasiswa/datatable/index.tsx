@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { useUser } from '@/hooks/user-management/getuser/hook';
 
@@ -16,8 +16,11 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-const MahasiswaDataTable = () => {
-  const [searchQuery, setSearchQuery] = useState<string>('');
+interface search {
+  searchQuery: string;
+}
+
+const MahasiswaDataTable: React.FC<search> = ({ searchQuery }) => {
   const searchParams = useSearchParams();
   const page = searchParams.get('page') || 1;
   const router = useRouter();
@@ -27,6 +30,8 @@ const MahasiswaDataTable = () => {
     'STUDENT',
     searchQuery,
   );
+  console.log(searchQuery);
+
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
     router.push(`/user-management/mahasiswa?page=${page}`);
@@ -36,7 +41,6 @@ const MahasiswaDataTable = () => {
     'No',
     'ID MAHASISWA',
     'NAMA MAHASISWA',
-    'FAKULTAS',
     'PROGRAM STUDI',
     'STATUS',
     'INFORMASI',
@@ -66,7 +70,6 @@ const MahasiswaDataTable = () => {
                   </TableCell>
                   <TableCell>{user.id}</TableCell>
                   <TableCell>{user.full_name}</TableCell>
-                  <TableCell>{user.faculty ?? '-'}</TableCell>
                   <TableCell>{user.major ?? '-'}</TableCell>
                   <TableCell>
                     <Badge

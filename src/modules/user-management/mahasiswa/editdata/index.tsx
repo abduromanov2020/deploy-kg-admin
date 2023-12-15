@@ -47,11 +47,11 @@ const EditDataMahasiwaModule = () => {
   ];
   const dummyStatus = [
     {
-      name: 'Active',
+      name: 'Aktif',
       value: 'Active',
     },
     {
-      name: 'Inactive',
+      name: 'Non-Aktif',
       value: 'Inactive',
     },
   ];
@@ -73,12 +73,8 @@ const EditDataMahasiwaModule = () => {
   useEffect(() => {
     if (useData) {
       const defaultValues = {
-        id_mahasiswa: useData?.id ?? '-',
         full_name: useData?.full_name ?? '-',
         email: useData?.email ?? '-',
-        faculty: useData?.faculty ?? '-',
-        study_program: useData?.major ?? '-',
-        lecturer: useData?.lecturer ?? '-',
         status: useData?.status === 'Active' ? 'Active' : 'Inactive',
         self_foto: undefined,
       };
@@ -107,27 +103,8 @@ const EditDataMahasiwaModule = () => {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className='pt-5 w-full'>
-                <div className='grid grid-cols-3 gap-5'>
-                  <div className='grid w-full max-w-sm items-center space-y-4'>
-                    <FormField
-                      control={form.control}
-                      name='id_mahasiswa'
-                      render={({ field }) => (
-                        <FormItem className='grid w-full gap-1.5'>
-                          <FormLabel>ID Mahasiswa*</FormLabel>
-                          <FormControl>
-                            <Input
-                              {...field}
-                              className='bg-slate-300'
-                              disabled
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <div className='grid w-full max-w-sm items-center space-y-4'>
+                <div className='grid grid-cols-2 gap-5'>
+                  <div className='grid w-full  items-center space-y-4'>
                     <FormField
                       control={form.control}
                       name='full_name'
@@ -142,7 +119,7 @@ const EditDataMahasiwaModule = () => {
                       )}
                     />
                   </div>
-                  <div className='grid w-full max-w-sm items-center space-y-4'>
+                  <div className='grid w-full  items-center space-y-4'>
                     <FormField
                       control={form.control}
                       name='email'
@@ -157,60 +134,8 @@ const EditDataMahasiwaModule = () => {
                       )}
                     />
                   </div>
-                  <div className='grid w-full max-w-sm items-center space-y-4'>
-                    <FormField
-                      control={form.control}
-                      name='faculty'
-                      render={({ field }) => (
-                        <FormItem className='grid w-full gap-1.5'>
-                          <FormLabel>Fakultas*</FormLabel>
-                          <FormControl>
-                            <Input
-                              {...field}
-                              className='bg-slate-300'
-                              disabled
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <div className='grid w-full max-w-sm items-center space-y-4'>
-                    <FormField
-                      control={form.control}
-                      name='study_program'
-                      render={({ field }) => (
-                        <FormItem className='grid w-full gap-1.5'>
-                          <FormLabel>Program Studi*</FormLabel>
-                          <FormControl>
-                            <Input
-                              {...field}
-                              className='bg-slate-300'
-                              disabled
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <div className='grid w-full max-w-sm items-center gap-1.5'>
-                    <FormField
-                      control={form.control}
-                      name='lecturer'
-                      render={({ field }) => (
-                        <FormItem className='grid w-full gap-1.5'>
-                          <FormLabel>Dosen Pembimbing*</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <div className='grid w-full max-w-sm items-center gap-1.5'>
+
+                  <div className='grid w-full  items-center gap-1.5'>
                     <FormField
                       control={form.control}
                       name='status'
@@ -222,7 +147,11 @@ const EditDataMahasiwaModule = () => {
                             value={field.value}
                           >
                             <FormControl>
-                              <SelectTrigger id='status'>
+                              <SelectTrigger
+                                id='status'
+                                className='bg-slate-300'
+                                disabled
+                              >
                                 <SelectValue placeholder='Pilih Status...' />
                               </SelectTrigger>
                             </FormControl>
@@ -239,7 +168,7 @@ const EditDataMahasiwaModule = () => {
                       )}
                     />
                   </div>
-                  <div className='grid w-full max-w-sm items-center gap-1.5'>
+                  <div className='grid w-full  items-center gap-1.5'>
                     <FormField
                       control={form.control}
                       name='self_foto'
@@ -255,7 +184,6 @@ const EditDataMahasiwaModule = () => {
                                   field.onChange(e.target.files);
                                 }
                               }}
-                              // value={field.value}
                             />
                           </FormControl>
                           <FormMessage />
