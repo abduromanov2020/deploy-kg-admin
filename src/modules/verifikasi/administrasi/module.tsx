@@ -92,7 +92,7 @@ const VerifikasiAdministrasiModule = () => {
           </div>
           <div className='flex items-center gap-3'>
             <DateRangePicker />
-            <TableFilter />
+            {/* <TableFilter /> */}
             <Button
               variant='outline'
               className='bg-primary-500 shadow-md hover:bg-primary-600 text-white hover:text-white font-normal'
