@@ -140,3 +140,23 @@ export interface TFamilial {
 
 export type TPengajuanDataDiriAdmResponse =
   TMetaResponseSingle<TPengajuanDataDiriAdm>;
+
+  export interface confirmPayload {
+    administration_ids: string[]
+  }
+
+  export interface TConfirmAdministrasi {
+    users: User[]
+    status: string
+    admin_id: string
+    role: string
+    reason: string
+  }
+  
+  export interface User {
+    administration_id: string
+    full_name?: string
+  }
+
+  export type TConfirmAdministrasiResponse =
+  TMetaResponseSingle<TConfirmAdministrasi>;
