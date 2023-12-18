@@ -44,7 +44,7 @@ const MahasiswaDataTable: React.FC<search> = ({ searchQuery }) => {
     'PROGRAM STUDI',
     'STATUS',
     'INFORMASI',
-    'EDIT',
+    '',
   ];
   return (
     <>
