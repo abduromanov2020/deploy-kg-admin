@@ -18,12 +18,12 @@ interface CheckedItems {
   [key: string]: boolean;
 }
 
-export const MahasiswaFilterData: React.FC = () => {
+export const FilterData: React.FC = () => {
   const { data: major } = useMajor();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const initialCheckedState = major?.data?.reduce((acc, item) => {
-    acc[item.id] = true; // Set initial checked state for each item
+    acc[item.id] = true;
     return acc;
   }, {} as CheckedItems);
 

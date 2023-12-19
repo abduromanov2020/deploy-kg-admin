@@ -1,35 +1,14 @@
-import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaFileDownload } from 'react-icons/fa';
 
 import { Input } from '@/components/ui/input';
 
-import { MahasiswaFilterData } from '@/modules/user-management/components/filter';
+import { FilterData } from '@/modules/user-management/components/filter';
 import MahasiswaDataTable from '@/modules/user-management/mahasiswa/datatable';
 
-type Checked = DropdownMenuCheckboxItemProps['checked'];
 const MahasiswaModule = () => {
   const [searchQuery, setSearchQuery] = React.useState<string>('');
-
-  const DummyProdi = [
-    {
-      value: 'Informatika',
-      label: 'Informatika',
-    },
-    {
-      value: 'Sistem Informasi',
-      label: 'Sistem Informasi',
-    },
-    {
-      value: 'Ilmu Komputer',
-      label: 'Ilmu Komputer',
-    },
-  ];
-
-  const [showStatusBar, setShowStatusBar] = React.useState<Checked>(false);
-  const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
-  const [showPanel, setShowPanel] = React.useState<Checked>(false);
   return (
     <>
       <div className='bg-white py-10 px-6 mx-auto rounded-md'>
@@ -51,7 +30,7 @@ const MahasiswaModule = () => {
             </div>
             <div className='space-x-8 flex'>
               <div>
-                <MahasiswaFilterData />
+                <FilterData />
               </div>
               <button className='px-6 py-2 shadow-md text-blue-600 rounded-md hover:text-white  hover:bg-blue-600 hover:transition'>
                 <div className='flex place-items-center gap-2'>

@@ -55,23 +55,8 @@ const TambahAdminModule = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className='pt-5 w-full'>
-              <div className='grid grid-cols-3 gap-5'>
-                <div className='grid w-full max-w-sm items-center space-y-4'>
-                  <FormField
-                    control={form.control}
-                    name='id_admin'
-                    render={({ field }) => (
-                      <FormItem className='grid w-full gap-1.5'>
-                        <FormLabel>ID Admin*</FormLabel>
-                        <FormControl>
-                          <Input placeholder='ID Admin' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className='grid w-full max-w-sm items-center space-y-4'>
+              <div className='grid grid-cols-2 gap-5'>
+                <div className='grid w-full  items-center space-y-4'>
                   <FormField
                     control={form.control}
                     name='full_name'
@@ -86,7 +71,7 @@ const TambahAdminModule = () => {
                     )}
                   />
                 </div>
-                <div className='grid w-full max-w-sm items-center space-y-4'>
+                <div className='grid w-full  items-center space-y-4'>
                   <FormField
                     control={form.control}
                     name='email'
@@ -94,32 +79,37 @@ const TambahAdminModule = () => {
                       <FormItem className='grid w-full gap-1.5'>
                         <FormLabel>Email*</FormLabel>
                         <FormControl>
-                          <Input placeholder='Email' {...field} />
+                          <Input placeholder='Email' type='email' {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-                <div className='grid w-full max-w-sm items-center space-y-4'>
+                <div className='grid w-full  items-center space-y-4'>
                   <FormField
                     control={form.control}
-                    name='user_name'
+                    name='password'
                     render={({ field }) => (
                       <FormItem className='grid w-full gap-1.5'>
-                        <FormLabel>Nama Pengguna Akun*</FormLabel>
+                        <FormLabel>Password*</FormLabel>
                         <FormControl>
-                          <Input placeholder='Nama Pengguna Akun' {...field} />
+                          <Input
+                            placeholder='password'
+                            type='password'
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-                <div className='grid w-full max-w-sm items-center space-y-4'>
+
+                <div className='grid w-full  items-center space-y-4'>
                   <FormField
                     control={form.control}
-                    name='status'
+                    name='role'
                     render={({ field }) => (
                       <FormItem className='grid w-full gap-1.5'>
                         <FormLabel>Status Admin*</FormLabel>

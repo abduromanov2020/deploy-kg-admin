@@ -21,6 +21,9 @@ interface search {
 }
 
 const MahasiswaDataTable: React.FC<search> = ({ searchQuery }) => {
+  const [major, setMajor] = React.useState(
+    '6662b545-c491-4c18-bd52-926da93525a9',
+  );
   const searchParams = useSearchParams();
   const page = searchParams.get('page') || 1;
   const router = useRouter();
@@ -29,8 +32,9 @@ const MahasiswaDataTable: React.FC<search> = ({ searchQuery }) => {
     10,
     'STUDENT',
     searchQuery,
+    major,
   );
-  console.log(searchQuery);
+  console.log(data);
 
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
@@ -70,7 +74,7 @@ const MahasiswaDataTable: React.FC<search> = ({ searchQuery }) => {
                   </TableCell>
                   <TableCell>{user.id}</TableCell>
                   <TableCell>{user.full_name}</TableCell>
-                  <TableCell>{user.major ?? '-'}</TableCell>
+                  <TableCell>{user.faculty ?? '-'}</TableCell>
                   <TableCell>
                     <Badge
                       className={`${
