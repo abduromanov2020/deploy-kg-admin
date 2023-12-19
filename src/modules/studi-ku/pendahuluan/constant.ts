@@ -14,7 +14,7 @@ export const EDIT_PENDAHULUAN_BREADCRUMBS = [
     link: '/studi-ku',
   },
   {
-    name: 'EDIT Pendahuluan',
+    name: 'Edit Pendahuluan',
     link: '/studi-ku/pendahuluan/edit',
   },
 ];
