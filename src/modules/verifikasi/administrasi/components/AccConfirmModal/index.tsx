@@ -1,29 +1,29 @@
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 
 interface TProps {
-  trigger: React.ReactNode;
+  isOpen: boolean;
+  onChangeModal:()=>void
+  idAdmin:string
 }
 
-export const AccConfirmModal = ({ trigger }: TProps) => {
+export const AccConfirmModal = ({ isOpen, onChangeModal, idAdmin }: TProps) => {
+  
   return (
-    <Dialog>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={onChangeModal}>
       <DialogContent className='sm:max-w-[425px] text-center p-12'>
         <DialogHeader>
-          <DialogTitle>
-            <h6 className='text-center'>
-              Apakah Anda ingin menyetujui Verifikasi Administrasi ini?
-            </h6>
+          <DialogTitle className='text-center'>
+          Apakah Anda ingin menyetujui Verifikasi Administrasi ini?
           </DialogTitle>
           <div className='py-3'>
             <Separator className='h-1 bg-primary-500 rounded-full w-1/3 mx-auto' />
@@ -33,10 +33,12 @@ export const AccConfirmModal = ({ trigger }: TProps) => {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className='flex w-full justify-between'>
-          <Button variant='outline' className='w-full'>
-            Batal
-          </Button>
-          <Button type='submit' className='bg-primary-500 w-full'>
+          <DialogClose className='w-full'>
+            <Button variant='outline' className='w-full'>
+              Batal
+            </Button>
+          </DialogClose>
+          <Button type='submit' className='bg-primary-500 w-full hover:bg-primary-600'>
             Terima
           </Button>
         </DialogFooter>
