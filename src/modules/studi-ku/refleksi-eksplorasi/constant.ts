@@ -24,7 +24,7 @@ export const DATA_REFLEKSI_EKSPLORASI = {
     ...Array.from({ length: 15 }, (_, i) => ({
       user: {
         name: `Rizky Ramadhan ${i + 1}`,
-        avatar: 'https://i.pravatar.cc/300?img=1',
+        avatar: `https://i.pravatar.cc/300?img=${i + 1}`,
       },
       response: `<ol>
       <li>Dengan pertanyaan ini, Anda dapat merenung tentang aspek-aspek tertentu dari pembelajaran yang benar-benar menarik perhatian Anda dan mungkin bahkan memotivasi Anda untuk lebih lanjut. Diskusi kelompok dan kolaborasi dengan rekan-rekan belajar juga memberikan perspektif yang berbeda, membuka peluang untuk melihat topik dari sudut pandang yang beragam.Identifikasi area atau topik khusus yang ingin Anda eksplorasi lebih lanjut. Mungkin ada subyek tertentu yang memicu minat Anda dan bisa menjadi titik awal untuk pembelajaran berkelanjutan.</li>
