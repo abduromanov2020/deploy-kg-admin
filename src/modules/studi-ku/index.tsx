@@ -28,37 +28,37 @@ export const MainStudiKu = () => {
     {
       title: 'Tugas',
       icon: <LuClipboardList className='text-red-500 text-xl' />,
-      link: '/',
+      link: '/studi-ku/',
     },
     {
       title: 'Diskusi',
       icon: <IoChatboxEllipses className='text-green-500 text-xl' />,
-      link: '/',
+      link: '/studi-ku/',
     },
     {
       title: 'Refleksi Eksplorasi',
       icon: <TbCloudSearch className='text-orange-500 text-xl' />,
-      link: '/',
+      link: '/studi-ku/refleksi-eksplorasi',
     },
     {
       title: 'Live Mentoring',
       icon: <Monitor className='text-blue-500 text-xl' />,
-      link: '/',
+      link: '/studi-ku/',
     },
     {
       title: 'Penilaian Keaktifan',
       icon: <FaAddressCard className='text-teal-500 text-xl' />,
-      link: '/',
+      link: '/studi-ku/',
     },
     {
       title: 'Kualitas Pengajar & Materi Ajar',
       icon: <TbUserStar className='text-purple-500 text-xl' />,
-      link: '/',
+      link: '/studi-ku/',
     },
     {
       title: 'Presensi',
       icon: <FaUserEdit className='text-amber-500 text-xl' />,
-      link: '/',
+      link: '/studi-ku/',
     },
   ];
 
