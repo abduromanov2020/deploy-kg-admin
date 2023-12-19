@@ -1,9 +1,7 @@
-import {
-  DropdownMenuCheckboxItemProps,
-  DropdownMenuItem,
-} from '@radix-ui/react-dropdown-menu';
 import React, { useState } from 'react';
 import { FaFilter } from 'react-icons/fa6';
+
+import { useMajor } from '@/hooks/user-management/getmajor/hook';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -11,34 +9,45 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuGroup,
+  DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-type Checked = DropdownMenuCheckboxItemProps['checked'];
+interface CheckedItems {
+  [key: string]: boolean;
+}
 
-export const MahasiswaFilterData = () => {
-  const [showStatusBar, setShowStatusBar] = useState<Checked>(true);
-  const [showActivityBar, setShowActivityBar] = useState<Checked>(false);
-  const [showPanel, setShowPanel] = useState<Checked>(false);
-  const [position, setPosition] = useState('bottom');
+export const MahasiswaFilterData: React.FC = () => {
+  const { data: major } = useMajor();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  const initialCheckedState = major?.data?.reduce((acc, item) => {
+    acc[item.id] = true; // Set initial checked state for each item
+    return acc;
+  }, {} as CheckedItems);
+
+  // Provide an empty object as the default value for useState
+  const [checkedItems, setCheckedItems] = useState<CheckedItems>(
+    initialCheckedState || {},
+  );
+
   const handleDropdownToggle = () => {
-    setDropdownOpen(true);
+    setDropdownOpen(!dropdownOpen);
   };
 
   const handleDropdownSelect = () => {
     setDropdownOpen(false);
   };
+
+  const handleCheckboxChange = (itemId: string) => {
+    setCheckedItems((prevCheckedItems) => ({
+      ...prevCheckedItems,
+      [itemId]: !prevCheckedItems[itemId],
+    }));
+  };
   return (
-    <DropdownMenu
-      onOpenChange={handleDropdownToggle}
-      open={dropdownOpen}
-      // onSelect={handleDropdownSelect}
-    >
+    <DropdownMenu onOpenChange={handleDropdownToggle} open={dropdownOpen}>
       <DropdownMenuTrigger>
         <Button
           variant='outline'
@@ -51,39 +60,23 @@ export const MahasiswaFilterData = () => {
       <DropdownMenuContent className='w-56'>
         <DropdownMenuLabel>Status</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuCheckboxItem
-            checked={showStatusBar}
-            onCheckedChange={setShowStatusBar}
-          >
-            Status Bar
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem
-            checked={showActivityBar}
-            onCheckedChange={setShowActivityBar}
-          >
-            Activity Bar
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem
-            checked={showPanel}
-            onCheckedChange={setShowPanel}
-          >
-            Panel
-          </DropdownMenuCheckboxItem>
+        <DropdownMenuGroup className='max-h-[150px] overflow-y-scroll'>
+          {major?.data?.map((item) => (
+            <DropdownMenuCheckboxItem
+              key={item.id}
+              checked={checkedItems[item.id]}
+              onCheckedChange={() => handleCheckboxChange(item.id)}
+            >
+              {item.name}
+            </DropdownMenuCheckboxItem>
+          ))}
         </DropdownMenuGroup>
-        <DropdownMenuLabel>Batch</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-          <DropdownMenuRadioItem value='top'>Top</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value='bottom'>Bottom</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value='right'>Right</DropdownMenuRadioItem>
-        </DropdownMenuRadioGroup>
         <DropdownMenuItem
           onSelect={handleDropdownSelect}
           className='text-right border-none'
         >
           <Button className='text-primary-500 bg-transparent hover:bg-transparent'>
-            Terapkan{' '}
+            Terapkan
           </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>
