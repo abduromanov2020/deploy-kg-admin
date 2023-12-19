@@ -16,7 +16,7 @@ export const PreviewAcaraTabContent: FC<{ data: TEventItem }> = ({ data }) => {
           </TableCell>
           <TableCell>{data.name}</TableCell>
         </TableRow>
-        <TableRow>
+        {/* <TableRow>
           <TableCell className='font-medium align-top border-r'>
             Benefit
           </TableCell>
@@ -30,12 +30,12 @@ export const PreviewAcaraTabContent: FC<{ data: TEventItem }> = ({ data }) => {
               <li>Security</li>
             </ul>
           </TableCell>
-        </TableRow>
+        </TableRow> */}
         <TableRow>
           <TableCell className='font-medium align-top border-r'>
             Biaya
           </TableCell>
-          <TableCell>Gratis</TableCell>
+          <TableCell>{data.price ? data.price : '-'}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell className='font-medium align-top border-r'>
@@ -56,16 +56,16 @@ export const PreviewAcaraTabContent: FC<{ data: TEventItem }> = ({ data }) => {
             <div className='border border-gray-400 p-3 rounded-md w-fit'>
               <div className='flex justify-between mb-3'>
                 <span>Cover</span>
-                <span className='text-primary-500 cursor-pointer hover:underline'>
+                {/* <span className='text-primary-500 cursor-pointer hover:underline'>
                   Unduh
-                </span>
+                </span> */}
               </div>
               <Image
                 alt='thumbnail'
-                src='/images/acara-kampus-gratis/cover.png'
+                src={data.thumbnail}
                 width={0}
                 height={0}
-                style={{ width: '100%', height: 'auto' }}
+                style={{ width: '100%', height: 'auto', maxWidth: '450px' }}
                 sizes='100vh'
               />
             </div>

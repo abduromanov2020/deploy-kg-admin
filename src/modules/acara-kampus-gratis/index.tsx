@@ -16,7 +16,6 @@ import { Input } from '@/components/ui/input';
 import { AcaraFilter } from '@/modules/acara-kampus-gratis/component/AcaraFilter';
 import { CardAcara } from '@/modules/acara-kampus-gratis/component/CardAcara';
 import { TableAcara } from '@/modules/acara-kampus-gratis/component/TableAcara';
-import ArticleData from '@/modules/acara-kampus-gratis/MOCK_DATA.json';
 
 export const AcaraKampusGratisModule = () => {
   const query = useSearchParams();
@@ -26,7 +25,6 @@ export const AcaraKampusGratisModule = () => {
   const newQuery = new URLSearchParams(query);
 
   const { data } = useGetAllEventRequest();
-
   useEffect(() => {
     if (query.get('view') === 'table') {
       setactive('table');
@@ -102,14 +100,14 @@ export const AcaraKampusGratisModule = () => {
         <div className='my-8'>
           {query.get('view') === 'grid' ||
           query.get('view') === null ||
-          active === 'grid' ? (
+          (active === 'grid' && data) ? (
             <div className='grid grid-cols-3 gap-5'>
-              {data?.data.map((item, index) => (
-                <CardAcara key={`article-${index}`} id={index} data={item} />
+              {data?.data?.events.map((item, index) => (
+                <CardAcara key={`event-${index}`} id={index} data={item} />
               ))}
             </div>
           ) : (
-            <TableAcara data={ArticleData} />
+            data && <TableAcara data={data?.data.events} />
           )}
         </div>
       </div>

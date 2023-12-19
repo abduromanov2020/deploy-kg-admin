@@ -30,7 +30,7 @@ export const InformasiAcaraTabContent: FC<{ data: TEventItem }> = ({
           <TableCell className='font-medium align-top border-r w-[200px]'>
             Lokasi Acara
           </TableCell>
-          <TableCell>Online (Zoom)</TableCell>
+          <TableCell>{data.location ? data.location : '-'}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell className='font-medium align-top border-r w-[200px]'>

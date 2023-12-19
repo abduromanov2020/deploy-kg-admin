@@ -12,7 +12,10 @@ export const KontakAcaraTabContent: FC<{ data: TEventItem }> = ({ data }) => {
           <TableCell className='font-medium align-top border-r w-[250px]'>
             Nama Penanggung Jawab
           </TableCell>
-          <TableCell>{data.contact_person_name} - Ketua Panitia</TableCell>
+          <TableCell>
+            {data.contact_person_name} -{' '}
+            {data.contact_person_position ? data.contact_person_position : ''}
+          </TableCell>
         </TableRow>
         <TableRow>
           <TableCell className='font-medium align-top border-r w-[250px]'>
