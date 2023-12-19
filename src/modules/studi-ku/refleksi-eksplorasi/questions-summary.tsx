@@ -1,11 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiChevronDown } from 'react-icons/bi';
 
 import { Filter } from '@/components/filter';
+import Pagination from '@/components/generals/pagination';
 import { Input } from '@/components/input';
 import {
   Table,
@@ -20,6 +21,18 @@ import DropdownFilter from '@/modules/studi-ku/refleksi-eksplorasi/component/dro
 
 function QuestionSummarySection({ data }: { data: any }) {
   const filter = [{ title: 'Fajar FE' }];
+  const [page, setPage] = useState(1);
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
+
+  const filteredData = data?.summary_answers?.filter(
+    (_: any, index: number) => {
+      return index >= (Number(page) - 1) * 10 && index < Number(page) * 10;
+    },
+  );
+
   return (
     <div className='flex flex-col gap-4'>
       <div className='flex justify-between items-center'>
@@ -49,7 +62,7 @@ function QuestionSummarySection({ data }: { data: any }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.summary_answers.map((item: any, index: number) => (
+          {filteredData.map((item: any, index: number) => (
             <Fragment key={index}>
               <TableRow>
                 <TableCell className=' font-semibold px-5 text-start align-top w-64'>
@@ -77,6 +90,17 @@ function QuestionSummarySection({ data }: { data: any }) {
           ))}
         </TableBody>
       </Table>
+      <div className='flex justify-between place-items-center pt-5'>
+        <p className='text-slate-500'>
+          Menampilkan {page} hingga {Number(page) * 10} dari{' '}
+          {data?.summary_answers?.length} entri
+        </p>
+        <Pagination
+          currentPage={Number(page)}
+          totalPages={Number(data?.summary_answers?.length / 10 + 1)}
+          onPageChange={handlePageChange}
+        />
+      </div>
     </div>
   );
 }
