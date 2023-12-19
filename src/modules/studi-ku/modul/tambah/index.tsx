@@ -40,6 +40,9 @@ const DraftEditor = dynamic(() => import('@/components/text-editor'), {
 const TambahModul = () => {
   const [countVideo, setCountVideo] = useState<number>(1);
   const [countDocument, setCountDocument] = useState<number>(1);
+  const [countQuiz, setCountQuiz] = useState<number>(1);
+  const [countTugas, setCountTugas] = useState<number>(1);
+  const [countDiskusi, setCountDiskusi] = useState<number>(1);
 
   const defaultValues: Record<string, string> = {
     cover_title: '',
@@ -55,10 +58,25 @@ const TambahModul = () => {
   for (let index = 0; index < countDocument; index++) {
     defaultValues[`document_${index + 1}`] = '';
   }
+  for (let index = 0; index < countQuiz; index++) {
+    defaultValues[`quiz_title_${index + 1}`] = '';
+  }
+  for (let index = 0; index < countTugas; index++) {
+    defaultValues[`assignment_title_${index + 1}`] = '';
+  }
+  for (let index = 0; index < countDocument; index++) {
+    defaultValues[`discuss_title_${index + 1}`] = '';
+  }
 
   const form = useForm<FormFields>({
     resolver: zodResolver(
-      ValidationSchemaCoverModul(countVideo, countDocument),
+      ValidationSchemaCoverModul(
+        countVideo,
+        countDocument,
+        countQuiz,
+        countTugas,
+        countDiskusi,
+      ),
     ),
     defaultValues,
   });
@@ -283,6 +301,160 @@ const TambahModul = () => {
                 >
                   <BiPlusCircle className='inline-block text-xl mr-2' />
                   Tambah Dokumen
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className='px-5'>
+            <div className='flex-col flex bg-dark-200 p-5 rounded-md'>
+              <SubTitleModule title='Quiz' />
+              <div className='flex flex-col gap-4'>
+                {Array(countQuiz)
+                  .fill('')
+                  .map((_, index) => (
+                    <Fragment key={index}>
+                      <FormField
+                        control={form.control}
+                        name={`quiz_title_${index + 1}`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Judul Quiz {index + 1}</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder={`Masukkan Judul Quiz ${index + 1}`}
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </Fragment>
+                  ))}
+              </div>
+              <div className='flex justify-end mt-2 gap-2'>
+                <div
+                  className='text-primary-500 cursor-pointer flex items-center'
+                  onClick={() =>
+                    setCountQuiz((prev) => {
+                      if (prev === 1) return prev;
+                      return prev - 1;
+                    })
+                  }
+                >
+                  <BiMinusCircle className='inline-block text-xl mr-2' />
+                  Kurangi Quiz
+                </div>
+                <div
+                  className='text-primary-500 cursor-pointer flex items-center'
+                  onClick={() => setCountQuiz((prev) => prev + 1)}
+                >
+                  <BiPlusCircle className='inline-block text-xl mr-2' />
+                  Tambah Quiz
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className='px-5'>
+            <div className='flex-col flex bg-dark-200 p-5 rounded-md'>
+              <SubTitleModule title='Tugas' />
+              <div className='flex flex-col gap-4'>
+                {Array(countTugas)
+                  .fill('')
+                  .map((_, index) => (
+                    <Fragment key={index}>
+                      <FormField
+                        control={form.control}
+                        name={`tugas_title_${index + 1}`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Judul Tugas {index + 1}</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder={`Masukkan Judul Tugas ${
+                                  index + 1
+                                }`}
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </Fragment>
+                  ))}
+              </div>
+              <div className='flex justify-end mt-2 gap-2'>
+                <div
+                  className='text-primary-500 cursor-pointer flex items-center'
+                  onClick={() =>
+                    setCountTugas((prev) => {
+                      if (prev === 1) return prev;
+                      return prev - 1;
+                    })
+                  }
+                >
+                  <BiMinusCircle className='inline-block text-xl mr-2' />
+                  Kurangi Tugas
+                </div>
+                <div
+                  className='text-primary-500 cursor-pointer flex items-center'
+                  onClick={() => setCountTugas((prev) => prev + 1)}
+                >
+                  <BiPlusCircle className='inline-block text-xl mr-2' />
+                  Tambah Tugas
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className='px-5'>
+            <div className='flex-col flex bg-dark-200 p-5 rounded-md'>
+              <SubTitleModule title='Diskusi' />
+              <div className='flex flex-col gap-4'>
+                {Array(countDiskusi)
+                  .fill('')
+                  .map((_, index) => (
+                    <Fragment key={index}>
+                      <FormField
+                        control={form.control}
+                        name={`discuss_title_${index + 1}`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Judul Diskusi {index + 1}</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder={`Masukkan Judul Diskusi ${
+                                  index + 1
+                                }`}
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </Fragment>
+                  ))}
+              </div>
+              <div className='flex justify-end mt-2 gap-2'>
+                <div
+                  className='text-primary-500 cursor-pointer flex items-center'
+                  onClick={() =>
+                    setCountTugas((prev) => {
+                      if (prev === 1) return prev;
+                      return prev - 1;
+                    })
+                  }
+                >
+                  <BiMinusCircle className='inline-block text-xl mr-2' />
+                  Kurangi Tugas
+                </div>
+                <div
+                  className='text-primary-500 cursor-pointer flex items-center'
+                  onClick={() => setCountTugas((prev) => prev + 1)}
+                >
+                  <BiPlusCircle className='inline-block text-xl mr-2' />
+                  Tambah Tugas
                 </div>
               </div>
             </div>

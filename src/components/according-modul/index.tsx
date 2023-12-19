@@ -158,11 +158,13 @@ export const AccourdionModulIntroduction: FC<
                     Deskripsi Pendahuluan
                   </TableCell>
                   <TableCell>
-                    <Button
-                      variant='primary'
-                      className='flex gap-2 items-center'
-                    >
-                      <Edit /> Edit Informasi
+                    <Button asChild variant='primary'>
+                      <Link
+                        className='flex gap-2 items-center'
+                        href='/studi-ku/pendahuluan/edit'
+                      >
+                        <Edit /> Edit Informasi
+                      </Link>
                     </Button>
                   </TableCell>
                 </TableRow>
