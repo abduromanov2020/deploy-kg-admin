@@ -10,7 +10,7 @@ export const useUser = (
   limit: number,
   role: string,
   search: string,
-  majorid: string,
+  majorid: string[],
 ): UseQueryResult<TUserDataResponse, TMetaErrorResponse> => {
   return useQuery({
     queryKey: ['get-userAdmin', page, role],

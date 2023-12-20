@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaFilter } from 'react-icons/fa6';
 
 import { useMajor } from '@/hooks/user-management/getmajor/hook';
@@ -14,11 +14,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+
 interface CheckedItems {
   [key: string]: boolean;
 }
 
-export const FilterData: React.FC = () => {
+interface FilterDataProps {
+  onApplyFilter: (selectedItems: CheckedItems) => void;
+}
+
+export const FilterData: React.FC<FilterDataProps> = ({ onApplyFilter }) => {
   const { data: major } = useMajor();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -27,17 +32,17 @@ export const FilterData: React.FC = () => {
     return acc;
   }, {} as CheckedItems);
 
-  // Provide an empty object as the default value for useState
   const [checkedItems, setCheckedItems] = useState<CheckedItems>(
     initialCheckedState || {},
   );
 
+  useEffect(() => {
+    // You can do something with the checkedItems whenever it changes
+    console.log('Checked Items:', checkedItems);
+  }, [checkedItems]);
+
   const handleDropdownToggle = () => {
     setDropdownOpen(!dropdownOpen);
-  };
-
-  const handleDropdownSelect = () => {
-    setDropdownOpen(false);
   };
 
   const handleCheckboxChange = (itemId: string) => {
@@ -46,6 +51,12 @@ export const FilterData: React.FC = () => {
       [itemId]: !prevCheckedItems[itemId],
     }));
   };
+
+  const handleApplyFilter = () => {
+    onApplyFilter(checkedItems);
+    setDropdownOpen(false);
+  };
+
   return (
     <DropdownMenu onOpenChange={handleDropdownToggle} open={dropdownOpen}>
       <DropdownMenuTrigger>
@@ -72,7 +83,7 @@ export const FilterData: React.FC = () => {
           ))}
         </DropdownMenuGroup>
         <DropdownMenuItem
-          onSelect={handleDropdownSelect}
+          onSelect={handleApplyFilter}
           className='text-right border-none'
         >
           <Button className='text-primary-500 bg-transparent hover:bg-transparent'>

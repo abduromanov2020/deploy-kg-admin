@@ -6,9 +6,24 @@ import { Input } from '@/components/ui/input';
 
 import { FilterData } from '@/modules/user-management/components/filter';
 import MahasiswaDataTable from '@/modules/user-management/mahasiswa/datatable';
+interface CheckedItems {
+  [key: string]: boolean;
+}
 
 const MahasiswaModule = () => {
   const [searchQuery, setSearchQuery] = React.useState<string>('');
+  const [major, setMajor] = React.useState<Array<string>>(['']);
+  console.log(major);
+
+  const handleFilterApply = (selectedItems: CheckedItems) => {
+    // Extract the selected majors from the selectedItems object
+    const selectedMajors = Object.keys(selectedItems).filter(
+      (item) => selectedItems[item],
+    );
+
+    // Update the state of major with the selected majors
+    setMajor(selectedMajors);
+  };
   return (
     <>
       <div className='bg-white py-10 px-6 mx-auto rounded-md'>
@@ -30,7 +45,7 @@ const MahasiswaModule = () => {
             </div>
             <div className='space-x-8 flex'>
               <div>
-                <FilterData />
+                <FilterData onApplyFilter={handleFilterApply} />
               </div>
               <button className='px-6 py-2 shadow-md text-blue-600 rounded-md hover:text-white  hover:bg-blue-600 hover:transition'>
                 <div className='flex place-items-center gap-2'>
@@ -39,7 +54,7 @@ const MahasiswaModule = () => {
               </button>
             </div>
           </div>
-          <MahasiswaDataTable searchQuery={searchQuery} />
+          <MahasiswaDataTable searchQuery={searchQuery} major={major} />
         </div>
       </div>
     </>

@@ -16,14 +16,12 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-interface search {
+interface Search {
   searchQuery: string;
+  major: string[];
 }
 
-const MahasiswaDataTable: React.FC<search> = ({ searchQuery }) => {
-  const [major, setMajor] = React.useState(
-    '6662b545-c491-4c18-bd52-926da93525a9',
-  );
+const MahasiswaDataTable: React.FC<Search> = ({ searchQuery, major }) => {
   const searchParams = useSearchParams();
   const page = searchParams.get('page') || 1;
   const router = useRouter();

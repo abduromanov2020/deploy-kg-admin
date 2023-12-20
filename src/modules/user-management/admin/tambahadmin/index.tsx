@@ -8,7 +8,18 @@ import { z } from 'zod';
 import { AddAdminUserValidationSchema } from '@/lib/validation/user-management';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
+import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -18,6 +29,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
 
 const TambahAdminModule = () => {
   const ConstantEditDosen = [
@@ -43,6 +55,11 @@ const TambahAdminModule = () => {
   const handleLookUp = () => {
     setIsChecked(!isChecked);
   };
+  const onSubmitDialog = () => {
+    form.handleSubmit(onSubmit)();
+    return <DialogClose />;
+  };
+
   return (
     <>
       <div className='bg-white mb-3 rounded-md'>
@@ -138,17 +155,41 @@ const TambahAdminModule = () => {
                   </div>
                 </button>
                 {!isChecked ? (
-                  <button
-                    type='submit'
-                    className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'
-                  >
-                    <div className='flex place-items-center gap-2'>
-                      Tambahkan Admin
-                    </div>
-                  </button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'>
+                        <div className='flex place-items-center gap-2'>
+                          Tambahkan Admin
+                        </div>
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className='sm:max-w-[425px] text-center p-12'>
+                      <DialogHeader>
+                        <DialogTitle className='text-center'>
+                          Apakah Anda yakin informasi sudah sesuai ?
+                        </DialogTitle>
+                        <div className='py-3'>
+                          <Separator className='h-1 bg-primary-500 rounded-full w-1/3 mx-auto' />
+                        </div>
+                        <DialogDescription className='text-center'>
+                          Cek kembali informasi acara dengan benar.{' '}
+                        </DialogDescription>
+                      </DialogHeader>
+                      <DialogFooter className='flex w-full justify-between'>
+                        <Button variant='outline' className='w-full'>
+                          Tinjau Ulang <DialogClose />
+                        </Button>
+                        <Button
+                          onClick={onSubmitDialog}
+                          className='bg-primary-500 w-full'
+                        >
+                          Selesai
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 ) : (
                   <button
-                    type='submit'
                     disabled
                     className='px-6 py-3 shadow-md text-slate-400 bg-slate-300 rounded-md '
                   >

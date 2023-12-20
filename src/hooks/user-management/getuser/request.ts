@@ -6,7 +6,7 @@ export const userRequest = async (
   limit: number,
   role: string,
   search: string,
-  majorid: string,
+  majorid: string[],
 ): Promise<TUserDataResponse> => {
   const { data } = await api.get(
     `v1/admin/users?page=${page}&limit=${limit}&role=${role}&search=${search}&majorids[]=${majorid}`,
