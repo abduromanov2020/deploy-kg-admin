@@ -17,7 +17,7 @@ import {
 interface TProps {
   isOpen: boolean;
   onChangeModal: () => void;
-  idAdmin: string;
+  idAdmin: string | undefined;
   refetch: () => void;
 }
 

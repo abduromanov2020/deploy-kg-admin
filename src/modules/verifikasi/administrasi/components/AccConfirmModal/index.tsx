@@ -17,7 +17,7 @@ import { Separator } from '@/components/ui/separator';
 interface TProps {
   isOpen: boolean;
   onChangeModal: () => void;
-  idAdmin: string;
+  idAdmin: string | undefined;
   refetch: () => void;
 }
 
