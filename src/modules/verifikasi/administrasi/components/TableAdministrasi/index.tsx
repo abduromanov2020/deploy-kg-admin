@@ -27,6 +27,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
+import { AccAllConfirmModal } from '@/modules/verifikasi/administrasi/components/AccAllConfirmModal';
+import { AccAllRejectModal } from '@/modules/verifikasi/administrasi/components/AccAllRejectModal';
 import { selectedIdsState } from '@/recoils/verifikasi/administrasi/atom';
 
 import { TPengajuanAdm } from '@/types/verifikasi/administrasi';
@@ -35,7 +37,8 @@ export const TableAdministrasi: FC<{
   data: TPengajuanAdm[];
   onAcc: (id: string) => void;
   onReject: (id: string) => void;
-}> = ({ data, onAcc, onReject }) => {
+  refetch: () => void;
+}> = ({ data, onAcc, onReject, refetch }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -43,34 +46,44 @@ export const TableAdministrasi: FC<{
 
   const [selectedIds, setSelectedIds] = useRecoilState(selectedIdsState);
 
-  console.log('Selected IDs:', selectedIds);
-
   const columns: ColumnDef<TPengajuanAdm>[] = [
     {
       id: 'select',
-      header: ({ table }) => (
-        <Checkbox
-          checked={table.getIsAllPageRowsSelected()}
-          onCheckedChange={(value: unknown) => {
-            table.toggleAllPageRowsSelected(!!value);
-            handleCheckboxChange('selectAll', !!value);
-          }}
-          aria-label='Select all'
-          className='mr-5'
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => {
-            const selectedId = row.getValue('id') as string;
-            row.toggleSelected(!!value);
-            handleCheckboxChange(selectedId, !!value);
-          }}
-          aria-label='Select row'
-          className='mr-5'
-        />
-      ),
+      header: ({ table }) => {
+        const isAllAccepted = data.every(
+          (item) => item.status === 'ACCEPTED' || item.status === 'REJECTED'
+        );
+        return (
+          <Checkbox
+            checked={table.getIsAllPageRowsSelected() && !isAllAccepted}
+            onCheckedChange={(value: unknown) => {
+              table.toggleAllPageRowsSelected(!!value && !isAllAccepted);
+              handleCheckboxChange('selectAll', !!value && !isAllAccepted);
+            }}
+            aria-label='Select all'
+            className='mr-5'
+            disabled={isAllAccepted}
+          />
+        );
+      },
+      cell: ({ row }) => {
+        const isAcceptedOrRejected =
+          row.getValue('status') === 'ACCEPTED' ||
+          row.getValue('status') === 'REJECTED';
+
+        return !isAcceptedOrRejected ? (
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => {
+              const selectedId = row.getValue('id') as string;
+              row.toggleSelected(!!value);
+              handleCheckboxChange(selectedId, !!value);
+            }}
+            aria-label='Select row'
+            className='mr-5'
+          />
+        ) : null;
+      },
       enableSorting: false,
       enableHiding: false,
     },
@@ -254,12 +267,18 @@ export const TableAdministrasi: FC<{
     // Your logic to handle checkbox change
     if (selectedId === 'selectAll') {
       // Handle "Select All" checkbox
-      const allIds = data.map((item) => item.id);
+      const selectedIdsOnPage = data
+        .filter(
+          (item) =>
+            !item.status.includes('ACCEPTED') &&
+            !item.status.includes('REJECTED'),
+        )
+        .map((item) => item.id);
       if (isChecked) {
-        // Add all IDs to your Recoil state
-        setSelectedIds(allIds);
+        // Add selected IDs on the current page to your Recoil state
+        setSelectedIds(selectedIdsOnPage);
       } else {
-        // Remove all IDs from your Recoil state
+        // Remove selected IDs on the current page from your Recoil state
         setSelectedIds([]);
       }
     } else {
@@ -294,6 +313,8 @@ export const TableAdministrasi: FC<{
       rowSelection,
     },
   });
+
+  const isAnyCheckboxChecked = Object.values(rowSelection).some(Boolean);
 
   return (
     <div className='w-full '>
@@ -347,6 +368,28 @@ export const TableAdministrasi: FC<{
           </TableBody>
         </Table>
       </div>
+      {isAnyCheckboxChecked && (
+        <div className='mt-6 flex justify-end gap-3'>
+          <AccAllConfirmModal
+          refetch={refetch}
+            selectedIds={selectedIds}
+            trigger={
+              <Button className='bg-green-700 hover:bg-green-800'>
+                Setuju yang ditandai
+              </Button>
+            }
+          />
+          <AccAllRejectModal
+          refetch={refetch}
+            selectedIds={selectedIds}
+            trigger={
+              <Button className='bg-red-800 hover:bg-red-900'>
+                Tolak Yang Ditandai
+              </Button>
+            }
+          />
+        </div>
+      )}
     </div>
   );
 };

@@ -1,4 +1,7 @@
+import toast from 'react-hot-toast';
 import { IoWarningOutline } from 'react-icons/io5';
+
+import { useRejectAdministrasi } from '@/hooks/verifikasi/administrasi/hook';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -15,9 +18,32 @@ interface TProps {
   isOpen: boolean;
   onChangeModal: () => void;
   idAdmin: string;
+  refetch: () => void;
 }
 
-export const AccRejectModal = ({ isOpen, onChangeModal, idAdmin }: TProps) => {
+export const AccRejectModal = ({
+  isOpen,
+  onChangeModal,
+  idAdmin,
+  refetch,
+}: TProps) => {
+  const payload = {
+    administration_ids: [idAdmin],
+  };
+
+  const { mutate } = useRejectAdministrasi();
+
+  const handleClick = () => {
+    mutate(payload, {
+      onSuccess: () => {
+        toast.success('Berhasil Reject Administrasi Akun Ini !');
+        refetch();
+      },
+      onError: () => {
+        toast.error('Gagal Reject Administrasi Akun Ini !');
+      },
+    });
+  };
   return (
     <Dialog open={isOpen} onOpenChange={onChangeModal}>
       <DialogContent className='sm:max-w-[425px] text-center p-12'>
@@ -40,9 +66,15 @@ export const AccRejectModal = ({ isOpen, onChangeModal, idAdmin }: TProps) => {
               Batal
             </Button>
           </DialogClose>
-          <Button type='submit' className='bg-red-800 w-full hover:bg-red-900'>
-            Tolak
-          </Button>
+          <DialogClose className='w-full'>
+            <Button
+              onClick={handleClick}
+              type='submit'
+              className='bg-red-800 w-full hover:bg-red-900'
+            >
+              Tolak
+            </Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

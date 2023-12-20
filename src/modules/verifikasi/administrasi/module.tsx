@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { DependencyList, useCallback, useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiLoaderAlt } from 'react-icons/bi';
 import { FaFileExport } from 'react-icons/fa6';
@@ -13,10 +14,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 import { DateRangePicker } from '@/modules/verifikasi/administrasi/components/DateRangePicker';
-import { TableFilter } from '@/modules/verifikasi/administrasi/components/Filter';
 import { TableAdministrasi } from '@/modules/verifikasi/administrasi/components/TableAdministrasi';
 import { AccRejectModal } from '@/modules/verifikasi/administrasi/components/AccRejectModal';
 import { AccConfirmModal } from '@/modules/verifikasi/administrasi/components/AccConfirmModal';
+import { isOpenModalAcc, isOpenModalReject } from '@/recoils/verifikasi/administrasi/atom';
 
 export function useDebounce(
   effect: VoidFunction,
@@ -35,9 +36,9 @@ export function useDebounce(
 const VerifikasiAdministrasiModule = () => {
   const params = useSearchParams();
   const router = useRouter();
-  const [openModalAcc,setOpenModalAcc] = useState(false)
-  const [openModalReject,setOpenModalReject] = useState(false)
-  const [idAdministrasi,setIdAdministrasi] =useState<string>("")
+  const [openModalAcc,setOpenModalAcc] = useRecoilState(isOpenModalAcc)
+  const [openModalReject,setOpenModalReject] = useRecoilState(isOpenModalReject)
+  const [idAdministrasi,setIdAdministrasi] = useState<string>("")
 
   const [filter, setFilter] = useState('');
 
@@ -117,7 +118,7 @@ const VerifikasiAdministrasiModule = () => {
             </div>
           ) : pengajuan && pengajuan?.data ? (
             <div>
-              <TableAdministrasi onAcc={(id:string) => { setOpenModalAcc(!openModalAcc); handleClick(id) }} onReject={(id:string) => { setOpenModalReject(!openModalReject); handleClick(id) }} data={pengajuan?.data} />
+              <TableAdministrasi refetch={refetchPengajuan} onAcc={(id:string) => { setOpenModalAcc(!openModalAcc); handleClick(id) }} onReject={(id:string) => { setOpenModalReject(!openModalReject); handleClick(id) }} data={pengajuan?.data} />
               <div className='flex items-center justify-end space-x-2 py-4'>
                 <div className='flex-1 text-sm text-muted-foreground'>
                   <p>
@@ -143,8 +144,8 @@ const VerifikasiAdministrasiModule = () => {
         </div>
       </div>
     </div>
-    <AccRejectModal isOpen={openModalReject} onChangeModal={()=>{setOpenModalReject(!openModalReject)}} idAdmin={idAdministrasi}/>
-    <AccConfirmModal isOpen={openModalAcc} onChangeModal={()=>{setOpenModalAcc(!openModalAcc)}} idAdmin={idAdministrasi}/>
+    <AccRejectModal refetch={refetchPengajuan} isOpen={openModalReject} onChangeModal={()=>{setOpenModalReject(!openModalReject)}} idAdmin={idAdministrasi}/>
+    <AccConfirmModal refetch={refetchPengajuan} isOpen={openModalAcc} onChangeModal={()=>{setOpenModalAcc(!openModalAcc)}} idAdmin={idAdministrasi}/>
     </>
   );
 };

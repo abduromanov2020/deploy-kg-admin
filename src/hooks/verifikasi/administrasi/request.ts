@@ -37,9 +37,6 @@ export const accAdministration = async (
   const { data } = await api({
     method: 'post',
     url: 'v1/admin/administrations/approve',
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
     data: payload,
   });
   return data;
@@ -51,9 +48,6 @@ export const rejectAdministration = async (
   const { data } = await api({
     method: 'post',
     url: 'v1/admin/administrations/reject',
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
     data: payload,
   });
   return data;

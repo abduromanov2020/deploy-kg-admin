@@ -11,24 +11,23 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 
 interface TProps {
-  isOpen: boolean;
-  onChangeModal: () => void;
-  idAdmin: string;
+  trigger: React.ReactNode;
+  selectedIds: string[];
   refetch: () => void;
 }
 
-export const AccConfirmModal = ({
-  isOpen,
-  onChangeModal,
-  idAdmin,
+export const AccAllConfirmModal = ({
+  trigger,
+  selectedIds,
   refetch,
 }: TProps) => {
   const payload = {
-    administration_ids: [idAdmin],
+    administration_ids: [selectedIds],
   };
 
   const { mutate } = useAccAdministrasi();
@@ -36,21 +35,22 @@ export const AccConfirmModal = ({
   const handleClick = () => {
     mutate(payload, {
       onSuccess: () => {
-        toast.success('Berhasil Accept Administrasi Akun Ini !');
+        toast.success('Berhasil Accept Administrasi Akun Yang Dipilih !');
         refetch();
       },
       onError: () => {
-        toast.error('Gagal Accept Administrasi Akun Ini !');
+        toast.error('Gagal Accept Administrasi Akun Yang Dipilih !');
       },
     });
   };
-
   return (
-    <Dialog open={isOpen} onOpenChange={onChangeModal}>
+    <Dialog>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className='sm:max-w-[425px] text-center p-12'>
         <DialogHeader>
           <DialogTitle className='text-center'>
-            Apakah Anda ingin menyetujui Verifikasi Administrasi ini?
+            Apakah Anda ingin menyetujui semua yang ditandai pada Administrasi
+            ini?
           </DialogTitle>
           <div className='py-3'>
             <Separator className='h-1 bg-primary-500 rounded-full w-1/3 mx-auto' />
@@ -67,8 +67,8 @@ export const AccConfirmModal = ({
           </DialogClose>
           <DialogClose className='w-full'>
             <Button
+            onClick={handleClick}
               type='submit'
-              onClick={handleClick}
               className='bg-primary-500 w-full hover:bg-primary-600'
             >
               Terima
