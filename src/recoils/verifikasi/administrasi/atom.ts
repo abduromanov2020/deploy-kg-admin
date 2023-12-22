@@ -1,3 +1,4 @@
+import { DateRange } from 'react-day-picker';
 import { atom } from 'recoil';
 
 export const selectedIdsState = atom<string[]>({
@@ -13,4 +14,9 @@ export const isOpenModalAcc = atom({
 export const isOpenModalReject = atom({
   key: 'is-open-modal-reject',
   default: false,
+});
+
+export const selectedDateState = atom<DateRange | undefined>({
+  key: 'selectedDateState',
+  default: undefined,
 });

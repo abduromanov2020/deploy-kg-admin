@@ -24,11 +24,13 @@ export const useGetPengjuanAdm = (
   search: string,
   limit: number,
   sort_by: string,
+  start_date:string | null,
+  end_date:string | null,
 ): UseQueryResult<TPengajuanAdmResponse, TMetaErrorResponse> =>
   useQuery({
-    queryKey: ['get-pengajuan-adm-user', page, search, limit, sort_by],
+    queryKey: ['get-pengajuan-adm-user', page, search, limit, sort_by, start_date, end_date],
     queryFn: async () =>
-      await pengajuanAdmGetRequest(page, search, limit, sort_by),
+      await pengajuanAdmGetRequest(page, search, limit, sort_by, start_date, end_date),
   });
 
 export const useGetPengjuanAdmDataDiri = (

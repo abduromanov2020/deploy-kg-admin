@@ -5,7 +5,9 @@ export const pengajuanAdmGetRequest = async (
   page: number,
   search: string,
   limit: number,
-  sort_by: string
+  sort_by: string,
+  start_date:string | null,
+  end_date:string | null,
 ): Promise<TPengajuanAdmResponse> => {
   const { data } = await api({
     method: 'GET',
@@ -17,6 +19,8 @@ export const pengajuanAdmGetRequest = async (
       search,
       limit,
       sort_by,
+      start_date,
+      end_date,
     },
     url: 'v1/admin/administrations',
   });
