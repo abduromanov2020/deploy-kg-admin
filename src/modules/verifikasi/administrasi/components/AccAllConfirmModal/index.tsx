@@ -27,7 +27,7 @@ export const AccAllConfirmModal = ({
   refetch,
 }: TProps) => {
   const payload = {
-    administration_ids: [selectedIds],
+    administration_ids: selectedIds,
   };
 
   const { mutate } = useAccAdministrasi();
