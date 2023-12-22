@@ -314,7 +314,7 @@ export const TableAdministrasi: FC<{
     },
   });
 
-  const isAnyCheckboxChecked = Object.values(rowSelection).some(Boolean);
+  const isAnyCheckboxChecked = Object.values(rowSelection).some((isChecked) => isChecked);
 
   return (
     <div className='w-full '>
