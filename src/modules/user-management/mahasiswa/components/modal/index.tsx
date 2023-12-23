@@ -14,7 +14,9 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-const PopUpPenaltyStudent: React.FC = () => {
+import PopUpPenaltyNext from '@/modules/user-management/mahasiswa/components/modal2';
+
+export const PopUpPenaltyStudent: React.FC = () => {
   return (
     <>
       <Dialog>
@@ -48,14 +50,16 @@ const PopUpPenaltyStudent: React.FC = () => {
                 Tinjau Ulang
               </Button>
             </DialogClose>
-            <Button type='submit' className='bg-red-800 w-full'>
-              Tindak
-            </Button>
+            <DialogClose asChild>
+              <PopUpPenaltyNext />
+            </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
     </>
   );
 };
+
+// export default PopUpPenaltyStudent;
 
 export default PopUpPenaltyStudent;
