@@ -2,6 +2,8 @@ import React from 'react';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 
+import { MentoringCard } from '@/modules/studi-ku/live-mentoring/components/MentoringCard';
+
 export const StudikuLiveMentoringModule = () => {
   const BreadcrumbItems = [
     {
@@ -22,7 +24,11 @@ export const StudikuLiveMentoringModule = () => {
         <div className='border-b border-dark-200 p-4 flex items-center justify-between'>
           <span className='font-semibold '>Live Mentoring</span>
         </div>
-        <div className='p-8'></div>
+        <div className='p-8 grid grid-cols-1 md:grid-cols-3 gap-3'>
+          <MentoringCard />
+          <MentoringCard />
+          <MentoringCard />
+        </div>
       </div>
     </div>
   );
