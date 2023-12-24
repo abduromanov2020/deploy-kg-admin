@@ -3,19 +3,21 @@
 import Link from 'next/link';
 import React, { FC, useState } from 'react';
 import { AiFillDashboard } from 'react-icons/ai';
+import { BsWindow } from 'react-icons/bs';
 import { IoChevronDown } from 'react-icons/io5';
+import { RiMenu5Fill } from 'react-icons/ri';
 
 import BookBookmark from '~/svg/BookBookmark.svg';
 import BookOpen from '~/svg/BookOpen.svg';
 import CalendarMonth from '~/svg/CalendarMonth.svg';
 import ChartLineUp from '~/svg/ChartLineUp.svg';
-import Chats from '~/svg/Chats.svg';
 import FileCheck from '~/svg/FileCheck.svg';
 import Logo from '~/svg/Logo.svg';
 import MonitorLock from '~/svg/MonitorLock.svg';
 import MonitorPlay from '~/svg/MonitorPlay.svg';
 import OfficePlan from '~/svg/office-plan.svg';
 import SwatchBook from '~/svg/swatchbook.svg';
+import UsersChat from '~/svg/user-globe.svg';
 import UserFocus from '~/svg/UserFocus.svg';
 import Users from '~/svg/users-group.svg';
 
@@ -39,7 +41,7 @@ const Sidebar: FC = () => {
         <div className='flex gap-6 flex-col'>
           {dataSideBar.map((item, i) => (
             <div className='flex flex-col ' key={i}>
-              <p className='text-sm font-medium text-white pl-[35px] py-2'>
+              <p className='text-sm font-medium text-white pl-[35px] py-2 max-w-[190px]'>
                 {item.title}
               </p>
               {item.children.map((child, index) => (
@@ -51,7 +53,7 @@ const Sidebar: FC = () => {
                     >
                       <div className='flex gap-[10px]'>
                         {child.icon}
-                        <p className='text-medium font-medium text-white group-hover:text-primary-500'>
+                        <p className='text-medium font-medium text-white group-hover:text-primary-500 max-w-[170px]'>
                           {child.title}
                         </p>
                       </div>
@@ -69,7 +71,7 @@ const Sidebar: FC = () => {
                       className='duration-300 ease-in-out hover:bg-primary-500 hover:bg-opacity-5 hover:text-primary-500 flex gap-[10px]  py-2 pl-[35px] group'
                     >
                       {child.icon}
-                      <p className='text-medium font-medium text-white group-hover:text-primary-500'>
+                      <p className='text-medium font-medium text-white group-hover:text-primary-500 max-w-[190px]'>
                         {child.title}
                       </p>
                     </Link>
@@ -196,14 +198,42 @@ const dataSideBar = [
         icon: <MonitorLock className='w-6 h-6 group-hover:text-primary-500' />,
       },
       {
-        title: 'Perencanaan Karir',
-        link: '/perencanaan-karir',
+        title: 'Ruang Diskusi',
+        link: '/ruang-diskusi',
+        icon: <UsersChat className='w-6 h-6 group-hover:text-primary-500' />,
+      },
+      {
+        title: 'Coaching & Rencana Karir',
+        link: '/coaching-dan-rencana-karir',
+        icon: <OfficePlan className='w-6 h-6 group-hover:text-primary-500' />,
+      },
+      {
+        title: 'Simulasi & Roleplay',
+        link: '/simulasi-dan-roleplay',
         icon: <SwatchBook className='w-6 h-6 group-hover:text-primary-500' />,
       },
       {
-        title: 'Simulasi, Drill, & Assesment',
-        link: '/simulasi-drill-dan-assesment',
-        icon: <OfficePlan className='w-6 h-6 group-hover:text-primary-500' />,
+        title: 'Post Training Project',
+        link: '/post-training-project',
+        icon: (
+          <BsWindow className='w-6 h-6 text-white group-hover:text-primary-500' />
+        ),
+      },
+      {
+        title: 'Assesment & Uji Kompetensi',
+        icon: (
+          <RiMenu5Fill className='w-6 h-6 text-white group-hover:text-primary-500' />
+        ),
+        children: [
+          {
+            title: 'Assesment',
+            link: '/assesment',
+          },
+          {
+            title: 'Uji Kompetensi',
+            link: '/uji-kompetensi',
+          },
+        ],
       },
       {
         title: 'Kalender Mahasiswa',
@@ -211,25 +241,6 @@ const dataSideBar = [
         icon: (
           <CalendarMonth className='w-6 h-6 group-hover:text-primary-500' />
         ),
-      },
-    ],
-  },
-  {
-    title: 'Lainnya',
-    children: [
-      {
-        title: 'Konsultasi & Layanan',
-        icon: <Chats className='w-6 h-6 group-hover:text-primary-500' />,
-        children: [
-          {
-            title: 'Konsultasi',
-            link: '/konsultasi-dan-layanan/konsultasi',
-          },
-          {
-            title: 'Layanan',
-            link: '/konsultasi-dan-layanan/layanan',
-          },
-        ],
       },
     ],
   },

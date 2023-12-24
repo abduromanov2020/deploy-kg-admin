@@ -33,6 +33,15 @@ h6,
   @apply font-primary text-2xl font-semibold md:text-lg;
 } */
 
+.wrapper-dangerously-html ol {
+  list-style: decimal;
+  padding-left: 20px;
+}
+.wrapper-dangerously-html ul {
+  list-style: circle;
+  padding-left: 20px;
+}
+
 body,
 .p {
   @apply font-primary text-sm md:text-base;
