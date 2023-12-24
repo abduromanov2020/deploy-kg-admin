@@ -1,13 +1,13 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { format } from 'date-fns';
-import { convertToRaw, EditorState } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
+import { addDays, format } from 'date-fns';
 import dynamic from 'next/dynamic';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { DateRange } from 'react-day-picker';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useRecoilState } from 'recoil';
+import { z } from 'zod';
 
 import { cn } from '@/lib/utils';
 import { ValidationSchemaCoverEvent } from '@/lib/validation/acara-kampus-gratis';
@@ -33,40 +33,32 @@ import {
 
 import {
   activeTabAtom,
+  CoverDataAtom,
   coverFilledAtom,
 } from '@/recoils/acara-kampus-gratis/atom';
-
-import { TCoverAcara } from '@/types/acara-kampus-gratis/types';
 
 const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
 });
 
 export const CoverAcaraForm = () => {
-  const [date, setDate] = React.useState<Date>();
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: new Date(2022, 0, 20),
+    to: addDays(new Date(2022, 0, 20), 20),
+  });
   const [activeTab, setActiveTab] = useRecoilState(activeTabAtom);
   const [isCoverFilled, setCoverFilled] = useRecoilState(coverFilledAtom);
+  const [coverData, setCoverData] = useRecoilState(CoverDataAtom);
 
-  const form = useForm<TCoverAcara>({
-    resolver: zodResolver(ValidationSchemaCoverEvent()),
+  const form = useForm<z.infer<typeof ValidationSchemaCoverEvent>>({
+    resolver: zodResolver(ValidationSchemaCoverEvent),
+    defaultValues: {
+      name: '',
+      price: '',
+      date: '',
+      thumbnail: null,
+    },
   });
-
-  const [editorStateCover, setEditorStateCover] = useState<EditorState>(
-    EditorState.createEmpty(),
-  );
-
-  const handleEditorCoverChange = (editorState: EditorState) => {
-    setEditorStateCover(editorState);
-
-    const contentState = editorState.getCurrentContent();
-    const rawContentState = convertToRaw(contentState);
-    const htmlContent = draftToHtml(rawContentState);
-
-    form.setValue('benefit', htmlContent, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  };
 
   useEffect(() => {
     date &&
@@ -76,13 +68,35 @@ export const CoverAcaraForm = () => {
       });
   }, [date]);
 
-  function onSubmit(data: TCoverAcara) {
-    console.log(data);
+  const onSubmit = (data: z.infer<typeof ValidationSchemaCoverEvent>) => {
+    const [hours, minutes] = data.time.split(':').map(Number);
+
+    const dateStart = date?.from ? addDays(new Date(date.from), 0) : null;
+    const dateEnd = date?.to ? addDays(new Date(date.to), 0) : null;
+
+    if (dateStart) {
+      dateStart.setHours(hours);
+      dateStart.setMinutes(minutes);
+    }
+
+    if (dateEnd) {
+      dateEnd.setHours(hours);
+      dateEnd.setMinutes(minutes);
+    }
+
+    setCoverData((prevData) => ({
+      ...prevData,
+      name: data.name,
+      price: data.price,
+      date_start: dateStart?.toISOString() || '',
+      date_end: dateEnd?.toISOString() || '',
+      thumbnail: data.thumbnail,
+    }));
     setCoverFilled(true);
     toast.success('Form submitted!');
     setActiveTab('detail');
-  }
-
+  };
+  console.log(coverData);
   return (
     <Form {...form}>
       <form
@@ -92,7 +106,7 @@ export const CoverAcaraForm = () => {
         <div className='grid grid-cols-2 w-full gap-5 items-start'>
           <FormField
             control={form.control}
-            name='event_name'
+            name='name'
             render={({ field }) => (
               <FormItem className='grid w-full items-center gap-1.5'>
                 <FormLabel>Nama Acara*</FormLabel>
@@ -123,31 +137,40 @@ export const CoverAcaraForm = () => {
               <FormItem className='grid w-full items-center gap-1.5'>
                 <FormLabel>Tanggal Pelaksana*</FormLabel>
                 <FormControl>
-                  <div>
+                  <div className='grid gap-2'>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
+                          id='date'
                           variant='outline'
                           className={cn(
-                            'w-full justify-start text-left font-normal',
+                            'w-[300px] justify-start text-left font-normal',
                             !date && 'text-muted-foreground',
                           )}
                         >
-                          {/* <CalendarIcon className='mr-2 h-4 w-4' /> */}
-                          {date ? (
-                            format(date, 'PPP')
+                          {/* <CalendarIcon className="mr-2 h-4 w-4" /> */}
+                          {date?.from ? (
+                            date.to ? (
+                              <>
+                                {format(date.from, 'LLL dd, y')} -{' '}
+                                {format(date.to, 'LLL dd, y')}
+                              </>
+                            ) : (
+                              format(date.from, 'LLL dd, y')
+                            )
                           ) : (
                             <span>Pick a date</span>
                           )}
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className='w-auto p-0'>
+                      <PopoverContent className='w-auto p-0' align='start'>
                         <Calendar
-                          mode='single'
+                          initialFocus
+                          mode='range'
+                          defaultMonth={date?.from}
                           selected={date}
                           onSelect={setDate}
-                          initialFocus
-                          {...field}
+                          numberOfMonths={2}
                         />
                       </PopoverContent>
                     </Popover>
@@ -171,14 +194,14 @@ export const CoverAcaraForm = () => {
             )}
           />
         </div>
-        <DraftEditor
+        {/* <DraftEditor
           editorState={editorStateCover}
           setEditorState={(editorState) => {
             handleEditorCoverChange(editorState);
           }}
           label='Manfaat Acara*'
           error={form.formState.errors.benefit?.message}
-        />
+        /> */}
         <div className='grid w-full items-center gap-1.5'>
           <Label htmlFor='thumbnail'>Unggah Thumbnail*</Label>
           <UploadField

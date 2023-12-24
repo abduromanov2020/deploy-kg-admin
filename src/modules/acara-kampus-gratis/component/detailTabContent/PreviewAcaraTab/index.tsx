@@ -61,7 +61,7 @@ export const PreviewAcaraTabContent: FC<{ data: TEventItem }> = ({ data }) => {
                 </span> */}
               </div>
               <Image
-                alt='thumbnail'
+                alt={data.thumbnail_id}
                 src={data.thumbnail}
                 width={0}
                 height={0}

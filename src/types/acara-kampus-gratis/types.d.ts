@@ -18,6 +18,7 @@ export type TEventItem = {
   description: string;
   capacity: number;
   thumbnail: string;
+  thumbnail_id: string;
   status: string;
   contact_person_name: string;
   contact_person_phone: string;
@@ -30,12 +31,11 @@ export type TEventItem = {
 };
 
 export type TCoverAcara = {
-  event_name: string;
-  price: number;
-  date: string;
-  time: string;
-  benefit: string;
-  thumbnail: File;
+  name: string;
+  price: string;
+  date_start: string;
+  date_end: string;
+  thumbnail: File | null | undefined;
 };
 
 export type TDetailAcara = {
