@@ -1,8 +1,11 @@
 'use client';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
+import { CiCirclePlus } from 'react-icons/ci';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
+import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import { ClassMentoringTabItem } from '@/modules/studi-ku/live-mentoring/detail-live-mentoring/ClassMentoringTabItem';
@@ -33,6 +36,12 @@ export const DetailLiveMentoringModule = () => {
       <div className='bg-white rounded-md'>
         <div className='border-b border-dark-200 p-4 flex items-center justify-between'>
           <span className='font-semibold '>Detail Live Mentoring: Modul 1</span>
+          <Link href='/studi-ku/live-mentoring/tambah-live-mentoring'>
+            <Button className='bg-primary-500 px-3 py-2 flex justify-center items-center gap-1 hover:bg-primary-400'>
+              <CiCirclePlus className='w-[20px] h-[20px]' />
+              <p className='leading-none'>Tambah Sesi Mentoring</p>
+            </Button>
+          </Link>
         </div>
         <div className='p-8'>
           <Tabs defaultValue='class-mentoring' className='w-full'>
