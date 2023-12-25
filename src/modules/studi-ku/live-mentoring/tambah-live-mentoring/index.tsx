@@ -6,6 +6,7 @@ import draftToHtml from 'draftjs-to-html';
 import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { CiCirclePlus } from 'react-icons/ci';
 import { z } from 'zod';
 
 import { cn } from '@/lib/utils';
@@ -15,6 +16,16 @@ import { BreadCrumb } from '@/components/BreadCrumb';
 import { Input } from '@/components/input';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -36,6 +47,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 
 const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
@@ -292,13 +304,46 @@ export const TambahLiveMentoringModule = () => {
               <div className='flex w-full justify-end gap-5 px-5'>
                 <Button variant='primaryOutline'>Kembali</Button>
 
-                <Button
-                  variant='primary'
-                  type='submit'
-                  className='bg-primary-500 text-white px-4 py-2 rounded-md'
-                >
-                  Tambah Sesi
-                </Button>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button className='bg-primary-500 px-3 py-2 flex justify-center items-center gap-1 hover:bg-primary-400'>
+                      <CiCirclePlus className='w-[20px] h-[20px]' />
+                      <p className='leading-none'>Tambah Sesi</p>
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className='sm:max-w-[425px] text-center p-12'>
+                    <DialogHeader>
+                      <DialogTitle className='text-center'>
+                        Apakah Anda yakin informasi sudah sesuai ?
+                      </DialogTitle>
+                      <div className='py-3'>
+                        <Separator className='h-1 bg-primary-500 rounded-full w-1/3 mx-auto' />
+                      </div>
+                      <DialogDescription className='text-center'>
+                        Cek kembali informasi acara dengan benar.{' '}
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter className='flex w-full justify-between'>
+                      <DialogClose>
+                        <Button variant='outline' className='w-full'>
+                          Tinjau Ulang{' '}
+                        </Button>
+                      </DialogClose>
+                      <DialogClose>
+                        <Button
+                          onClick={() => {
+                            form.handleSubmit(onSubmit)();
+                            // setActiveTab('detail');
+                          }}
+                          type='submit'
+                          className='bg-primary-500 w-full'
+                        >
+                          Selesai
+                        </Button>
+                      </DialogClose>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </div>
             </form>
           </Form>
