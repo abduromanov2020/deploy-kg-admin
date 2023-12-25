@@ -51,7 +51,7 @@ export const MentoringCard = () => {
           </div>
         </div>
         <div className='flex justify-between items-center mt-4'>
-          <Link href='/studi-ku/diskusi/detail-diskusi/1}'>
+          <Link href='/studi-ku/live-mentoring/detail-live-mentoring/1'>
             <Button className='bg-primary-500'>Detail Live Mentoring</Button>
           </Link>
         </div>
