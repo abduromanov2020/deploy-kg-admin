@@ -1,6 +1,7 @@
 import toast from 'react-hot-toast';
+import { IoWarningOutline } from 'react-icons/io5';
 
-import { useAccAdministrasi } from '@/hooks/verifikasi/administrasi/hook';
+import { useRejectAdministrasi } from '@/hooks/verifikasi/administrasi/hook';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -11,52 +12,52 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from '@/components/ui/dialog';
-import { Separator } from '@/components/ui/separator';
 
 interface TProps {
-  isOpen: boolean;
-  onChangeModal: () => void;
-  idAdmin: string | undefined;
+  trigger: React.ReactNode;
+  selectedIds: string[];
   refetch: () => void;
 }
 
-export const AccConfirmModal = ({
-  isOpen,
-  onChangeModal,
-  idAdmin,
+export const AccAllRejectModal = ({
+  trigger,
+  selectedIds,
   refetch,
 }: TProps) => {
   const payload = {
-    administration_ids: [idAdmin],
+    administration_ids: selectedIds,
   };
 
-  const { mutate } = useAccAdministrasi();
+  const { mutate } = useRejectAdministrasi();
 
   const handleClick = () => {
     mutate(payload, {
       onSuccess: () => {
-        toast.success('Berhasil Accept Administrasi Akun Ini !');
+        toast.success('Berhasil Reject Administrasi Akun Ini !');
         refetch();
       },
       onError: () => {
-        toast.error('Gagal Accept Administrasi Akun Ini !');
+        toast.error('Gagal Reject Administrasi Akun Ini !');
       },
     });
   };
-
   return (
-    <Dialog open={isOpen} onOpenChange={onChangeModal}>
+    <Dialog>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className='sm:max-w-[425px] text-center p-12'>
         <DialogHeader>
-          <DialogTitle className='text-center'>
-            Apakah Anda ingin menyetujui Verifikasi Administrasi ini?
-          </DialogTitle>
-          <div className='py-3'>
-            <Separator className='h-1 bg-primary-500 rounded-full w-1/3 mx-auto' />
+          <div className='flex justify-center items-center'>
+            <div className='p-3 rounded-full bg-red-200'>
+              <IoWarningOutline className='text-red-800' size={24} />
+            </div>
           </div>
+          <DialogTitle className='text-center'>
+            Apakah Anda ingin menolak semua yang ditandai pada Administrasi ini?
+          </DialogTitle>
           <DialogDescription className='text-center'>
-            Cek kembali administrasi bila dirasa belum benar.
+            Cek kembali administrasi bila dirasa belum benar.{' '}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className='flex w-full justify-between'>
@@ -67,11 +68,11 @@ export const AccConfirmModal = ({
           </DialogClose>
           <DialogClose className='w-full'>
             <Button
+            onClick={handleClick}
               type='submit'
-              onClick={handleClick}
-              className='bg-primary-500 w-full hover:bg-primary-600'
+              className='bg-red-800 w-full hover:bg-red-900'
             >
-              Terima
+              Tolak
             </Button>
           </DialogClose>
         </DialogFooter>
