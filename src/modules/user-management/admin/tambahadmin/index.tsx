@@ -1,11 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
 
 import { AddAdminUserValidationSchema } from '@/lib/validation/user-management';
+import { useAddAdmin } from '@/hooks/user-management/addadmin/hook';
+import { TAddAdminPayload } from '@/hooks/user-management/addadmin/request';
+import { useRole } from '@/hooks/user-management/getallrole/hook';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { Button } from '@/components/ui/button';
@@ -31,6 +35,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 
+type TAllRoles = {
+  id: string;
+  role_name: string;
+};
+
 const TambahAdminModule = () => {
   const ConstantEditDosen = [
     {
@@ -42,22 +51,41 @@ const TambahAdminModule = () => {
       link: ``,
     },
   ];
-
+  const { mutate } = useAddAdmin();
   const form = useForm<z.infer<typeof AddAdminUserValidationSchema>>({
     resolver: zodResolver(AddAdminUserValidationSchema),
   });
-
-  const onSubmit = (data: z.infer<typeof AddAdminUserValidationSchema>) => {
-    console.log(data);
-    toast.success('Form submitted!');
+  const { data: useRoles } = useRole();
+  const roles = useRoles?.data.map((role) => {
+    return {
+      value: role.id,
+      label: role.name,
+    };
+  });
+  const onSubmit = async (
+    data: z.infer<typeof AddAdminUserValidationSchema>,
+  ) => {
+    try {
+      const payload: TAddAdminPayload = {
+        full_name: data.full_name,
+        email: data.email,
+        password: data.password,
+        role_id: data.role,
+      };
+      await mutate(payload);
+      toast.success('Form submitted!');
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
   };
   const [isChecked, setIsChecked] = useState(true);
   const handleLookUp = () => {
     setIsChecked(!isChecked);
   };
+  const router = useRouter();
   const onSubmitDialog = () => {
     form.handleSubmit(onSubmit)();
-    return <DialogClose />;
+    router.push('/user-management/admin');
   };
 
   return (
@@ -129,7 +157,7 @@ const TambahAdminModule = () => {
                     name='role'
                     render={({ field }) => (
                       <FormItem className='grid w-full gap-1.5'>
-                        <FormLabel>Status Admin*</FormLabel>
+                        <FormLabel>Role*</FormLabel>
                         <FormControl>
                           <Input placeholder='Status*' {...field} />
                         </FormControl>
