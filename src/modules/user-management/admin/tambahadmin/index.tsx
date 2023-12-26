@@ -33,6 +33,13 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 
 type TAllRoles = {
@@ -156,11 +163,26 @@ const TambahAdminModule = () => {
                     control={form.control}
                     name='role'
                     render={({ field }) => (
-                      <FormItem className='grid w-full gap-1.5'>
+                      <FormItem>
                         <FormLabel>Role*</FormLabel>
-                        <FormControl>
-                          <Input placeholder='Status*' {...field} />
-                        </FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder='Pilih Role' />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {roles?.map((role) => (
+                              <SelectItem key={role.value} value={role.value}>
+                                {role.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+
                         <FormMessage />
                       </FormItem>
                     )}
