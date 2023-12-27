@@ -48,7 +48,7 @@ export const MainStudiKu = () => {
     {
       title: 'Penilaian Keaktifan',
       icon: <FaAddressCard className='text-teal-500 text-xl' />,
-      link: '/studi-ku/',
+      link: '/studi-ku/penilaian-keaktifan',
     },
     {
       title: 'Kualitas Pengajar & Materi Ajar',
