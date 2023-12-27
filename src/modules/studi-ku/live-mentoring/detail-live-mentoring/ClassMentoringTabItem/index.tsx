@@ -77,13 +77,13 @@ export const ClassMentoringTabItem = () => {
           <TableCell>
             {' '}
             <div className='flex gap-3'>
-              <Link href='/studi-ku/tugas/edit-nilai/1'>
+              <Link href='/studi-ku/live-mentoring/edit-live-mentoring/class-mentoring/1'>
                 <Button variant='primary' className='flex gap-2'>
                   <TbEdit size={15} />
-                  Edit Nilai
+                  Edit Informasi
                 </Button>
               </Link>
-              <Link href='/studi-ku/tugas/edit'>
+              <Link href='/studi-ku/live-mentoring/edit-live-mentoring/class-mentoring/1'>
                 <Button
                   variant='outline'
                   className='flex gap-2 border-red-800 text-red-800 hover:bg-red-800 hover:text-white'

@@ -10,7 +10,7 @@ export const MentoringCard = () => {
   return (
     <Card className='w-full'>
       <CardContent className='pt-4 flex flex-col gap-2'>
-        <CardTitle className='text-xl font-semibold'>Diskusi Modul 1</CardTitle>
+        <CardTitle className='text-xl font-semibold'>Modul 1</CardTitle>
         <div className='flex gap-5 mt-2'>
           {/* {data.description} */}
           {/* {row?.original.image !== null ? (

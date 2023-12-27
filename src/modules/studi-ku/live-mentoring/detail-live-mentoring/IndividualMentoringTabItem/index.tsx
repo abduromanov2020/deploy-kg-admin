@@ -61,10 +61,10 @@ export const IndividualMentoringTabItem = () => {
             <TableCell>
               {' '}
               <div className='flex gap-3'>
-                <Link href='/studi-ku/tugas/edit-nilai/1'>
+                <Link href='/studi-ku/live-mentoring/edit-live-mentoring/individual-mentoring/1'>
                   <Button variant='primary' className='flex gap-2'>
                     <TbEdit size={15} />
-                    Edit Mentoring
+                    Edit Informasi
                   </Button>
                 </Link>
                 <Link href='/studi-ku/tugas/edit'>
@@ -118,7 +118,8 @@ export const IndividualMentoringTabItem = () => {
                 </p>
               </TableCell>
               <TableCell>
-                <Link href='/studi-ku/tugas/edit'>
+                <Link href='/studi-ku/live-mentoring/edit-live-mentoring/individual-mentoring/1'>
+                  {' '}
                   <Button variant='primary' className='flex '>
                     Edit{' '}
                   </Button>
