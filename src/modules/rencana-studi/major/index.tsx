@@ -1,11 +1,14 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiSolidFileExport } from 'react-icons/bi';
 import { CiCirclePlus } from 'react-icons/ci';
 import { IoGridOutline, IoListOutline } from 'react-icons/io5';
+
+import { useGetStudyPlanMajors } from '@/hooks/rencana-studi/majors/hook';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { Button } from '@/components/ui/button';
@@ -19,6 +22,9 @@ const MajorModule = () => {
   const [showGrid, setShowGrid] = React.useState(false);
   const [showList, setShowList] = React.useState(true);
 
+  const query = useSearchParams();
+  const router = useRouter();
+
   const ITEMS = [
     {
       name: 'Rencana Studi',
@@ -29,6 +35,15 @@ const MajorModule = () => {
       link: '/rencana-studi/program-studi/1',
     },
   ];
+
+  const page = Number(query.get('page')) || 1;
+  const searchQuery = query.get('search') || '';
+
+  const { data, isLoading, refetch } = useGetStudyPlanMajors(page, Number(10));
+
+  const dataMajors = data ? data.data.majors : [];
+
+  console.log(dataMajors);
 
   return (
     <main className='flex flex-col gap-6'>
@@ -98,11 +113,11 @@ const MajorModule = () => {
             <div className='w-full'>
               {showGrid ? (
                 <section>
-                  <MajorGrid />
+                  <MajorGrid data={dataMajors} />
                 </section>
               ) : (
                 <section>
-                  <MajorTable />
+                  <MajorTable data={dataMajors} />
                 </section>
               )}
             </div>

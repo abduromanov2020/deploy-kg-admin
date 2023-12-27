@@ -1,21 +1,20 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { BiSolidFileExport } from 'react-icons/bi';
 import { BiEdit } from 'react-icons/bi';
+import { FaTrash } from 'react-icons/fa6';
+
+import { useGetStudyPlanMajorById } from '@/hooks/rencana-studi/majors/hook';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
-import { DeleteMajorModalDetail } from '@/modules/rencana-studi/major/detail/components/delete-major-modal-detail';
-
-import ArtikelImage from '~/images/sekilas-ilmu/artikel.png';
+import { DeleteMajorModal } from '@/modules/rencana-studi/major/components/delete-major-modal';
 
 const RencanaStudiDetailMajor = () => {
   const ITEMS = [
@@ -28,10 +27,17 @@ const RencanaStudiDetailMajor = () => {
       link: '/rencana-studi/program-studi/1',
     },
     {
-      name: 'Informasi Detail',
+      name: 'Detail Prodi',
       link: '/rencana-studi/program-studi/1/detail/2',
     },
   ];
+
+  const params = useParams();
+  const { id_detail } = params;
+
+  const { data, isLoading } = useGetStudyPlanMajorById(String(id_detail));
+
+  console.log(data);
 
   return (
     <main className='flex flex-col gap-6'>
@@ -40,7 +46,9 @@ const RencanaStudiDetailMajor = () => {
       </div>
       <div className='bg-white rounded'>
         <div className='p-4 border-b-2'>
-          <p className='text-base font-semibold'>Nama Program Studi</p>
+          <p className='text-base font-semibold'>
+            Detail Prodi {data?.data?.name}
+          </p>
         </div>
         <div className='p-8'>
           <section className='flex justify-between items-center'>
@@ -51,15 +59,23 @@ const RencanaStudiDetailMajor = () => {
               </div>
             </div>
             <div className='flex items-center gap-3'>
-              <Button className='hover:bg-white shadow-md bg-primary-500 hover:text-primary-500 text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
-                <BiSolidFileExport size={24} />
-                <p className='leading-none'>Unduh</p>
+              <Button
+                className='bg-primary-500 border-2 border-primary-500 hover:bg-primary-600 hover:border-primary-600 px-3 py-2 flex gap-2'
+                asChild
+              >
+                <Link href='/rencana-studi/program-studi/1/edit-prodi/1'>
+                  <BiEdit size={24} />
+                  Edit Informasi
+                </Link>
               </Button>
-              <DeleteMajorModalDetail />
-              <Button className='shadow-md bg-white border-2 border-primary-500 text-primary-500 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base hover:bg-blue-500 hover:text-white'>
-                <BiEdit size={24} />
-                <p className='leading-none'>Edit Prodi</p>
-              </Button>
+              <DeleteMajorModal
+                modalTrigger={
+                  <Button className='bg-white border-2 border-red-800 text-red-800 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base hover:bg-red-800 hover:text-white'>
+                    <FaTrash size={20} />
+                    <p className='leading-none'>Hapus Prodi</p>
+                  </Button>
+                }
+              />
             </div>
           </section>
           <div className='my-8 w-full'>
@@ -69,51 +85,27 @@ const RencanaStudiDetailMajor = () => {
                   <TableCell className='font-medium w-[30%]'>
                     ID Program Studi
                   </TableCell>
-                  <TableCell className='border-2'>129391132</TableCell>
+                  <TableCell className='border-2'>{data?.data?.id}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className='font-medium'>
                     Nama Program Studi
                   </TableCell>
-                  <TableCell className='border-2'>Raul</TableCell>
+                  <TableCell className='border-2'>{data?.data?.name}</TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell className='font-medium'>Deskripsi</TableCell>
+                  <TableCell className='border-2'>
+                    {data?.data?.description}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className='font-medium'>
-                    Kepala Program Studi
+                    Jumlah Mata Kuliah
                   </TableCell>
-                  <TableCell className='border-2'>440</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className='font-medium'>Jumlah SKS</TableCell>
-                  <TableCell className='border-2'>144</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className='font-medium'>Deskripsi</TableCell>
-                  <TableCell className='border-2'>122</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className='font-medium'>Cover Fakultas</TableCell>
                   <TableCell className='border-2'>
-                    <Card
-                      key='1'
-                      className='w-[228px] min-h-[112px] rounded-lg overflow-hidden'
-                    >
-                      <CardTitle className='p-2 text-md flex justify-between'>
-                        <p className=''>Cover</p>
-                        <Link href='#' className='text-primary-500 text-xs'>
-                          Unduh
-                        </Link>
-                      </CardTitle>
-                      <CardHeader className='p-0 '>
-                        <Image
-                          src={ArtikelImage}
-                          alt='artikel'
-                          width={350}
-                          height={200}
-                          className='object-cover'
-                        />
-                      </CardHeader>
-                    </Card>
+                    {data?.data?.total_subjects} 0 Mata Kuliah
                   </TableCell>
                 </TableRow>
               </TableBody>

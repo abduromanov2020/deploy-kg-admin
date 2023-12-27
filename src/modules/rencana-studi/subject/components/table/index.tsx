@@ -30,6 +30,7 @@ import Link from 'next/link';
 import { TiArrowSortedDown } from 'react-icons/ti';
 
 import Pagination from '@/components/generals/pagination';
+import { Badge } from '@/components/ui/badge';
 
 import { DeleteSubjectModal } from '@/modules/rencana-studi/subject/components/delete-subject-modal';
 
@@ -38,6 +39,7 @@ export type TSubject = {
   subject_name: string;
   lecturer: string;
   sks: number;
+  status: 'Aktif' | 'Terkunci';
 };
 
 const data: TSubject[] = [
@@ -46,36 +48,42 @@ const data: TSubject[] = [
     subject_name: 'Sistem Basis Data',
     lecturer: 'Dr. John Doe',
     sks: 5,
+    status: 'Aktif',
   },
   {
     subject_id: '#ASD2',
     subject_name: 'Sistem Basis Data',
     lecturer: 'Prof. Jane Smith',
     sks: 4,
+    status: 'Aktif',
   },
   {
     subject_id: '#ASD3',
     subject_name: 'Sistem Basis Data',
     lecturer: 'Dr. Robert Johnson',
     sks: 3,
+    status: 'Aktif',
   },
   {
     subject_id: '#ASD4',
     subject_name: 'Sistem Basis Data',
     lecturer: 'Prof. Emily Davis',
     sks: 7,
+    status: 'Aktif',
   },
   {
     subject_id: '#ASD5',
     subject_name: 'Sistem Basis Data',
     lecturer: 'Dr. William Anderson',
     sks: 2,
+    status: 'Terkunci',
   },
   {
     subject_id: '#ASD6',
     subject_name: 'Sistem Basis Data',
     lecturer: 'Prof. Sarah Brown',
     sks: 6,
+    status: 'Terkunci',
   },
 ];
 
@@ -127,7 +135,7 @@ export const columns: ColumnDef<TSubject>[] = [
           className='text-sm p-0 text-start font-semibold text-black'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          ID MATKUL
+          KODE MATKUL
           <TiArrowSortedDown className='ml-2 h-4 w-4' />
         </Button>
       );
@@ -197,6 +205,35 @@ export const columns: ColumnDef<TSubject>[] = [
         {row.getValue('sks')} SKS
       </div>
     ),
+  },
+  {
+    accessorKey: 'status',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='text-sm p-0 text-start font-semibold text-black'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          STATUS
+          <TiArrowSortedDown className='ml-2 h-4 w-4' />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const status: string = row.getValue('status'); // Assuming 'status' is a string
+      const badgeClassName = `rounded-md py-1 min-w-[70px] justify-center items-center ${
+        status === 'Terkunci'
+          ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+          : 'bg-green-100 text-green-600 hover:bg-green-200'
+      }`;
+
+      return (
+        <Badge key={row.original.subject_id} className={badgeClassName}>
+          {status}
+        </Badge>
+      );
+    },
   },
   {
     accessorKey: 'details',
