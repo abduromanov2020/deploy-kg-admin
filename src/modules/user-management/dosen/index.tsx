@@ -29,7 +29,7 @@ const DosenModule = () => {
                   <FaPlus /> Tambah Dosen
                 </div>
               </button>
-              <FilterData />
+              <FilterData onApplyFilter={() => ''} />
               <button className='px-6 py-2 shadow-md text-blue-600 rounded-md hover:text-white  hover:bg-blue-600 hover:transition'>
                 <div className='flex place-items-center gap-2'>
                   <FaFileDownload /> Unduh
