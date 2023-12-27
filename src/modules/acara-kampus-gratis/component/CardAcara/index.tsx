@@ -62,7 +62,7 @@ export const CardAcara: FC<{ id: number; data: TEventItem }> = ({
       <CardContent className='pt-4 flex flex-col gap-2'>
         <div>
           <Badge className='rounded-md bg-neutral-100 text-black'>
-            {/* {formatStatus(data.status)} */}
+            {formatStatus(data.status)}
           </Badge>
         </div>
         <CardTitle className='text-xl font-semibold'>{data.name}</CardTitle>
