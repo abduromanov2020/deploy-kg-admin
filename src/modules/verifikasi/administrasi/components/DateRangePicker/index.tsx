@@ -1,6 +1,6 @@
 'use client';
 
-import { addDays, format } from 'date-fns';
+import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import * as React from 'react';
 import { DateRange } from 'react-day-picker';
@@ -14,16 +14,44 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { useRouter } from 'next/navigation';
+import { useRecoilState } from 'recoil';
+import { selectedDateState } from '@/recoils/verifikasi/administrasi/atom';
 
 type Props = {
   className?: string;
 };
 
-export const DateRangePicker: React.FC<Props> = ({ className }) => {
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
-  });
+export const DateRangePicker: React.FC<Props> = ({ className}) => {
+  const [date, setDate] = React.useState<DateRange | undefined>(undefined);
+  const router = useRouter()
+
+  const [selectDate, setSelectDate] = useRecoilState(selectedDateState);
+
+  const formatDateForURL = (date: Date | undefined): string | undefined => {
+    return date ? format(date, 'yyyy-MM-dd') : undefined;
+  };
+
+  const handleDateSelect = (selectedDate: DateRange | undefined) => {
+    setDate(selectedDate);
+    setSelectDate(selectedDate)
+    // Format dates for URL and use them as needed
+    const startDateFormatted = formatDateForURL(selectedDate?.from);
+    const endDateFormatted = formatDateForURL(selectedDate?.to);
+
+    if (startDateFormatted && endDateFormatted) {
+      const queryString = `start_date=${startDateFormatted}&end_date=${endDateFormatted}`;
+      // setQueryString(queryString);
+      router.push(`/verifikasi/administrasi?${queryString}`)
+    
+    // Now you can use `queryString` as needed, for example, in an API request or URL redirect.
+    } else {
+      // If no date is selected, clear the query parameters
+      router.push(`/verifikasi/administrasi`);
+    }
+  };
+
+  
   return (
     <div className={cn('grid gap-2', className)}>
       <Popover>
@@ -58,7 +86,7 @@ export const DateRangePicker: React.FC<Props> = ({ className }) => {
             mode='range'
             defaultMonth={date?.from}
             selected={date}
-            onSelect={setDate}
+            onSelect={handleDateSelect}
             numberOfMonths={2}
           />
         </PopoverContent>

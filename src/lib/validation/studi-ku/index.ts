@@ -52,9 +52,53 @@ export const generateDynamicValidationSchemaDocument = (count: number) => {
 
   return dynamicValidationSchema;
 };
+
+export const generateDynamicValidationSchemaQuiz = (count: number) => {
+  const dynamicValidationSchema: Record<string, any> = {};
+
+  for (let i = 0; i < count; i++) {
+    dynamicValidationSchema[`quiz_title_${i + 1}`] = z
+      .string({
+        required_error: `Judul Quiz ${i + 1}  harus diisi .`,
+      })
+      .min(1, { message: `Judul Quiz ${i + 1}  harus diisi  .` });
+  }
+
+  return dynamicValidationSchema;
+};
+export const generateDynamicValidationSchemaTugas = (count: number) => {
+  const dynamicValidationSchema: Record<string, any> = {};
+
+  for (let i = 0; i < count; i++) {
+    dynamicValidationSchema[`assignment_title_${i + 1}`] = z
+      .string({
+        required_error: `Judul Tugas ${i + 1}  harus diisi .`,
+      })
+      .min(1, { message: `Judul Tugas ${i + 1}  harus diisi  .` });
+  }
+
+  return dynamicValidationSchema;
+};
+export const generateDynamicValidationSchemaDiskusi = (count: number) => {
+  const dynamicValidationSchema: Record<string, any> = {};
+
+  for (let i = 0; i < count; i++) {
+    dynamicValidationSchema[`discuss_title_${i + 1}`] = z
+      .string({
+        required_error: `Judul Diskusi ${i + 1}  harus diisi .`,
+      })
+      .min(1, { message: `Judul Diskusi ${i + 1}  harus diisi  .` });
+  }
+
+  return dynamicValidationSchema;
+};
+
 export const ValidationSchemaCoverModul = (
   count: number,
   countDocument: number,
+  countQuiz: number,
+  countTugas: number,
+  countDiskusi: number,
 ) =>
   z.object({
     cover_title: z
@@ -73,4 +117,7 @@ export const ValidationSchemaCoverModul = (
 
     ...generateDynamicValidationSchema(count),
     ...generateDynamicValidationSchemaDocument(countDocument),
+    ...generateDynamicValidationSchemaQuiz(countQuiz),
+    ...generateDynamicValidationSchemaTugas(countTugas),
+    ...generateDynamicValidationSchemaDiskusi(countDiskusi),
   });

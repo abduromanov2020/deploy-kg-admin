@@ -25,6 +25,7 @@ const DosenDataTable = () => {
     10,
     'TEACHER',
     searchQuery,
+    [''],
   );
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);

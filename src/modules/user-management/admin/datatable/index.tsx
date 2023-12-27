@@ -19,7 +19,9 @@ const DataTableAdmin = () => {
   const searchParams = useSearchParams();
   const page = searchParams.get('page') || 1;
   const router = useRouter();
-  const { data, isLoading } = useUser(Number(page), 10, 'ADMIN', searchQuery);
+  const { data, isLoading } = useUser(Number(page), 10, 'ADMIN', searchQuery, [
+    '',
+  ]);
 
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);

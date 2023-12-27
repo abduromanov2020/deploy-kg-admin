@@ -1,18 +1,9 @@
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { FaFileDownload, FaFilter } from 'react-icons/fa';
+import { FaFileDownload } from 'react-icons/fa';
 import { FaPlus } from 'react-icons/fa6';
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 
 import DataTableAdmin from '@/modules/user-management/admin/datatable';
@@ -42,42 +33,6 @@ const AdminPageModule = () => {
                   <FaPlus /> Tambah Admin
                 </div>
               </button>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className='px-6 py-2 shadow-md text-blue-600 rounded-md hover:text-white hover:bg-blue-600 hover:transition'>
-                    <div className='flex place-items-center gap-2'>
-                      <FaFilter /> Filter
-                    </div>
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className='w-56'>
-                  <DropdownMenuLabel>Select Status</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                      <span className='text-slate-800 bg-slate-300 px-4 rounded py-1 cursor-pointer'>
-                        All Status
-                      </span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <span className='text-green-800 bg-green-300 px-4 rounded py-1 cursor-pointer'>
-                        Aktif
-                      </span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <span className='text-red-800 bg-red-300 px-4 rounded py-1 cursor-pointer'>
-                        Tidak Aktif
-                      </span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <span className='text-yellow-800 bg-yellow-300 px-4 rounded py-1 cursor-pointer'>
-                        Cuti
-                      </span>
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator />
-                </DropdownMenuContent>
-              </DropdownMenu>
               <button className='px-6 py-2 shadow-md text-blue-600 rounded-md hover:text-white  hover:bg-blue-600 hover:transition'>
                 <div className='flex place-items-center gap-2'>
                   <FaFileDownload /> Unduh
