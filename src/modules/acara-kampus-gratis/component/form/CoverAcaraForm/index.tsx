@@ -96,7 +96,7 @@ export const CoverAcaraForm = () => {
     toast.success('Form submitted!');
     setActiveTab('detail');
   };
-  console.log(coverData);
+  // console.log(coverData);
   return (
     <Form {...form}>
       <form

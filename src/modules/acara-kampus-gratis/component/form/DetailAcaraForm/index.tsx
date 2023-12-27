@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { CiCirclePlus } from 'react-icons/ci';
 import { useRecoilState } from 'recoil';
+import { z } from 'zod';
 
 import { cn } from '@/lib/utils';
 import { ValidationSchemaDetailEvent } from '@/lib/validation/acara-kampus-gratis';
@@ -50,25 +51,27 @@ import { Separator } from '@/components/ui/separator';
 
 import {
   activeTabAtom,
+  CoverDataAtom,
   coverFilledAtom,
 } from '@/recoils/acara-kampus-gratis/atom';
-
-import { TDetailAcara } from '@/types/acara-kampus-gratis/types';
 
 const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
 });
 
 export const DetailAcaraForm = () => {
-  const [date, setDate] = React.useState<Date>();
+  const [registration_start_date, setRegistration_start_date] =
+    React.useState<Date>();
+  const [registration_end_date, setRegistration_end_date] =
+    React.useState<Date>();
   const [activeTab, setActiveTab] = useRecoilState(activeTabAtom);
   const [isCoverFilled, setCoverFilled] = useRecoilState(coverFilledAtom);
-  const formDetail = useForm<TDetailAcara>({
-    resolver: zodResolver(ValidationSchemaDetailEvent()),
-  });
+  const [coverData, setCoverData] = useRecoilState(CoverDataAtom);
   const [editorStateDetail, setEditorStateDetail] = useState<EditorState>(
     EditorState.createEmpty(),
   );
+
+  // console.log(coverData);
 
   const handleEditorDetailChange = (editorState: EditorState) => {
     setEditorStateDetail(editorState);
@@ -83,20 +86,68 @@ export const DetailAcaraForm = () => {
     });
   };
 
-  useEffect(() => {
-    date &&
-      formDetail.setValue('date', date.toString(), {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
-  }, [date]);
+  const formDetail = useForm<z.infer<typeof ValidationSchemaDetailEvent>>({
+    resolver: zodResolver(ValidationSchemaDetailEvent),
+  });
 
-  function onSubmitDetail(data: TDetailAcara) {
+  useEffect(() => {
+    registration_start_date &&
+      formDetail.setValue(
+        'registration_start_date',
+        registration_start_date.toString(),
+        {
+          shouldValidate: true,
+          shouldDirty: true,
+        },
+      );
+  }, [registration_start_date]);
+
+  useEffect(() => {
+    registration_end_date &&
+      formDetail.setValue(
+        'registration_end_date',
+        registration_end_date.toString(),
+        {
+          shouldValidate: true,
+          shouldDirty: true,
+        },
+      );
+  }, [registration_end_date]);
+
+  function onSubmitDetail(data: z.infer<typeof ValidationSchemaDetailEvent>) {
     console.log(data);
+    const payload = {
+      name: coverData.name,
+      price: coverData.price,
+      date_start: coverData.date_start,
+      date_end: coverData.date_end,
+      registration_start_date: data.registration_start_date,
+      registration_end_date: data.registration_end_date,
+      description: data.description,
+      capacity: data.capacity,
+      contact_person_name: data.contact_person_name,
+      contact_person_position: data.contact_person_position,
+      contact_person_phone: data.contact_person_phone,
+      contact_person_email: data.contact_person_email,
+      location: data.location,
+      type_order: data.type_order,
+      type_event: data.type_event,
+      thumbnail: coverData.thumbnail,
+    };
+    console.log(payload);
     toast.success('Form submitted!');
     setCoverFilled(false);
     setActiveTab('cover');
+    setCoverData({
+      name: '',
+      price: '',
+      date_start: '',
+      date_end: '',
+      thumbnail: null,
+    });
   }
+
+  console.log(formDetail.formState.errors);
   return (
     <Form {...formDetail}>
       <form
@@ -107,7 +158,7 @@ export const DetailAcaraForm = () => {
           <p className='font-semibold text-lg mb-5'>Informasi</p>
           <FormField
             control={formDetail.control}
-            name='ticket_type'
+            name='type_order'
             render={({ field }) => (
               <FormItem className='grid w-full items-center gap-1.5 mb-5'>
                 <FormLabel>Tipe Pemesanan Tiket</FormLabel>
@@ -131,10 +182,10 @@ export const DetailAcaraForm = () => {
           <div className='grid grid-cols-2 w-full gap-5 items-start'>
             <FormField
               control={formDetail.control}
-              name='reservation_date_end'
+              name='registration_start_date'
               render={({ field }) => (
                 <FormItem className='grid w-full items-center gap-1.5'>
-                  <FormLabel>Batas Tanggal Pemesanan Tiket*</FormLabel>
+                  <FormLabel>Mulai Tanggal Pemesanan Tiket*</FormLabel>
                   <FormControl>
                     <div>
                       <Popover>
@@ -143,12 +194,13 @@ export const DetailAcaraForm = () => {
                             variant='outline'
                             className={cn(
                               'w-full justify-start text-left font-normal',
-                              !date && 'text-muted-foreground',
+                              !registration_start_date &&
+                                'text-muted-foreground',
                             )}
                           >
                             {/* <CalendarIcon className='mr-2 h-4 w-4' /> */}
-                            {date ? (
-                              format(date, 'PPP')
+                            {registration_start_date ? (
+                              format(registration_start_date, 'PPP')
                             ) : (
                               <span>Pick a date</span>
                             )}
@@ -157,8 +209,8 @@ export const DetailAcaraForm = () => {
                         <PopoverContent className='w-auto p-0'>
                           <Calendar
                             mode='single'
-                            selected={date}
-                            onSelect={setDate}
+                            selected={registration_start_date}
+                            onSelect={setRegistration_start_date}
                             initialFocus
                             {...field}
                           />
@@ -172,18 +224,69 @@ export const DetailAcaraForm = () => {
             />
             <FormField
               control={formDetail.control}
-              name='reservation_time_end'
+              name='registration_end_date'
               render={({ field }) => (
                 <FormItem className='grid w-full items-center gap-1.5'>
-                  <FormLabel>Batas Waktu Pemesanan TIket* </FormLabel>
+                  <FormLabel>Batas Tanggal Pemesanan Tiket*</FormLabel>
                   <FormControl>
-                    <Input {...field} type='time' />
+                    <div>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant='outline'
+                            className={cn(
+                              'w-full justify-start text-left font-normal',
+                              !registration_end_date && 'text-muted-foreground',
+                            )}
+                          >
+                            {/* <CalendarIcon className='mr-2 h-4 w-4' /> */}
+                            {registration_end_date ? (
+                              format(registration_end_date, 'PPP')
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className='w-auto p-0'>
+                          <Calendar
+                            mode='single'
+                            selected={registration_end_date}
+                            onSelect={setRegistration_end_date}
+                            initialFocus
+                            {...field}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
+          <FormField
+            control={formDetail.control}
+            name='type_event'
+            render={({ field }) => (
+              <FormItem className='grid w-full items-center gap-1.5 mb-5'>
+                <FormLabel>Tipe Acara</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder='Tipe Acara' />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value='online'>Online</SelectItem>
+                    <SelectItem value='offline'>Offline</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
           <FormField
             control={formDetail.control}
             name='location'
@@ -197,10 +300,23 @@ export const DetailAcaraForm = () => {
               </FormItem>
             )}
           />
+          <FormField
+            control={formDetail.control}
+            name='capacity'
+            render={({ field }) => (
+              <FormItem className='grid w-full items-center gap-1.5 my-5'>
+                <FormLabel>Kapasitas Peserta</FormLabel>
+                <FormControl>
+                  <Input placeholder='100' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <div className='grid grid-cols-2 w-full gap-5 items-start'>
-            <FormField
+            {/* <FormField
               control={formDetail.control}
-              name='date'
+              name='registration_start_date'
               render={({ field }) => (
                 <FormItem className='grid w-full items-center gap-1.5'>
                   <FormLabel>Tanggal Acara*</FormLabel>
@@ -215,7 +331,6 @@ export const DetailAcaraForm = () => {
                               !date && 'text-muted-foreground',
                             )}
                           >
-                            {/* <CalendarIcon className='mr-2 h-4 w-4' /> */}
                             {date ? (
                               format(date, 'PPP')
                             ) : (
@@ -238,8 +353,48 @@ export const DetailAcaraForm = () => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
-            <FormField
+            /> */}
+            {/* <FormField
+              control={formDetail.control}
+              name='registration_end_date'
+              render={({ field }) => (
+                <FormItem className='grid w-full items-center gap-1.5'>
+                  <FormLabel>Tanggal Acara*</FormLabel>
+                  <FormControl>
+                    <div>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant='outline'
+                            className={cn(
+                              'w-full justify-start text-left font-normal',
+                              !date && 'text-muted-foreground',
+                            )}
+                          >
+                            {date ? (
+                              format(date, 'PPP')
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className='w-auto p-0'>
+                          <Calendar
+                            mode='single'
+                            selected={date}
+                            onSelect={setDate}
+                            initialFocus
+                            {...field}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
+            {/* <FormField
               control={formDetail.control}
               name='time'
               render={({ field }) => (
@@ -251,7 +406,7 @@ export const DetailAcaraForm = () => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
           </div>
         </div>
         <div className='p-5 bg-gray-100 rounded-lg'>
@@ -260,7 +415,7 @@ export const DetailAcaraForm = () => {
           <div className='grid grid-cols-2 w-full gap-5 items-start'>
             <FormField
               control={formDetail.control}
-              name='head_comittee'
+              name='contact_person_name'
               render={({ field }) => (
                 <FormItem className='grid w-full items-center gap-1.5 my-5'>
                   <FormLabel>Ketua Panitia*</FormLabel>
@@ -274,7 +429,7 @@ export const DetailAcaraForm = () => {
 
             <FormField
               control={formDetail.control}
-              name='comittee_position'
+              name='contact_person_position'
               render={({ field }) => (
                 <FormItem className='grid w-full items-center gap-1.5 my-5'>
                   <FormLabel>Jabatan*</FormLabel>
@@ -287,7 +442,7 @@ export const DetailAcaraForm = () => {
             />
             <FormField
               control={formDetail.control}
-              name='phone_number'
+              name='contact_person_phone'
               render={({ field }) => (
                 <FormItem className='grid w-full items-center gap-1.5 my-5'>
                   <FormLabel>No Telepon*</FormLabel>
@@ -300,7 +455,7 @@ export const DetailAcaraForm = () => {
             />
             <FormField
               control={formDetail.control}
-              name='email'
+              name='contact_person_email'
               render={({ field }) => (
                 <FormItem className='grid w-full items-center gap-1.5 my-5'>
                   <FormLabel>Alamat Email*</FormLabel>
