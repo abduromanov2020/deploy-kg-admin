@@ -1,14 +1,29 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
 
 import { AddAdminUserValidationSchema } from '@/lib/validation/user-management';
+import { useAddAdmin } from '@/hooks/user-management/addadmin/hook';
+import { TAddAdminPayload } from '@/hooks/user-management/addadmin/request';
+import { useRole } from '@/hooks/user-management/getallrole/hook';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
+import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -18,6 +33,19 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+
+type TAllRoles = {
+  id: string;
+  role_name: string;
+};
 
 const TambahAdminModule = () => {
   const ConstantEditDosen = [
@@ -30,19 +58,43 @@ const TambahAdminModule = () => {
       link: ``,
     },
   ];
-
+  const { mutate } = useAddAdmin();
   const form = useForm<z.infer<typeof AddAdminUserValidationSchema>>({
     resolver: zodResolver(AddAdminUserValidationSchema),
   });
-
-  const onSubmit = (data: z.infer<typeof AddAdminUserValidationSchema>) => {
-    console.log(data);
-    toast.success('Form submitted!');
+  const { data: useRoles } = useRole();
+  const roles = useRoles?.data.map((role) => {
+    return {
+      value: role.id,
+      label: role.name,
+    };
+  });
+  const onSubmit = async (
+    data: z.infer<typeof AddAdminUserValidationSchema>,
+  ) => {
+    try {
+      const payload: TAddAdminPayload = {
+        full_name: data.full_name,
+        email: data.email,
+        password: data.password,
+        role_id: data.role,
+      };
+      await mutate(payload);
+      toast.success('Form submitted!');
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
   };
   const [isChecked, setIsChecked] = useState(true);
   const handleLookUp = () => {
     setIsChecked(!isChecked);
   };
+  const router = useRouter();
+  const onSubmitDialog = () => {
+    form.handleSubmit(onSubmit)();
+    router.push('/user-management/admin');
+  };
+
   return (
     <>
       <div className='bg-white mb-3 rounded-md'>
@@ -55,23 +107,8 @@ const TambahAdminModule = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className='pt-5 w-full'>
-              <div className='grid grid-cols-3 gap-5'>
-                <div className='grid w-full max-w-sm items-center space-y-4'>
-                  <FormField
-                    control={form.control}
-                    name='id_admin'
-                    render={({ field }) => (
-                      <FormItem className='grid w-full gap-1.5'>
-                        <FormLabel>ID Admin*</FormLabel>
-                        <FormControl>
-                          <Input placeholder='ID Admin' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className='grid w-full max-w-sm items-center space-y-4'>
+              <div className='grid grid-cols-2 gap-5'>
+                <div className='grid w-full  items-center space-y-4'>
                   <FormField
                     control={form.control}
                     name='full_name'
@@ -86,7 +123,7 @@ const TambahAdminModule = () => {
                     )}
                   />
                 </div>
-                <div className='grid w-full max-w-sm items-center space-y-4'>
+                <div className='grid w-full  items-center space-y-4'>
                   <FormField
                     control={form.control}
                     name='email'
@@ -94,38 +131,58 @@ const TambahAdminModule = () => {
                       <FormItem className='grid w-full gap-1.5'>
                         <FormLabel>Email*</FormLabel>
                         <FormControl>
-                          <Input placeholder='Email' {...field} />
+                          <Input placeholder='Email' type='email' {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-                <div className='grid w-full max-w-sm items-center space-y-4'>
+                <div className='grid w-full  items-center space-y-4'>
                   <FormField
                     control={form.control}
-                    name='user_name'
+                    name='password'
                     render={({ field }) => (
                       <FormItem className='grid w-full gap-1.5'>
-                        <FormLabel>Nama Pengguna Akun*</FormLabel>
+                        <FormLabel>Password*</FormLabel>
                         <FormControl>
-                          <Input placeholder='Nama Pengguna Akun' {...field} />
+                          <Input
+                            placeholder='password'
+                            type='password'
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-                <div className='grid w-full max-w-sm items-center space-y-4'>
+
+                <div className='grid w-full  items-center space-y-4'>
                   <FormField
                     control={form.control}
-                    name='status'
+                    name='role'
                     render={({ field }) => (
-                      <FormItem className='grid w-full gap-1.5'>
-                        <FormLabel>Status Admin*</FormLabel>
-                        <FormControl>
-                          <Input placeholder='Status*' {...field} />
-                        </FormControl>
+                      <FormItem>
+                        <FormLabel>Role*</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder='Pilih Role' />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {roles?.map((role) => (
+                              <SelectItem key={role.value} value={role.value}>
+                                {role.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+
                         <FormMessage />
                       </FormItem>
                     )}
@@ -148,17 +205,41 @@ const TambahAdminModule = () => {
                   </div>
                 </button>
                 {!isChecked ? (
-                  <button
-                    type='submit'
-                    className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'
-                  >
-                    <div className='flex place-items-center gap-2'>
-                      Tambahkan Admin
-                    </div>
-                  </button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'>
+                        <div className='flex place-items-center gap-2'>
+                          Tambahkan Admin
+                        </div>
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className='sm:max-w-[425px] text-center p-12'>
+                      <DialogHeader>
+                        <DialogTitle className='text-center'>
+                          Apakah Anda yakin informasi sudah sesuai ?
+                        </DialogTitle>
+                        <div className='py-3'>
+                          <Separator className='h-1 bg-primary-500 rounded-full w-1/3 mx-auto' />
+                        </div>
+                        <DialogDescription className='text-center'>
+                          Cek kembali informasi acara dengan benar.{' '}
+                        </DialogDescription>
+                      </DialogHeader>
+                      <DialogFooter className='flex w-full justify-between'>
+                        <Button variant='outline' className='w-full'>
+                          Tinjau Ulang <DialogClose />
+                        </Button>
+                        <Button
+                          onClick={onSubmitDialog}
+                          className='bg-primary-500 w-full'
+                        >
+                          Selesai
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 ) : (
                   <button
-                    type='submit'
                     disabled
                     className='px-6 py-3 shadow-md text-slate-400 bg-slate-300 rounded-md '
                   >

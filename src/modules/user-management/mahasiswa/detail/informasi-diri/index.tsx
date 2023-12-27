@@ -10,6 +10,7 @@ const StudentInformationDetail = () => {
   const params = useParams();
   const { id } = params;
   const { data, isLoading } = useUserById(id);
+
   return (
     <div>
       {isLoading ? (
