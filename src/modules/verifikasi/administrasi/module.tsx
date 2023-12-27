@@ -4,13 +4,11 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import React, { DependencyList, useCallback, useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiLoaderAlt } from 'react-icons/bi';
-import { FaFileExport } from 'react-icons/fa6';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { useGetPengjuanAdm } from '@/hooks/verifikasi/administrasi/hook';
 
 import Pagination from '@/components/generals/pagination';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 import { AccConfirmModal } from '@/modules/verifikasi/administrasi/components/AccConfirmModal';
@@ -125,13 +123,19 @@ const VerifikasiAdministrasiModule = () => {
             </div>
             <div className='flex items-center gap-3'>
               <DateRangePicker/>
+
+              {/* PENDING FEATURES */}
+
               {/* <TableFilter /> */}
-              <Button
+              {/* <Button
                 variant='outline'
                 className='bg-primary-500 shadow-md hover:bg-primary-600 text-white hover:text-white font-normal'
               >
                 <FaFileExport className='mr-2' /> Unduh
-              </Button>
+              </Button> */}
+
+              {/* PENDING FEATURES */}
+
             </div>
           </div>
           <div className='my-3'>
