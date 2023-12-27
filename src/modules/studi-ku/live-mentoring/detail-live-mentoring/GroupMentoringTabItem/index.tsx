@@ -5,6 +5,8 @@ import { TbEdit } from 'react-icons/tb';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
+import { DeleteMentoringConfirmationModal } from '@/modules/studi-ku/live-mentoring/components/DeleteMentoringConfirmationModal';
+
 export const GroupMentoringTabItem = () => {
   return (
     <Table className=' border border-gray-400'>
@@ -83,15 +85,7 @@ export const GroupMentoringTabItem = () => {
                   Edit Informasi
                 </Button>
               </Link>
-              <Link href='/studi-ku/tugas/edit'>
-                <Button
-                  variant='outline'
-                  className='flex gap-2 border-red-800 text-red-800 hover:bg-red-800 hover:text-white'
-                >
-                  <TbEdit size={15} />
-                  Hapus Mentoring
-                </Button>
-              </Link>
+              <DeleteMentoringConfirmationModal />
             </div>
           </TableCell>
         </TableRow>

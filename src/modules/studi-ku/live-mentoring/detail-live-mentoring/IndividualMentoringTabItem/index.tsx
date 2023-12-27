@@ -13,6 +13,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
+import { DeleteMentoringConfirmationModal } from '@/modules/studi-ku/live-mentoring/components/DeleteMentoringConfirmationModal';
+
 export const IndividualMentoringTabItem = () => {
   const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -67,15 +69,7 @@ export const IndividualMentoringTabItem = () => {
                     Edit Informasi
                   </Button>
                 </Link>
-                <Link href='/studi-ku/tugas/edit'>
-                  <Button
-                    variant='outline'
-                    className='flex gap-2 border-red-800 text-red-800 hover:bg-red-800 hover:text-white'
-                  >
-                    <TbEdit size={15} />
-                    Hapus Mentoring
-                  </Button>
-                </Link>
+                <DeleteMentoringConfirmationModal />
               </div>
             </TableCell>
           </TableRow>
