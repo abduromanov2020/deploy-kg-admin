@@ -28,7 +28,7 @@ export const MainStudiKu = () => {
     {
       title: 'Tugas',
       icon: <LuClipboardList className='text-red-500 text-xl' />,
-      link: '/studi-ku/',
+      link: '/studi-ku/tugas',
     },
     {
       title: 'Diskusi',
@@ -53,7 +53,7 @@ export const MainStudiKu = () => {
     {
       title: 'Kualitas Pengajar & Materi Ajar',
       icon: <TbUserStar className='text-purple-500 text-xl' />,
-      link: '/studi-ku/',
+      link: '/studi-ku/kualitas-pengajar',
     },
     {
       title: 'Presensi',
