@@ -5,6 +5,7 @@ import { signOut, useSession } from 'next-auth/react';
 import React from 'react';
 import Avatar from 'react-avatar';
 import { AiOutlineAppstore } from 'react-icons/ai';
+import { FaBell } from 'react-icons/fa';
 import { IoLogOut } from 'react-icons/io5';
 
 import { logoutRequest } from '@/hooks/auth/request';
@@ -17,6 +18,13 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from '@/components/menubar';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 
 const Navbar = () => {
   const { data } = useProfile();
@@ -50,6 +58,18 @@ const Navbar = () => {
             />
           )}
         </div>
+        <Sheet>
+          <SheetTrigger asChild>
+            <div className='bg-gray-600 w-12 h-12 rounded-full hover:cursor-pointer flex justify-center items-center'>
+              <FaBell size={20} />
+            </div>
+          </SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>NOTIFIKASI</SheetTitle>
+            </SheetHeader>
+          </SheetContent>
+        </Sheet>
         <Menubar>
           <MenubarMenu>
             <MenubarTrigger>
