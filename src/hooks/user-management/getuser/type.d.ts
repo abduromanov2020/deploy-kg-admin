@@ -3,14 +3,11 @@ export interface TUserDataResponse {
   status: string;
   message: string;
   data: Data;
+  meta: Meta;
 }
 
 export interface Data {
   users: User[];
-  page_size: number;
-  total_data: number;
-  current_page: number;
-  max_page: number;
 }
 
 export interface User {
@@ -21,6 +18,13 @@ export interface User {
   updated_at: string;
   status: string;
   role: string;
-  major?: string;
-  faculty?: string;
+  major: any;
+  faculty: any;
+}
+
+export interface Meta {
+  page_size: number;
+  total_data: number;
+  current_page: number;
+  max_page: number;
 }
