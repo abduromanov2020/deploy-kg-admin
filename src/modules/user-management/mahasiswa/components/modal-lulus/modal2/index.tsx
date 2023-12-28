@@ -11,13 +11,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import { LastModal } from '@/modules/user-management/mahasiswa/components/modal/modal4';
-const PopUpPenaltyLoginFirstAdmin: React.FC = () => {
+import { LastModalActiveStudent } from '@/modules/user-management/mahasiswa/components/modal-lulus/modal3';
+const ModalPenaltyLoginFirstAdmin: React.FC = () => {
   return (
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button type='submit' className='bg-red-800 w-full'>
+          <Button type='submit' className='bg-blue-600 w-full'>
             <p>Tindak</p>
           </Button>
         </DialogTrigger>
@@ -56,7 +56,7 @@ const PopUpPenaltyLoginFirstAdmin: React.FC = () => {
               </Button>
             </DialogClose>
             <DialogClose asChild>
-              <LastModal />
+              <LastModalActiveStudent />
             </DialogClose>
           </DialogFooter>
         </DialogContent>
@@ -64,4 +64,4 @@ const PopUpPenaltyLoginFirstAdmin: React.FC = () => {
     </>
   );
 };
-export default PopUpPenaltyLoginFirstAdmin;
+export default ModalPenaltyLoginFirstAdmin;
