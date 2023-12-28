@@ -14,7 +14,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-import PopUpPenaltyNext from '@/modules/user-management/mahasiswa/components/modal2';
+import PopUpPenaltyNext from '@/modules/user-management/mahasiswa/components/modal/modal2';
 
 export const PopUpPenaltyStudent: React.FC = () => {
   return (

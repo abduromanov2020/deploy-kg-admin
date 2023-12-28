@@ -10,6 +10,8 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+
+import { LastModal } from '@/modules/user-management/mahasiswa/components/modal/modal4';
 const PopUpPenaltyLoginFirstAdmin: React.FC = () => {
   return (
     <>
@@ -53,9 +55,9 @@ const PopUpPenaltyLoginFirstAdmin: React.FC = () => {
                 Tinjau Ulang
               </Button>
             </DialogClose>
-            <Button type='submit' className='bg-blue-800 w-full'>
-              Selesai
-            </Button>
+            <DialogClose asChild>
+              <LastModal />
+            </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>

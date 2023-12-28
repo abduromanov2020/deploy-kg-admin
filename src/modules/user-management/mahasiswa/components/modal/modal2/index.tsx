@@ -17,7 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import PopUpPenaltyLoginFirstAdmin from '@/modules/user-management/mahasiswa/components/modal3';
+import PopUpPenaltyLoginFirstAdmin from '@/modules/user-management/mahasiswa/components/modal/modal3';
 const PopUpPenaltyNext: React.FC = () => {
   const params = useParams();
   const { id } = params;
