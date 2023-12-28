@@ -58,7 +58,7 @@ export const MainStudiKu = () => {
     {
       title: 'Presensi',
       icon: <FaUserEdit className='text-amber-500 text-xl' />,
-      link: '/studi-ku/',
+      link: '/studi-ku/presensi-dan-nilai',
     },
   ];
 
