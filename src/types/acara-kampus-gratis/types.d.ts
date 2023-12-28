@@ -61,6 +61,25 @@ export type TAcaraCard = {
   registered: number;
 };
 
+export type TPayloadAcara = {
+  name: string;
+  price: string;
+  date_start: string;
+  date_end: string;
+  registration_start_date: string;
+  registration_close_date: string;
+  description: string;
+  capacity: string;
+  contact_person_name: string;
+  contact_person_position: string;
+  contact_person_phone: string;
+  contact_person_email: string;
+  location: string;
+  type_order: string;
+  type_event: string;
+  thumbnail: File | null;
+};
+
 export type TPesertaData = {
   name: string;
   email: string;
@@ -74,4 +93,4 @@ export type TEventsData = {
 
 // export type TAllEventRequestResponse = TMetaResponse<TEventItem> & TMeta;
 export type TAllEventRequestResponse = TMetaResponseSingle<TEventsData> & TMeta;
-export type TEventDetailRequestResponse = TMetaResponseSingle<TEventItem>;
+export type TEventDetailRequestResponse = TMetaResponseSingle<TPayloadAcara>;

@@ -1,5 +1,6 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
@@ -13,6 +14,7 @@ import { z } from 'zod';
 
 import { cn } from '@/lib/utils';
 import { ValidationSchemaDetailEvent } from '@/lib/validation/acara-kampus-gratis';
+import { useCreateEvent } from '@/hooks/acara-kampus-gratis/hooks';
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -70,8 +72,8 @@ export const DetailAcaraForm = () => {
   const [editorStateDetail, setEditorStateDetail] = useState<EditorState>(
     EditorState.createEmpty(),
   );
-
-  // console.log(coverData);
+  const queryClient = useQueryClient();
+  const { mutate } = useCreateEvent();
 
   const handleEditorDetailChange = (editorState: EditorState) => {
     setEditorStateDetail(editorState);
@@ -121,8 +123,12 @@ export const DetailAcaraForm = () => {
       price: coverData.price,
       date_start: coverData.date_start,
       date_end: coverData.date_end,
-      registration_start_date: data.registration_start_date,
-      registration_end_date: data.registration_end_date,
+      registration_start_date: new Date(
+        data.registration_start_date,
+      ).toISOString(),
+      registration_close_date: new Date(
+        data.registration_end_date,
+      ).toISOString(),
       description: data.description,
       capacity: data.capacity,
       contact_person_name: data.contact_person_name,
@@ -132,19 +138,29 @@ export const DetailAcaraForm = () => {
       location: data.location,
       type_order: data.type_order,
       type_event: data.type_event,
-      thumbnail: coverData.thumbnail,
+      thumbnail: coverData.thumbnail ? coverData.thumbnail[0] : null,
     };
     console.log(payload);
-    toast.success('Form submitted!');
-    setCoverFilled(false);
-    setActiveTab('cover');
-    setCoverData({
-      name: '',
-      price: '',
-      date_start: '',
-      date_end: '',
-      thumbnail: null,
-    });
+    try {
+      mutate(payload, {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['get-all-event'] });
+          formDetail.reset();
+          toast.success('Berhasil Membuat Acara');
+          setCoverFilled(false);
+          setActiveTab('cover');
+          setCoverData({
+            name: '',
+            price: '',
+            date_start: '',
+            date_end: '',
+            thumbnail: null,
+          });
+        },
+      });
+    } catch (err) {
+      console.log('Gagal Mengunggah');
+    }
   }
 
   console.log(formDetail.formState.errors);

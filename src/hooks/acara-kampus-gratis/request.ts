@@ -3,6 +3,7 @@ import { api } from '@/lib/api';
 import {
   TAllEventRequestResponse,
   TEventDetailRequestResponse,
+  TPayloadAcara,
 } from '@/types/acara-kampus-gratis/types';
 
 export const GetAllEventRequest = async () // page: number,
@@ -41,6 +42,20 @@ export const GetEventDetailRequest = async (
     //   sort_by,
     // },
     url: `v1/admin/events/${id}`,
+  });
+  return data;
+};
+
+export const CreateEvent = async (
+  payload: TPayloadAcara,
+): Promise<TEventDetailRequestResponse> => {
+  const { data } = await api({
+    method: 'post',
+    url: `/v1/admin/events`,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    data: payload,
   });
   return data;
 };

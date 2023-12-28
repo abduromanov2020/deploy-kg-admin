@@ -1,13 +1,21 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationResult,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 
 import {
+  CreateEvent,
   GetAllEventRequest,
   GetEventDetailRequest,
 } from '@/hooks/acara-kampus-gratis/request';
 
+import { TMetaErrorResponse } from '@/types';
 import {
   TAllEventRequestResponse,
   TEventDetailRequestResponse,
+  TPayloadAcara,
 } from '@/types/acara-kampus-gratis/types';
 
 export const useGetAllEventRequest = () // page: number,
@@ -27,3 +35,15 @@ export const useGetDetailEventRequest = (
     queryKey: ['get-detail-event'],
     queryFn: async () => await GetEventDetailRequest(id),
   });
+
+export const useCreateEvent = (): UseMutationResult<
+  TEventDetailRequestResponse,
+  TMetaErrorResponse,
+  TPayloadAcara,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ['create-discussion'],
+    mutationFn: async (payload) => await CreateEvent(payload),
+  });
+};
