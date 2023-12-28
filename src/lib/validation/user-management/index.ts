@@ -67,14 +67,8 @@ export const EditAdminUserValidationSchema = z.object({
       required_error: 'Nama Lengkap Admin Dibutuhkan',
     })
     .min(1, { message: 'Nama Lengkap Admin Dibutuhkan' }),
-  email: z
-    .string({
-      required_error: 'Email Dibutuhkan',
-    })
-    .min(1, { message: 'Email Dibutuhkan' }),
-  password: z.string().min(1, { message: 'Password harus diisi' }),
 
-  role: z
+  role_id: z
     .string({
       required_error: 'Program Studi Dibutuhkan',
     })
