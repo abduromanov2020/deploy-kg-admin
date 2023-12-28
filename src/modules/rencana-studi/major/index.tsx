@@ -4,13 +4,14 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { BiSolidFileExport } from 'react-icons/bi';
+import { BiLoaderAlt, BiSolidFileExport } from 'react-icons/bi';
 import { CiCirclePlus } from 'react-icons/ci';
 import { IoGridOutline, IoListOutline } from 'react-icons/io5';
 
 import { useGetStudyPlanMajors } from '@/hooks/rencana-studi/majors/hook';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
+import Pagination from '@/components/generals/pagination';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -42,6 +43,14 @@ const MajorModule = () => {
   const { data, isLoading, refetch } = useGetStudyPlanMajors(page, Number(10));
 
   const dataMajors = data ? data.data.majors : [];
+
+  const handlePageChange = async (page: number) => {
+    window.scrollTo(0, 0);
+    refetch();
+    console.log(page);
+
+    router.push(`/rencana-studi/program-studi/1?page=${page}`);
+  };
 
   console.log(dataMajors);
 
@@ -117,7 +126,35 @@ const MajorModule = () => {
                 </section>
               ) : (
                 <section>
-                  <MajorTable data={dataMajors} />
+                  {isLoading ? (
+                    <div className='w-full flex justify-center items-center pt-5'>
+                      <BiLoaderAlt className='animate-spin' size={30} />
+                    </div>
+                  ) : data && data?.data ? (
+                    <>
+                      <MajorTable data={dataMajors} />
+                      <div className='flex items-center justify-end px-4 py-4'>
+                        <div className='flex-1 text-sm text-muted-foreground'>
+                          <p>
+                            Menampilkan {data?.data?.majors.length > 0 ? 1 : 0}{' '}
+                            hingga {data?.data?.majors.length} data dari{' '}
+                            {data?.data?.page_size} entries
+                          </p>
+                        </div>
+                        <div className='space-x-2'>
+                          <Pagination
+                            currentPage={Number(data?.meta?.page)}
+                            totalPages={Number(data?.meta?.page_size)}
+                            onPageChange={handlePageChange}
+                          />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <div className='w-full flex justify-center items-center pt-5'>
+                      Tidak Ada Data
+                    </div>
+                  )}
                 </section>
               )}
             </div>

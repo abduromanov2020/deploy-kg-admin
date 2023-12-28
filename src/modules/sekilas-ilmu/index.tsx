@@ -140,9 +140,9 @@ const SekilasIlmuModule = () => {
                     <div className='flex items-center justify-end px-4 py-4'>
                       <div className='flex-1 text-sm text-muted-foreground'>
                         <p>
-                          {/* Menampilkan {data?.data?.data.length > 0 ? 1 : 0}{' '}
+                          Menampilkan {data?.data?.data.length > 0 ? 1 : 0}{' '}
                           hingga {data?.data?.data.length} data dari{' '}
-                          {data?.data?.max_page} entries */}
+                          {data?.data?.max_page} entries
                         </p>
                       </div>
                       <div className='space-x-2'>
