@@ -16,11 +16,12 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-interface search {
+interface Search {
   searchQuery: string;
+  major: string[];
 }
 
-const MahasiswaDataTable: React.FC<search> = ({ searchQuery }) => {
+const MahasiswaDataTable: React.FC<Search> = ({ searchQuery, major }) => {
   const searchParams = useSearchParams();
   const page = searchParams.get('page') || 1;
   const router = useRouter();
@@ -29,8 +30,9 @@ const MahasiswaDataTable: React.FC<search> = ({ searchQuery }) => {
     10,
     'STUDENT',
     searchQuery,
+    major,
   );
-  console.log(searchQuery);
+  console.log(data);
 
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
@@ -44,7 +46,7 @@ const MahasiswaDataTable: React.FC<search> = ({ searchQuery }) => {
     'PROGRAM STUDI',
     'STATUS',
     'INFORMASI',
-    'EDIT',
+    '',
   ];
   return (
     <>
@@ -70,7 +72,7 @@ const MahasiswaDataTable: React.FC<search> = ({ searchQuery }) => {
                   </TableCell>
                   <TableCell>{user.id}</TableCell>
                   <TableCell>{user.full_name}</TableCell>
-                  <TableCell>{user.major ?? '-'}</TableCell>
+                  <TableCell>{user.faculty ?? '-'}</TableCell>
                   <TableCell>
                     <Badge
                       className={`${
