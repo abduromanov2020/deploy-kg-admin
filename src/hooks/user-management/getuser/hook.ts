@@ -15,6 +15,5 @@ export const useUser = (
   return useQuery({
     queryKey: ['get-userAdmin', page, role],
     queryFn: async () => await userRequest(page, limit, role, search, majorid),
-    staleTime: Infinity,
   });
 };

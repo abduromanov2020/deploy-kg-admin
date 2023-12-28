@@ -1,4 +1,7 @@
+import { useParams } from 'next/navigation';
 import { IoWarningOutline } from 'react-icons/io5';
+
+import { useUserById } from '@/hooks/user-management/getuser/getuserById/hook';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -13,7 +16,13 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+
+import PopUpPenaltyLoginFirstAdmin from '@/modules/user-management/mahasiswa/components/modal/modal3';
 const PopUpPenaltyNext: React.FC = () => {
+  const params = useParams();
+  const { id } = params;
+  const { data } = useUserById(id);
+
   return (
     <>
       <Dialog>
@@ -30,7 +39,7 @@ const PopUpPenaltyNext: React.FC = () => {
               </div>
             </div>
             <DialogTitle>
-              <h6 className='text-center'>KWAOKOAWENOAWNEKAWEMOKWA</h6>
+              <h6 className='text-center'>Berikan Tindakan Pada Mahasiswa</h6>
             </DialogTitle>
 
             <DialogDescription className='text-center'>
@@ -40,34 +49,26 @@ const PopUpPenaltyNext: React.FC = () => {
           <div className='grid gap-4 py-4'>
             <div className='flex flex-col  gap-4'>
               <Label htmlFor='name' className='text-start'>
-                Name
+                Nama Mahasiswa
               </Label>
               <Input
                 id='name'
-                placeholder='Pedro Duarte'
+                placeholder={data?.data?.full_name}
                 className='col-span-3 bg-slate-300'
                 disabled
               />
             </div>
             <div className='flex flex-col  gap-4'>
               <Label htmlFor='name' className='text-start'>
-                Name
+                Pelanggaran
               </Label>
-              <Input
-                id='name'
-                defaultValue='Pedro Duarte'
-                className='col-span-3'
-              />
+              <Input id='name' className='col-span-3' />
             </div>
             <div className='flex flex-col gap-4'>
               <Label htmlFor='username' className='text-start'>
-                Username
+                Sanksi
               </Label>
-              <Input
-                id='username'
-                defaultValue='@peduarte'
-                className='col-span-3'
-              />
+              <Input id='username' className='col-span-3' />
             </div>
           </div>
           <DialogFooter className='flex w-full justify-between'>
@@ -76,9 +77,9 @@ const PopUpPenaltyNext: React.FC = () => {
                 Tinjau Ulang
               </Button>
             </DialogClose>
-            <Button type='submit' className='bg-red-800 w-full'>
-              Tindak
-            </Button>
+            <DialogClose asChild>
+              <PopUpPenaltyLoginFirstAdmin />
+            </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>

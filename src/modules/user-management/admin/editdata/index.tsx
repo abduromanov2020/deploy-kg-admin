@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import { z } from 'zod';
 
 import { EditAdminUserValidationSchema } from '@/lib/validation/user-management';
+import { useEditAdmin } from '@/hooks/user-management/editadmin/hook';
 import { useRole } from '@/hooks/user-management/getallrole/hook';
 import { useUserById } from '@/hooks/user-management/getuser/getuserById/hook';
 
@@ -35,7 +36,6 @@ const EditDataAdminModule = () => {
   const { data, isLoading } = useUserById(id);
   const useData = data?.data;
   console.log(useData?.email);
-
   const ConstantEditAdmin = [
     {
       name: 'User Management',
@@ -67,14 +67,13 @@ const EditDataAdminModule = () => {
   const handleLookUp = () => {
     setIsChecked(!isChecked);
   };
+  const { mutate } = useEditAdmin(id as string);
 
   const form = useForm<z.infer<typeof EditAdminUserValidationSchema>>({
     resolver: zodResolver(EditAdminUserValidationSchema),
     defaultValues: {
       full_name: '',
-      email: '',
-      password: '',
-      role: '',
+      role_id: '',
     },
   });
   useEffect(() => {
@@ -83,25 +82,26 @@ const EditDataAdminModule = () => {
         full_name: useData?.full_name ?? '-',
         email: useData?.email ?? '-',
         password: '-',
-        role: useData?.role_id,
+        role: useData?.role_id ?? '',
       };
       form.reset(defaultValues);
     }
   }, [useData, form.reset]);
-  const onSubmit = (data: z.infer<typeof EditAdminUserValidationSchema>) => {
-    console.log(data);
-    toast.success('Form submitted!');
+  const handleSubmit = async (
+    data: z.infer<typeof EditAdminUserValidationSchema>,
+  ) => {
+    try {
+      const payload = {
+        full_name: data.full_name,
+        role_id: data.role_id,
+      };
+      await mutate(payload);
+      toast.success('Form submitted!');
+      router.push('/user-management/admin');
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
   };
-  const dummyStatus = [
-    {
-      name: 'Active',
-      value: 'Active',
-    },
-    {
-      name: 'Inactive',
-      value: 'Inactive',
-    },
-  ];
   return (
     <>
       <div className='bg-white mb-3 rounded-md'>
@@ -115,7 +115,7 @@ const EditDataAdminModule = () => {
           <LoadingSpinner />
         ) : (
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form onSubmit={form.handleSubmit(handleSubmit)}>
               <div className='pt-5 w-full'>
                 <div className='grid grid-cols-2 gap-5'>
                   <div className='grid w-full  items-center space-y-4'>
@@ -137,52 +137,38 @@ const EditDataAdminModule = () => {
                     />
                   </div>
                   <div className='grid w-full  items-center space-y-4'>
-                    <FormField
-                      control={form.control}
-                      name='email'
-                      render={({ field }) => (
-                        <FormItem className='grid w-full gap-1.5'>
-                          <FormLabel>Email*</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder=''
-                              type='email'
-                              {...field}
-                              disabled
-                              className='bg-slate-300'
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <FormItem className='grid w-full gap-1.5'>
+                      <FormLabel>Email*</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder={useData?.email}
+                          type='email'
+                          disabled
+                          className='bg-slate-300'
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
                   </div>
 
                   <div className='grid w-full  items-center gap-1.5'>
-                    <FormField
-                      control={form.control}
-                      name='password'
-                      render={({ field }) => (
-                        <FormItem className='grid w-full gap-1.5'>
-                          <FormLabel>Password*</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder='password'
-                              type='password'
-                              {...field}
-                              disabled
-                              className='bg-slate-300'
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <FormItem className='grid w-full gap-1.5'>
+                      <FormLabel>Password*</FormLabel>
+                      <FormControl>
+                        <Input
+                          value='-'
+                          type='password'
+                          disabled
+                          className='bg-slate-300'
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
                   </div>
                   <div className='grid w-full  items-center gap-1.5'>
                     <FormField
                       control={form.control}
-                      name='role'
+                      name='role_id'
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Role*</FormLabel>
