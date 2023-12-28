@@ -76,13 +76,13 @@ const FormSchema = z.object({
     }),
   tags: z.any().optional(),
   category_id: z.string().min(1, { message: 'Kategori Harus Dipilih' }),
-  author: z
-    .string({
-      required_error: 'Penulis harus diisi.',
-    })
-    .min(2, {
-      message: 'Penulis harus di isi minimal 2 karakter',
-    }),
+  // author: z
+  //   .string({
+  //     required_error: 'Penulis harus diisi.',
+  //   })
+  //   .min(2, {
+  //     message: 'Penulis harus di isi minimal 2 karakter',
+  //   }),
   created_at: z.string({
     required_error: 'Tanggal harus di isi',
   }),
@@ -141,7 +141,7 @@ const EditArtikelModule = () => {
       title: '',
       tags: '',
       category_id: undefined,
-      author: '',
+      // author: '',
       created_at: new Date().toLocaleDateString(),
       content: '<p></p>\n',
       thumbnail: undefined,
@@ -156,7 +156,7 @@ const EditArtikelModule = () => {
         tags: articleBySlug?.data?.tags ?? [], // Assuming tags is an array of strings
         category_id: articleBySlug?.data?.category ?? undefined,
         thumbnail: undefined,
-        author: articleBySlug?.data?.author.full_name ?? '',
+        // author: articleBySlug?.data?.author.full_name ?? '',
         created_at: articleBySlug?.data?.created_at ?? '',
         content: articleBySlug?.data?.content || '',
       };
@@ -330,7 +330,7 @@ const EditArtikelModule = () => {
                         </FormItem>
                       )}
                     />
-                    <FormField
+                    {/* <FormField
                       control={form.control}
                       name='author'
                       render={({ field }) => (
@@ -345,7 +345,7 @@ const EditArtikelModule = () => {
                           <FormMessage />
                         </FormItem>
                       )}
-                    />
+                    /> */}
                     <FormField
                       control={form.control}
                       name='created_at'

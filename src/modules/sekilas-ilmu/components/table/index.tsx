@@ -235,6 +235,10 @@ const TableSekilasIlmu = ({ data }: TGetAllArticle) => {
     },
   });
 
+  if (!data || data.length === 0) {
+    return <p className='text-center'>Belum Ada Artikel</p>;
+  }
+
   return (
     <div className='w-full'>
       <div className='rounded-md border '>

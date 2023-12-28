@@ -78,13 +78,13 @@ const FormSchema = z.object({
       message: 'Hashtag harus di isi minimal 2 karakter',
     }),
   category_id: z.string().min(1, { message: 'Kategori Harus Dipilih' }),
-  writer: z
-    .string({
-      required_error: 'Penulis harus diisi.',
-    })
-    .min(2, {
-      message: 'Penulis harus di isi minimal 2 karakter',
-    }),
+  // writer: z
+  //   .string({
+  //     required_error: 'Penulis harus diisi.',
+  //   })
+  //   .min(2, {
+  //     message: 'Penulis harus di isi minimal 2 karakter',
+  //   }),
   created_at: z.string({
     required_error: 'Tanggal harus di isi',
   }),
@@ -137,7 +137,7 @@ const TambahArtikelModule = () => {
       article_title: '',
       hashtag: '',
       category_id: '',
-      writer: '',
+      // writer: '',
       created_at: new Date().toLocaleDateString(),
       article_content: '<p></p>\n',
       file: undefined,
@@ -170,6 +170,7 @@ const TambahArtikelModule = () => {
     formData.append('title', data.article_title);
     formData.append('content', data.article_content.toString());
     formData.append('category_id', data.category_id);
+    // formData.append('writer', data.writer);
     formData.append('tags', data.hashtag.toLowerCase());
     formData.append('thumbnail', data.file[0]);
     try {
@@ -227,7 +228,7 @@ const TambahArtikelModule = () => {
                             <InputBadge
                               label='Hashtag'
                               required={false}
-                              placeholder='ex: #tags'
+                              placeholder='Cth: Sport'
                               {...field}
                             />
                           </FormControl>
@@ -266,7 +267,7 @@ const TambahArtikelModule = () => {
                         </FormItem>
                       )}
                     />
-                    <FormField
+                    {/* <FormField
                       control={form.control}
                       name='writer'
                       render={({ field }) => (
@@ -281,7 +282,7 @@ const TambahArtikelModule = () => {
                           <FormMessage />
                         </FormItem>
                       )}
-                    />
+                    /> */}
                     <FormField
                       control={form.control}
                       name='created_at'
