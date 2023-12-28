@@ -1,13 +1,13 @@
 import { Tab } from '@headlessui/react';
 import { useParams } from 'next/navigation';
 import React, { Fragment } from 'react';
-import { CiLock } from 'react-icons/ci';
 
 import { useUserById } from '@/hooks/user-management/getuser/getuserById/hook';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 
 import PopUpPenaltyStudent from '@/modules/user-management/mahasiswa/components/modal';
+import ModalActiveStudent from '@/modules/user-management/mahasiswa/components/modal-aktifmahasiswa';
 import PopUpPassedStudent from '@/modules/user-management/mahasiswa/components/modal-lulus';
 import FilesStudentDetail from '@/modules/user-management/mahasiswa/detail/berkas-mahasiswa';
 import StudentInformationDetail from '@/modules/user-management/mahasiswa/detail/informasi-diri';
@@ -47,11 +47,7 @@ const DetailMahasiswaModule = () => {
             </div>
           ) : (
             <div className='space-x-4 absolute right-4  '>
-              <button className='px-3 py-2 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'>
-                <div className='flex place-items-center gap-2'>
-                  <CiLock /> Aktifkan Mahasiswa
-                </div>
-              </button>
+              <ModalActiveStudent />
             </div>
           )}
           <div className='pt-6'>
