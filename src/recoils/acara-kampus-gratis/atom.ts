@@ -11,6 +11,13 @@ export const coverFilledAtom = atom({
 });
 
 export const CoverDataAtom = atom({
+  dangerouslyAllowMutability: true,
   key: 'cover-data',
-  default: null,
+  default: {
+    name: '',
+    price: '',
+    date_start: '',
+    date_end: '',
+    thumbnail: null,
+  },
 });

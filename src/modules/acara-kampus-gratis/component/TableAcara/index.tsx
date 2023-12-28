@@ -28,6 +28,8 @@ import {
 
 import { DeleteConfirmModal } from '@/modules/acara-kampus-gratis/component/DeleteConfirmationModal';
 
+import { TEventItem } from '@/types/acara-kampus-gratis/types';
+
 const formatDate = (date: string) => {
   return format(new Date(date), 'dd/MM/yyyy');
 };
@@ -44,14 +46,14 @@ export type TAcara = {
   capacity: number;
   registered: number;
 };
-export const columns: ColumnDef<TAcara>[] = [
+export const columns: ColumnDef<TEventItem>[] = [
   {
     accessorKey: 'no',
     header: 'NO',
     cell: ({ row }) => <div>{row.index + 1}</div>,
   },
   {
-    accessorKey: 'event_name',
+    accessorKey: 'name',
     header: ({ column }) => {
       return (
         <Button
@@ -64,17 +66,17 @@ export const columns: ColumnDef<TAcara>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('event_name')}</div>,
+    cell: ({ row }) => <div>{row.getValue('name')}</div>,
   },
   {
-    accessorKey: 'dateTime',
+    accessorKey: 'date_start',
     header: 'TANGGAL ACARA',
-    cell: ({ row }) => <div>{formatDate(row.getValue('dateTime'))}</div>,
+    cell: ({ row }) => <div>{formatDate(row.getValue('date_start'))}</div>,
   },
   {
-    accessorKey: 'dateTime',
+    accessorKey: 'date_start',
     header: 'WAKTU ACARA',
-    cell: ({ row }) => <div>{formatTime(row.getValue('dateTime'))}</div>,
+    cell: ({ row }) => <div>{formatTime(row.getValue('date_start'))}</div>,
   },
   {
     accessorKey: 'registered',
@@ -85,7 +87,7 @@ export const columns: ColumnDef<TAcara>[] = [
           href={`/acara-kampus-gratis/daftar-peserta/${row.index}`}
           className='text-primary-500 hover:underline'
         >
-          {row.original.registered}/{row.original.capacity}
+          {/* {row.original.registered} */}/{row.original.capacity}
         </Link>
       </div>
     ),
@@ -95,8 +97,6 @@ export const columns: ColumnDef<TAcara>[] = [
     header: 'STATUS',
     cell: ({ row }) => {
       const statusValue = row.original.status;
-
-      // Add a null check to ensure that statusValue is defined
       if (statusValue) {
         const formattedStatus = statusValue
           .split('_')
@@ -108,7 +108,7 @@ export const columns: ColumnDef<TAcara>[] = [
             className={
               (statusValue === 'berlangsung'
                 ? 'bg-green-100 text-green-800 hover:bg-green-200'
-                : statusValue === 'segera_hadir'
+                : statusValue === 'COMING_SOON'
                   ? 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
                   : 'bg-red-100 text-red-800 hover:bg-red-200') + 'rounded-md'
             }
@@ -117,8 +117,6 @@ export const columns: ColumnDef<TAcara>[] = [
           </Badge>
         );
       }
-
-      return <Badge>-</Badge>;
     },
   },
   {
@@ -127,7 +125,7 @@ export const columns: ColumnDef<TAcara>[] = [
     cell: ({ row }) => (
       <Link
         className='text-primary-500 font-medium cursor-pointer hover:underline'
-        href={`/acara-kampus-gratis/detail-acara/${row.index}`}
+        href={`/acara-kampus-gratis/detail-acara/${row.original.id}`}
       >
         Detail
       </Link>
@@ -152,12 +150,11 @@ export const columns: ColumnDef<TAcara>[] = [
   },
 ];
 
-export const TableAcara: FC<{ data: TAcara[] }> = ({ data }) => {
+export const TableAcara: FC<{ data: TEventItem[] }> = ({ data }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
-
   const table = useReactTable({
     data,
     columns,

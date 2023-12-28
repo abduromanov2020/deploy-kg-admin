@@ -6,9 +6,11 @@ import toast from 'react-hot-toast';
 import { z } from 'zod';
 
 import { EditAdminUserValidationSchema } from '@/lib/validation/user-management';
+import { useRole } from '@/hooks/user-management/getallrole/hook';
 import { useUserById } from '@/hooks/user-management/getuser/getuserById/hook';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
@@ -30,9 +32,9 @@ import {
 const EditDataAdminModule = () => {
   const params = useParams();
   const { id } = params;
-  const { data } = useUserById(id);
+  const { data, isLoading } = useUserById(id);
   const useData = data?.data;
-  console.log(data);
+  console.log(useData?.email);
 
   const ConstantEditAdmin = [
     {
@@ -52,6 +54,14 @@ const EditDataAdminModule = () => {
   const handleBack = () => {
     router.back();
   };
+  const { data: useRoles } = useRole();
+  const roles = useRoles?.data.map((role) => {
+    return {
+      value: role.id,
+      label: role.name,
+    };
+  });
+  console.log(roles);
 
   const [isChecked, setIsChecked] = useState(true);
   const handleLookUp = () => {
@@ -63,8 +73,8 @@ const EditDataAdminModule = () => {
     defaultValues: {
       full_name: '',
       email: '',
-      status: '',
-      self_foto: undefined,
+      password: '',
+      role: '',
     },
   });
   useEffect(() => {
@@ -72,8 +82,8 @@ const EditDataAdminModule = () => {
       const defaultValues = {
         full_name: useData?.full_name ?? '-',
         email: useData?.email ?? '-',
-        status: useData?.status === 'Active' ? 'Active' : 'Inactive',
-        self_foto: undefined,
+        password: '-',
+        role: useData?.role_id,
       };
       form.reset(defaultValues);
     }
@@ -101,138 +111,151 @@ const EditDataAdminModule = () => {
         <h1 className='font-semibold text-lg border-b-2 pb-3'>
           Edit User Management Mahasiswa : Admin
         </h1>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className='pt-5 w-full'>
-              <div className='grid grid-cols-2 gap-5'>
-                <div className='grid w-full  items-center space-y-4'>
-                  <FormField
-                    control={form.control}
-                    name='full_name'
-                    render={({ field }) => (
-                      <FormItem className='grid w-full gap-1.5'>
-                        <FormLabel>Nama Lengkap Admin*</FormLabel>
-                        <FormControl>
-                          <Input placeholder='Nama Lengkap Admin*' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className='grid w-full  items-center space-y-4'>
-                  <FormField
-                    control={form.control}
-                    name='email'
-                    render={({ field }) => (
-                      <FormItem className='grid w-full gap-1.5'>
-                        <FormLabel>Email*</FormLabel>
-                        <FormControl>
-                          <Input placeholder='Email' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className='grid w-full  items-center gap-1.5'>
-                  <FormField
-                    control={form.control}
-                    name='status'
-                    render={({ field }) => (
-                      <div className='flex flex-col space-y-1.5'>
-                        <FormLabel htmlFor='status'>Status*</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          value={field.value}
-                        >
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <div className='pt-5 w-full'>
+                <div className='grid grid-cols-2 gap-5'>
+                  <div className='grid w-full  items-center space-y-4'>
+                    <FormField
+                      control={form.control}
+                      name='full_name'
+                      render={({ field }) => (
+                        <FormItem className='grid w-full gap-1.5'>
+                          <FormLabel>Nama Lengkap Admin*</FormLabel>
                           <FormControl>
-                            <SelectTrigger id='status'>
-                              <SelectValue placeholder='Pilih Status...' />
-                            </SelectTrigger>
+                            <Input
+                              placeholder='Nama Lengkap Admin*'
+                              {...field}
+                            />
                           </FormControl>
-                          <SelectContent position='popper'>
-                            {dummyStatus.map((item, i) => (
-                              <SelectItem key={i} value={item.value}>
-                                {item.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
                           <FormMessage />
-                        </Select>
-                      </div>
-                    )}
-                  />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className='grid w-full  items-center space-y-4'>
+                    <FormField
+                      control={form.control}
+                      name='email'
+                      render={({ field }) => (
+                        <FormItem className='grid w-full gap-1.5'>
+                          <FormLabel>Email*</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder=''
+                              type='email'
+                              {...field}
+                              disabled
+                              className='bg-slate-300'
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className='grid w-full  items-center gap-1.5'>
+                    <FormField
+                      control={form.control}
+                      name='password'
+                      render={({ field }) => (
+                        <FormItem className='grid w-full gap-1.5'>
+                          <FormLabel>Password*</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder='password'
+                              type='password'
+                              {...field}
+                              disabled
+                              className='bg-slate-300'
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className='grid w-full  items-center gap-1.5'>
+                    <FormField
+                      control={form.control}
+                      name='role'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Role*</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder='Pilih Role' />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {roles?.map((role) => (
+                                <SelectItem key={role.value} value={role.value}>
+                                  {role.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 </div>
-                <div className='grid w-full  items-center gap-1.5'>
-                  <FormField
-                    control={form.control}
-                    name='self_foto'
-                    render={({ field }) => (
-                      <FormItem className='grid w-full gap-1.5'>
-                        <FormLabel htmlFor='self_foto'>PasFoto*</FormLabel>
-                        <FormControl>
-                          <Input
-                            id='self_foto'
-                            type='file'
-                            onChange={(e) => {
-                              if (e.target.files) {
-                                field.onChange(e.target.files);
-                              }
-                            }}
-                            // value={field.value}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-              <div className='flex items-center space-x-2 pt-4'>
-                <Checkbox id='terms' onClick={handleLookUp} />
-                <label
-                  htmlFor='terms'
-                  className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-                >
-                  Saya menyatakan data yang dirubah sudah benar
-                </label>
-              </div>
-              <div className='space-y-5 pt-2'>
-                <div className='flex space-x-5 justify-end'>
-                  <button
-                    onClick={handleBack}
-                    type='button'
-                    className='px-6 py-3 shadow-md border text-blue-600 rounded-md hover:text-white hover:bg-blue-600 hover:transition'
+                <div className='flex items-center space-x-2 pt-4'>
+                  <Checkbox id='terms' onClick={handleLookUp} />
+                  <label
+                    htmlFor='terms'
+                    className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
                   >
-                    <div className='flex place-items-center gap-2'>Kembali</div>
-                  </button>
-                  {!isChecked ? (
+                    Saya menyatakan data yang dirubah sudah benar
+                  </label>
+                </div>
+                <div className='space-y-5 pt-2'>
+                  <div className='flex space-x-5 justify-end'>
                     <button
-                      type='submit'
-                      className='px-6 py-2 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'
+                      onClick={handleBack}
+                      type='button'
+                      className='px-6 py-3 shadow-md border text-blue-600 rounded-md hover:text-white hover:bg-blue-600 hover:transition'
                     >
                       <div className='flex place-items-center gap-2'>
-                        Simpan
+                        Kembali
                       </div>
                     </button>
-                  ) : (
-                    <button
-                      disabled
-                      type='submit'
-                      className='px-6 py-3 shadow-md text-slate-400 bg-slate-300 rounded-md'
-                    >
-                      <div className='flex place-items-center gap-2'>
-                        Simpan
-                      </div>
-                    </button>
-                  )}
+                    {!isChecked ? (
+                      <button
+                        type='submit'
+                        className='px-6 py-2 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'
+                      >
+                        <div className='flex place-items-center gap-2'>
+                          Simpan
+                        </div>
+                      </button>
+                    ) : (
+                      <button
+                        disabled
+                        type='submit'
+                        className='px-6 py-3 shadow-md text-slate-400 bg-slate-300 rounded-md'
+                      >
+                        <div className='flex place-items-center gap-2'>
+                          Simpan
+                        </div>
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          </form>
-        </Form>
+            </form>
+          </Form>
+        )}
       </div>
     </>
   );
