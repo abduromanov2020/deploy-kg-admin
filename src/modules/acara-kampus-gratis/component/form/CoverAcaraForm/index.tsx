@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic';
 import React, { useEffect } from 'react';
 import { DateRange } from 'react-day-picker';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import { useRecoilState } from 'recoil';
 import { z } from 'zod';
 
@@ -93,7 +92,7 @@ export const CoverAcaraForm = () => {
       thumbnail: data.thumbnail,
     }));
     setCoverFilled(true);
-    toast.success('Form submitted!');
+    // toast.success('Form submitted!');
     setActiveTab('detail');
   };
   // console.log(coverData);

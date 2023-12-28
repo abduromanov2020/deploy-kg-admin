@@ -42,10 +42,7 @@ export const PreviewAcaraTabContent: FC<{ data: TEventItem }> = ({ data }) => {
             Tanggal
           </TableCell>
           <TableCell>
-            {format(
-              new Date(data.registration_close_date),
-              'dd MMMM yyyy HH:mm',
-            )}
+            {format(new Date(data.date_start), 'dd MMMM yyyy HH:mm')}
           </TableCell>
         </TableRow>
         <TableRow>

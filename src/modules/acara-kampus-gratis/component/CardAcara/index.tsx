@@ -46,17 +46,24 @@ export const CardAcara: FC<{ id: number; data: TEventItem }> = ({
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
   };
-
+  const parser = new DOMParser();
+  const description = parser.parseFromString(data.description, 'text/html');
   return (
     <Card className='w-full'>
       <CardHeader className='p-0'>
         <Image
-          src={AcaraImage}
-          alt='artikel'
+          src={data.thumbnail ? data.thumbnail : AcaraImage}
+          alt={`thumbnail-acara-${data.thumbnail_id}`}
           width={0}
           height={0}
-          style={{ width: '100%', height: 'auto' }}
+          style={{
+            width: '100%',
+            // height: 'auto',
+            maxHeight: '200px',
+            objectFit: 'cover',
+          }}
           className='rounded-t-md'
+          sizes='100vh'
         />
       </CardHeader>
       <CardContent className='pt-4 flex flex-col gap-2'>

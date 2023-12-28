@@ -93,4 +93,5 @@ export type TEventsData = {
 
 // export type TAllEventRequestResponse = TMetaResponse<TEventItem> & TMeta;
 export type TAllEventRequestResponse = TMetaResponseSingle<TEventsData> & TMeta;
-export type TEventDetailRequestResponse = TMetaResponseSingle<TPayloadAcara>;
+export type TEventDetailRequestResponse = TMetaResponseSingle<TEventItem>;
+export type TEventRequestResponse = TMetaResponseSingle<TPayloadAcara>;
