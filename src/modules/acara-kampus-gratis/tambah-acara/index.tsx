@@ -62,10 +62,10 @@ export const TambahAcaraModule = () => {
             </TabsList>
             <div className='mt-8'>
               <TabsContent value='cover'>
-                <CoverAcaraForm />
+                <CoverAcaraForm type='create' />
               </TabsContent>
               <TabsContent value='detail'>
-                <DetailAcaraForm />
+                <DetailAcaraForm type='create' />
               </TabsContent>
             </div>
           </Tabs>

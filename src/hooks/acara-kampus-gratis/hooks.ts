@@ -7,6 +7,7 @@ import {
 
 import {
   CreateEvent,
+  EditEvent,
   GetAllEventRequest,
   GetEventDetailRequest,
 } from '@/hooks/acara-kampus-gratis/request';
@@ -45,5 +46,19 @@ export const useCreateEvent = (): UseMutationResult<
   return useMutation({
     mutationKey: ['create-discussion'],
     mutationFn: async (payload) => await CreateEvent(payload),
+  });
+};
+
+export const useEditEvent = (
+  id: string,
+): UseMutationResult<
+  TEventDetailRequestResponse,
+  TMetaErrorResponse,
+  TPayloadAcara,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ['edit-discussion'],
+    mutationFn: async (payload) => await EditEvent(id, payload),
   });
 };

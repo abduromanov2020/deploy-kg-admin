@@ -59,3 +59,18 @@ export const CreateEvent = async (
   });
   return data;
 };
+
+export const EditEvent = async (
+  id: string,
+  payload: TPayloadAcara,
+): Promise<TEventDetailRequestResponse> => {
+  const { data } = await api({
+    method: 'put',
+    url: `/v1/admin/events/${id}`,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    data: payload,
+  });
+  return data;
+};

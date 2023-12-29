@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import dynamic from 'next/dynamic';
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { CiCirclePlus } from 'react-icons/ci';
@@ -14,7 +14,10 @@ import { z } from 'zod';
 
 import { cn } from '@/lib/utils';
 import { ValidationSchemaDetailEvent } from '@/lib/validation/acara-kampus-gratis';
-import { useCreateEvent } from '@/hooks/acara-kampus-gratis/hooks';
+import {
+  useCreateEvent,
+  useEditEvent,
+} from '@/hooks/acara-kampus-gratis/hooks';
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -57,11 +60,16 @@ import {
   coverFilledAtom,
 } from '@/recoils/acara-kampus-gratis/atom';
 
+import { TEventItem } from '@/types/acara-kampus-gratis/types';
+
 const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
 });
 
-export const DetailAcaraForm = () => {
+export const DetailAcaraForm: FC<{ type: string; data?: TEventItem }> = ({
+  type,
+  data,
+}) => {
   const [registration_start_date, setRegistration_start_date] =
     React.useState<Date>();
   const [registration_end_date, setRegistration_end_date] =
@@ -73,7 +81,9 @@ export const DetailAcaraForm = () => {
     EditorState.createEmpty(),
   );
   const queryClient = useQueryClient();
+
   const { mutate } = useCreateEvent();
+  const { mutate: mutateEdit } = useEditEvent(data?.id as string);
 
   const handleEditorDetailChange = (editorState: EditorState) => {
     setEditorStateDetail(editorState);
@@ -116,6 +126,32 @@ export const DetailAcaraForm = () => {
       );
   }, [registration_end_date]);
 
+  useEffect(() => {
+    if (data) {
+      formDetail.setValue('description', data.description);
+      formDetail.setValue('capacity', data.capacity.toString());
+      formDetail.setValue('contact_person_name', data.contact_person_name);
+      formDetail.setValue(
+        'contact_person_position',
+        data.contact_person_position,
+      );
+      formDetail.setValue('contact_person_phone', data.contact_person_phone);
+      formDetail.setValue('contact_person_email', data.contact_person_email);
+      formDetail.setValue('location', data.location);
+      formDetail.setValue('type_order', data.type_order);
+      formDetail.setValue('type_event', data.type_event);
+      formDetail.setValue(
+        'registration_start_date',
+        format(new Date(data.registration_start_date), 'yyyy-MM-dd'),
+      );
+      formDetail.setValue(
+        'registration_end_date',
+        format(new Date(data.registration_close_date), 'yyyy-MM-dd'),
+      );
+      console.log(formDetail.getValues('type_order'));
+    }
+  }, [data]);
+
   function onSubmitDetail(data: z.infer<typeof ValidationSchemaDetailEvent>) {
     console.log(data);
     const payload = {
@@ -142,22 +178,39 @@ export const DetailAcaraForm = () => {
     };
     console.log(payload);
     try {
-      mutate(payload, {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['get-all-event'] });
-          formDetail.reset();
-          toast.success('Berhasil Membuat Acara');
-          setCoverFilled(false);
-          setActiveTab('cover');
-          setCoverData({
-            name: '',
-            price: '',
-            date_start: '',
-            date_end: '',
-            thumbnail: null,
+      type === 'edit'
+        ? mutateEdit(payload, {
+            onSuccess: () => {
+              queryClient.invalidateQueries({ queryKey: ['get-all-event'] });
+              formDetail.reset();
+              toast.success('Berhasil Mengubah Acara');
+              setCoverFilled(false);
+              setActiveTab('cover');
+              setCoverData({
+                name: '',
+                price: '',
+                date_start: '',
+                date_end: '',
+                thumbnail: null,
+              });
+            },
+          })
+        : mutate(payload, {
+            onSuccess: () => {
+              queryClient.invalidateQueries({ queryKey: ['get-all-event'] });
+              formDetail.reset();
+              toast.success('Berhasil Membuat Acara');
+              setCoverFilled(false);
+              setActiveTab('cover');
+              setCoverData({
+                name: '',
+                price: '',
+                date_start: '',
+                date_end: '',
+                thumbnail: null,
+              });
+            },
           });
-        },
-      });
     } catch (err) {
       console.log('Gagal Mengunggah');
     }
@@ -178,10 +231,7 @@ export const DetailAcaraForm = () => {
             render={({ field }) => (
               <FormItem className='grid w-full items-center gap-1.5 mb-5'>
                 <FormLabel>Tipe Pemesanan Tiket</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder='Tipe Pemesanan Tiket' />
@@ -195,7 +245,7 @@ export const DetailAcaraForm = () => {
               </FormItem>
             )}
           />
-          <div className='grid grid-cols-2 w-full gap-5 items-start'>
+          <div className='grid grid-cols-2 w-full gap-5 items-start mb-5'>
             <FormField
               control={formDetail.control}
               name='registration_start_date'
@@ -217,6 +267,11 @@ export const DetailAcaraForm = () => {
                             {/* <CalendarIcon className='mr-2 h-4 w-4' /> */}
                             {registration_start_date ? (
                               format(registration_start_date, 'PPP')
+                            ) : data?.registration_start_date ? (
+                              format(
+                                new Date(data.registration_start_date),
+                                'PPP',
+                              )
                             ) : (
                               <span>Pick a date</span>
                             )}
@@ -258,6 +313,11 @@ export const DetailAcaraForm = () => {
                             {/* <CalendarIcon className='mr-2 h-4 w-4' /> */}
                             {registration_end_date ? (
                               format(registration_end_date, 'PPP')
+                            ) : data?.registration_close_date ? (
+                              format(
+                                new Date(data.registration_close_date),
+                                'PPP',
+                              )
                             ) : (
                               <span>Pick a date</span>
                             )}
@@ -329,101 +389,6 @@ export const DetailAcaraForm = () => {
               </FormItem>
             )}
           />
-          <div className='grid grid-cols-2 w-full gap-5 items-start'>
-            {/* <FormField
-              control={formDetail.control}
-              name='registration_start_date'
-              render={({ field }) => (
-                <FormItem className='grid w-full items-center gap-1.5'>
-                  <FormLabel>Tanggal Acara*</FormLabel>
-                  <FormControl>
-                    <div>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant='outline'
-                            className={cn(
-                              'w-full justify-start text-left font-normal',
-                              !date && 'text-muted-foreground',
-                            )}
-                          >
-                            {date ? (
-                              format(date, 'PPP')
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className='w-auto p-0'>
-                          <Calendar
-                            mode='single'
-                            selected={date}
-                            onSelect={setDate}
-                            initialFocus
-                            {...field}
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-            {/* <FormField
-              control={formDetail.control}
-              name='registration_end_date'
-              render={({ field }) => (
-                <FormItem className='grid w-full items-center gap-1.5'>
-                  <FormLabel>Tanggal Acara*</FormLabel>
-                  <FormControl>
-                    <div>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant='outline'
-                            className={cn(
-                              'w-full justify-start text-left font-normal',
-                              !date && 'text-muted-foreground',
-                            )}
-                          >
-                            {date ? (
-                              format(date, 'PPP')
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className='w-auto p-0'>
-                          <Calendar
-                            mode='single'
-                            selected={date}
-                            onSelect={setDate}
-                            initialFocus
-                            {...field}
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-            {/* <FormField
-              control={formDetail.control}
-              name='time'
-              render={({ field }) => (
-                <FormItem className='grid w-full items-center gap-1.5'>
-                  <FormLabel>Waktu Acara*</FormLabel>
-                  <FormControl>
-                    <Input {...field} type='time' />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-          </div>
         </div>
         <div className='p-5 bg-gray-100 rounded-lg'>
           <p className='font-semibold text-lg mb-5'>Kontak</p>
@@ -505,7 +470,10 @@ export const DetailAcaraForm = () => {
             <DialogTrigger asChild>
               <Button className='bg-primary-500 px-3 py-2 flex justify-center items-center gap-1 hover:bg-primary-400'>
                 <CiCirclePlus className='w-[20px] h-[20px]' />
-                <p className='leading-none'>Tambah Acara</p>
+                <p className='leading-none'>
+                  {' '}
+                  {type === 'edit' ? 'Edit Acara' : 'Tambah Acara'}
+                </p>
               </Button>
             </DialogTrigger>
             <DialogContent className='sm:max-w-[425px] text-center p-12'>

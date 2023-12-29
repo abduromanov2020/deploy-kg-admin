@@ -60,7 +60,9 @@ export const DetailAcaraModule = () => {
                 </TabsTrigger>
               </div>
               <div className='flex gap-3'>
-                <Link href='/acara-kampus-gratis/edit-acara/'>
+                <Link
+                  href={`/acara-kampus-gratis/edit-acara/${data?.data?.id}`}
+                >
                   <Button variant='primaryOutline' className='flex gap-2'>
                     <TbEdit size={20} />
                     Edit Informasi

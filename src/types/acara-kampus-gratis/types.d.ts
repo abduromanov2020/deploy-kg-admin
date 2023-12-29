@@ -12,6 +12,7 @@ export type TMeta = {
 export type TEventItem = {
   id: string;
   name: string;
+  registration_start_date: string;
   registration_close_date: string;
   date_start: string;
   date_end: string;

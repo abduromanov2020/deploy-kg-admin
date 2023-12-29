@@ -94,7 +94,7 @@ export const CardAcara: FC<{ id: number; data: TEventItem }> = ({
             </PopoverTrigger>
             <PopoverContent className='w-fit p-0 ' align='start'>
               <div className='flex flex-col '>
-                <Link href={`/acara-kampus-gratis/edit-acara/${id}`}>
+                <Link href={`/acara-kampus-gratis/edit-acara/${data.id}`}>
                   <Button
                     variant='ghost'
                     className='px-3 py-2 flex justify-start items-center gap-2 text-primary-500 min-w-[125px] hover:text-primary-600 text-xs'
