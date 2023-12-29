@@ -69,9 +69,8 @@ const TambahAdminModule = () => {
       label: role.name,
     };
   });
-  const onSubmit = async (
-    data: z.infer<typeof AddAdminUserValidationSchema>,
-  ) => {
+
+  const onSubmit = (data: z.infer<typeof AddAdminUserValidationSchema>) => {
     try {
       const payload: TAddAdminPayload = {
         full_name: data.full_name,
@@ -79,10 +78,22 @@ const TambahAdminModule = () => {
         password: data.password,
         role_id: data.role,
       };
-      await mutate(payload);
-      toast.success('Form submitted!');
+      mutate(
+        {
+          ...payload,
+        },
+        {
+          onSuccess: () => {
+            toast.success('Form submitted!');
+            router.push('/user-management/admin');
+          },
+          onError: (error) => {
+            toast.error(error && 'Gagal Menambahkan Admin!');
+          },
+        },
+      );
     } catch (error) {
-      console.error('Error submitting form:', error);
+      toast.error('Error submitting form!');
     }
   };
   const [isChecked, setIsChecked] = useState(true);
@@ -92,7 +103,6 @@ const TambahAdminModule = () => {
   const router = useRouter();
   const onSubmitDialog = () => {
     form.handleSubmit(onSubmit)();
-    router.push('/user-management/admin');
   };
 
   return (
@@ -226,15 +236,19 @@ const TambahAdminModule = () => {
                         </DialogDescription>
                       </DialogHeader>
                       <DialogFooter className='flex w-full justify-between'>
-                        <Button variant='outline' className='w-full'>
-                          Tinjau Ulang <DialogClose />
-                        </Button>
-                        <Button
-                          onClick={onSubmitDialog}
-                          className='bg-primary-500 w-full'
-                        >
-                          Selesai
-                        </Button>
+                        <DialogClose asChild>
+                          <Button variant='outline' className='w-full'>
+                            Tinjau Ulang
+                          </Button>
+                        </DialogClose>
+                        <DialogClose asChild>
+                          <Button
+                            onClick={onSubmitDialog}
+                            className='bg-primary-500 w-full'
+                          >
+                            Selesai
+                          </Button>
+                        </DialogClose>
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>

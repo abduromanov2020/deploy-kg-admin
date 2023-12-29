@@ -15,7 +15,7 @@ export const useAddAdmin = (): UseMutationResult<
   unknown
 > => {
   return useMutation({
-    mutationKey: ['get-major'],
+    mutationKey: ['add-admin'],
     mutationFn: async (payload) => await AddAdminRequest(payload),
   });
 };
