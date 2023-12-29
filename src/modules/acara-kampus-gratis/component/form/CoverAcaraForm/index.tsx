@@ -2,10 +2,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { addDays, format } from 'date-fns';
 import dynamic from 'next/dynamic';
-import React, { useEffect } from 'react';
+import Image from 'next/image';
+import React, { FC, useEffect } from 'react';
 import { DateRange } from 'react-day-picker';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import { useRecoilState } from 'recoil';
 import { z } from 'zod';
 
@@ -37,14 +37,19 @@ import {
   coverFilledAtom,
 } from '@/recoils/acara-kampus-gratis/atom';
 
+import { TEventItem } from '@/types/acara-kampus-gratis/types';
+
 const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
 });
 
-export const CoverAcaraForm = () => {
+export const CoverAcaraForm: FC<{ type: string; data?: TEventItem }> = ({
+  type,
+  data,
+}) => {
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
+    from: new Date(),
+    to: addDays(new Date(), 1),
   });
   const [activeTab, setActiveTab] = useRecoilState(activeTabAtom);
   const [isCoverFilled, setCoverFilled] = useRecoilState(coverFilledAtom);
@@ -68,6 +73,22 @@ export const CoverAcaraForm = () => {
       });
   }, [date]);
 
+  useEffect(() => {
+    if (data) {
+      form.setValue('name', data.name);
+      form.setValue('price', data.price.toString());
+      const time = format(new Date(data.date_start), 'HH:mm');
+      form.setValue('time', time);
+
+      if (data.date_start && data.date_end) {
+        setDate({
+          from: new Date(data.date_start),
+          to: new Date(data.date_end),
+        });
+      }
+    }
+  }, [data]);
+
   const onSubmit = (data: z.infer<typeof ValidationSchemaCoverEvent>) => {
     const [hours, minutes] = data.time.split(':').map(Number);
 
@@ -87,15 +108,16 @@ export const CoverAcaraForm = () => {
     setCoverData((prevData) => ({
       ...prevData,
       name: data.name,
-      price: data.price,
+      price: data.price.toString(),
       date_start: dateStart?.toISOString() || '',
       date_end: dateEnd?.toISOString() || '',
       thumbnail: data.thumbnail,
     }));
     setCoverFilled(true);
-    toast.success('Form submitted!');
+    // toast.success('Form submitted!');
     setActiveTab('detail');
   };
+  // console.log(coverData);
   return (
     <Form {...form}>
       <form
@@ -143,7 +165,7 @@ export const CoverAcaraForm = () => {
                           id='date'
                           variant='outline'
                           className={cn(
-                            'w-[300px] justify-start text-left font-normal',
+                            'w-full justify-start text-left font-normal',
                             !date && 'text-muted-foreground',
                           )}
                         >
@@ -186,7 +208,7 @@ export const CoverAcaraForm = () => {
               <FormItem className='grid w-full items-center gap-1.5'>
                 <FormLabel>Waktu Pelaksana*</FormLabel>
                 <FormControl>
-                  <Input {...field} type='time' />
+                  <Input {...field} type='time' placeholder='test' />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -201,19 +223,50 @@ export const CoverAcaraForm = () => {
           label='Manfaat Acara*'
           error={form.formState.errors.benefit?.message}
         /> */}
-        <div className='grid w-full items-center gap-1.5'>
-          <Label htmlFor='thumbnail'>Unggah Thumbnail*</Label>
-          <UploadField
-            control={form.control}
-            // required
-            name='thumbnail'
-            accepted='.jpg, .png, .jpeg'
-            // label='Unggah Thumbnail*'
-            message={form?.formState?.errors?.thumbnail?.message?.toString()}
-            status={form?.formState?.errors?.thumbnail ? 'error' : 'none'}
-            variant='md'
-          />
-        </div>{' '}
+
+        {type === 'edit' && data ? (
+          <div>
+            <p className='text-sm font-semibold mb-3'>Cover</p>
+            <Image
+              alt={data.thumbnail_id}
+              src={data.thumbnail}
+              width={0}
+              height={0}
+              style={{ width: '100%', height: 'auto', maxWidth: '250px' }}
+              sizes='100vh'
+            />
+            <div className='grid w-full items-center gap-1.5 mt-5'>
+              <Label htmlFor='thumbnail'>Unggah Thumbnail Baru</Label>
+
+              <UploadField
+                control={form.control}
+                // required
+                name='thumbnail'
+                accepted='.jpg, .png, .jpeg'
+                // label='Unggah Thumbnail*'
+                message={form?.formState?.errors?.thumbnail?.message?.toString()}
+                status={form?.formState?.errors?.thumbnail ? 'error' : 'none'}
+                variant='md'
+              />
+            </div>
+          </div>
+        ) : (
+          <div className='grid w-full items-center gap-1.5'>
+            <Label htmlFor='thumbnail'>Unggah Thumbnail*</Label>
+
+            <UploadField
+              control={form.control}
+              // required
+              name='thumbnail'
+              accepted='.jpg, .png, .jpeg'
+              // label='Unggah Thumbnail*'
+              message={form?.formState?.errors?.thumbnail?.message?.toString()}
+              status={form?.formState?.errors?.thumbnail ? 'error' : 'none'}
+              variant='md'
+            />
+          </div>
+        )}
+
         <div className='flex w-full justify-end gap-5 px-5'>
           <Button variant='primaryOutline'>Kembali</Button>
 

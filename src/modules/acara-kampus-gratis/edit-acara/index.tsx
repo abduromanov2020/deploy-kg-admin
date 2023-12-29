@@ -1,7 +1,10 @@
 'use client';
+import { useParams } from 'next/navigation';
 import React from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
 import { useRecoilState } from 'recoil';
+
+import { useGetDetailEventRequest } from '@/hooks/acara-kampus-gratis/hooks';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -16,6 +19,9 @@ import {
 export const EditAcaraModule = () => {
   const [activeTab, setActiveTab] = useRecoilState(activeTabAtom);
   const [isCoverFilled, setCoverFilled] = useRecoilState(coverFilledAtom);
+  const params = useParams();
+  const eventId = params.id;
+  const { data } = useGetDetailEventRequest(eventId.toString());
 
   const BreadcrumbItems = [
     {
@@ -62,10 +68,10 @@ export const EditAcaraModule = () => {
             </TabsList>
             <div className='mt-8'>
               <TabsContent value='cover'>
-                <CoverAcaraForm />
+                <CoverAcaraForm type='edit' data={data?.data} />
               </TabsContent>
               <TabsContent value='detail'>
-                <DetailAcaraForm />
+                <DetailAcaraForm type='edit' data={data?.data} />
               </TabsContent>
             </div>
           </Tabs>

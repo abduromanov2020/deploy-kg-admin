@@ -3,9 +3,8 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { BsGrid } from 'react-icons/bs';
 import { CiCirclePlus } from 'react-icons/ci';
-import { IoIosList } from 'react-icons/io';
+import { IoGridOutline, IoListOutline } from 'react-icons/io5';
 
 import { cn } from '@/lib/utils';
 import { useGetAllEventRequest } from '@/hooks/acara-kampus-gratis/hooks';
@@ -13,7 +12,6 @@ import { useGetAllEventRequest } from '@/hooks/acara-kampus-gratis/hooks';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import { AcaraFilter } from '@/modules/acara-kampus-gratis/component/AcaraFilter';
 import { CardAcara } from '@/modules/acara-kampus-gratis/component/CardAcara';
 import { TableAcara } from '@/modules/acara-kampus-gratis/component/TableAcara';
 
@@ -63,11 +61,11 @@ export const AcaraKampusGratisModule = () => {
             </div>
           </div>
           <section className='flex gap-5 items-center'>
-            <AcaraFilter />
+            {/* <AcaraFilter /> */}
 
             <Button
               className={cn(
-                `p-2`,
+                `p-3`,
                 active === 'grid' || query.get('view') === null
                   ? 'bg-primary-500 hover:bg-primary-400 text-dark-100'
                   : 'bg-white hover:bg-dark-100 shadow-md text-primary-500',
@@ -78,11 +76,11 @@ export const AcaraKampusGratisModule = () => {
                 setactive('grid');
               }}
             >
-              <BsGrid size={20} />
+              <IoGridOutline size={24} />{' '}
             </Button>
             <Button
               className={cn(
-                `p-2`,
+                `p-3`,
                 active === 'table'
                   ? 'bg-primary-500 hover:bg-primary-400 text-dark-100'
                   : 'bg-white hover:bg-dark-100 shadow-md text-primary-500',
@@ -93,7 +91,7 @@ export const AcaraKampusGratisModule = () => {
                 setactive('table');
               }}
             >
-              <IoIosList size={25} />
+              <IoListOutline size={24} />
             </Button>
           </section>
         </div>

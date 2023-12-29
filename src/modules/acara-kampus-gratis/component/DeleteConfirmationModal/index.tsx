@@ -1,6 +1,10 @@
-import { FC } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { FC, useState } from 'react';
+import toast from 'react-hot-toast';
 import { IoWarningOutline } from 'react-icons/io5';
 import { RiDeleteBin6Line } from 'react-icons/ri';
+
+import { useDeleteEvent } from '@/hooks/acara-kampus-gratis/hooks';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -14,9 +18,25 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-export const DeleteConfirmModal: FC<{ type: string }> = ({ type }) => {
+export const DeleteConfirmModal: FC<{ type: string; id: string }> = ({
+  type,
+  id,
+}) => {
+  const { mutate, isSuccess } = useDeleteEvent();
+  const queryClient = useQueryClient();
+  const [open, setOpen] = useState(false);
+
+  const handleDelete = async () => {
+    await mutate(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['get-all-event'] });
+        setOpen(false);
+        toast.success('Acara Berhasil Dihapus');
+      },
+    });
+  };
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {type === 'button' ? (
           <Button className='bg-red-800' size='sm'>
@@ -63,7 +83,7 @@ export const DeleteConfirmModal: FC<{ type: string }> = ({ type }) => {
               Batal
             </Button>
           </DialogClose>
-          <Button type='submit' className='bg-red-800 w-full'>
+          <Button onClick={handleDelete} className='bg-red-800 w-full'>
             Hapus
           </Button>
         </DialogFooter>

@@ -87,57 +87,64 @@ export const ValidationSchemaCoverEvent = z.object({
 //   email: string;
 //   description: string;
 // };
-export const ValidationSchemaDetailEvent = () =>
-  z.object({
-    ticket_type: z
-      .string({
-        required_error: 'Tipe pemesanan tiket harus diisi.',
-      })
-      .min(1, { message: 'Nama acara terlalu pendek. ' }),
-    reservation_date_end: z.string({
-      required_error: 'Batas tanggal pemesanan tiket harus diisi.',
-    }),
-    reservation_time_end: z.string({
-      required_error: 'Batas waktu pemesanan tiket harus diisi.',
-    }),
-    location: z.string({
-      required_error: 'Lokasi acara harus diisi.',
-    }),
-    date: z.string({
-      required_error: 'Tanggal acara harus diisi.',
-    }),
-    time: z.string({
-      required_error: 'Waktu acara harus diisi.',
-    }),
-    head_comittee: z
-      .string({
-        required_error: 'Nama ketua panitia harus diisi.',
-      })
-      .min(1, { message: 'Nama ketua panitia harus diisi' }),
-    comittee_position: z
-      .string({
-        required_error: 'Jabatan harus diisi.',
-      })
-      .min(1, { message: 'Jabatan harus diisi' }),
-    phone_number: z
-      .string({ required_error: 'Nomor telepon harus diisi.' })
-      .min(10, {
-        message: 'Nomor telepon tidak valid.',
-      })
-      .refine(
-        (val) => {
-          if (val === '') return false;
-          const num = Number(val);
-          return !isNaN(num) && num > 0;
-        },
-        { message: 'Nomor telepon hanya boleh diisi angka.' },
-      ),
-    email: z
-      .string({ required_error: 'Email harus diisi' })
-      .email({ message: 'Email tidak valid.' }),
-    description: z
-      .string({
-        required_error: 'Deskripsi acara harus diisi.',
-      })
-      .min(1, { message: 'Deskripsi acara harus diisi' }),
-  });
+export const ValidationSchemaDetailEvent = z.object({
+  type_order: z
+    .string({
+      required_error: 'Tipe pemesanan tiket harus diisi.',
+    })
+    .min(1, { message: 'Nama acara terlalu pendek. ' }),
+  type_event: z
+    .string({
+      required_error: 'Tipe acara harus diisi.',
+    })
+    .min(1, { message: 'Nama acara terlalu pendek. ' }),
+  registration_start_date: z.string({
+    required_error: 'Batas tanggal pemesanan tiket harus diisi.',
+  }),
+  registration_end_date: z.string({
+    required_error: 'Batas waktu pemesanan tiket harus diisi.',
+  }),
+  location: z.string({
+    required_error: 'Lokasi acara harus diisi.',
+  }),
+  // date: z.string({
+  //   required_error: 'Tanggal acara harus diisi.',
+  // }),
+  // time: z.string({
+  //   required_error: 'Waktu acara harus diisi.',
+  // }),
+  capacity: z.string({
+    required_error: 'Kapasitas acara harus diisi.',
+  }),
+  contact_person_name: z
+    .string({
+      required_error: 'Nama ketua panitia harus diisi.',
+    })
+    .min(1, { message: 'Nama ketua panitia harus diisi' }),
+  contact_person_position: z
+    .string({
+      required_error: 'Jabatan harus diisi.',
+    })
+    .min(1, { message: 'Jabatan harus diisi' }),
+  contact_person_phone: z
+    .string({ required_error: 'Nomor telepon harus diisi.' })
+    .min(10, {
+      message: 'Nomor telepon tidak valid.',
+    })
+    .refine(
+      (val) => {
+        if (val === '') return false;
+        const num = Number(val);
+        return !isNaN(num) && num > 0;
+      },
+      { message: 'Nomor telepon hanya boleh diisi angka.' },
+    ),
+  contact_person_email: z
+    .string({ required_error: 'Email harus diisi' })
+    .email({ message: 'Email tidak valid.' }),
+  description: z
+    .string({
+      required_error: 'Deskripsi acara harus diisi.',
+    })
+    .min(1, { message: 'Deskripsi acara harus diisi' }),
+});
