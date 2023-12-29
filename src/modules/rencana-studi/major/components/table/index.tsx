@@ -29,8 +29,6 @@ type Checked = DropdownMenuCheckboxItemProps['checked'];
 import Link from 'next/link';
 import { TiArrowSortedDown } from 'react-icons/ti';
 
-import Pagination from '@/components/generals/pagination';
-
 import { DeleteMajorModal } from '@/modules/rencana-studi/major/components/delete-major-modal';
 
 import { TMajorAllData, TMajorItem } from '@/types/rencana-studi/majors/types';
@@ -149,8 +147,6 @@ export const MajorTable = ({ data }: TMajorAllData) => {
       id: 'actions',
       enableHiding: false,
       cell: ({ row }) => {
-        const payment = row.original;
-
         return (
           <div className='flex gap-3 justify-end'>
             <DeleteMajorModal
