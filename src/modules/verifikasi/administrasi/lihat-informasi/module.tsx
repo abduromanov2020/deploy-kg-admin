@@ -130,12 +130,18 @@ const LihatInformasiModule = ({ id }: TProps) => {
                     Pemberkasan
                   </Tab>
                 </Tab.List>
-                <Button
+                
+                {/* PENDING FEATURES */}
+
+                {/* <Button
                   variant='outline'
                   className='bg-primary-500 shadow-md hover:bg-primary-600 text-white hover:text-white font-normal'
                 >
                   <FaFileExport className='mr-2' /> Unduh
-                </Button>
+                </Button> */}
+
+                {/* PENDING FEATURES */}
+
               </div>
               <Tab.Panels>
                 {isLoading ? (

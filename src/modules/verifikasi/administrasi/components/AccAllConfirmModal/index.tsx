@@ -37,6 +37,7 @@ export const AccAllConfirmModal = ({
       onSuccess: () => {
         toast.success('Berhasil Accept Administrasi Akun Yang Dipilih !');
         refetch();
+        window.location.reload();
       },
       onError: () => {
         toast.error('Gagal Accept Administrasi Akun Yang Dipilih !');

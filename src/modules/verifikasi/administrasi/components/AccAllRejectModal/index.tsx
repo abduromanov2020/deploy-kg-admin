@@ -37,6 +37,7 @@ export const AccAllRejectModal = ({
       onSuccess: () => {
         toast.success('Berhasil Reject Administrasi Akun Ini !');
         refetch();
+        window.location.reload();
       },
       onError: () => {
         toast.error('Gagal Reject Administrasi Akun Ini !');

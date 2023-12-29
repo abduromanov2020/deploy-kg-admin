@@ -20,7 +20,7 @@ const PemberkasanSection = ({ dataFile }: any) => {
                   alt='ktp'
                   width={350}
                   height={180}
-                  className='object-cover w-full max-h-[180px] max-w-[350px]'
+                  className='object-cover w-full max-h-[180px]'
                 />
               </CardHeader>
             </Card>
@@ -32,7 +32,7 @@ const PemberkasanSection = ({ dataFile }: any) => {
                   alt='kk'
                   width={350}
                   height={180}
-                  className='object-cover w-full max-h-[180px] max-w-[350px]'
+                  className='object-cover w-full max-h-[180px]'
                 />
               </CardHeader>
             </Card>
@@ -44,7 +44,7 @@ const PemberkasanSection = ({ dataFile }: any) => {
                   alt='foto-diri'
                   width={350}
                   height={180}
-                  className='object-cover w-full max-h-[180px] max-w-[350px]'
+                  className='object-cover w-full max-h-[180px]'
                 />
               </CardHeader>
             </Card>
@@ -56,7 +56,7 @@ const PemberkasanSection = ({ dataFile }: any) => {
                   alt='ktm'
                   width={350}
                   height={180}
-                  className='object-cover w-full max-h-[180px] max-w-[350px]'
+                  className='object-cover w-full max-h-[180px]'
                 />
               </CardHeader>
             </Card>
@@ -70,7 +70,7 @@ const PemberkasanSection = ({ dataFile }: any) => {
                   alt='transkrip-nilai'
                   width={350}
                   height={180}
-                  className='object-cover w-full max-h-[180px] max-w-[350px]'
+                  className='object-cover w-full max-h-[180px]'
                 />
               </CardHeader>
             </Card>
@@ -82,7 +82,7 @@ const PemberkasanSection = ({ dataFile }: any) => {
                   alt='ijazah-terakhir'
                   width={300}
                   height={180}
-                  className='object-cover w-full max-h-[180px] max-w-[350px]'
+                  className='object-cover w-full max-h-[180px]'
                 />
               </CardHeader>
             </Card>
