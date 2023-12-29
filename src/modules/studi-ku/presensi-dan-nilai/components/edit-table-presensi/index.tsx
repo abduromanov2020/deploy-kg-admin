@@ -28,13 +28,33 @@ import {
 const EditTablePresensi = () => {
   const dataHeadTable = HEAD_TABLE_PRESENSI_DAN_NILAI;
   const data = DATA_PRESENSI_DAN_NILAI;
+  const [checkedItems, setCheckedItems] = React.useState<boolean[]>(
+    new Array(data.length).fill(false),
+  );
+  const isCheckAll = checkedItems.every(Boolean);
+
+  const handleCheckAll = () => {
+    setCheckedItems(new Array(data.length).fill(!isCheckAll));
+  };
+
+  const handleCheck = (index: number) => {
+    setCheckedItems((prev) => {
+      const newCheckedItems = [...prev];
+      newCheckedItems[index] = !newCheckedItems[index];
+      return newCheckedItems;
+    });
+  };
 
   return (
     <Table className='rounded-xl border shadow-sm text-dark-900'>
       <TableHeader>
         <TableRow>
           <TableCell className='w-[50px]'>
-            <Checkbox className='font-semibold text-center' />
+            <Checkbox
+              className='font-semibold text-center'
+              checked={isCheckAll}
+              onCheckedChange={() => handleCheckAll()}
+            />
           </TableCell>
           {dataHeadTable?.map((item, index) => (
             <TableCell
@@ -53,7 +73,11 @@ const EditTablePresensi = () => {
         {data?.map((item, index) => (
           <TableRow key={index} className='font-medium'>
             <TableCell>
-              <Checkbox className='font-semibold text-center' />
+              <Checkbox
+                className='font-semibold text-center'
+                checked={checkedItems[index]}
+                onCheckedChange={() => handleCheck(index)}
+              />
             </TableCell>
             <TableCell>{index + 1}</TableCell>
             <TableCell>{item.id_student}</TableCell>
