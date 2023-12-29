@@ -96,7 +96,7 @@ const MahasiswaDataTable: React.FC<Search> = ({ searchQuery, major }) => {
                       </Link>
                     </button>
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <button
                       onClick={() =>
                         router.push(
@@ -107,7 +107,7 @@ const MahasiswaDataTable: React.FC<Search> = ({ searchQuery, major }) => {
                     >
                       Edit
                     </button>
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>
