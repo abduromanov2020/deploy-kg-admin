@@ -199,9 +199,7 @@ export const FacultyTable = ({ data }: TFacultiesAllData) => {
               className='bg-primary-500 w-1/3 hover:bg-primary-600'
               asChild
             >
-              <Link href='/rencana-studi/program-studi/1/edit-prodi/1'>
-                Edit
-              </Link>
+              <Link href='/rencana-studi/edit-fakultas/1'>Edit</Link>
             </Button>
           </div>
         );

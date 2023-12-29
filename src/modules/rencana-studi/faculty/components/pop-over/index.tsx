@@ -27,7 +27,9 @@ export const PopoverFaculty: React.FC<PopoverMajorsProps> = ({ facultyId }) => {
       </PopoverTrigger>
       <PopoverContent className='w-48'>
         <div className='bg-white rounded-md flex flex-col gap-3'>
-          <Link href={`/rencana-studi/program-studi/1/edit-prodi/${facultyId}`}>
+          <Link
+            href={`/rencana-studi/program-studi/1/edit-fakultas/${facultyId}`}
+          >
             <div className='flex items-center gap-5 text-primary-500 hover:text-primary-400 cursor-pointer'>
               <BiEdit />
               <p className='text-start'>Edit</p>

@@ -1,46 +1,33 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { CiCirclePlus } from 'react-icons/ci';
-import { IoGridOutline, IoListOutline } from 'react-icons/io5';
-
-import {
-  DropdownMenuCheckboxItemProps,
-  DropdownMenuItem,
-} from '@radix-ui/react-dropdown-menu';
+import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
 import React, { useEffect, useState } from 'react';
 
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 type Checked = DropdownMenuCheckboxItemProps['checked'];
-import { BreadCrumb } from '@/components/BreadCrumb';
-import { FaInfoCircle } from 'react-icons/fa';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { convertToRaw, EditorState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { z } from 'zod';
+
+import { BreadCrumb } from '@/components/BreadCrumb';
+import { UploadField } from '@/components/input/upload-file';
+import { DraftEditorProps } from '@/components/text-editor';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import Link from 'next/link';
-import { DraftEditorProps } from '@/components/text-editor';
-import dynamic from 'next/dynamic';
-import { EditorState, convertToRaw } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
-import { UploadField } from '@/components/input/upload-file';
-import toast from 'react-hot-toast';
 
 interface InputProps {
   title: string;
@@ -97,6 +84,11 @@ interface EditorProps {
 }
 
 export const AddFacultyModule = () => {
+  const [isChecked, setIsChecked] = useState(true);
+  const handleLookUp = () => {
+    setIsChecked(!isChecked);
+  };
+
   const ITEMS = [
     {
       name: 'Rencana Studi',
@@ -118,21 +110,6 @@ export const AddFacultyModule = () => {
       faculty_description: '<p></p>\n',
     },
   });
-
-  const headFaculty = [
-    {
-      value: '1',
-      label: 'Head 1',
-    },
-    {
-      value: '2',
-      label: 'Head 2',
-    },
-    {
-      value: '3',
-      label: 'Head 3',
-    },
-  ];
 
   const [editorStateCover, setEditorStateCover] = useState<EditorState>(
     EditorState.createEmpty(),
@@ -181,72 +158,27 @@ export const AddFacultyModule = () => {
           <p className='text-base font-semibold'>Tambah Fakultas</p>
         </div>
         <div className='p-8'>
-          <div className='flex text-blue-500 place-items-center justify-center space-x-2'>
-            <FaInfoCircle /> <h1>Info Fakultas</h1>{' '}
-            <div className='h-[1.5px] w-[150px] bg-black'></div>
-            <h1 className='text-blue-500'>Info Program Studi</h1>
-          </div>
-          <div className='my-8 w-full'>
+          <div className='w-full'>
             <div className='grid gap-6'>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-                  <div className='grid grid-cols-3 gap-6'>
-                    <FormField
-                      control={form.control}
-                      name='faculty_name'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Nama Fakultas</FormLabel>
-                          <FormControl>
-                            <Input placeholder='shadcn' {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='head_of_faculty'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Kepala Fakultas*</FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder='Pilih Kepala Fakultas' />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {headFaculty.map((head) => (
-                                <SelectItem key={head.value} value={head.value}>
-                                  {head.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                  <FormField
+                    control={form.control}
+                    name='faculty_name'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Nama Fakultas*</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder='Masukan Nama Fakultas disini'
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='major_count'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Jumlah Prodi</FormLabel>
-                          <FormControl>
-                            <Input placeholder='shadcn' {...field} />
-                          </FormControl>
-
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
                   <div className='my-8 flex flex-col gap-y-8'>
                     <label htmlFor='' className='text-sm font-semibold'>
                       Gambar Cover*
@@ -274,20 +206,43 @@ export const AddFacultyModule = () => {
                       error={form.formState.errors.faculty_description?.message}
                     />
                   </div>
+                  <div className='flex items-center space-x-3 '>
+                    <Checkbox id='terms' onClick={handleLookUp} />
+                    <label
+                      htmlFor='terms'
+                      className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                    >
+                      Saya menyatakan fakultas yang ditambahkan sudah benar
+                    </label>
+                  </div>
                   <div className='flex justify-end gap-2'>
                     <Button
                       type='button'
                       asChild
                       className='text-primary-500 border border-primary-500 bg-white hover:bg-gray-200'
                     >
-                      <Link href={'/rencana-studi'}>Kembali</Link>
+                      <Link href='/rencana-studi/program-studi/1'>Kembali</Link>
                     </Button>
-                    <Button
-                      type='submit'
-                      className='bg-primary-500 hover:bg-primary-600'
-                    >
-                      Tambah Fakultas
-                    </Button>
+                    {!isChecked ? (
+                      <Button
+                        type='submit'
+                        className='bg-primary-500 hover:bg-primary-600'
+                      >
+                        <div className='flex place-items-center gap-2'>
+                          Tambah Fakultas
+                        </div>
+                      </Button>
+                    ) : (
+                      <Button
+                        type='submit'
+                        disabled
+                        className='text-slate-400 bg-slate-300 rounded-md '
+                      >
+                        <div className='flex place-items-center gap-2'>
+                          Tambah Fakultas
+                        </div>
+                      </Button>
+                    )}
                   </div>
                 </form>
               </Form>
