@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 import { EditorComponent } from '@/modules/user-management/dosen/editdata/component/card';
-import { EditConfirmModal } from '@/modules/user-management/dosen/editdata/component/modal';
+import { ModalAddTeacher } from '@/modules/user-management/dosen/tambahdosen/modal';
 const AddTeacherModule = () => {
   const constantAddTeacher = [
     {
@@ -22,7 +22,7 @@ const AddTeacherModule = () => {
   ];
 
   const [lookup, setLookup] = React.useState(false);
-  const [lookup2, setLookup2] = React.useState(false);
+  const [lookup2, setLookup2] = React.useState(true);
   const [confirm, setConfirm] = React.useState(false);
   const router = useRouter();
   const handleBack = () => {
@@ -74,6 +74,11 @@ const AddTeacherModule = () => {
       <div className='bg-white mb-3 rounded-md'>
         <BreadCrumb items={constantAddTeacher} className='lg:px-6' />
       </div>
+      <div className='bg-white rounded-t px-3 border-b-2'>
+        <h1 className='font-semibold text-md py-4 '>
+          Tambah user Management Dosen: Raul
+        </h1>
+      </div>
       <div className='bg-white py-5 px-8 rounded-b font-semibold'>
         <div className='flex text-blue-500 place-items-center justify-start space-x-2'>
           <FaInfoCircle /> <h1>Informasi Dosen</h1>{' '}
@@ -88,7 +93,7 @@ const AddTeacherModule = () => {
               <div>
                 <div className='grid grid-cols-2 gap-5'>
                   <div className='grid w-full  items-center space-y-4'>
-                    <Label htmlFor='full_name'>Nama Lengkap Mahasiswa*</Label>
+                    <Label htmlFor='full_name'>Nama Lengkap Dosen*</Label>
                     <Input type='text' id='full_nam' placeholder='Roberto' />
                   </div>
                   <div className='grid w-full  items-center space-y-4'>
@@ -99,22 +104,16 @@ const AddTeacherModule = () => {
                       placeholder='aryo12356@gmail.com'
                     />
                   </div>
-                  <div className='grid w-full  items-center space-y-4'>
-                    <Label htmlFor='faculty'>Fakultas</Label>
-                    <Input
-                      type='text'
-                      id='faculty'
-                      placeholder='Teknik Informatika'
-                    />
-                  </div>
-                  <div className='grid w-full  items-center space-y-4'>
-                    <Label htmlFor='major'>Program Studi*</Label>
-                    <Input
-                      type='text'
-                      id='major'
-                      placeholder='Bisnis Digital'
-                    />
-                  </div>
+                </div>
+                <div className='grid w-full pt-4   items-center space-y-4'>
+                  <Label htmlFor='faculty'>Jumlah Mata Kuliah</Label>
+                  <Input
+                    disabled
+                    type='text'
+                    id='faculty'
+                    placeholder='Teknik Informatika'
+                    className='bg-slate-300'
+                  />
                 </div>
                 <div>
                   <div className=' w-full items-center space-y-2 pt-2'>
@@ -190,7 +189,7 @@ const AddTeacherModule = () => {
                 </button>
 
                 {confirm ? (
-                  <EditConfirmModal />
+                  <ModalAddTeacher />
                 ) : (
                   <button
                     disabled
@@ -201,7 +200,6 @@ const AddTeacherModule = () => {
                     </div>
                   </button>
                 )}
-                {/* <EditConfirmModal /> */}
               </div>
             </div>
           )}

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React from 'react';
+import { CiWarning } from 'react-icons/ci';
 import { FaEdit, FaFileDownload } from 'react-icons/fa';
 
 import { useUserById } from '@/hooks/user-management/getuser/getuserById/hook';
@@ -8,6 +9,8 @@ import { useUserById } from '@/hooks/user-management/getuser/getuserById/hook';
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
+
+import ModalActiveTeacher from '@/modules/user-management/dosen/detail/modal';
 
 const DetailDosenModule = () => {
   const ConstantDetailDosen = [
@@ -39,21 +42,45 @@ const DetailDosenModule = () => {
               Detail User Management Dosen : Raul
             </h1>
           </div>
-          <div className='space-x-4 right-4  '>
-            <button className='px-6 py-3 shadow-md text-blue-600 bg-white rounded-md hover:text-white hover:bg-blue-600 hover:transition'>
-              <div className='flex place-items-center gap-2'>
-                <FaFileDownload /> Unduh
-              </div>
-            </button>
-            <button className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'>
-              <div className='flex place-items-center gap-2'>
-                <FaEdit />{' '}
-                <Link href={`/user-management/dosen/editdata/${id}`}>
-                  Edit Informasi
-                </Link>
-              </div>
-            </button>
-          </div>
+          {useData?.status === 'nonactive' ? (
+            <div className='space-x-4 right-4  '>
+              <ModalActiveTeacher />
+              <button className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'>
+                <div className='flex place-items-center gap-2'>
+                  <FaEdit />{' '}
+                  <Link href={`/user-management/dosen/editdata/${id}`}>
+                    Edit Informasi
+                  </Link>
+                </div>
+              </button>
+              <button className='px-6 py-3 shadow-md text-blue-600 bg-white rounded-md hover:text-white hover:bg-blue-600 hover:transition'>
+                <div className='flex place-items-center gap-2'>
+                  <FaFileDownload /> Unduh
+                </div>
+              </button>
+            </div>
+          ) : (
+            <div className='space-x-4 right-4'>
+              <button className='px-6 py-3 shadow-md text-red-600 border border-red-600 bg-white rounded-md hover:text-white hover:bg-red-600 hover:transition'>
+                <div className='flex place-items-center gap-2'>
+                  <CiWarning /> Non Aktifkan Dosen
+                </div>
+              </button>
+              <button className='px-6 py-3 shadow-md text-blue-600 bg-white rounded-md hover:text-white hover:bg-blue-600 hover:transition'>
+                <div className='flex place-items-center gap-2'>
+                  <FaFileDownload /> Unduh
+                </div>
+              </button>
+              <button className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'>
+                <div className='flex place-items-center gap-2'>
+                  <FaEdit />{' '}
+                  <Link href={`/user-management/dosen/editdata/${id}`}>
+                    Edit Informasi
+                  </Link>
+                </div>
+              </button>
+            </div>
+          )}
         </div>
 
         <div className='w-full pt-2'>
