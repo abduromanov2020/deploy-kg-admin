@@ -28,6 +28,7 @@ import {
 const EditTablePresensi = () => {
   const dataHeadTable = HEAD_TABLE_PRESENSI_DAN_NILAI;
   const data = DATA_PRESENSI_DAN_NILAI;
+
   const [checkedItems, setCheckedItems] = React.useState<boolean[]>(
     new Array(data.length).fill(false),
   );
