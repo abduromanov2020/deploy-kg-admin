@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaFileDownload } from 'react-icons/fa';
@@ -9,6 +10,10 @@ import { FilterData } from '@/modules/user-management/components/filter';
 import DosenDataTable from '@/modules/user-management/dosen/datatable';
 
 const DosenModule = () => {
+  const router = useRouter();
+  const handleAddTeacher = () => {
+    router.push('/user-management/dosen/addteacher');
+  };
   return (
     <>
       <div className='bg-white py-10 px-6 mx-auto rounded-md'>
@@ -24,7 +29,10 @@ const DosenModule = () => {
               </div>
             </div>
             <div className='space-x-5'>
-              <button className='px-6 py-2 shadow-md text-white bg-blue-600 rounded-md hover:text-blue-600  hover:bg-white hover:transition'>
+              <button
+                onClick={handleAddTeacher}
+                className='px-6 py-2 shadow-md text-white bg-blue-600 rounded-md hover:text-blue-600  hover:bg-white hover:transition'
+              >
                 <div className='flex place-items-center gap-2'>
                   <FaPlus /> Tambah Dosen
                 </div>

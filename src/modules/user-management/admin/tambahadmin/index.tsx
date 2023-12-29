@@ -42,11 +42,6 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 
-type TAllRoles = {
-  id: string;
-  role_name: string;
-};
-
 const TambahAdminModule = () => {
   const ConstantEditDosen = [
     {
