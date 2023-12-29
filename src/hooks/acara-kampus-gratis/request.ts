@@ -74,3 +74,16 @@ export const EditEvent = async (
   });
   return data;
 };
+
+export const DeleteEvent = async (
+  id: string,
+): Promise<TEventDetailRequestResponse> => {
+  const { data } = await api({
+    method: 'delete',
+    url: `/v1/admin/events/${id}`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return data;
+};

@@ -7,6 +7,7 @@ import {
 
 import {
   CreateEvent,
+  DeleteEvent,
   EditEvent,
   GetAllEventRequest,
   GetEventDetailRequest,
@@ -58,7 +59,18 @@ export const useEditEvent = (
   unknown
 > => {
   return useMutation({
-    mutationKey: ['edit-discussion'],
+    mutationKey: ['edit-event'],
     mutationFn: async (payload) => await EditEvent(id, payload),
+  });
+};
+
+export const useDeleteEvent = (): UseMutationResult<
+  TEventDetailRequestResponse,
+  TMetaErrorResponse,
+  string
+> => {
+  return useMutation({
+    mutationKey: ['delete-event'],
+    mutationFn: async (id: string) => await DeleteEvent(id),
   });
 };

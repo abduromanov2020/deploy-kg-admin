@@ -104,7 +104,7 @@ export const CardAcara: FC<{ id: number; data: TEventItem }> = ({
                   </Button>
                 </Link>
                 <Separator />
-                <DeleteConfirmModal type='other' />
+                <DeleteConfirmModal type='other' id={data.id} />
               </div>
             </PopoverContent>
           </Popover>
