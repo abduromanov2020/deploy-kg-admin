@@ -1,58 +1,57 @@
-import React, { Fragment } from 'react';
+'use client';
+
+import Link from 'next/link';
+import React from 'react';
+import { AiOutlineSearch } from 'react-icons/ai';
+import { FaRegEdit } from 'react-icons/fa';
+import { FaFileExport } from 'react-icons/fa6';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 import { TitleModule } from '@/modules/studi-ku/modul/tambah/TitleModule';
-import {
-  DATA_PRESENSI_DAN_NILAI,
-  HEAD_TABLE_PRESENSI_DAN_NILAI,
-  PRESENSI_DAN_NILAI_BREADCRUMBS,
-} from '@/modules/studi-ku/presensi-dan-nilai/constant';
+import TablePresensi from '@/modules/studi-ku/presensi-dan-nilai/components/table-presensi';
+import { PRESENSI_DAN_NILAI_BREADCRUMBS } from '@/modules/studi-ku/presensi-dan-nilai/constant';
 
 const PresensiDanNilaiModule = () => {
-  const dataHeadTable = HEAD_TABLE_PRESENSI_DAN_NILAI;
-  const data = DATA_PRESENSI_DAN_NILAI;
-
   return (
     <div className='flex flex-col gap-6'>
       <div className='bg-white w-full rounded-md shadow-md p-5'>
         <BreadCrumb items={PRESENSI_DAN_NILAI_BREADCRUMBS} className='!p-0 ' />
       </div>
-      <div className='bg-white flex flex-col gap-8 rounded-md pb-5 '>
+      <div className='bg-white flex flex-col gap-8 rounded-md pb-5'>
         <div className='flex justify-between items-center'>
           <TitleModule title='Presensi: Pertemuan 1' />
         </div>
-        <div className='px-5 flex flex-col gap-4'>
-          <Table className='rounded-xl border  shadow-sm text-dark-900'>
-            <TableHeader>
-              <TableRow>
-                {dataHeadTable.map((item, index) => (
-                  <TableHead key={index} className='font-semibold text-center '>
-                    {item}
-                  </TableHead>
-                ))}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                {data.data.map((item, index) => (
-                  <Fragment key={index}>
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell>{index + 1}</TableCell>
-                  </Fragment>
-                ))}
-                <TableCell className='border-r font-semibold px-5 w-40 text-start align-top'></TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
+        <div className='px-5 flex flex-col gap-5'>
+          <div className='flex justify-between items-center'>
+            <section className='w-full'>
+              <div className='w-1/2 relative'>
+                <Input type='text' placeholder='Search' className='pl-10' />
+                <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
+                  <AiOutlineSearch className='text-gray-400' size={20} />
+                </div>
+              </div>
+            </section>
+            <section className='flex gap-2 items-center'>
+              <Button
+                asChild
+                variant='outline'
+                className='bg-white hover:bg-gray-100 text-primary-500 hover:text-primary-500/80 rounded-md px-5 py-2 border-primary-500 flex gap-2 '
+              >
+                <Link href='/studi-ku/presensi-dan-nilai/edit'>
+                  <FaRegEdit />
+                  Edit Data
+                </Link>
+              </Button>
+              <Button className='bg-primary-500 hover:bg-primary-500/80 text-white rounded-md px-5 py-2 flex gap-2'>
+                <FaFileExport />
+                Unduh
+              </Button>
+            </section>
+          </div>
+          <TablePresensi />
         </div>
       </div>
     </div>
