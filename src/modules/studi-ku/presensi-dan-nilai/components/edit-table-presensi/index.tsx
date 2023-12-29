@@ -3,11 +3,19 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 
 import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
@@ -22,23 +30,36 @@ const EditTablePresensi = () => {
   const data = DATA_PRESENSI_DAN_NILAI;
 
   return (
-    <Table className='rounded-xl border  shadow-sm text-dark-900'>
+    <Table className='rounded-xl border shadow-sm text-dark-900'>
       <TableHeader>
         <TableRow>
-          <Checkbox className='font-semibold text-center' disabled />
-          {dataHeadTable.map((item, index) => (
-            <TableHead key={index} className='font-semibold text-center '>
+          <TableCell className='w-[50px]'>
+            <Checkbox className='font-semibold text-center' />
+          </TableCell>
+          {dataHeadTable?.map((item, index) => (
+            <TableCell
+              key={index}
+              className={cn(
+                'text-center font-semibold',
+                index === 0 ? 'w-[50px]' : '',
+              )}
+            >
               {item}
-            </TableHead>
+            </TableCell>
           ))}
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.data.map((item, index) => (
+        {data?.map((item, index) => (
           <TableRow key={index} className='font-medium'>
+            <TableCell>
+              <Checkbox className='font-semibold text-center' />
+            </TableCell>
             <TableCell>{index + 1}</TableCell>
             <TableCell>{item.id_student}</TableCell>
-            <TableCell>{item.name}</TableCell>
+            <TableCell>
+              <p className='line-clamp-1'>{item.name}</p>
+            </TableCell>
             <TableCell
               className={cn(
                 item.assignment === 100 ? 'text-primary-500' : 'text-red-700',
@@ -71,18 +92,50 @@ const EditTablePresensi = () => {
               {item.reflection}
             </TableCell>
             <TableCell>
-              <p
-                className={cn(
-                  'px-3 py-1 rounded-[4px] w-fit',
-                  item.attendance
-                    ? 'bg-green-100 text-green-800'
-                    : 'bg-red-100 text-red-800',
-                )}
-              >
-                {item.attendance ? 'Hadir' : 'Tidak'}
-              </p>
+              <RadioGroup className='flex gap-2'>
+                <div className='flex gap-2'>
+                  <RadioGroupItem
+                    value='ya'
+                    // className='border-primary-500 focus:bg-primary-500 focus:text-white text-white'
+                  />
+                  <Label>YA</Label>
+                </div>
+                <div className='flex gap-2'>
+                  <RadioGroupItem
+                    value='tidak'
+                    // className='border-primary-500 focus:bg-primary-500 focus:text-white text-white'
+                  />
+                  <Label>TIDAK</Label>
+                </div>
+              </RadioGroup>
             </TableCell>
-            <TableCell>{item.description}</TableCell>
+            <TableCell>
+              <Select>
+                <SelectTrigger className='w-[110px]'>
+                  <SelectValue placeholder='Pilih' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem
+                    value='sakit'
+                    className='focus:bg-primary-500 focus:text-white'
+                  >
+                    Sakit
+                  </SelectItem>
+                  <SelectItem
+                    value='izin'
+                    className='focus:bg-primary-500 focus:text-white'
+                  >
+                    Izin
+                  </SelectItem>
+                  <SelectItem
+                    value='terlambat'
+                    className='focus:bg-primary-500 focus:text-white'
+                  >
+                    Terlambat
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

@@ -32,7 +32,7 @@ const TablePresensi = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.data.map((item, index) => (
+        {data.map((item, index) => (
           <TableRow key={index} className='font-medium'>
             <TableCell>{index + 1}</TableCell>
             <TableCell>{item.id_student}</TableCell>
