@@ -1,4 +1,4 @@
-import { TMetaResponse, TMetaResponseSingle } from '@/types';
+import { TMetaResponseSingle } from '@/types';
 
 export type TMeta = {
   meta: {
@@ -18,20 +18,24 @@ export type TEventItem = {
   description: string;
   capacity: number;
   thumbnail: string;
+  thumbnail_id: string;
+  status: string;
   contact_person_name: string;
   contact_person_phone: string;
   contact_person_email: string;
   type_order: string;
   type_event: string;
+  price: string;
+  location: string;
+  contact_person_position: string;
 };
 
 export type TCoverAcara = {
-  event_name: string;
-  price: number;
-  date: string;
-  time: string;
-  benefit: string;
-  thumbnail: File;
+  name: string;
+  price: string;
+  date_start: string;
+  date_end: string;
+  thumbnail: File | null | undefined;
 };
 
 export type TDetailAcara = {
@@ -64,5 +68,10 @@ export type TPesertaData = {
   status: string;
 };
 
-export type TAllEventRequestResponse = TMetaResponse<TEventItem> & TMeta;
+export type TEventsData = {
+  events: TEventItem[];
+};
+
+// export type TAllEventRequestResponse = TMetaResponse<TEventItem> & TMeta;
+export type TAllEventRequestResponse = TMetaResponseSingle<TEventsData> & TMeta;
 export type TEventDetailRequestResponse = TMetaResponseSingle<TEventItem>;

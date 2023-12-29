@@ -91,11 +91,11 @@ const DataTableAdmin = () => {
       <div className='flex justify-between place-items-center pt-5'>
         <p className='text-slate-500'>
           Menampilkan {1 + (Number(page) - 1) * 10} hingga {Number(page) * 10}{' '}
-          dari {data?.data?.max_page} entri
+          dari {data?.meta?.max_page} entri
         </p>
         <Pagination
           currentPage={Number(page)}
-          totalPages={Number(data?.data?.max_page)}
+          totalPages={Number(data?.meta?.max_page)}
           onPageChange={handlePageChange}
         />
       </div>

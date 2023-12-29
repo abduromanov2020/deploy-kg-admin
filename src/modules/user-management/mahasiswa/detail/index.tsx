@@ -8,6 +8,7 @@ import { useUserById } from '@/hooks/user-management/getuser/getuserById/hook';
 import { BreadCrumb } from '@/components/BreadCrumb';
 
 import PopUpPenaltyStudent from '@/modules/user-management/mahasiswa/components/modal';
+import PopUpPassedStudent from '@/modules/user-management/mahasiswa/components/modal-lulus';
 import FilesStudentDetail from '@/modules/user-management/mahasiswa/detail/berkas-mahasiswa';
 import StudentInformationDetail from '@/modules/user-management/mahasiswa/detail/informasi-diri';
 import StudentFilesDetail from '@/modules/user-management/mahasiswa/detail/rencana-studi';
@@ -41,12 +42,8 @@ const DetailMahasiswaModule = () => {
         <div className='pt-5 w-full'>
           {data?.data?.status == 'active' ? (
             <div className='space-x-4 absolute right-4  '>
-              {/* <button className='px-6 py-2  text-red-600 border-2 border-red-600 rounded-md  hover:text-white hover:bg-red-600 hover:transition'>
-                <div className='flex place-items-center gap-2'>
-                  <CiWarning /> Berhentikan Mahasiswa
-                </div>
-              </button> */}
               <PopUpPenaltyStudent />
+              <PopUpPassedStudent />
             </div>
           ) : (
             <div className='space-x-4 absolute right-4  '>
