@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiSolidFileExport } from 'react-icons/bi';
@@ -23,7 +24,6 @@ const RencanaStudiDetailFaculty = ({ id }: TProps) => {
   const { data, isLoading, refetch } = useGetFacultyById(id);
 
   const faculty = data?.data;
-  console.log(faculty?.thumbnail);
 
   const ITEMS = [
     {
@@ -63,7 +63,9 @@ const RencanaStudiDetailFaculty = ({ id }: TProps) => {
               <DeleteFacultyModalDetail />
 
               <Button className='shadow-md bg-white border-2 border-primary-500 text-primary-500 font-normal px-3 py-2 gap-1 flex justify-center items-center text-base hover:bg-primary-500 hover:text-white'>
-                <p className='leading-none'>Edit Fakultas</p>
+                <Link href={`/rencana-studi/fakultas/edit-fakultas/${id}`}>
+                  <p className='leading-none'>Edit Fakultas</p>
+                </Link>
               </Button>
             </div>
           </section>

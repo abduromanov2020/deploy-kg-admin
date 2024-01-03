@@ -8,7 +8,7 @@ import { BiLoaderAlt, BiSolidFileExport } from 'react-icons/bi';
 import { CiCirclePlus } from 'react-icons/ci';
 import { IoGridOutline, IoListOutline } from 'react-icons/io5';
 
-import { useGetStudyPlanMajors } from '@/hooks/rencana-studi/majors/hook';
+import { useGetMajorByFacultyId } from '@/hooks/rencana-studi/majors/hook';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import Pagination from '@/components/generals/pagination';
@@ -19,13 +19,11 @@ import { FilterComponentMajor } from '@/modules/rencana-studi/major/components/f
 import MajorGrid from '@/modules/rencana-studi/major/components/grid';
 import { MajorTable } from '@/modules/rencana-studi/major/components/table';
 
-const MajorModule = () => {
-  const [showGrid, setShowGrid] = React.useState(false);
-  const [showList, setShowList] = React.useState(true);
+interface TProps {
+  id: string;
+}
 
-  const query = useSearchParams();
-  const router = useRouter();
-
+const MajorModule = ({ id }: TProps) => {
   const ITEMS = [
     {
       name: 'Rencana Studi',
@@ -33,26 +31,33 @@ const MajorModule = () => {
     },
     {
       name: 'Daftar Prodi',
-      link: '/rencana-studi/program-studi/1',
+      link: `/rencana-studi/program-studi/${id}`,
     },
   ];
+  const [showGrid, setShowGrid] = React.useState(false);
+  const [showList, setShowList] = React.useState(true);
+
+  const query = useSearchParams();
+  const router = useRouter();
 
   const page = Number(query.get('page')) || 1;
   const searchQuery = query.get('search') || '';
 
-  const { data, isLoading, refetch } = useGetStudyPlanMajors(page, Number(10));
+  const { data, isLoading, refetch } = useGetMajorByFacultyId(
+    id,
+    page,
+    Number(10),
+  );
 
   const dataMajors = data ? data.data.majors : [];
 
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
     refetch();
-    console.log(page);
+    // console.log(page);
 
-    router.push(`/rencana-studi/program-studi/1?page=${page}`);
+    router.push(`/rencana-studi/program-studi/${id}?page=${page}`);
   };
-
-  console.log(dataMajors);
 
   return (
     <main className='flex flex-col gap-6'>
@@ -61,7 +66,12 @@ const MajorModule = () => {
       </div>
       <div className='bg-white rounded'>
         <div className='p-4 border-b-2'>
-          <p className='text-base font-semibold'>Fakultas Nama Fakultas</p>
+          <p className='text-base font-semibold'>
+            <p className='text-base font-semibold'>
+              Daftar Program Studi Fakultas{' '}
+              {dataMajors.length > 0 ? dataMajors[0]?.faculty_name : 'Kosong'}
+            </p>
+          </p>
         </div>
         <div className='p-8'>
           <section className='flex justify-between items-center'>

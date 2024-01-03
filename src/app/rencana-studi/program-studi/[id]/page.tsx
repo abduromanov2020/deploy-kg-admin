@@ -1,9 +1,11 @@
 import React from 'react';
 
-import MajorModule from '@/modules/rencana-studi/major';
+import MajorModule from '@/modules/rencana-studi/major/module';
 
-const MajorPage = () => {
-  return <MajorModule />;
+const MajorPage = ({ params }: { params: { id: string } }) => {
+  const { id } = params;
+
+  return <MajorModule id={id} />;
 };
 
 export default MajorPage;

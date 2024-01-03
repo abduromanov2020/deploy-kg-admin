@@ -98,7 +98,7 @@ export const MajorTable = ({ data }: TMajorAllData) => {
     //   ),
     // },
     {
-      accessorKey: 'subject_count',
+      accessorKey: 'total_subjects',
       header: ({ column }) => {
         return (
           <Button
@@ -116,7 +116,7 @@ export const MajorTable = ({ data }: TMajorAllData) => {
           href='/rencana-studi/program-studi/1/mata-kuliah/1'
           className='text-start font-semibold text-sm text-primary-500'
         >
-          {row.getValue('subject_count')} Mata Kuliah
+          {row.getValue('total_subjects')} Mata Kuliah
         </Link>
       ),
     },

@@ -75,12 +75,12 @@ export const RencanaStudiModule = () => {
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
     refetch();
-    console.log(page);
+    // console.log(page);
 
     router.push(`/rencana-studi?page=${page}`);
   };
 
-  console.log(dataFaculties);
+  // console.log(dataFaculties);
 
   return (
     <div className='bg-white rounded'>

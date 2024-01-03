@@ -11,9 +11,6 @@ export const studyPlanFacultiesGetRequest = async (
   const { data } = await api.get(
     `v2/admin/faculties?page=${page}&limit=${limit}&search=${search}`,
   );
-  // console.log(page);
-
-  // console.log(data);
 
   return data;
 };

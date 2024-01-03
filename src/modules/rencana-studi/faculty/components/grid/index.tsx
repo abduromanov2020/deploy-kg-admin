@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
@@ -10,6 +11,7 @@ import {
   CardContent,
   CardDescription,
   CardFooter,
+  CardHeader,
   CardTitle,
 } from '@/components/ui/card';
 
@@ -27,9 +29,15 @@ const FacultyGridCardComponent = ({ data }: TFacultiesAllData) => {
           key={item.id}
           className='w-[350px] rounded-lg overflow-hidden mx-auto'
         >
-          {/* <CardHeader className='p-0'>
-            <Image src={ArtikelImage} alt='artikel' width={350} height={200} />
-          </CardHeader> */}
+          <CardHeader className='p-0 h-48'>
+            <Image
+              src={item.thumbnail}
+              alt='artikel'
+              width={350}
+              height={200}
+              className='object-cover w-full h-full'
+            />
+          </CardHeader>
           <CardContent className='p-6'>
             <section className=' flex gap-2'>
               <Badge className='rounded-md bg-dark-900 bg-opacity-[0.08] hover:bg-dark-300 text-dark-900 px-3 py-1'>
@@ -56,7 +64,9 @@ const FacultyGridCardComponent = ({ data }: TFacultiesAllData) => {
                 className='bg-white border-primary-500 border text-primary-500 hover:bg-gray-200 px-9'
                 asChild
               >
-                <Link href='/rencana-studi/detail/1'>Detail</Link>
+                <Link href={`/rencana-studi/fakultas/detail/${item.id}`}>
+                  Detail
+                </Link>
               </Button>
             </div>
 
