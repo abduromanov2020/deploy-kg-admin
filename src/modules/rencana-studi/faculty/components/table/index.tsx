@@ -35,6 +35,8 @@ import {
 } from '@/types/rencana-studi/faculties/types';
 
 export const FacultyTable = ({ data }: TFacultiesAllData) => {
+  // console.log(data);
+
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -155,7 +157,7 @@ export const FacultyTable = ({ data }: TFacultiesAllData) => {
       },
       cell: ({ row }) => (
         <Link
-          href='/rencana-studi/program-studi/1'
+          href={`/rencana-studi/program-studi/${row.getValue('id')}`}
           className='text-start font-semibold text-sm text-primary-500'
         >
           {row.getValue('total_majors')} Program Studi
@@ -163,7 +165,7 @@ export const FacultyTable = ({ data }: TFacultiesAllData) => {
       ),
     },
     {
-      accessorKey: 'details',
+      accessorKey: 'id',
       header: ({ column }) => {
         return (
           <Button
@@ -177,7 +179,7 @@ export const FacultyTable = ({ data }: TFacultiesAllData) => {
       },
       cell: ({ row }) => (
         <Link
-          href='/rencana-studi/detail/1'
+          href={`/rencana-studi/fakultas/detail/${row.getValue('id')}`}
           className='text-start font-semibold text-sm text-primary-500'
         >
           Lihat Detail
@@ -199,7 +201,13 @@ export const FacultyTable = ({ data }: TFacultiesAllData) => {
               className='bg-primary-500 w-1/3 hover:bg-primary-600'
               asChild
             >
-              <Link href='/rencana-studi/edit-fakultas/1'>Edit</Link>
+              <Link
+                href={`/rencana-studi/fakultas/edit-fakultas/${row.getValue(
+                  'id',
+                )}`}
+              >
+                Edit
+              </Link>
             </Button>
           </div>
         );

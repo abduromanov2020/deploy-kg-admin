@@ -1,6 +1,7 @@
 'use client';
 
 import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
+import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -13,8 +14,9 @@ import draftToHtml from 'draftjs-to-html';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import { z } from 'zod';
+
+import { useGetFacultyById } from '@/hooks/rencana-studi/faculties/hook';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { UploadField } from '@/components/input/upload-file';
@@ -100,12 +102,15 @@ export const EditFacultyModule = () => {
     },
   ];
 
+  const params = useParams();
+  const { id } = params;
+  const { data, isLoading } = useGetFacultyById(id);
+  const useData = data?.data;
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       faculty_name: '',
-      head_of_faculty: '',
-      major_count: '',
       faculty_image: undefined,
       faculty_description: '<p></p>\n',
     },
@@ -132,9 +137,56 @@ export const EditFacultyModule = () => {
     console.log(form.formState.errors);
   }, [form.formState.errors]);
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log('data', data);
-    toast.success('Form submitted!');
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    try {
+      const formData = new FormData();
+      // formData.append('faculty_name', data.name);
+      // formData.append('description', data.content.toString());
+
+      // const category = await (async () => {
+      //   const matchingCategories =
+      //     getNameCategories?.filter(
+      //       (item: { value: string; label: string }) =>
+      //         item.label === data.category_id,
+      //     ) ?? [];
+
+      //   if (matchingCategories.length > 0) {
+      //     return matchingCategories[0]?.value;
+      //   } else {
+      //     const alternativeCategories =
+      //       getNameCategories?.filter(
+      //         (item: { value: string; label: string }) =>
+      //           item.value === data.category_id,
+      //       ) ?? [];
+      //     return alternativeCategories.length > 0
+      //       ? alternativeCategories[0]?.value ?? null
+      //       : null;
+      //   }
+      // })();
+
+      // if (category !== null) {
+      //   formData.append('category_id', category);
+      // }
+
+      // if (data.tags) {
+      //   formData.append('tags', data.tags.toString());
+      // }
+
+      // if (data.thumbnail) {
+      //   formData.append('thumbnail', data.thumbnail[0]);
+      // }
+
+      // await mutate(formData as unknown as TEditArticlePayload, {
+      //   onSuccess: () => {
+      //     console.log(formData);
+      //     queryClient.invalidateQueries(['article-get'] as any);
+      //     toast.success('Berhasil Mengunggah');
+      //     router.push(`/sekilas-ilmu`);
+      //   },
+      // });
+    } catch (err) {
+      console.log('Gagal Mengunggah', err);
+    }
   }
 
   // const handleFileChange = (file: File | null, index: number) => {

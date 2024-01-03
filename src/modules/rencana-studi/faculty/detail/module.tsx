@@ -1,20 +1,30 @@
 'use client';
 
-import { BreadCrumb } from '@/components/BreadCrumb';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import Image from 'next/image';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiSolidFileExport } from 'react-icons/bi';
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
+
+import { useGetFacultyById } from '@/hooks/rencana-studi/faculties/hook';
+
+import { BreadCrumb } from '@/components/BreadCrumb';
+import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
-import ArtikelImage from '~/images/sekilas-ilmu/artikel.png';
-import Image from 'next/image';
-import { FaTrash } from 'react-icons/fa';
-import { DeleteFacultyModal } from '@/modules/rencana-studi/faculty/components/delete-faculty-modal';
+import { Input } from '@/components/ui/input';
+import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
+
 import { DeleteFacultyModalDetail } from './components/delete-faculty-modal-detail';
 
-const RencanaStudiDetailFaculty = () => {
+interface TProps {
+  id: string;
+}
+
+const RencanaStudiDetailFaculty = ({ id }: TProps) => {
+  const { data, isLoading, refetch } = useGetFacultyById(id);
+
+  const faculty = data?.data;
+  console.log(faculty?.thumbnail);
+
   const ITEMS = [
     {
       name: 'Rencana Studi',
@@ -33,7 +43,9 @@ const RencanaStudiDetailFaculty = () => {
       </div>
       <div className='bg-white rounded'>
         <div className='p-4 border-b-2'>
-          <p className='text-base font-semibold'>Nama Fakultas</p>
+          <p className='text-base font-semibold'>
+            FAKULTAS {faculty ? faculty.name.toUpperCase() : ''}
+          </p>
         </div>
         <div className='p-8'>
           <section className='flex justify-between items-center'>
@@ -61,38 +73,36 @@ const RencanaStudiDetailFaculty = () => {
               <TableBody>
                 <TableRow>
                   <TableCell className='font-medium w-[30%]'>
-                    ID Fakultas
+                    Nama Fakultas
                   </TableCell>
-                  <TableCell className='border-2'>129391132</TableCell>
+                  <TableCell className='border-2'>
+                    {faculty ? faculty.name : ''}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className='font-medium'>Nama Fakultas</TableCell>
-                  <TableCell className='border-2'>Raul</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className='font-medium'>Kepala Fakultas</TableCell>
-                  <TableCell className='border-2'>440</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className='font-medium'>Jumlah Prodi</TableCell>
-                  <TableCell className='border-2'>3.92</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className='font-medium'>Deskripsi</TableCell>
-                  <TableCell className='border-2'>122</TableCell>
+                  <TableCell className='font-medium'>
+                    Total Program Studi
+                  </TableCell>
+                  <TableCell className='border-2'>
+                    {faculty ? faculty.total_majors : ''}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className='font-medium'>Cover Fakultas</TableCell>
                   <TableCell className='border-2'>
                     <Card
-                      key={'1'}
+                      key='1'
                       className='w-[228px] min-h-[112px] rounded-lg overflow-hidden'
                     >
                       <CardTitle className='p-2 text-md'>Cover</CardTitle>
                       <CardHeader className='p-0 '>
                         <Image
-                          src={ArtikelImage}
-                          alt='artikel'
+                          src={
+                            faculty && faculty.thumbnail
+                              ? faculty.thumbnail
+                              : ''
+                          }
+                          alt={faculty ? faculty.slug : 'thumbnail'}
                           width={350}
                           height={200}
                           className='object-cover'

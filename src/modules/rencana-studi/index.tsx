@@ -106,7 +106,7 @@ export const RencanaStudiModule = () => {
               asChild
               className='hover:bg-white shadow-md bg-primary-500 hover:text-primary-500 text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'
             >
-              <Link href='/rencana-studi/tambah-fakultas'>
+              <Link href='/rencana-studi/fakultas/tambah-fakultas'>
                 <CiCirclePlus size={20} />
                 <p className='leading-none'>Fakultas</p>
               </Link>

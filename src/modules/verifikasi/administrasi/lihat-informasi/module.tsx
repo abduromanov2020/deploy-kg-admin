@@ -11,11 +11,11 @@ import { useGetPengjuanAdmDataDiri } from '@/hooks/verifikasi/administrasi/hook'
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { Button } from '@/components/ui/button';
 
+import { AccConfirmModal } from '@/modules/verifikasi/administrasi/components/AccConfirmModal';
+import { AccRejectModal } from '@/modules/verifikasi/administrasi/components/AccRejectModal';
 import InformasiDiriSection from '@/modules/verifikasi/administrasi/lihat-informasi/section/informasi-diri';
 import InformasiPekerjaanSection from '@/modules/verifikasi/administrasi/lihat-informasi/section/informasi-pekerjaan';
 import PemberkasanSection from '@/modules/verifikasi/administrasi/lihat-informasi/section/pemberkasan';
-import { AccRejectModal } from '@/modules/verifikasi/administrasi/components/AccRejectModal';
-import { AccConfirmModal } from '@/modules/verifikasi/administrasi/components/AccConfirmModal';
 
 interface TProps {
   id: string;

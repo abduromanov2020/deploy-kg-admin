@@ -30,6 +30,11 @@ const nextConfig = {
         hostname: 'i.pravatar.cc',
         pathname: '**',
       },
+      {
+        protocol: 'https',
+        hostname: 'dummyimage.com',
+        pathname: '**',
+      },
     ],
   },
 

@@ -1,9 +1,15 @@
-import { useQuery,UseQueryResult } from "@tanstack/react-query";
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
-import { studyPlanMajorGetById, studyPlanMajorsGetRequest } from "@/hooks/rencana-studi/majors/request";
+import {
+  studyPlanMajorGetById,
+  studyPlanMajorsGetRequest,
+} from '@/hooks/rencana-studi/majors/request';
 
-import { TMetaErrorResponse } from "@/types";
-import { TDetailMajorResponse, TResponseAllMajors } from "@/types/rencana-studi/majors/types";
+import { TMetaErrorResponse } from '@/types';
+import {
+  TDetailMajorResponse,
+  TResponseAllMajors,
+} from '@/types/rencana-studi/majors/types';
 
 export const useGetStudyPlanMajors = (
   page: number,
@@ -14,10 +20,10 @@ export const useGetStudyPlanMajors = (
     queryFn: async () => await studyPlanMajorsGetRequest(page, limit),
   });
 
-  export const useGetStudyPlanMajorById = (
-    id: string
-  ): UseQueryResult<TDetailMajorResponse, TMetaErrorResponse> =>
-    useQuery({
-      queryKey: ['major-get-by-id', id],
-      queryFn: async () => await studyPlanMajorGetById(id),
-    });
+export const useGetStudyPlanMajorById = (
+  id: string,
+): UseQueryResult<TDetailMajorResponse, TMetaErrorResponse> =>
+  useQuery({
+    queryKey: ['major-get-by-id', id],
+    queryFn: async () => await studyPlanMajorGetById(id),
+  });
