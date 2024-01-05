@@ -51,7 +51,7 @@ export const TableAdministrasi: FC<{
       id: 'select',
       header: ({ table }) => {
         const isAllAccepted = data.every(
-          (item) => item.status === 'ACCEPTED' || item.status === 'REJECTED'
+          (item) => item.status === 'ACCEPTED' || item.status === 'REJECTED',
         );
         return (
           <Checkbox
@@ -314,7 +314,9 @@ export const TableAdministrasi: FC<{
     },
   });
 
-  const isAnyCheckboxChecked = Object.values(rowSelection).some((isChecked) => isChecked);
+  const isAnyCheckboxChecked = Object.values(rowSelection).some(
+    (isChecked) => isChecked,
+  );
 
   return (
     <div className='w-full '>
@@ -371,7 +373,7 @@ export const TableAdministrasi: FC<{
       {isAnyCheckboxChecked && (
         <div className='mt-6 flex justify-end gap-3'>
           <AccAllConfirmModal
-          refetch={refetch}
+            refetch={refetch}
             selectedIds={selectedIds}
             trigger={
               <Button className='bg-green-700 hover:bg-green-800'>
@@ -380,7 +382,7 @@ export const TableAdministrasi: FC<{
             }
           />
           <AccAllRejectModal
-          refetch={refetch}
+            refetch={refetch}
             selectedIds={selectedIds}
             trigger={
               <Button className='bg-red-800 hover:bg-red-900'>

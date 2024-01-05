@@ -28,9 +28,26 @@ export type TMajorMeta = {
   total_data: number;
 };
 
+export type TDetailMajorData = {
+  id: string;
+  name: string;
+  description: string;
+  slug: string;
+  head_of_major: {
+    id: string;
+    full_name: string;
+    avatar: string | null;
+  };
+  thumbnail: string;
+  degree: string;
+  created_at: string;
+  updated_at: string;
+};
+
 export type TMetaResponseMajors<T> = {
   majors: Array<T>;
 } & TMetaItem;
 
 export type TResponseAllMajors = TMetaResponseMajors<TMajorData>;
 export type TDetailMajorResponse = TMetaResponseSingle<TMajorItem>;
+export type TDetailMajorResponseById = TMetaResponseMajors<TDetailMajorData>; // Menambahkan respons get by id

@@ -1,5 +1,8 @@
 'use client';
 
+import { format, parseISO } from 'date-fns';
+import { id } from 'date-fns/locale'; // Import locale for Indonesian
+import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React from 'react';
@@ -11,6 +14,7 @@ import { useGetStudyPlanMajorById } from '@/hooks/rencana-studi/majors/hook';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
@@ -37,7 +41,10 @@ const RencanaStudiDetailMajor = () => {
 
   const { data, isLoading } = useGetStudyPlanMajorById(String(id_detail));
 
-  console.log(data);
+  // console.log('lalalla', data?.data?.head_of_major);
+  const major = data ? data?.data : [];
+
+  // console.log('kjhjdahg', major);
 
   return (
     <main className='flex flex-col gap-6'>
@@ -85,27 +92,91 @@ const RencanaStudiDetailMajor = () => {
                   <TableCell className='font-medium w-[30%]'>
                     ID Program Studi
                   </TableCell>
-                  <TableCell className='border-2'>{data?.data?.id}</TableCell>
+                  <TableCell className='border-2'>{major?.id}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='font-medium'>
+                    Cover Program Prodi
+                  </TableCell>
+                  <TableCell className='border-2'>
+                    <Card
+                      key='1'
+                      className='w-[228px] min-h-[112px] rounded-lg overflow-hidden'
+                    >
+                      <CardTitle className='p-2 text-md'>Cover</CardTitle>
+                      <CardHeader className='p-0 '>
+                        <Image
+                          src={major && major.thumbnail ? major.thumbnail : ''}
+                          alt={major ? major.slug : 'thumbnail'}
+                          width={350}
+                          height={200}
+                          className='object-cover'
+                        />
+                      </CardHeader>
+                    </Card>
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className='font-medium'>
                     Nama Program Studi
                   </TableCell>
-                  <TableCell className='border-2'>{data?.data?.name}</TableCell>
+                  <TableCell className='border-2'>{major?.name}</TableCell>
                 </TableRow>
 
                 <TableRow>
                   <TableCell className='font-medium'>Deskripsi</TableCell>
                   <TableCell className='border-2'>
-                    {data?.data?.description}
+                    {major?.description}
                   </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='font-medium'>Gelar</TableCell>
+                  <TableCell className='border-2'>{major?.degree}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className='font-medium'>
                     Jumlah Mata Kuliah
                   </TableCell>
                   <TableCell className='border-2'>
-                    {data?.data?.total_subjects} 0 Mata Kuliah
+                    {major?.total_subjects} 0 Mata Kuliah
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='font-medium'>
+                    Kepala Program Studi
+                  </TableCell>
+                  <TableCell className='border-2'>
+                    {major?.head_of_major?.full_name}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='font-medium'>Waktu Dibuat</TableCell>
+                  <TableCell className='border-2'>
+                    {major?.created_at ? (
+                      <div className='text-sm font-semibold'>
+                        {format(parseISO(major.created_at), 'dd MMMM yyyy', {
+                          locale: id,
+                        })}
+                      </div>
+                    ) : (
+                      <div className='text-sm font-semibold'>Invalid Date</div>
+                    )}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='font-medium'>
+                    Waktu Diperbarui
+                  </TableCell>
+                  <TableCell className='border-2'>
+                    {major?.updated_at ? (
+                      <div className='text-sm font-semibold'>
+                        {format(parseISO(major.updated_at), 'dd MMMM yyyy', {
+                          locale: id,
+                        })}
+                      </div>
+                    ) : (
+                      <div className='text-sm font-semibold'>Invalid Date</div>
+                    )}
                   </TableCell>
                 </TableRow>
               </TableBody>

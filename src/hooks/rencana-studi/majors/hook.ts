@@ -8,7 +8,7 @@ import {
 
 import { TMetaErrorResponse } from '@/types';
 import {
-  TDetailMajorResponse,
+  TDetailMajorResponseById,
   TResponseAllMajors,
 } from '@/types/rencana-studi/majors/types';
 
@@ -23,7 +23,7 @@ export const useGetStudyPlanMajors = (
 
 export const useGetStudyPlanMajorById = (
   id: string,
-): UseQueryResult<TDetailMajorResponse, TMetaErrorResponse> =>
+): UseQueryResult<TDetailMajorResponseById, TMetaErrorResponse> =>
   useQuery({
     queryKey: ['major-get-by-id', id],
     queryFn: async () => await studyPlanMajorGetById(id),

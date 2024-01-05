@@ -113,7 +113,9 @@ export const MajorTable = ({ data }: TMajorAllData) => {
       },
       cell: ({ row }) => (
         <Link
-          href='/rencana-studi/program-studi/1/mata-kuliah/1'
+          href={`/rencana-studi/program-studi/1/mata-kuliah/${row.getValue(
+            'id',
+          )}`}
           className='text-start font-semibold text-sm text-primary-500'
         >
           {row.getValue('total_subjects')} Mata Kuliah
