@@ -16,6 +16,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
   FormControl,
@@ -24,13 +25,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 
 const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
@@ -40,35 +34,9 @@ const MAX_FILE_SIZE = 3000000;
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
 
 const FormSchema = z.object({
-  major_id: z.string().min(1, {
-    message: 'Major count must be at least 1.',
-  }),
   major_name: z.string().min(2, {
     message: 'Faculty must be at least 2 characters.',
   }),
-  faculty_name: z.string().min(2, {
-    message: 'Faculty must be at least 2 characters.',
-  }),
-  head_of_major: z.string().min(1, {
-    message: 'A head of faculty is required.',
-  }),
-  sks: z.string().min(1, {
-    message: 'Major count must be at least 1.',
-  }),
-  major_image: z.any(),
-  // .refine(
-  //   (files: File[]) => files !== undefined && files?.length >= 1,
-  //   'Harus ada file yang di upload.',
-  // )
-  // .refine(
-  //   (files: File[]) =>
-  //     files !== undefined && files?.[0]?.size <= MAX_FILE_SIZE,
-  //   'Ukuran maksimun adalah 3mb.',
-  // )
-  // .refine(
-  //   (files: File[]) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-  //   'hanya menerima .jpg, .jpeg, dan .png.',
-  // ),
   major_description: z
     .string({
       required_error: 'A content description is required.',
@@ -80,6 +48,11 @@ const FormSchema = z.object({
 });
 
 export const AddMajorModule = () => {
+  const [isChecked, setIsChecked] = useState(true);
+  const handleLookUp = () => {
+    setIsChecked(!isChecked);
+  };
+
   const ITEMS = [
     {
       name: 'Rencana Studi',
@@ -98,12 +71,7 @@ export const AddMajorModule = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      major_id: '',
       major_name: '',
-      faculty_name: '',
-      head_of_major: '',
-      sks: '',
-      major_image: undefined,
       major_description: '<p></p>\n',
     },
   });
@@ -173,20 +141,7 @@ export const AddMajorModule = () => {
             <div className='grid gap-6'>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-                  <div className='grid grid-cols-3 gap-6'>
-                    <FormField
-                      control={form.control}
-                      name='major_id'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>ID Program Studi*</FormLabel>
-                          <FormControl>
-                            <Input placeholder='shadcn' {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                  <div className='grid grid-cols-1 gap-6'>
                     <FormField
                       control={form.control}
                       name='major_name'
@@ -194,91 +149,10 @@ export const AddMajorModule = () => {
                         <FormItem>
                           <FormLabel>Nama Program Studi*</FormLabel>
                           <FormControl>
-                            <Input placeholder='shadcn' {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='faculty_name'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Fakultas*</FormLabel>
-                          <FormControl>
-                            <Input placeholder='shadcn' {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='head_of_major'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Kepala Program Studi*</FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder='Pilih Kepala Fakultas' />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {headFaculty.map((head) => (
-                                <SelectItem key={head.value} value={head.value}>
-                                  {head.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name='sks'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Jumlah SKS*</FormLabel>
-                          <FormControl>
-                            <Input placeholder='shadcn' {...field} />
-                          </FormControl>
-
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name='major_image'
-                      key=''
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Gambar Cover*</FormLabel>
-                          <FormControl>
                             <Input
-                              type='file'
+                              placeholder='Nama Program Studi'
                               {...field}
-                              className='file:bg-black file:text-white'
                             />
-                            {/* <UploadFile
-                                key={index}
-                                title='Upload File'
-                                onChange={(files: File | null) =>
-                                  handleFileChange(files, index)
-                                }
-                                nameFile={files.upload?.name}
-                                // {...field}
-                                className='bg-white border-2 border-dark-300'
-                              /> */}
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -291,9 +165,18 @@ export const AddMajorModule = () => {
                       setEditorState={(editorState) => {
                         handleEditorChange(editorState);
                       }}
-                      label='Deskripsi Program Studi'
+                      label='Deskripsi Program Studi*'
                       error={form.formState.errors.major_description?.message}
                     />
+                  </div>
+                  <div className='flex items-center space-x-3 '>
+                    <Checkbox id='terms' onClick={handleLookUp} />
+                    <label
+                      htmlFor='terms'
+                      className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                    >
+                      Saya menyatakan prodi yang ditambahkan sudah benar
+                    </label>
                   </div>
                   <div className='flex justify-end gap-2'>
                     <Button
@@ -303,12 +186,32 @@ export const AddMajorModule = () => {
                     >
                       <Link href='/rencana-studi/program-studi/1'>Kembali</Link>
                     </Button>
-                    <Button
+                    {/* <Button
                       type='submit'
                       className='bg-primary-500 hover:bg-primary-600'
                     >
                       Tambah Prodi
-                    </Button>
+                    </Button> */}
+                    {!isChecked ? (
+                      <Button
+                        type='submit'
+                        className='bg-primary-500 hover:bg-primary-600'
+                      >
+                        <div className='flex place-items-center gap-2'>
+                          Tambah Prodi
+                        </div>
+                      </Button>
+                    ) : (
+                      <Button
+                        type='submit'
+                        disabled
+                        className='text-slate-400 bg-slate-300 rounded-md '
+                      >
+                        <div className='flex place-items-center gap-2'>
+                          Tambah Prodi
+                        </div>
+                      </Button>
+                    )}
                   </div>
                 </form>
               </Form>

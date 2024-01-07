@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { DependencyList, useCallback, useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiLoaderAlt, BiSolidFileExport } from 'react-icons/bi';
 import { CiCirclePlus } from 'react-icons/ci';
@@ -19,6 +19,20 @@ import DatePickerSekilasIlmu from './components/datepicker';
 import FilterComponent from './components/filter';
 import TableSekilasIlmu from './components/table';
 
+export function useDebounce(
+  effect: VoidFunction,
+  dependencies: DependencyList,
+  delay: number,
+): void {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const callback = useCallback(effect, dependencies);
+
+  useEffect(() => {
+    const timeout = setTimeout(callback, delay);
+    return () => clearTimeout(timeout);
+  }, [callback, delay]);
+}
+
 const SekilasIlmuModule = () => {
   const [showGrid, setShowGrid] = React.useState(false);
   const [showList, setShowList] = React.useState(true);
@@ -26,29 +40,43 @@ const SekilasIlmuModule = () => {
   const query = useSearchParams();
   const router = useRouter();
   const pathName = usePathname();
-  const [active, setactive] = useState<string>('grid');
-  const newQuery = new URLSearchParams(query);
-
-  useEffect(() => {
-    if (query.get('view') === 'table') {
-      setactive('table');
-    } else {
-      setactive('grid');
-    }
-  }, [query, active, router]);
 
   const page = Number(query.get('page')) || 1;
+
   const searchQuery = query.get('search') || '';
 
-  // const [option, setOption] = useState({
-  //   page: page,
-  //   limit: 10,
-  //   search: '',
-  // });
+  const [option, setOption] = useState({
+    limit: 10,
+    search: '',
+  });
 
-  const { data, isLoading, refetch } = useGetArticle(page, 10, searchQuery, '');
+  const [deb, setDeb] = useState(searchQuery);
+
+  const { data, isLoading, refetch } = useGetArticle(
+    page,
+    option.limit,
+    option.search,
+    '',
+  );
+
+  useEffect(() => {
+    setOption(option);
+  }, [option]);
+
+  useDebounce(
+    () => {
+      setOption((prev) => ({ ...prev, search: deb, page: 1 }));
+      router.replace(`/sekilas-ilmu?page=1&search=${deb}`);
+    },
+    [deb],
+    700,
+  );
+
+  // console.log(data);
 
   const dataArticle = data ? data?.data?.data : [];
+
+  // console.log(dataArticle);
 
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
@@ -68,7 +96,13 @@ const SekilasIlmuModule = () => {
           <div className='flex justify-between items-center'>
             <section className='w-full'>
               <div className='w-3/4 relative'>
-                <Input type='text' placeholder='Search' className='pl-10' />
+                <Input
+                  type='text'
+                  placeholder='Search'
+                  className='pl-10'
+                  value={deb}
+                  onChange={(e) => setDeb(e.target.value)}
+                />
                 <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
                   <AiOutlineSearch className='text-gray-400' size={20} />
                 </div>
@@ -136,15 +170,15 @@ const SekilasIlmuModule = () => {
                     <div className='flex items-center justify-end px-4 py-4'>
                       <div className='flex-1 text-sm text-muted-foreground'>
                         <p>
-                          Menampilkan {data?.data?.data.length > 0 ? 1 : 0}{' '}
-                          hingga {data?.data?.data.length} data dari{' '}
+                          Menampilkan {data?.data?.data?.length > 0 ? 1 : 0}{' '}
+                          hingga {data?.data?.data?.length} data dari{' '}
                           {data?.data?.max_page} entries
                         </p>
                       </div>
                       <div className='space-x-2'>
                         <Pagination
-                          currentPage={Number(data?.data?.current_page)}
-                          totalPages={Number(data?.data?.max_page)}
+                          currentPage={Number(data?.data?.current_page) || 1}
+                          totalPages={Number(data?.data?.max_page) || 1}
                           onPageChange={handlePageChange}
                         />
                       </div>

@@ -43,11 +43,15 @@ const CardComponent = ({ data }: TGetAllArticle) => {
     }
   };
 
+  if (!data || data.length === 0) {
+    return <p className='text-center'>Belum Ada Artikel</p>;
+  }
+
   console.log(data);
 
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2'>
-      {data.map((item, index) => {
+      {data?.map((item, index) => {
         // const rawDate: unknown = item.created_at;
 
         // if (typeof rawDate === 'string') {

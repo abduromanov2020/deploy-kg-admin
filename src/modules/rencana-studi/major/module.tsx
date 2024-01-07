@@ -1,13 +1,17 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { BiSolidFileExport } from 'react-icons/bi';
+import { BiLoaderAlt, BiSolidFileExport } from 'react-icons/bi';
 import { CiCirclePlus } from 'react-icons/ci';
 import { IoGridOutline, IoListOutline } from 'react-icons/io5';
 
+import { useGetMajorByFacultyId } from '@/hooks/rencana-studi/majors/hook';
+
 import { BreadCrumb } from '@/components/BreadCrumb';
+import Pagination from '@/components/generals/pagination';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -15,10 +19,11 @@ import { FilterComponentMajor } from '@/modules/rencana-studi/major/components/f
 import MajorGrid from '@/modules/rencana-studi/major/components/grid';
 import { MajorTable } from '@/modules/rencana-studi/major/components/table';
 
-const MajorModule = () => {
-  const [showGrid, setShowGrid] = React.useState(false);
-  const [showList, setShowList] = React.useState(true);
+interface TProps {
+  id: string;
+}
 
+const MajorModule = ({ id }: TProps) => {
   const ITEMS = [
     {
       name: 'Rencana Studi',
@@ -26,9 +31,33 @@ const MajorModule = () => {
     },
     {
       name: 'Daftar Prodi',
-      link: '/rencana-studi/program-studi/1',
+      link: `/rencana-studi/program-studi/${id}`,
     },
   ];
+  const [showGrid, setShowGrid] = React.useState(false);
+  const [showList, setShowList] = React.useState(true);
+
+  const query = useSearchParams();
+  const router = useRouter();
+
+  const page = Number(query.get('page')) || 1;
+  const searchQuery = query.get('search') || '';
+
+  const { data, isLoading, refetch } = useGetMajorByFacultyId(
+    id,
+    page,
+    Number(10),
+  );
+
+  const dataMajors = data ? data.data.majors : [];
+
+  const handlePageChange = async (page: number) => {
+    window.scrollTo(0, 0);
+    refetch();
+    // console.log(page);
+
+    router.push(`/rencana-studi/program-studi/${id}?page=${page}`);
+  };
 
   return (
     <main className='flex flex-col gap-6'>
@@ -37,7 +66,12 @@ const MajorModule = () => {
       </div>
       <div className='bg-white rounded'>
         <div className='p-4 border-b-2'>
-          <p className='text-base font-semibold'>Fakultas Nama Fakultas</p>
+          <p className='text-base font-semibold'>
+            <p className='text-base font-semibold'>
+              Daftar Program Studi Fakultas{' '}
+              {dataMajors.length > 0 ? dataMajors[0]?.faculty_name : 'Kosong'}
+            </p>
+          </p>
         </div>
         <div className='p-8'>
           <section className='flex justify-between items-center'>
@@ -98,11 +132,39 @@ const MajorModule = () => {
             <div className='w-full'>
               {showGrid ? (
                 <section>
-                  <MajorGrid />
+                  <MajorGrid data={dataMajors} />
                 </section>
               ) : (
                 <section>
-                  <MajorTable />
+                  {isLoading ? (
+                    <div className='w-full flex justify-center items-center pt-5'>
+                      <BiLoaderAlt className='animate-spin' size={30} />
+                    </div>
+                  ) : data && data?.data ? (
+                    <>
+                      <MajorTable data={dataMajors} />
+                      <div className='flex items-center justify-end px-4 py-4'>
+                        <div className='flex-1 text-sm text-muted-foreground'>
+                          <p>
+                            Menampilkan {data?.data?.majors.length > 0 ? 1 : 0}{' '}
+                            hingga {data?.data?.majors.length} data dari{' '}
+                            {data?.data?.page_size} entries
+                          </p>
+                        </div>
+                        <div className='space-x-2'>
+                          <Pagination
+                            currentPage={Number(data?.meta?.page)}
+                            totalPages={Number(data?.meta?.page_size)}
+                            onPageChange={handlePageChange}
+                          />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <div className='w-full flex justify-center items-center pt-5'>
+                      Tidak Ada Data
+                    </div>
+                  )}
                 </section>
               )}
             </div>

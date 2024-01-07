@@ -1,25 +1,22 @@
 'use client';
 
-import { BreadCrumb } from '@/components/BreadCrumb';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { format, parseISO } from 'date-fns';
+import { id } from 'date-fns/locale'; // Import locale for Indonesian
+import Image from 'next/image';
+import { useParams } from 'next/navigation';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiSolidFileExport } from 'react-icons/bi';
-import { FaTrash } from 'react-icons/fa';
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import ArtikelImage from '~/images/sekilas-ilmu/artikel.png';
-import Image from 'next/image';
-import Link from 'next/link';
 import { BiEdit } from 'react-icons/bi';
+
+import { useGetSubjectById } from '@/hooks/rencana-studi/subjects/hook';
+
+import { BreadCrumb } from '@/components/BreadCrumb';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
+
 import { DeleteSubjectModalDetail } from '@/modules/rencana-studi/subject/detail/components/delete-subject-modal-detail';
 
 const RencanaStudiDetailSubject = () => {
@@ -41,6 +38,13 @@ const RencanaStudiDetailSubject = () => {
       link: '/rencana-studi/program-studi/1/mata-kuliah/1/detail/1',
     },
   ];
+
+  const params = useParams();
+  const { id_subject } = params;
+
+  const { data, isLoading } = useGetSubjectById(String(id_subject));
+
+  const subject = data?.data;
 
   return (
     <main className='flex flex-col gap-6'>
@@ -78,27 +82,55 @@ const RencanaStudiDetailSubject = () => {
                   <TableCell className='font-medium w-[30%]'>
                     ID Mata Kuliah
                   </TableCell>
-                  <TableCell className='border-2'>129391132</TableCell>
+                  <TableCell className='border-2'>{subject?.code}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='font-medium'>
+                    Cover Program Prodi
+                  </TableCell>
+                  <TableCell className='border-2'>
+                    <Card
+                      key='1'
+                      className='w-[228px] min-h-[112px] rounded-lg overflow-hidden'
+                    >
+                      <CardTitle className='p-2 text-md'>Cover</CardTitle>
+                      <CardHeader className='p-0 '>
+                        <Image
+                          src={
+                            subject && subject.thumbnail
+                              ? subject.thumbnail
+                              : ''
+                          }
+                          alt={subject ? subject.slug : 'thumbnail'}
+                          width={350}
+                          height={200}
+                          className='object-cover'
+                        />
+                      </CardHeader>
+                    </Card>
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className='font-medium'>
                     Nama Mata Kuliah
                   </TableCell>
-                  <TableCell className='border-2'>Raul</TableCell>
+                  <TableCell className='border-2'>{subject?.name}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className='font-medium'>Kepala Dosen</TableCell>
-                  <TableCell className='border-2'>440</TableCell>
+                  <TableCell className='font-medium'>Deskripsi</TableCell>
+                  <TableCell className='border-2'>
+                    {subject?.description}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className='font-medium'>Jumlah SKS</TableCell>
-                  <TableCell className='border-2'>144</TableCell>
+                  <TableCell className='border-2'>{subject?.credit}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className='font-medium'>
-                    Jumlah Pertemuan
+                  <TableCell className='font-medium'>Pengajar</TableCell>
+                  <TableCell className='border-2'>
+                    {subject?.teacher?.full_name}
                   </TableCell>
-                  <TableCell className='border-2'>14 Pertemuan</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className='font-medium'>Semester</TableCell>
@@ -107,7 +139,65 @@ const RencanaStudiDetailSubject = () => {
                 <TableRow>
                   <TableCell className='font-medium'>Program Studi</TableCell>
                   <TableCell className='border-2'>
-                    Teknologi Ekonomi Digital
+                    {subject?.major?.name}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='font-medium'>Indikator</TableCell>
+                  <TableCell className='border-2'>
+                    {subject?.indicator}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='font-medium'>
+                    Pengalaman Belajar
+                  </TableCell>
+                  <TableCell className='border-2'>
+                    {subject?.study_experience}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='font-medium'>Bahan Ajar</TableCell>
+                  <TableCell className='border-2'>
+                    {subject?.teaching_materials}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='font-medium'>
+                    Tools Dibutuhkan
+                  </TableCell>
+                  <TableCell className='border-2'>
+                    {subject?.tools_needed}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='font-medium'>Waktu Dibuat</TableCell>
+                  <TableCell className='border-2'>
+                    {subject?.created_at ? (
+                      <div className='text-sm font-semibold'>
+                        {format(parseISO(subject.created_at), 'dd MMMM yyyy', {
+                          locale: id,
+                        })}
+                      </div>
+                    ) : (
+                      <div className='text-sm font-semibold'>Invalid Date</div>
+                    )}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className='font-medium'>
+                    Waktu Diperbarui
+                  </TableCell>
+                  <TableCell className='border-2'>
+                    {subject?.updated_at ? (
+                      <div className='text-sm font-semibold'>
+                        {format(parseISO(subject.updated_at), 'dd MMMM yyyy', {
+                          locale: id,
+                        })}
+                      </div>
+                    ) : (
+                      <div className='text-sm font-semibold'>Invalid Date</div>
+                    )}
                   </TableCell>
                 </TableRow>
               </TableBody>

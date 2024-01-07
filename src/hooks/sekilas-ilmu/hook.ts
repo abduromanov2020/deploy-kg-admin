@@ -15,7 +15,7 @@ export const useGetArticle = (
   type: string
 ): UseQueryResult<TAllArticleResponse, TMetaErrorResponse> =>
   useQuery({
-    queryKey: ['article-get', page, limit],
+    queryKey: ['article-get', page, limit, search, type],
     queryFn: async () => await articleGetRequest(page, limit, search, type),
   });
 
