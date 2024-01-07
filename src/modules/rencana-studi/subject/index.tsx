@@ -28,11 +28,11 @@ const SubjectModule = ({ id }: TProps) => {
   const router = useRouter();
 
   const page = Number(query.get('page')) || 1;
-  const searchQuery = query.get('search') || '';
+  // const searchQuery = query.get('search') || '';
 
   const { data, isLoading, refetch } = useGetSubjectByMajorId(id, page);
 
-  console.log(data?.meta);
+  // console.log(data?.meta);
 
   const subject = data ? data?.data?.subjects : [];
 
