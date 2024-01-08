@@ -1,4 +1,5 @@
-import { TMetaResponseWithPagination } from '@/types';
+import { TMetaResponseSingle, TMetaResponseWithPagination } from '@/types';
+import { TSubjectSession } from '@/types/studi-ku/sessions/types';
 
 export type FormFields = {
   cover_title: string;
@@ -46,3 +47,61 @@ export type TItemSubjectData = {
 
 export type TItemSubjectDataResponse =
   TMetaResponseWithPagination<TItemSubjectData>;
+
+export type TModuleItem = {
+  id: string;
+  session_id: string;
+  title: string;
+  description: string;
+  duration: number;
+  total_videos: number;
+  total_documents: number;
+  total_journals: number;
+  total_articles: number;
+  created_at: string;
+  updated_at: string;
+};
+
+
+export type TModulesData = {
+  subject: TSubjectSession,
+  session: TSessionItem,
+  modules: TModuleItem[];
+}
+
+export type TModulesResponse = TMetaResponseSingle<TModulesData>;
+
+export type TModulesDataResponse = TMetaResponseSingle<TModulesData>;
+
+export type TVideoModuleItem = {
+  id: string;
+  module_id: string;
+  title: string;
+  description: string;
+  duration: number;
+  video: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type TVideoData = {
+  videos: TVideoModuleItem[];
+}
+
+export type TVideoResponse = TMetaResponseSingle<TVideoData>;
+
+export type TDocumentItem = {
+  id: string;
+  module_id: string;
+  title: string;
+  duration: string;
+  document: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type TDocumentData = {
+  documents: TDocumentItem[];
+}
+
+export type TDocumentResponse = TMetaResponseSingle<TDocumentData>;

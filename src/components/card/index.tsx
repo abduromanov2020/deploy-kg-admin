@@ -11,26 +11,22 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
-interface formatSlug {
-  slug: string;
-}
-
 interface CardComponentProps {
   title: string;
   img: string;
   onEdit?: () => void;
   onDetail?: () => void;
   description: string;
-  slug: formatSlug[];
+  slug: string[];
+  link: string;
 }
 
 export const CardComponent: React.FC<CardComponentProps> = ({
   title,
   img,
-  onEdit,
-  onDetail,
   description,
   slug,
+  link,
 }) => {
   return (
     <Card>
@@ -52,7 +48,7 @@ export const CardComponent: React.FC<CardComponentProps> = ({
                 key={index}
                 className='flex justify-center items-center bg-dark-200 p-2 rounded-md mb-3'
               >
-                {item.slug}
+                {item}
               </span>
             );
           })}
@@ -64,20 +60,10 @@ export const CardComponent: React.FC<CardComponentProps> = ({
       </CardHeader>
       <CardContent className='grid grid-cols-2 gap-2 text-sm'>
         <Button asChild variant='primary'>
-          <Link
-            href='/studi-ku/modul/detail'
-            className='flex gap-2 items-center'
-          >
+          <Link href={link} className='flex gap-2 items-center'>
             Detail Modul
           </Link>
         </Button>
-        {/* <Link
-          href='/studi-ku/modul/detail'
-          className='px-3 py-2 rounded-md w-[170px] bg-primary-500 text-center text-white'
-          onClick={onDetail}
-        >
-          Detail Modul
-        </Link> */}
         <Button asChild variant='primaryOutline'>
           <Link href='/studi-ku/modul/edit' className='flex gap-2 items-center'>
             Edit Modul

@@ -3,9 +3,12 @@ import { api } from '@/lib/api';
 import { FACULTY, MAJOR, SUBJECT } from '@/constant/api';
 
 import {
+  TDocumentResponse,
   TFacultyDataResponse,
   TItemMajorDataResponse,
   TItemSubjectDataResponse,
+  TModulesResponse,
+  TVideoResponse,
 } from '@/types/studi-ku/modul';
 
 export const facultyRequest = async (
@@ -40,3 +43,34 @@ export const subjectRequest = async (
 
   return data;
 };
+
+
+export const getModulesBySessionId = async (
+  subjectId: string,
+  sessionId: string
+): Promise<TModulesResponse> => {
+  const { data } = await api.get(`v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules`);
+
+  return data;
+}
+
+export const getVideoByModuleId = async (
+  subjectId: string,
+  sessionId: string,
+  moduleId: string,
+): Promise<TVideoResponse> => {
+  const { data } = await api.get(`v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules/${moduleId}/videos`);
+
+  return data;
+}
+
+export const getDocumentByModuleId = async (
+  subjectId: string,
+  sessionId: string,
+  moduleId: string,
+): Promise<TDocumentResponse> => {
+  const { data } = await api.get(`v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules/${moduleId}/documents`);
+
+  return data;
+}
+

@@ -1,17 +1,26 @@
+'use client';
+
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import React from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
+
+import { useGetModulesBySessionId } from '@/hooks/studi-ku/modul/hook';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { CardComponent } from '@/components/card';
 import { Button } from '@/components/ui/button';
 
-import {
-  MODUL_DATA,
-  MODULE_BREADCRUMBS,
-} from '@/modules/studi-ku/modul/constant';
+import { MODULE_BREADCRUMBS } from '@/modules/studi-ku/modul/constant';
 
 export const ListModul = () => {
+  const searchParams = useSearchParams();
+
+  const subject_id = searchParams.get('subject_id') ?? '';
+  const session_id = searchParams.get('session_id') ?? '';
+
+  const { data } = useGetModulesBySessionId(subject_id, session_id);
+
   return (
     <div className='flex flex-col gap-6'>
       <div className='bg-white w-full rounded-md shadow-md p-5'>
@@ -33,14 +42,18 @@ export const ListModul = () => {
           </Button>
         </div>
         <div className='grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-5 p-5'>
-          {MODUL_DATA.map((item, index) => {
+          {data?.data.modules.map((item, index) => {
             return (
               <CardComponent
                 key={index}
                 title={item.title}
                 description={item.description}
-                img={item.img}
-                slug={item.tags}
+                img={data.data.subject.thumbnail}
+                link={`/studi-ku/modul/${item.id}?subject_id=${subject_id}&session_id=${session_id}`}
+                slug={[
+                  item.total_videos + ' Video',
+                  item.total_documents + ' Dokumen',
+                ]}
               />
             );
           })}
