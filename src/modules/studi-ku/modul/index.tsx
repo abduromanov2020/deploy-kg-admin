@@ -55,8 +55,11 @@ export const ListModul = () => {
                 key={item.id}
                 title={item.title}
                 description={item.description}
+                duration={item.duration}
                 img={data.data.subject.thumbnail}
-                link={`/studi-ku/modul/${item.id}?subject_id=${subject_id}&session_id=${session_id}`}
+                subject_id={subject_id}
+                session_id={session_id}
+                module_id={item.id}
                 slug={[
                   item.total_videos + ' Video',
                   item.total_documents + ' Dokumen',

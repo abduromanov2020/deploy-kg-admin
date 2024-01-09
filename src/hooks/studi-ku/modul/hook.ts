@@ -3,6 +3,7 @@ import { useMutation, UseMutationResult } from '@tanstack/react-query';
 
 import {
   AddModuleRequest,
+  deleteModuleRequest,
   EditModuleRequest,
   facultyRequest,
   getDocumentByModuleId,
@@ -122,3 +123,20 @@ export const useEditModule = (
       await EditModuleRequest(id, payload, subjectId, sessionId),
   });
 };
+
+export const useDeleteModule = (
+  subjectId: string,
+  sessionId: string,
+  moduleId: string,
+): UseMutationResult<
+  TModulesDataResponse,
+  TMetaErrorResponse,
+  string,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ['delete-module', subjectId, sessionId, moduleId],
+    mutationFn: async () =>
+      await deleteModuleRequest(subjectId, sessionId, moduleId),
+  });
+}

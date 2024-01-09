@@ -109,3 +109,13 @@ export const EditModuleRequest = async (
 
   return data;
 };
+
+export const deleteModuleRequest = async (
+  subjectId: string,
+  sessionId: string,
+  moduleId: string,
+): Promise<TModulesResponse> => {
+  const { data } = await api.delete(`v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules/${moduleId}`)
+
+  return data;
+};

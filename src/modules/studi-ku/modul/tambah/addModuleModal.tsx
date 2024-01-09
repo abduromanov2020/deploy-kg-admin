@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
@@ -10,6 +11,7 @@ import { useAddModule } from '@/hooks/studi-ku/modul/hook';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -37,6 +39,7 @@ interface moduleModalTriggerProps {
 export function AddModuleModal({
   modalTrigger, // moduleId,
 }: moduleModalTriggerProps) {
+  const queryClient = useQueryClient();
   const searchParams = useSearchParams();
 
   const subject_id = searchParams.get('subject_id') ?? '';
@@ -49,8 +52,6 @@ export function AddModuleModal({
   const form = useForm<z.infer<typeof AddModuleValidationSchema>>({
     resolver: zodResolver(AddModuleValidationSchema),
   });
-
-  const router = useRouter();
 
   const onSubmit = (data: z.infer<typeof AddModuleValidationSchema>) => {
     // console.log(data);
@@ -68,10 +69,7 @@ export function AddModuleModal({
         {
           onSuccess: () => {
             toast.success('Form submitted!');
-            router.push(
-              `/studi-ku/modul?subject_id=${subject_id}&session_id=${session_id}`,
-            );
-            window.location.reload();
+            queryClient.invalidateQueries(['get-modules-by-session-id'] as any);
           },
           onError: (error) => {
             toast.error(error && 'Gagal Menambahkan Module!');
@@ -157,15 +155,18 @@ export function AddModuleModal({
               </div>
             </div>
             <DialogFooter>
-              <Button
-                onClick={onSubmitDialog}
-                disabled={
-                  form.formState.isSubmitting || !form.formState.isValid
-                }
-                type='submit'
-              >
-                Save changes
-              </Button>
+              <DialogClose asChild>
+                <Button
+                  onClick={onSubmitDialog}
+                  disabled={
+                    form.formState.isSubmitting || !form.formState.isValid
+                  }
+                  type='submit'
+                  variant='primary'
+                >
+                  Tambah Module
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>

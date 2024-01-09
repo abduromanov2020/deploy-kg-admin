@@ -1,15 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
 
 import { AddModuleValidationSchema } from '@/lib/validation/studi-ku/module';
-import { useAddModule } from '@/hooks/studi-ku/modul/hook';
+import { useEditModule } from '@/hooks/studi-ku/modul/hook';
 
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -30,25 +32,34 @@ import { Input } from '@/components/ui/input';
 import { TAddModulePayload } from '@/types/studi-ku/modul';
 
 interface moduleModalTriggerProps {
-  editModalTrigger: React.ReactNode;
-  // articleId?: string;
+  id: string;
+  title: string;
+  description: string;
+  duration: string;
 }
 
-export function EditModuleModal({ editModalTrigger }: moduleModalTriggerProps) {
+export function EditModuleModal({
+  id,
+  title,
+  description,
+  duration,
+}: moduleModalTriggerProps) {
+  const queryClient = useQueryClient();
   const searchParams = useSearchParams();
 
   const subject_id = searchParams.get('subject_id') ?? '';
   const session_id = searchParams.get('session_id') ?? '';
 
-  const { mutate } = useAddModule(subject_id, session_id);
-
-  // const { data } = useGetModulesBySessionId(subject_id, session_id);
+  const { mutate } = useEditModule(id, subject_id, session_id);
 
   const form = useForm<z.infer<typeof AddModuleValidationSchema>>({
     resolver: zodResolver(AddModuleValidationSchema),
+    defaultValues: {
+      title,
+      description,
+      duration,
+    },
   });
-
-  const router = useRouter();
 
   const onSubmit = (data: z.infer<typeof AddModuleValidationSchema>) => {
     // console.log(data);
@@ -66,10 +77,7 @@ export function EditModuleModal({ editModalTrigger }: moduleModalTriggerProps) {
         {
           onSuccess: () => {
             toast.success('Form submitted!');
-            router.push(
-              `/studi-ku/modul?subject_id=${subject_id}&session_id=${session_id}`,
-            );
-            window.location.reload();
+            queryClient.invalidateQueries(['get-modules-by-session-id'] as any);
           },
           onError: (error) => {
             toast.error(error && 'Gagal Menambahkan Module!');
@@ -90,7 +98,7 @@ export function EditModuleModal({ editModalTrigger }: moduleModalTriggerProps) {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant='primary'>{editModalTrigger}</Button>
+            <Button variant='primary'>Edit Modul</Button>
           </DialogTrigger>
           <DialogContent className='sm:max-w-[425px]'>
             <DialogHeader>
@@ -155,15 +163,18 @@ export function EditModuleModal({ editModalTrigger }: moduleModalTriggerProps) {
               </div>
             </div>
             <DialogFooter>
-              <Button
-                onClick={onSubmitDialog}
-                disabled={
-                  form.formState.isSubmitting || !form.formState.isValid
-                }
-                type='submit'
-              >
-                Save changes
-              </Button>
+              <DialogClose asChild>
+                <Button
+                  onClick={onSubmitDialog}
+                  disabled={
+                    form.formState.isSubmitting || !form.formState.isValid
+                  }
+                  type='submit'
+                  variant='primary'
+                >
+                  Edit Modul
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>
