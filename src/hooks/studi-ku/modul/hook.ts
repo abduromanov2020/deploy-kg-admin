@@ -1,6 +1,9 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
 
 import {
+  AddModuleRequest,
+  EditModuleRequest,
   facultyRequest,
   getDocumentByModuleId,
   getModulesBySessionId,
@@ -11,7 +14,11 @@ import {
 
 import { TMetaErrorResponse } from '@/types';
 import {
+  TAddModulePayload,
+  TAddModuleResponse,
   TDocumentResponse,
+  TEditModulePayload,
+  TEditModuleResponse,
   TFacultyDataResponse,
   TItemMajorDataResponse,
   TItemSubjectDataResponse,
@@ -57,7 +64,7 @@ export const useGetModulesBySessionId = (
     queryKey: ['get-modules-by-session-id', subjectId, sessionId],
     queryFn: async () => await getModulesBySessionId(subjectId, sessionId),
   });
-}
+};
 
 export const useGetVideoByModuleId = (
   subjectId: string,
@@ -66,9 +73,10 @@ export const useGetVideoByModuleId = (
 ): UseQueryResult<TVideoResponse, TMetaErrorResponse> => {
   return useQuery({
     queryKey: ['get-video-by-module-id', subjectId, sessionId, moduleId],
-    queryFn: async () => await getVideoByModuleId(subjectId, sessionId, moduleId),
+    queryFn: async () =>
+      await getVideoByModuleId(subjectId, sessionId, moduleId),
   });
-}
+};
 
 export const useGetDocumentByModuleId = (
   subjectId: string,
@@ -77,8 +85,40 @@ export const useGetDocumentByModuleId = (
 ): UseQueryResult<TDocumentResponse, TMetaErrorResponse> => {
   return useQuery({
     queryKey: ['get-document-by-module-id', subjectId, sessionId, moduleId],
-    queryFn: async () => await getDocumentByModuleId(subjectId, sessionId, moduleId),
+    queryFn: async () =>
+      await getDocumentByModuleId(subjectId, sessionId, moduleId),
   });
-}
+};
 
+export const useAddModule = (
+  subjectId: string,
+  sessionId: string,
+): UseMutationResult<
+  TAddModuleResponse,
+  TMetaErrorResponse,
+  TAddModulePayload,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ['add-module', subjectId, sessionId],
+    mutationFn: async (payload) =>
+      await AddModuleRequest(payload, subjectId, sessionId),
+  });
+};
 
+export const useEditModule = (
+  id: string,
+  subjectId: string,
+  sessionId: string,
+): UseMutationResult<
+  TEditModuleResponse,
+  TMetaErrorResponse,
+  TEditModulePayload,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ['edit-module', subjectId, sessionId, id],
+    mutationFn: async (payload) =>
+      await EditModuleRequest(id, payload, subjectId, sessionId),
+  });
+};

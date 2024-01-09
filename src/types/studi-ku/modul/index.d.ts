@@ -62,12 +62,11 @@ export type TModuleItem = {
   updated_at: string;
 };
 
-
 export type TModulesData = {
-  subject: TSubjectSession,
-  session: TSessionItem,
+  subject: TSubjectSession;
+  session: TSessionItem;
   modules: TModuleItem[];
-}
+};
 
 export type TModulesResponse = TMetaResponseSingle<TModulesData>;
 
@@ -86,7 +85,7 @@ export type TVideoModuleItem = {
 
 export type TVideoData = {
   videos: TVideoModuleItem[];
-}
+};
 
 export type TVideoResponse = TMetaResponseSingle<TVideoData>;
 
@@ -102,6 +101,30 @@ export type TDocumentItem = {
 
 export type TDocumentData = {
   documents: TDocumentItem[];
-}
+};
 
 export type TDocumentResponse = TMetaResponseSingle<TDocumentData>;
+
+export interface TAddModuleResponse {
+  title: string;
+  description: string;
+  duration: string;
+}
+
+export interface TAddModulePayload {
+  title: string;
+  description: string;
+  duration: string;
+}
+
+export interface TEditModuleResponse {
+  title: string;
+  description: string;
+  duration: string;
+}
+
+export interface TEditModulePayload {
+  title: string;
+  description: string;
+  duration: string;
+}

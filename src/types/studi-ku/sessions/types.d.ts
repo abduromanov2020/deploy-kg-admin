@@ -1,4 +1,4 @@
-import { TMetaResponseSingle } from "@/types";
+import { TMetaResponseSingle } from '@/types';
 
 export type TSessionItem = {
   id: string;
@@ -7,7 +7,7 @@ export type TSessionItem = {
   type: string;
   created_at: string;
   updated_at: string;
-}
+};
 
 export type TSubjectSession = {
   id: string;
@@ -19,11 +19,11 @@ export type TSubjectSession = {
   thumbnail: string;
   created_at: string;
   updated_at: string;
-}
+};
 
 export type TSessionsData = {
-  subject: TSubjectSession,
+  subject: TSubjectSession;
   sessions: TSessionItem[];
-}
+};
 
 export type TSessionsResponse = TMetaResponseSingle<TSessionsData>;

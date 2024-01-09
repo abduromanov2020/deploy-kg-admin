@@ -1,12 +1,11 @@
-import { api } from "@/lib/api";
+import { api } from '@/lib/api';
 
-import { TSessionsResponse } from "@/types/studi-ku/sessions/types";
-
+import { TSessionsResponse } from '@/types/studi-ku/sessions/types';
 
 export const getSessionsBySubjectId = async (
-  subjectId: string
+  subjectId: string,
 ): Promise<TSessionsResponse> => {
   const { data } = await api.get(`v2/admin/subjects/${subjectId}/sessions`);
 
   return data;
-}
+};

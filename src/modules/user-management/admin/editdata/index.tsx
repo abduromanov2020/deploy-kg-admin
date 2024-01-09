@@ -61,7 +61,7 @@ const EditDataAdminModule = () => {
       label: role.name,
     };
   });
-  console.log(roles);
+  // console.log(roles);
 
   const [isChecked, setIsChecked] = useState(true);
   const handleLookUp = () => {

@@ -11,6 +11,8 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
+import { EditModuleModal } from '@/modules/studi-ku/modul/edit/editModuleModal';
+
 interface CardComponentProps {
   title: string;
   img: string;
@@ -53,7 +55,9 @@ export const CardComponent: React.FC<CardComponentProps> = ({
             );
           })}
         </div>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle>
+          <Link href={link}>{title}</Link>
+        </CardTitle>
         <CardDescription className='line-clamp-2'>
           {description}
         </CardDescription>
@@ -64,11 +68,11 @@ export const CardComponent: React.FC<CardComponentProps> = ({
             Detail Modul
           </Link>
         </Button>
-        <Button asChild variant='primaryOutline'>
-          <Link href='/studi-ku/modul/edit' className='flex gap-2 items-center'>
-            Edit Modul
-          </Link>
-        </Button>
+        <EditModuleModal
+          editModalTrigger={
+            <div className='flex gap-2 items-center'>Edit Modul</div>
+          }
+        />
       </CardContent>
     </Card>
   );

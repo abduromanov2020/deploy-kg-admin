@@ -3,7 +3,11 @@ import { api } from '@/lib/api';
 import { FACULTY, MAJOR, SUBJECT } from '@/constant/api';
 
 import {
+  TAddModulePayload,
+  TAddModuleResponse,
   TDocumentResponse,
+  TEditModulePayload,
+  TEditModuleResponse,
   TFacultyDataResponse,
   TItemMajorDataResponse,
   TItemSubjectDataResponse,
@@ -44,33 +48,64 @@ export const subjectRequest = async (
   return data;
 };
 
-
 export const getModulesBySessionId = async (
   subjectId: string,
-  sessionId: string
+  sessionId: string,
 ): Promise<TModulesResponse> => {
-  const { data } = await api.get(`v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules`);
+  const { data } = await api.get(
+    `v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules`,
+  );
 
   return data;
-}
+};
 
 export const getVideoByModuleId = async (
   subjectId: string,
   sessionId: string,
   moduleId: string,
 ): Promise<TVideoResponse> => {
-  const { data } = await api.get(`v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules/${moduleId}/videos`);
+  const { data } = await api.get(
+    `v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules/${moduleId}/videos`,
+  );
 
   return data;
-}
+};
 
 export const getDocumentByModuleId = async (
   subjectId: string,
   sessionId: string,
   moduleId: string,
 ): Promise<TDocumentResponse> => {
-  const { data } = await api.get(`v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules/${moduleId}/documents`);
+  const { data } = await api.get(
+    `v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules/${moduleId}/documents`,
+  );
 
   return data;
-}
+};
 
+export const AddModuleRequest = async (
+  payload: TAddModulePayload,
+  subjectId: string,
+  sessionId: string,
+): Promise<TAddModuleResponse> => {
+  const { data } = await api.post(
+    `v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules`,
+    payload,
+  );
+
+  return data;
+};
+
+export const EditModuleRequest = async (
+  id: string,
+  payload: TEditModulePayload,
+  subjectId: string,
+  sessionId: string,
+): Promise<TEditModuleResponse> => {
+  const { data } = await api.put(
+    `v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules/${id}`,
+    payload,
+  );
+
+  return data;
+};
