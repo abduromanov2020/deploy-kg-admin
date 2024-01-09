@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 import {
@@ -21,6 +22,7 @@ interface CardComponentProps {
   subject_id: string;
   session_id: string;
   module_id: string;
+  link: string;
 }
 
 export const CardComponent: React.FC<CardComponentProps> = ({
@@ -32,6 +34,7 @@ export const CardComponent: React.FC<CardComponentProps> = ({
   subject_id,
   session_id,
   module_id,
+  link,
 }) => {
   return (
     <Card className='flex flex-col'>
@@ -59,7 +62,9 @@ export const CardComponent: React.FC<CardComponentProps> = ({
           })}
         </div>
         <CardTitle>
-          <h1>{title}</h1>
+          <Link href={link}>
+            <h1>{title}</h1>
+          </Link>
         </CardTitle>
         <CardDescription className='line-clamp-2'>
           {description}

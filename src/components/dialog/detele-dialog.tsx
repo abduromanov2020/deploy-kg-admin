@@ -27,7 +27,7 @@ export const DeleteDialog = ({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className='bg-red-800 w-full hover:bg-red-900'>{label}</Button>
+        <Button className='bg-red-800 hover:bg-red-900'>{label}</Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[500px] text-center p-12'>
         <DialogHeader>

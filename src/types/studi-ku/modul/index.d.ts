@@ -2,11 +2,11 @@ import { TMetaResponseSingle, TMetaResponseWithPagination } from '@/types';
 import { TSubjectSession } from '@/types/studi-ku/sessions/types';
 
 export type FormFields = {
-  cover_title: string;
-  cover_description: string;
-  video_title_1: string;
-  video_link_1: string;
-  video_description_1: string;
+  // cover_title: string;
+  // cover_description: string;
+  document_title_1: string;
+  document_link_1: string;
+  document_description_1: string;
   [key: string]: string | undefined; // This allows any string as a key
 };
 

@@ -64,6 +64,7 @@ export const ListModul = () => {
                   item.total_videos + ' Video',
                   item.total_documents + ' Dokumen',
                 ]}
+                link={`/studi-ku/modul/${item.id}?subject_id=${subject_id}&session_id=${session_id}`}
               />
             );
           })}

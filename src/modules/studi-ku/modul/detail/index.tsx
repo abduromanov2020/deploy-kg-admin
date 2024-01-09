@@ -50,21 +50,6 @@ const ModulDetailModule = () => {
           <TitleModule
             title={`Detail Modul ${moduleData?.title} Mata Kuliah ${modules?.data?.subject?.name}`}
           />
-          <div className='flex gap-2 border-b border-slate-200  py-2 px-4'>
-            <Button asChild variant='primaryOutline'>
-              <Link
-                href='/studi-ku/modul/edit'
-                className='flex gap-2 items-center'
-              >
-                Edit
-              </Link>
-            </Button>
-            <DeleteDialog
-              description='Cek kembali informasi dengan benar.'
-              label='Hapus'
-              title='Apakah Anda yakin akan menghapus Modul 1 Mata Kuliah Manajemen Keuangan ?'
-            />
-          </div>
         </div>
         <div className='px-5 '>
           <div className='rounded-lg border-2'>
@@ -84,6 +69,32 @@ const ModulDetailModule = () => {
                 {moduleData?.description}
               </p>
             </div>
+            <div className='flex justify-between items-center px-8 py-4'>
+              <h1 className='font-semibold text-dark-900'>Modul Video</h1>
+              <div className='flex gap-2 border-b border-slate-200  py-2 px-4'>
+                <Button asChild variant='primary'>
+                  <Link
+                    href={`/studi-ku/modul/tambah/dokumen?subject_id=${subject_id}&session_id=${session_id}`}
+                    className='flex gap-2 items-center'
+                  >
+                    Tambah
+                  </Link>
+                </Button>
+                <Button asChild variant='primaryOutline'>
+                  <Link
+                    href='/studi-ku/modul/edit'
+                    className='flex gap-2 items-center'
+                  >
+                    Edit
+                  </Link>
+                </Button>
+                <DeleteDialog
+                  description='Cek kembali informasi dengan benar.'
+                  label='Hapus'
+                  title='Apakah Anda yakin akan menghapus Modul 1 Mata Kuliah Manajemen Keuangan ?'
+                />
+              </div>
+            </div>
             {videos?.data.videos.map((item, index) => (
               <Fragment key={index}>
                 <ItemDetailModul
@@ -99,6 +110,32 @@ const ModulDetailModule = () => {
                 />
               </Fragment>
             ))}
+            <div className='flex justify-between items-center px-8 py-4'>
+              <h1 className='font-semibold text-dark-900'>Modul Dokumen</h1>
+              <div className='flex gap-2 border-b border-slate-200  py-2 px-4'>
+                <Button asChild variant='primary'>
+                  <Link
+                    href='/studi-ku/modul/edit'
+                    className='flex gap-2 items-center'
+                  >
+                    Tambah
+                  </Link>
+                </Button>
+                <Button asChild variant='primaryOutline'>
+                  <Link
+                    href='/studi-ku/modul/edit'
+                    className='flex gap-2 items-center'
+                  >
+                    Edit
+                  </Link>
+                </Button>
+                <DeleteDialog
+                  description='Cek kembali informasi dengan benar.'
+                  label='Hapus'
+                  title='Apakah Anda yakin akan menghapus Modul 1 Mata Kuliah Manajemen Keuangan ?'
+                />
+              </div>
+            </div>
             {documents?.data.documents.map((item, index) => (
               <Fragment key={index}>
                 <ItemDetailFile
