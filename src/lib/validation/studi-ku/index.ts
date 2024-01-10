@@ -93,13 +93,7 @@ export const generateDynamicValidationSchemaDiskusi = (count: number) => {
   return dynamicValidationSchema;
 };
 
-export const ValidationSchemaCoverModul = (
-  count: number,
-  countDocument: number,
-  countQuiz: number,
-  countTugas: number,
-  countDiskusi: number,
-) =>
+export const ValidationSchemaCoverModul = (count: number) =>
   z.object({
     cover_title: z
       .string({
@@ -116,8 +110,4 @@ export const ValidationSchemaCoverModul = (
       }),
 
     ...generateDynamicValidationSchema(count),
-    ...generateDynamicValidationSchemaDocument(countDocument),
-    ...generateDynamicValidationSchemaQuiz(countQuiz),
-    ...generateDynamicValidationSchemaTugas(countTugas),
-    ...generateDynamicValidationSchemaDiskusi(countDiskusi),
   });

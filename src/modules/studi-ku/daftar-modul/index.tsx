@@ -165,7 +165,7 @@ export const DaftarModul = () => {
         >
           <div className='flex justify-between w-full  border-b border-slate-200 p-4 items-center'>
             <p className='text-dark-900 font-semibold '>
-              Daftar Modul Mata Kuliah Manajemen Keuangan
+              Daftar Modul Mata Kuliah Manajemen Keuan
             </p>
           </div>
           <div className='px-5'>

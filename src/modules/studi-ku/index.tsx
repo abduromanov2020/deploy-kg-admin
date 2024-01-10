@@ -1,25 +1,53 @@
-import { Monitor } from 'lucide-react';
-import React from 'react';
+import { LucideClipboardList, Monitor } from 'lucide-react';
+import React, { useState } from 'react';
 import { BiChevronDown } from 'react-icons/bi';
 import { BsQuestionCircle } from 'react-icons/bs';
-import { FaUserEdit } from 'react-icons/fa';
-import { FaAddressCard } from 'react-icons/fa6';
+import { FaAddressCard, FaUserEdit } from 'react-icons/fa';
 import { IoChatboxEllipses, IoDocumentText } from 'react-icons/io5';
-import { LuClipboardList } from 'react-icons/lu';
 import { TbCloudSearch, TbUserStar } from 'react-icons/tb';
 
-import {
-  AccordingModul,
-  AccourdionModulIntroduction,
-} from '@/components/according-modul';
+import { useGetSubjectByMajorId } from '@/hooks/rencana-studi/subjects/hook';
+import { useGetAllMajors } from '@/hooks/studi-ku/majors/hook';
+import { useGetSessionsBySubjectId } from '@/hooks/studi-ku/sessions/hook';
+
+import { AccordingModul } from '@/components/according-modul';
 import { Filter } from '@/components/filter';
-export const MainStudiKu = () => {
+
+import { TMajorItem } from '@/types/rencana-studi/majors/types';
+import { TSubjectItem } from '@/types/rencana-studi/subjects/types';
+import { TSessionItem } from '@/types/studi-ku/sessions/types';
+
+export const MainStudiKu: React.FC = () => {
+  const { data: majors, isLoading: isMajorsLoading } = useGetAllMajors();
+
+  const [majorsFilter, setMajorsFilter] = useState({
+    id: '',
+    title: '',
+  });
+
+  const { data: subjects, isLoading: isSubjectsLoading } =
+    useGetSubjectByMajorId(majorsFilter.id, 1);
+
+  const [subjectFilter, setSubjectFilter] = useState({
+    id: '',
+    title: '',
+  });
+
+  const { data: sessions } = useGetSessionsBySubjectId(subjectFilter.id);
+
+  const majorsOption = majors?.data?.majors?.map((major: TMajorItem) => ({
+    id: major.id,
+    title: major.name,
+  }));
+
+  const subjectOption = subjects?.data?.subjects?.map(
+    (subject: TSubjectItem) => ({
+      id: subject.id,
+      title: subject.name,
+    }),
+  );
+
   const data = [
-    {
-      title: 'Module',
-      icon: <IoDocumentText className='text-primary-500 text-xl' />,
-      link: '/studi-ku/modul',
-    },
     {
       title: 'Quiz',
       icon: <BsQuestionCircle className='text-yellow-500 text-xl' />,
@@ -27,7 +55,7 @@ export const MainStudiKu = () => {
     },
     {
       title: 'Tugas',
-      icon: <LuClipboardList className='text-red-500 text-xl' />,
+      icon: <LucideClipboardList className='text-red-500 text-xl' />,
       link: '/studi-ku/tugas',
     },
     {
@@ -62,16 +90,6 @@ export const MainStudiKu = () => {
     },
   ];
 
-  const dataPendahuluan = {
-    introduction: 'Pendahuluan Blockchain dan Cryptocurrency',
-    description:
-      'Blockchain dan Cryptocurrency adalah suatu teknologi yang memungkinkan terjadinya transaksi digital yang aman, transparan, dan efisien. Blockchain dan Cryptocurrency adalah suatu teknologi yang memungkinkan terjadinya transaksi digital yang aman, transparan, dan efisien. Blockchain dan Cryptocurrency adalah suatu teknologi yang memungkinkan terjadinya transaksi digital yang aman, transparan, dan efisien. Blockchain dan Cryptocurrency adalah suatu teknologi yang memungkinkan terjadinya transaksi digital yang aman, transparan, dan efisien. Blockchain dan Cryptocurrency adalah suatu teknologi yang memungkinkan terjadinya transaksi digital yang aman, transparan, dan efisien. Blockchain dan Cryptocurrency adalah suatu teknologi yang memungkinkan terjadinya transaksi digital yang aman, transparan, dan efisien.',
-    video_link: 'https://www.youtube.com/watch?v=7YqUZUd6Yd4',
-    document_link:
-      'https://pdfhost.io/v/2~5~.Q~5~.Pendahuluan_Blockchain_dan_Cryptocurrencypdf.pdf',
-  };
-
-  const filter = [{ title: 'Pertemuan 1' }];
   return (
     <div className='bg-white w-full rounded-md shadow-md'>
       <p className='text-dark-900 font-semibold  border-b border-slate-200 p-4'>
@@ -83,27 +101,39 @@ export const MainStudiKu = () => {
             icon={<BiChevronDown className='text-xl' />}
             className='border-2 py-3 w-[180px] px-4'
             title='Program Studi'
-            data={filter}
+            data={majorsOption}
+            setFilter={setMajorsFilter}
+            filter={majorsFilter}
+            isLoading={isMajorsLoading}
           />
           <Filter
             icon={<BiChevronDown className='text-xl' />}
             className='border-2 py-3 w-[180px] px-4'
             title='Mata Kuliah'
-            data={filter}
+            data={subjectOption}
+            setFilter={setSubjectFilter}
+            filter={subjectFilter}
+            isLoading={isSubjectsLoading}
           />
         </div>
-        <AccourdionModulIntroduction
-          title='Pendahuluan'
-          data={dataPendahuluan}
-        />
-        <AccordingModul title='Pertemuan 1' data={data} />
-        <AccordingModul title='Pertemuan 2' data={data} />
-        <AccordingModul title='Pertemuan 3' data={data} />
-        <AccordingModul title='Pertemuan 4' data={data} />
-        <AccordingModul title='Pertemuan 5' data={data} />
-        <AccordingModul title='Pertemuan 6' data={data} />
-        <AccordingModul title='Pertemuan 7' data={data} />
-        <AccordingModul title='Pertemuan 8' data={data} />
+        {sessions ? (
+          sessions.data.sessions.map((session: TSessionItem) => (
+            <AccordingModul
+              key={session.id}
+              title={`Pertemuan ${session.session_no}`}
+              data={[
+                {
+                  title: 'Module',
+                  icon: <IoDocumentText className='text-primary-500 text-xl' />,
+                  link: `/studi-ku/modul?subject_id=${session.subject_id}&session_id=${session.id}`,
+                },
+                ...data,
+              ]}
+            />
+          ))
+        ) : (
+          <p>Silahkan Pilih Program Studi dan Mata Kuliah</p>
+        )}
       </div>
     </div>
   );

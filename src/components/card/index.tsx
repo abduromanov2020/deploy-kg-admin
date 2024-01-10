@@ -2,38 +2,42 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-import { Button } from '@/components/ui/button';
 import {
   Card,
-  CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
 
-interface formatSlug {
-  slug: string;
-}
+import { EditModuleModal } from '@/modules/studi-ku/modul/edit/editModuleModal';
+import HapusModuleModal from '@/modules/studi-ku/modul/hapus';
 
 interface CardComponentProps {
   title: string;
   img: string;
-  onEdit?: () => void;
-  onDetail?: () => void;
   description: string;
-  slug: formatSlug[];
+  duration: number;
+  slug: string[];
+  subject_id: string;
+  session_id: string;
+  module_id: string;
+  link: string;
 }
 
 export const CardComponent: React.FC<CardComponentProps> = ({
   title,
   img,
-  onEdit,
-  onDetail,
   description,
+  duration,
   slug,
+  subject_id,
+  session_id,
+  module_id,
+  link,
 }) => {
   return (
-    <Card>
+    <Card className='flex flex-col'>
       <div className='w-full object-contain'>
         <Image
           src={`${img === null ? '/images/studi-ku/modul-default.png' : img}`}
@@ -52,38 +56,33 @@ export const CardComponent: React.FC<CardComponentProps> = ({
                 key={index}
                 className='flex justify-center items-center bg-dark-200 p-2 rounded-md mb-3'
               >
-                {item.slug}
+                {item}
               </span>
             );
           })}
         </div>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle>
+          <Link href={link}>
+            <h1>{title}</h1>
+          </Link>
+        </CardTitle>
         <CardDescription className='line-clamp-2'>
           {description}
         </CardDescription>
       </CardHeader>
-      <CardContent className='grid grid-cols-2 gap-2 text-sm'>
-        <Button asChild variant='primary'>
-          <Link
-            href='/studi-ku/modul/detail'
-            className='flex gap-2 items-center'
-          >
-            Detail Modul
-          </Link>
-        </Button>
-        {/* <Link
-          href='/studi-ku/modul/detail'
-          className='px-3 py-2 rounded-md w-[170px] bg-primary-500 text-center text-white'
-          onClick={onDetail}
-        >
-          Detail Modul
-        </Link> */}
-        <Button asChild variant='primaryOutline'>
-          <Link href='/studi-ku/modul/edit' className='flex gap-2 items-center'>
-            Edit Modul
-          </Link>
-        </Button>
-      </CardContent>
+      <CardFooter className='flex gap-2 text-sm items-center'>
+        <EditModuleModal
+          id={module_id}
+          title={title}
+          description={description}
+          duration={duration as unknown as string}
+        />
+        <HapusModuleModal
+          subject_id={subject_id}
+          session_id={session_id}
+          module_id={module_id}
+        />
+      </CardFooter>
     </Card>
   );
 };

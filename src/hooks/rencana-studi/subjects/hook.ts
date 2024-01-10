@@ -18,6 +18,7 @@ export const useGetSubjectByMajorId = (
   useQuery({
     queryKey: ['subject-get-by-faculty-id', id, page],
     queryFn: async () => await subjectGetByMajorId(id, page),
+    enabled: !!id,
   });
 
 export const useGetSubjectById = (
