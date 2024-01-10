@@ -18,7 +18,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-export const DeleteConfirmModal: FC<{ type: any; id: string }> = ({
+export const DeleteConfirmModal: FC<{ type: string; id: string }> = ({
   type,
   id,
 }) => {

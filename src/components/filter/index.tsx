@@ -8,12 +8,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 interface data {
-  id: string;
+  id?: string;
   title: string;
 }
 
 interface FilterMenuProps {
-  data: data[];
+  data?: data[];
   className?: string;
   title: string;
   icon: React.ReactNode;
@@ -52,7 +52,7 @@ export const Filter: React.FC<FilterMenuProps> = ({
                 onClick={() => {
                   if (setFilter) {
                     setFilter({
-                      id: item.id,
+                      id: item?.id as string,
                       title: item.title,
                     });
                   }

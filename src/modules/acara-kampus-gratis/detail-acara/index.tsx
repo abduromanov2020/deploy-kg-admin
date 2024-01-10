@@ -68,7 +68,7 @@ export const DetailAcaraModule = () => {
                     Edit Informasi
                   </Button>
                 </Link>
-                <DeleteConfirmModal type='buttonIcon' />
+                <DeleteConfirmModal type='buttonIcon' id='' />
               </div>
             </TabsList>
             {data ? (
