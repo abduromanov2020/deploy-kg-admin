@@ -137,7 +137,7 @@ export const columns: ColumnDef<TEventItem>[] = [
     cell: ({ row }) => {
       return (
         <div className='flex gap-3'>
-          <DeleteConfirmModal type='button' />
+          <DeleteConfirmModal type='button' id='' />
           <Link
             href={`/acara-kampus-gratis/edit-acara/${row.index}`}
             className='text-sm bg-primary-500 px-5 py-1 rounded-md text-white flex justify-center items-center gap-1 hover:bg-primary-400'
