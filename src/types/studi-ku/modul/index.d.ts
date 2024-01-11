@@ -128,3 +128,15 @@ export interface TEditModulePayload {
   description: string;
   duration: string;
 }
+
+export interface TAddDocumentPayload {
+  title: string;
+  duration: string;
+  url: string;
+}
+
+export interface TAddDocumentResponse {
+  title: string;
+  duration: string;
+  url: string;
+}

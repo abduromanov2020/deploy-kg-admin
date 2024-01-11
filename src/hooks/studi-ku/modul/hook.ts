@@ -2,6 +2,7 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 
 import {
+  AddDocumentRequest,
   AddModuleRequest,
   deleteModuleRequest,
   EditModuleRequest,
@@ -15,6 +16,8 @@ import {
 
 import { TMetaErrorResponse } from '@/types';
 import {
+  TAddDocumentPayload,
+  TAddDocumentResponse,
   TAddModulePayload,
   TAddModuleResponse,
   TDocumentResponse,
@@ -138,5 +141,22 @@ export const useDeleteModule = (
     mutationKey: ['delete-module', subjectId, sessionId, moduleId],
     mutationFn: async () =>
       await deleteModuleRequest(subjectId, sessionId, moduleId),
+  });
+}
+
+export const useAddDocumentModule = (
+  subjectId: string,
+  sessionId: string,
+  moduleId: string,
+): UseMutationResult<
+  TAddDocumentResponse,
+  TMetaErrorResponse,
+  TAddDocumentPayload,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ['add-document-module', subjectId, sessionId, moduleId],
+    mutationFn: async (payload) =>
+      await AddDocumentRequest(payload, subjectId, sessionId, moduleId),
   });
 }

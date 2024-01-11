@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
 
-import { AddModuleValidationSchema } from '@/lib/validation/studi-ku/module';
-import { useAddModule } from '@/hooks/studi-ku/modul/hook';
+import { AddDocumentValidationSchema } from '@/lib/validation/studi-ku/module';
+import { useAddDocumentModule } from '@/hooks/studi-ku/modul/hook';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -29,32 +29,29 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { TAddModulePayload } from '@/types/studi-ku/modul';
+import { TAddDocumentPayload } from '@/types/studi-ku/modul';
 
-interface moduleModalTriggerProps {
-  modalTrigger: React.ReactNode;
-  // articleId?: string;
-}
-
-export function AddModuleModal({
-  modalTrigger, // moduleId,
-}: moduleModalTriggerProps) {
+export function AddDocumentModal() {
   const queryClient = useQueryClient();
-  const { subject_id, session_id } = useParams();
+  const { subject_id, session_id, module_id } = useParams();
 
-  const { mutate } = useAddModule(subject_id as string, session_id as string);
+  const { mutate } = useAddDocumentModule(
+    subject_id as string,
+    session_id as string,
+    module_id as string,
+  );
 
-  const form = useForm<z.infer<typeof AddModuleValidationSchema>>({
-    resolver: zodResolver(AddModuleValidationSchema),
+  const form = useForm<z.infer<typeof AddDocumentValidationSchema>>({
+    resolver: zodResolver(AddDocumentValidationSchema),
   });
 
-  const onSubmit = (data: z.infer<typeof AddModuleValidationSchema>) => {
-    const durationValue = data?.duration;
+  const onSubmit = (data: z.infer<typeof AddDocumentValidationSchema>) => {
+    const durationValue = data?.duration; // Konversi nilai ke tipe number
     try {
-      const payload: TAddModulePayload = {
+      const payload: TAddDocumentPayload = {
         title: data?.title,
-        description: data?.description,
         duration: durationValue,
+        url: data?.url,
       };
       mutate(
         {
@@ -84,13 +81,13 @@ export function AddModuleModal({
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant='primary'>{modalTrigger}</Button>
+            <Button variant='primary'>Tambah Dokumen</Button>
           </DialogTrigger>
           <DialogContent className='sm:max-w-[425px]'>
             <DialogHeader>
-              <DialogTitle>Tambah Modul</DialogTitle>
+              <DialogTitle>Tambah Dokumen</DialogTitle>
               <DialogDescription>
-                Buat Modul Untuk Bisa Menambahkan Materi Pembelajaran
+                Tambah Dokumen Modul Pembelajaran
               </DialogDescription>
             </DialogHeader>
             <div className='grid gap-4 py-4'>
@@ -103,25 +100,6 @@ export function AddModuleModal({
                       <FormLabel>Judul*</FormLabel>
                       <FormControl>
                         <Input placeholder='Masukkan Judul*' {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className='grid items-center gap-4'>
-                <FormField
-                  control={form.control}
-                  name='description'
-                  render={({ field }) => (
-                    <FormItem className='grid w-full gap-1.5'>
-                      <FormLabel>Description*</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder='Description'
-                          type='description'
-                          {...field}
-                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -147,6 +125,21 @@ export function AddModuleModal({
                   )}
                 />
               </div>
+            </div>
+            <div className='grid items-center gap-4'>
+              <FormField
+                control={form.control}
+                name='url'
+                render={({ field }) => (
+                  <FormItem className='grid w-full gap-1.5'>
+                    <FormLabel>Link URL*</FormLabel>
+                    <FormControl>
+                      <Input placeholder='Link URL' type='url' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
             <DialogFooter>
               <DialogClose asChild>

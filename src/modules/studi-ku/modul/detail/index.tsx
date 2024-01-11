@@ -2,7 +2,7 @@
 
 import { PlayCircleIcon } from 'lucide-react';
 import Link from 'next/link';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import React, { Fragment } from 'react';
 import { FaFileAlt } from 'react-icons/fa';
 
@@ -12,43 +12,57 @@ import {
   useGetVideoByModuleId,
 } from '@/hooks/studi-ku/modul/hook';
 
-import { BreadCrumb } from '@/components/BreadCrumb';
+import { BreadCrumb, TCrumbItem } from '@/components/BreadCrumb';
 import { DeleteDialog } from '@/components/dialog/detele-dialog';
 import { Button } from '@/components/ui/button';
 
 import { DETAIL_MODULE_BREADCRUMBS } from '@/modules/studi-ku/modul/constant';
+import { AddDocumentModal } from '@/modules/studi-ku/modul/tambah/dokumen/addDocumentModal';
 import { TitleModule } from '@/modules/studi-ku/modul/tambah/TitleModule';
 
 const ModulDetailModule = () => {
-  const searchParams = useSearchParams();
-  const { id } = useParams();
+  const { subject_id, session_id, module_id } = useParams();
 
-  const subject_id = searchParams.get('subject_id') ?? '';
-  const session_id = searchParams.get('session_id') ?? '';
-
-  const { data: modules } = useGetModulesBySessionId(subject_id, session_id);
+  const { data: modules } = useGetModulesBySessionId(
+    subject_id as string,
+    session_id as string,
+  );
   const { data: videos } = useGetVideoByModuleId(
-    subject_id,
-    session_id,
-    id as string,
+    subject_id as string,
+    session_id as string,
+    module_id as string,
   );
   const { data: documents } = useGetDocumentByModuleId(
-    subject_id,
-    session_id,
-    id as string,
+    subject_id as string,
+    session_id as string,
+    module_id as string,
   );
 
-  const moduleData = modules?.data?.modules?.find((item) => item.id === id);
+  const moduleData = modules?.data?.modules?.find(
+    (item) => item.id === module_id,
+  );
+
+  const BreadCrumbItems: TCrumbItem[] = [
+    ...DETAIL_MODULE_BREADCRUMBS,
+    {
+      name: 'Daftar Modul',
+      link: `/studi-ku/modul/${subject_id}/${session_id}`,
+    },
+    {
+      name: `Detail Modul ${moduleData?.title}`,
+      link: `/studi-ku/modul/${subject_id}/${session_id}/${module_id}`,
+    },
+  ];
 
   return (
     <div className='flex flex-col gap-6'>
       <div className='bg-white w-full rounded-md shadow-md p-5'>
-        <BreadCrumb items={DETAIL_MODULE_BREADCRUMBS} className='!p-0 ' />
+        <BreadCrumb items={BreadCrumbItems} className='!p-0 ' />
       </div>
       <div className='bg-white flex flex-col gap-5 rounded-md pb-5 '>
         <div className='flex justify-between items-center  '>
           <TitleModule
-            title={`Detail Modul ${moduleData?.title} Mata Kuliah ${modules?.data?.subject?.name}`}
+            title={`${moduleData?.title} Mata Kuliah ${modules?.data?.subject?.name}`}
           />
         </div>
         <div className='px-5 '>
@@ -71,15 +85,8 @@ const ModulDetailModule = () => {
             </div>
             <div className='flex justify-between items-center px-8 py-4'>
               <h1 className='font-semibold text-dark-900'>Modul Video</h1>
-              <div className='flex gap-2 border-b border-slate-200  py-2 px-4'>
-                <Button asChild variant='primary'>
-                  <Link
-                    href={`/studi-ku/modul/tambah/dokumen?subject_id=${subject_id}&session_id=${session_id}`}
-                    className='flex gap-2 items-center'
-                  >
-                    Tambah
-                  </Link>
-                </Button>
+              <div className='flex gap-2 py-2 px-4'>
+                <AddDocumentModal />
                 <Button asChild variant='primaryOutline'>
                   <Link
                     href='/studi-ku/modul/edit'
@@ -112,28 +119,8 @@ const ModulDetailModule = () => {
             ))}
             <div className='flex justify-between items-center px-8 py-4'>
               <h1 className='font-semibold text-dark-900'>Modul Dokumen</h1>
-              <div className='flex gap-2 border-b border-slate-200  py-2 px-4'>
-                <Button asChild variant='primary'>
-                  <Link
-                    href='/studi-ku/modul/edit'
-                    className='flex gap-2 items-center'
-                  >
-                    Tambah
-                  </Link>
-                </Button>
-                <Button asChild variant='primaryOutline'>
-                  <Link
-                    href='/studi-ku/modul/edit'
-                    className='flex gap-2 items-center'
-                  >
-                    Edit
-                  </Link>
-                </Button>
-                <DeleteDialog
-                  description='Cek kembali informasi dengan benar.'
-                  label='Hapus'
-                  title='Apakah Anda yakin akan menghapus Modul 1 Mata Kuliah Manajemen Keuangan ?'
-                />
+              <div className='flex gap-2 py-2 px-4'>
+                <AddDocumentModal />
               </div>
             </div>
             {documents?.data.documents.map((item, index) => (
@@ -144,6 +131,11 @@ const ModulDetailModule = () => {
                   label={`Dokumen ${index + 1}`}
                   type='file'
                   variant={index % 2 === 0 ? 'light' : 'dark'}
+                />
+                <DeleteDialog
+                  description='Cek kembali informasi dengan benar.'
+                  label='Hapus'
+                  title='Apakah Anda yakin akan menghapus Modul 1 Mata Kuliah Manajemen Keuangan ?'
                 />
               </Fragment>
             ))}

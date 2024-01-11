@@ -3,6 +3,7 @@ import { api } from '@/lib/api';
 import { FACULTY, MAJOR, SUBJECT } from '@/constant/api';
 
 import {
+  TAddDocumentPayload,
   TAddModulePayload,
   TAddModuleResponse,
   TDocumentResponse,
@@ -119,3 +120,17 @@ export const deleteModuleRequest = async (
 
   return data;
 };
+
+export const AddDocumentRequest = async (
+  payload: TAddDocumentPayload,
+  subjectId: string,
+  sessionId: string,
+  moduleId: string,
+): Promise<TAddDocumentPayload> => {
+  const { data } = await api.post(
+    `v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules/${moduleId}/documents`,
+    payload,
+  );
+
+  return data;
+}
