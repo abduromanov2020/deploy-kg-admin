@@ -3,10 +3,11 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { FaRegEdit } from 'react-icons/fa';
 import { z } from 'zod';
 
-import { AddDocumentValidationSchema } from '@/lib/validation/studi-ku/module';
-import { useAddDocumentModule } from '@/hooks/studi-ku/modul/hook';
+import { EditDocumentValidationSchema } from '@/lib/validation/studi-ku/module';
+import { useEditDocument } from '@/hooks/studi-ku/modul/hook';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -29,29 +30,46 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { TAddDocumentPayload } from '@/types/studi-ku/modul';
+import { TEditDocumentPayload } from '@/types/studi-ku/modul';
 
-export function AddDocumentModal() {
+interface DocumentModalTriggerProps {
+  id: string;
+  title: string;
+  url: string;
+  duration: string;
+}
+
+export function EditDocumentModal({
+  id,
+  title,
+  url,
+  duration,
+}: DocumentModalTriggerProps) {
   const queryClient = useQueryClient();
   const { subject_id, session_id, module_id } = useParams();
 
-  const { mutate } = useAddDocumentModule(
+  const { mutate } = useEditDocument(
     subject_id as string,
     session_id as string,
     module_id as string,
+    id,
   );
 
-  const form = useForm<z.infer<typeof AddDocumentValidationSchema>>({
-    resolver: zodResolver(AddDocumentValidationSchema),
+  const form = useForm<z.infer<typeof EditDocumentValidationSchema>>({
+    resolver: zodResolver(EditDocumentValidationSchema),
+    defaultValues: {
+      title,
+      url,
+      duration,
+    },
   });
 
-  const onSubmit = (data: z.infer<typeof AddDocumentValidationSchema>) => {
-    const durationValue = data?.duration; // Konversi nilai ke tipe number
+  const onSubmit = (data: z.infer<typeof EditDocumentValidationSchema>) => {
     try {
-      const payload: TAddDocumentPayload = {
+      const payload: TEditDocumentPayload = {
         title: data?.title,
-        duration: durationValue,
         url: data?.url,
+        duration: data?.duration,
       };
       mutate(
         {
@@ -59,11 +77,11 @@ export function AddDocumentModal() {
         },
         {
           onSuccess: () => {
-            toast.success('Form submitted!');
-            queryClient.invalidateQueries(['get-modules-by-session-id'] as any);
+            toast.success('Dokumen Berhasil Di Edit!');
+            queryClient.invalidateQueries(['get-document-by-module-id'] as any);
           },
           onError: (error) => {
-            toast.error(error && 'Gagal Menambahkan Module!');
+            toast.error(error && 'Gagal Menambahkan Dokumen!');
           },
         },
       );
@@ -74,6 +92,7 @@ export function AddDocumentModal() {
 
   const onSubmitDialog = () => {
     form.handleSubmit(onSubmit)();
+    form.reset();
   };
 
   return (
@@ -81,13 +100,16 @@ export function AddDocumentModal() {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant='primary'>Tambah Dokumen</Button>
+            <div className='flex gap-3 text-primary-500 items-center text-sm font-medium cursor-pointer'>
+              <FaRegEdit fill='currentColor' className='w-4 h-4' />
+              Edit
+            </div>
           </DialogTrigger>
           <DialogContent className='sm:max-w-[425px]'>
             <DialogHeader>
-              <DialogTitle>Tambah Dokumen</DialogTitle>
+              <DialogTitle>Edit</DialogTitle>
               <DialogDescription>
-                Tambah Dokumen Modul Pembelajaran
+                Pastikan Dokumen Yang Di Edit Sudah Benar
               </DialogDescription>
             </DialogHeader>
             <div className='grid gap-4 py-4'>
@@ -100,6 +122,21 @@ export function AddDocumentModal() {
                       <FormLabel>Judul*</FormLabel>
                       <FormControl>
                         <Input placeholder='Masukkan Judul*' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className='grid items-center gap-4'>
+                <FormField
+                  control={form.control}
+                  name='url'
+                  render={({ field }) => (
+                    <FormItem className='grid w-full gap-1.5'>
+                      <FormLabel>Link*</FormLabel>
+                      <FormControl>
+                        <Input placeholder='Link' {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -126,32 +163,14 @@ export function AddDocumentModal() {
                 />
               </div>
             </div>
-            <div className='grid items-center gap-4'>
-              <FormField
-                control={form.control}
-                name='url'
-                render={({ field }) => (
-                  <FormItem className='grid w-full gap-1.5'>
-                    <FormLabel>Link URL*</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Link URL' type='url' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
             <DialogFooter>
               <DialogClose asChild>
                 <Button
                   onClick={onSubmitDialog}
-                  disabled={
-                    form.formState.isSubmitting || !form.formState.isValid
-                  }
                   type='submit'
                   variant='primary'
                 >
-                  Tambah Module
+                  Edit Dokumen
                 </Button>
               </DialogClose>
             </DialogFooter>

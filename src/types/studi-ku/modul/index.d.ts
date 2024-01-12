@@ -2,11 +2,17 @@ import { TMetaResponseSingle, TMetaResponseWithPagination } from '@/types';
 import { TSubjectSession } from '@/types/studi-ku/sessions/types';
 
 export type FormFields = {
-  // cover_title: string;
-  // cover_description: string;
   document_title_1: string;
   document_link_1: string;
-  document_description_1: string;
+  document_duration_1: number;
+  [key: string]: string | undefined; // This allows any string as a key
+};
+
+export type TVideoField = {
+  video_title_1: string;
+  video_duration_1: number;
+  video_description_1: string;
+  video_url_1: string;
   [key: string]: string | undefined; // This allows any string as a key
 };
 
@@ -77,7 +83,7 @@ export type TVideoModuleItem = {
   module_id: string;
   title: string;
   description: string;
-  duration: number;
+  duration: string;
   video: string;
   created_at: string;
   updated_at: string;
@@ -130,13 +136,49 @@ export interface TEditModulePayload {
 }
 
 export interface TAddDocumentPayload {
+  documents: {
+    title: string;
+    duration: string;
+    url: string;
+  }[];
+}
+
+export interface TEditDocumentPayload {
   title: string;
   duration: string;
   url: string;
 }
 
 export interface TAddDocumentResponse {
+  documents: {
+    title: string;
+    duration: string;
+    url: string;
+  }[];
+}
+
+export interface TAddDocumentBulk {
   title: string;
   duration: string;
   url: string;
 }
+
+export interface TAddVideoItem {
+  title: string;
+  description: string;
+  url: string;
+  duration: string | number;
+}
+
+export interface TAddVideoPayload {
+  videos: TAddVideoItem[];
+}
+
+export type TAddVideoResponse = TMetaResponseSingle<TAddVideoPayload>;
+
+export type TEditVideoPayload = {
+  title: string;
+  description: string;
+  url: string;
+  duration: string | number;
+};

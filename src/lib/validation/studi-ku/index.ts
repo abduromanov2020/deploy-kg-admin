@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const generateDynamicValidationSchema = (count: number) => {
+export const generateDynamicValidationSchemaVideo = (count: number) => {
   const dynamicValidationSchema: Record<string, any> = {};
 
   for (let i = 0; i < count; i++) {
@@ -20,34 +20,40 @@ export const generateDynamicValidationSchema = (count: number) => {
       .string({
         required_error: `A modul description is required for video ${i + 1}.`,
       })
-      .refine((value) => value.trim() !== '<p></p>', {
-        message: 'A modul description is required for video',
-      });
+      .min(1, { message: `A modul description is required for video ${i + 1}.` });
+
+    dynamicValidationSchema[`video_duration_${i + 1}`] = z
+      .string({
+        required_error: `A modul duration is required for video ${i + 1}.`,
+      })
+      .min(1, { message: `A modul duration is required for video ${i + 1}.` });
+
   }
 
   return dynamicValidationSchema;
 };
 
-const MAX_FILE_SIZE = 2000000;
-const ACCEPTED_PDF_TYPES = ['application/pdf'];
-
 export const generateDynamicValidationSchemaDocument = (count: number) => {
   const dynamicValidationSchema: Record<string, any> = {};
 
   for (let i = 0; i < count; i++) {
-    dynamicValidationSchema[`document_file_${i + 1}`] = z
-      .any()
-      .refine(
-        (files: File[]) => files !== undefined && files?.length >= 1,
-        'Harus ada file yang di upload.',
-      )
-      .refine((files: File[]) => {
-        return files !== undefined && files?.[0]?.size <= MAX_FILE_SIZE;
-      }, 'Ukuran maksimun adalah 2mb.')
-      .refine(
-        (files: File[]) => ACCEPTED_PDF_TYPES.includes(files?.[0]?.type),
-        'hanya menerima .pdf.',
-      );
+    dynamicValidationSchema[`document_title_${i + 1}`] = z
+      .string({
+        required_error: `A document title is required for document ${i + 1}.`,
+      })
+      .min(1, { message: `A document title is required for document ${i + 1}.` });
+
+    dynamicValidationSchema[`document_link_${i + 1}`] = z
+      .string({
+        required_error: `A document link is required for document ${i + 1}.`,
+      })
+      .min(1, { message: `A document link is required for document ${i + 1}.` });
+
+    dynamicValidationSchema[`document_duration_${i + 1}`] = z
+      .string({
+        required_error: `A document duration is required for document ${i + 1}.`,
+      })
+      .min(1, { message: `A document link is required for document ${i + 1}.` });
   }
 
   return dynamicValidationSchema;
@@ -93,21 +99,13 @@ export const generateDynamicValidationSchemaDiskusi = (count: number) => {
   return dynamicValidationSchema;
 };
 
-export const ValidationSchemaCoverModul = (count: number) =>
+export const ValidationSchemaVideo = (count: number) =>
   z.object({
-    cover_title: z
-      .string({
-        required_error: 'A modul title is required.',
-      })
-      .min(1, { message: 'A modul title is required.' }),
-    cover_description: z
-      .string({
-        required_error: 'A modul description is required.',
-      })
-      .min(1, { message: 'A modul description is required.' })
-      .refine((value) => value.trim() !== '<p></p>', {
-        message: 'A modul description is required',
-      }),
+    ...generateDynamicValidationSchemaVideo(count),
+  });
 
-    ...generateDynamicValidationSchema(count),
+export const ValidationSchemaDocument = (count: number) =>
+  z.object({
+
+    ...generateDynamicValidationSchemaDocument(count),
   });
