@@ -47,9 +47,7 @@ const FacultyGridCardComponent = ({ data }: TFacultiesAllData) => {
                 {item.name}
               </CardTitle>
               <CardDescription className='line-clamp-2'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
-                alias, quod est accusantium adipisci in cumque fuga tenetur et
-                veniam!
+                {item.name}
               </CardDescription>
             </section>
           </CardContent>

@@ -1,11 +1,13 @@
-import { api } from "@/lib/api";
+import { api } from '@/lib/api';
 
-import { TAllArticleResponse, TEditArticlePayload } from "@/types/sekilas-ilmu/types";
-
+import {
+  TAllArticleResponse,
+  TEditArticlePayload,
+} from '@/types/sekilas-ilmu/types';
 
 export const EditArticleRequest = async (
   id: string,
-  payload: TEditArticlePayload
+  payload: TEditArticlePayload,
 ): Promise<TAllArticleResponse> => {
   const { data } = await api({
     method: 'put',
@@ -14,8 +16,6 @@ export const EditArticleRequest = async (
       'Content-Type': 'multipart/form-data',
     },
     data: payload,
-
   });
-console.log(id)
   return data;
 };

@@ -3,7 +3,6 @@
 import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
 import React, { DependencyList, useCallback, useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { CiCirclePlus } from 'react-icons/ci';
 import { IoGridOutline, IoListOutline } from 'react-icons/io5';
 
 import { Button } from '@/components/ui/button';
@@ -11,9 +10,8 @@ import { Input } from '@/components/ui/input';
 
 type Checked = DropdownMenuCheckboxItemProps['checked'];
 
-import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { BiLoaderAlt } from 'react-icons/bi';
+import { BiLoaderAlt, BiPlusCircle } from 'react-icons/bi';
 
 import { useGetStudyPlanFaculties } from '@/hooks/rencana-studi/faculties/hook';
 
@@ -21,6 +19,7 @@ import Pagination from '@/components/generals/pagination';
 
 import FacultyGridCardComponent from '@/modules/rencana-studi/faculty/components/grid';
 import { FacultyTable } from '@/modules/rencana-studi/faculty/components/table';
+import { AddFacultyModal } from '@/modules/rencana-studi/faculty/faculty-add/components/addFacultyModal';
 
 export function useDebounce(
   effect: VoidFunction,
@@ -102,15 +101,14 @@ export const RencanaStudiModule = () => {
             </div>
           </div>
           <div className='flex items-center gap-3'>
-            <Button
-              asChild
-              className='hover:bg-white shadow-md bg-primary-500 hover:text-primary-500 text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'
-            >
-              <Link href='/rencana-studi/fakultas/tambah-fakultas'>
-                <CiCirclePlus size={20} />
-                <p className='leading-none'>Fakultas</p>
-              </Link>
-            </Button>
+            <AddFacultyModal
+              modalTrigger={
+                <div className='flex gap-2 items-center '>
+                  <BiPlusCircle className='text-white text-xl' />
+                  Tambah Fakultas
+                </div>
+              }
+            />
             <Button
               className={`${
                 showGrid

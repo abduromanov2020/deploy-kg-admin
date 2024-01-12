@@ -142,7 +142,7 @@ export const useDeleteModule = (
     mutationFn: async () =>
       await deleteModuleRequest(subjectId, sessionId, moduleId),
   });
-}
+};
 
 export const useAddDocumentModule = (
   subjectId: string,
@@ -159,4 +159,4 @@ export const useAddDocumentModule = (
     mutationFn: async (payload) =>
       await AddDocumentRequest(payload, subjectId, sessionId, moduleId),
   });
-}
+};

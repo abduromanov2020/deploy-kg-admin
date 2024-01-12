@@ -116,7 +116,9 @@ export const deleteModuleRequest = async (
   sessionId: string,
   moduleId: string,
 ): Promise<TModulesResponse> => {
-  const { data } = await api.delete(`v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules/${moduleId}`)
+  const { data } = await api.delete(
+    `v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules/${moduleId}`,
+  );
 
   return data;
 };
@@ -133,4 +135,4 @@ export const AddDocumentRequest = async (
   );
 
   return data;
-}
+};

@@ -18,7 +18,7 @@ interface modalTriggerProps {
   modalTrigger: React.ReactNode;
 }
 
-export const DeleteFacultyModal = ({ modalTrigger }: modalTriggerProps) => {
+export const DeletedFacultyModal = ({ modalTrigger }: modalTriggerProps) => {
   const queryClient = useQueryClient();
 
   const router = useRouter();
