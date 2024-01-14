@@ -2,10 +2,15 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 
 import {
-  AddDocumentRequest,
+  AddDocumentBulkRequest,
   AddModuleRequest,
+  addVideoRequest,
+  deleteDocumentRequest,
   deleteModuleRequest,
+  deleteVideoRequest,
+  editDocumentRequest,
   EditModuleRequest,
+  editVideoRequest,
   facultyRequest,
   getDocumentByModuleId,
   getModulesBySessionId,
@@ -20,9 +25,13 @@ import {
   TAddDocumentResponse,
   TAddModulePayload,
   TAddModuleResponse,
+  TAddVideoPayload,
+  TAddVideoResponse,
   TDocumentResponse,
+  TEditDocumentPayload,
   TEditModulePayload,
   TEditModuleResponse,
+  TEditVideoPayload,
   TFacultyDataResponse,
   TItemMajorDataResponse,
   TItemSubjectDataResponse,
@@ -144,7 +153,7 @@ export const useDeleteModule = (
   });
 };
 
-export const useAddDocumentModule = (
+export const useAddDocumentBulk = (
   subjectId: string,
   sessionId: string,
   moduleId: string,
@@ -157,6 +166,95 @@ export const useAddDocumentModule = (
   return useMutation({
     mutationKey: ['add-document-module', subjectId, sessionId, moduleId],
     mutationFn: async (payload) =>
-      await AddDocumentRequest(payload, subjectId, sessionId, moduleId),
+      await AddDocumentBulkRequest(payload, subjectId, sessionId, moduleId),
   });
 };
+
+export const useEditDocument = (
+  subjectId: string,
+  sessionId: string,
+  moduleId: string,
+  documentId: string,
+): UseMutationResult<
+  TDocumentResponse,
+  TMetaErrorResponse,
+  TEditDocumentPayload,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ['edit-document-module', subjectId, sessionId, moduleId],
+    mutationFn: async (payload) =>
+      await editDocumentRequest(payload, subjectId, sessionId, moduleId, documentId),
+  });
+}
+
+
+export const useDeleteDocument = (
+  subjectId: string,
+  sessionId: string,
+  moduleId: string,
+  documentId: string,
+): UseMutationResult<
+  TDocumentResponse,
+  TMetaErrorResponse,
+  string,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ['delete-document-module', subjectId, sessionId, moduleId],
+    mutationFn: async () =>
+      await deleteDocumentRequest(subjectId, sessionId, moduleId, documentId),
+  });
+}
+
+export const useAddVideo = (
+  subjectId: string,
+  sessionId: string,
+  moduleId: string,
+): UseMutationResult<
+  TAddVideoResponse,
+  TMetaErrorResponse,
+  TAddVideoPayload,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ['add-video-module', subjectId, sessionId, moduleId],
+    mutationFn: async (payload) =>
+      await addVideoRequest(payload, subjectId, sessionId, moduleId),
+  });
+}
+
+export const useEditVideo = (
+  subjectId: string,
+  sessionId: string,
+  moduleId: string,
+  videoId: string,
+): UseMutationResult<
+  TVideoResponse,
+  TMetaErrorResponse,
+  TEditVideoPayload,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ['edit-video-module', subjectId, sessionId, moduleId],
+    mutationFn: async (payload) =>
+      await editVideoRequest(payload, subjectId, sessionId, moduleId, videoId),
+  });
+}
+
+export const useDeleteVideo = (
+  subjectId: string,
+  sessionId: string,
+  moduleId: string,
+): UseMutationResult<
+  TVideoResponse,
+  TMetaErrorResponse,
+  string,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ['delete-video-module', subjectId, sessionId, moduleId],
+    mutationFn: async (videoId) =>
+      await deleteVideoRequest(subjectId, sessionId, moduleId, videoId),
+  });
+}
