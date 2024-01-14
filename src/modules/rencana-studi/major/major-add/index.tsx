@@ -307,7 +307,7 @@ export const AddMajorModule = () => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {faculties.map(
+                            {faculties?.map(
                               (faculty: { value: string; label: string }) => (
                                 <SelectItem
                                   key={faculty.value}

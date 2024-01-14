@@ -133,6 +133,8 @@ const EditMajorModule = () => {
     },
   });
 
+  console.log(major);
+
   useEffect(() => {
     if (major) {
       const defaultValues = {
