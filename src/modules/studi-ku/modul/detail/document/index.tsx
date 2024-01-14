@@ -1,17 +1,16 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { convertToRaw, EditorState } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
-import dynamic from 'next/dynamic';
-import React, { Fragment, useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import React, { Fragment, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { BiMinusCircle, BiPlusCircle } from 'react-icons/bi';
 
-import { ValidationSchemaCoverModul } from '@/lib/validation/studi-ku';
+import { ValidationSchemaDocument } from '@/lib/validation/studi-ku';
+import { useAddDocumentBulk } from '@/hooks/studi-ku/modul/hook';
 
-import { BreadCrumb } from '@/components/BreadCrumb';
+import { BreadCrumb, TCrumbItem } from '@/components/BreadCrumb';
 import { Input } from '@/components/input';
 import { Button } from '@/components/ui/button';
 import {
@@ -23,78 +22,96 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-// import { Input } from '@/components/ui/input';
-import { TAMBAH_MODULE_BREADCRUMBS } from '@/modules/studi-ku/modul/constant';
+import { DETAIL_MODULE_BREADCRUMBS } from '@/modules/studi-ku/modul/constant';
+import { TitleModule } from '@/modules/studi-ku/modul/tambah/TitleModule';
+
 import {
-  SubTitleModule,
-  TitleModule,
-} from '@/modules/studi-ku/modul/tambah/TitleModule';
-
-import { FormFields } from '@/types/studi-ku/modul';
-
-const DraftEditor = dynamic(() => import('@/components/text-editor'), {
-  ssr: false,
-});
+  FormFields,
+  TAddDocumentBulk,
+  TAddDocumentPayload,
+} from '@/types/studi-ku/modul';
 
 export const TambahModulDokumen = () => {
   const [countDocument, setCountDocument] = useState<number>(1);
+  const { subject_id, session_id, module_id } = useParams();
+  const router = useRouter();
 
-  const defaultValues: Record<string, string> = {
-    cover_title: '',
-    cover_description: '<p></p>\n',
-  };
+  const { mutate } = useAddDocumentBulk(
+    subject_id as string,
+    session_id as string,
+    module_id as string,
+  );
+
+  const defaultValues: Record<string, string> = {};
 
   for (let index = 0; index < countDocument; index++) {
     defaultValues[`document_title_${index + 1}`] = '';
+    defaultValues[`document_duration_${index + 1}`] = '';
     defaultValues[`document_link_${index + 1}`] = '';
-    defaultValues[`document_description_${index + 1}`] = '<p></p>\n';
   }
 
   const form = useForm<FormFields>({
-    resolver: zodResolver(ValidationSchemaCoverModul(countDocument)),
+    resolver: zodResolver(ValidationSchemaDocument(countDocument)),
     defaultValues,
   });
 
-  /* Start Document Pembelajaran */
-
-  const [editorStateDocument, setEditorStateDocument] = useState<
-    Array<EditorState>
-  >([EditorState.createEmpty()]);
-
-  const handleEditorChangeDocument = (
-    editorState: EditorState,
-    index: number,
-  ) => {
-    const newEditorState = [...editorStateDocument];
-    newEditorState[index] = editorState;
-    setEditorStateDocument(newEditorState);
-
-    const contentState = editorState.getCurrentContent();
-    const rawContentState = convertToRaw(contentState);
-    const htmlContent = draftToHtml(rawContentState);
-
-    form.setValue(`document_description_${index + 1}`, htmlContent, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  };
-
-  /* End document Pembelajaran */
-
-  useEffect(() => {
-    console.log(form.formState.errors);
-  }, [form.formState.errors]);
-
   function onSubmit(data: FormFields) {
-    console.log(data);
+    try {
+      const document: TAddDocumentBulk[] = [];
 
-    toast.success('Form submitted!');
+      for (let index = 0; index < countDocument; index++) {
+        document.push({
+          title: data[`document_title_${index + 1}`] ?? '',
+          duration: data[`document_duration_${index + 1}`] ?? '0',
+          url: data[`document_link_${index + 1}`] ?? '',
+        });
+      }
+
+      const payload: TAddDocumentPayload = {
+        documents: document,
+      };
+
+      mutate(
+        {
+          ...payload,
+        },
+        {
+          onSuccess: () => {
+            toast.success(`${countDocument} dokumen berhasil ditambahkan`);
+            router.push(
+              `/studi-ku/modul/${subject_id}/${session_id}/${module_id}`,
+            );
+          },
+          onError: (error) => {
+            toast.error(error && 'Gagal Menambahkan Dokumen!');
+          },
+        },
+      );
+    } catch {
+      toast.error('Gagal menambahkan document');
+    }
   }
+
+  const BreadCrumbItems: TCrumbItem[] = [
+    ...DETAIL_MODULE_BREADCRUMBS,
+    {
+      name: 'Daftar Modul',
+      link: `/studi-ku/modul/${subject_id}/${session_id}`,
+    },
+    {
+      name: `Detail Modul`,
+      link: `/studi-ku/modul/${subject_id}/${session_id}/${module_id}`,
+    },
+    {
+      name: `Tambah Dokumen`,
+      link: `/studi-ku/modul/${subject_id}/${session_id}/${module_id}/tambah-dokumen`,
+    },
+  ];
 
   return (
     <div className='flex flex-col gap-6'>
       <div className='bg-white w-full rounded-md shadow-md p-5'>
-        <BreadCrumb items={TAMBAH_MODULE_BREADCRUMBS} className='!p-0 ' />
+        <BreadCrumb items={BreadCrumbItems} className='!p-0 ' />
       </div>
       <Form {...form}>
         <form
@@ -105,12 +122,16 @@ export const TambahModulDokumen = () => {
 
           <div className='px-5'>
             <div className='flex-col flex bg-dark-200 p-5 rounded-md'>
-              <SubTitleModule title='document Pembelajaran' />
               <div className='flex flex-col gap-4'>
                 {Array(countDocument)
                   .fill('')
                   .map((_, index) => (
                     <Fragment key={index}>
+                      <div className='pt-4'>
+                        <h3 className='font-semibold text-dark-900'>
+                          Dokumen Pembelajaran {index + 1}
+                        </h3>
+                      </div>
                       <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
                         <FormField
                           control={form.control}
@@ -132,15 +153,16 @@ export const TambahModulDokumen = () => {
                         />
                         <FormField
                           control={form.control}
-                          name={`document_link_${index + 1}`}
+                          name={`document_duration_${index + 1}`}
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Link document {index + 1}</FormLabel>
+                              <FormLabel>Durasi dokumen {index + 1}</FormLabel>
                               <FormControl>
                                 <Input
-                                  placeholder={`Masukkan Link document ${
+                                  placeholder={`Masukkan durasi dokumen ${
                                     index + 1
                                   }`}
+                                  type='number'
                                   {...field}
                                 />
                               </FormControl>
@@ -149,17 +171,23 @@ export const TambahModulDokumen = () => {
                           )}
                         />
                       </div>
-                      <DraftEditor
-                        editorState={editorStateDocument[index]}
-                        setEditorState={(editorState: EditorState) => {
-                          handleEditorChangeDocument(editorState, index);
-                        }}
-                        label={`Deskripsi Document ${index + 1}`}
-                        error={
-                          form.formState.errors[
-                            `Document_description_${index + 1}`
-                          ]?.message
-                        }
+                      <FormField
+                        control={form.control}
+                        name={`document_link_${index + 1}`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Link document {index + 1}</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder={`Masukkan Link document ${
+                                  index + 1
+                                }`}
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
                       />
                     </Fragment>
                   ))}
@@ -194,7 +222,7 @@ export const TambahModulDokumen = () => {
               type='submit'
               className='bg-primary-500 text-white px-4 py-2 rounded-md'
             >
-              Simpan Perubahan
+              Tambah Dokumen
             </Button>
           </div>
         </form>

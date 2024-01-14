@@ -20,14 +20,12 @@ import { PopoverFaculty } from '@/modules/rencana-studi/faculty/components/pop-o
 import { TFacultiesAllData } from '@/types/rencana-studi/faculties/types';
 
 const FacultyGridCardComponent = ({ data }: TFacultiesAllData) => {
-  console.log('data', data);
-
   return (
-    <div className='grid grid-cols-3 gap-4'>
+    <div className='flex gap-4 flex-wrap'>
       {data?.map((item) => (
         <Card
           key={item.id}
-          className='w-[350px] rounded-lg overflow-hidden mx-auto'
+          className='w-[300px] rounded-lg overflow-hidden mx-auto'
         >
           <CardHeader className='p-0 h-48'>
             <Image

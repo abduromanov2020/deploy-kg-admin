@@ -3,11 +3,16 @@ import { api } from '@/lib/api';
 import { FACULTY, MAJOR, SUBJECT } from '@/constant/api';
 
 import {
+  TAddDocumentPayload,
   TAddModulePayload,
   TAddModuleResponse,
+  TAddVideoPayload,
+  TAddVideoResponse,
   TDocumentResponse,
+  TEditDocumentPayload,
   TEditModulePayload,
   TEditModuleResponse,
+  TEditVideoPayload,
   TFacultyDataResponse,
   TItemMajorDataResponse,
   TItemSubjectDataResponse,
@@ -119,3 +124,83 @@ export const deleteModuleRequest = async (
 
   return data;
 };
+
+export const AddDocumentBulkRequest = async (
+  payload: TAddDocumentPayload,
+  subjectId: string,
+  sessionId: string,
+  moduleId: string,
+): Promise<TAddDocumentPayload> => {
+  const { data } = await api.post(
+    `v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules/${moduleId}/documents/bulk`,
+    payload,
+  );
+
+  return data;
+}
+
+export const editDocumentRequest = async (
+  payload: TEditDocumentPayload,
+  subjectId: string,
+  sessionId: string,
+  moduleId: string,
+  documentId: string,
+): Promise<TDocumentResponse> => {
+  const { data } = await api.put(
+    `v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules/${moduleId}/documents/${documentId}`,
+    payload,
+  );
+
+  return data;
+}
+
+export const deleteDocumentRequest = async (
+  subjectId: string,
+  sessionId: string,
+  moduleId: string,
+  documentId: string,
+): Promise<TDocumentResponse> => {
+  const { data } = await api.delete(`v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules/${moduleId}/documents/${documentId}`)
+
+  return data;
+}
+
+export const addVideoRequest = async (
+  payload: TAddVideoPayload,
+  subjectId: string,
+  sessionId: string,
+  moduleId: string,
+): Promise<TAddVideoResponse> => {
+  const { data } = await api.post(
+    `v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules/${moduleId}/videos/bulk`,
+    payload,
+  );
+
+  return data;
+}
+
+export const editVideoRequest = async (
+  payload: TEditVideoPayload,
+  subjectId: string,
+  sessionId: string,
+  moduleId: string,
+  videoId: string,
+): Promise<TVideoResponse> => {
+  const { data } = await api.put(
+    `v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules/${moduleId}/videos/${videoId}`,
+    payload,
+  );
+
+  return data;
+}
+
+export const deleteVideoRequest = async (
+  subjectId: string,
+  sessionId: string,
+  moduleId: string,
+  videoId: string,
+): Promise<TVideoResponse> => {
+  const { data } = await api.delete(`v2/admin/subjects/${subjectId}/sessions/${sessionId}/modules/${moduleId}/videos/${videoId}`)
+
+  return data;
+} 

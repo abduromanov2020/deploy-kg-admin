@@ -3,10 +3,11 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { FaRegEdit } from 'react-icons/fa';
 import { z } from 'zod';
 
-import { AddModuleValidationSchema } from '@/lib/validation/studi-ku/module';
-import { useAddModule } from '@/hooks/studi-ku/modul/hook';
+import { EditDocumentValidationSchema } from '@/lib/validation/studi-ku/module';
+import { useEditDocument } from '@/hooks/studi-ku/modul/hook';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -29,32 +30,46 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { TAddModulePayload } from '@/types/studi-ku/modul';
+import { TEditDocumentPayload } from '@/types/studi-ku/modul';
 
-interface moduleModalTriggerProps {
-  modalTrigger: React.ReactNode;
-  // articleId?: string;
+interface DocumentModalTriggerProps {
+  id: string;
+  title: string;
+  url: string;
+  duration: string;
 }
 
-export function AddModuleModal({
-  modalTrigger, // moduleId,
-}: moduleModalTriggerProps) {
+export function EditDocumentModal({
+  id,
+  title,
+  url,
+  duration,
+}: DocumentModalTriggerProps) {
   const queryClient = useQueryClient();
-  const { subject_id, session_id } = useParams();
+  const { subject_id, session_id, module_id } = useParams();
 
-  const { mutate } = useAddModule(subject_id as string, session_id as string);
+  const { mutate } = useEditDocument(
+    subject_id as string,
+    session_id as string,
+    module_id as string,
+    id,
+  );
 
-  const form = useForm<z.infer<typeof AddModuleValidationSchema>>({
-    resolver: zodResolver(AddModuleValidationSchema),
+  const form = useForm<z.infer<typeof EditDocumentValidationSchema>>({
+    resolver: zodResolver(EditDocumentValidationSchema),
+    defaultValues: {
+      title,
+      url,
+      duration,
+    },
   });
 
-  const onSubmit = (data: z.infer<typeof AddModuleValidationSchema>) => {
-    const durationValue = data?.duration;
+  const onSubmit = (data: z.infer<typeof EditDocumentValidationSchema>) => {
     try {
-      const payload: TAddModulePayload = {
+      const payload: TEditDocumentPayload = {
         title: data?.title,
-        description: data?.description,
-        duration: durationValue,
+        url: data?.url,
+        duration: data?.duration,
       };
       mutate(
         {
@@ -62,11 +77,11 @@ export function AddModuleModal({
         },
         {
           onSuccess: () => {
-            toast.success('Form submitted!');
-            queryClient.invalidateQueries(['get-modules-by-session-id'] as any);
+            toast.success('Dokumen Berhasil Di Edit!');
+            queryClient.invalidateQueries(['get-document-by-module-id'] as any);
           },
           onError: (error) => {
-            toast.error(error && 'Gagal Menambahkan Module!');
+            toast.error(error && 'Gagal Menambahkan Dokumen!');
           },
         },
       );
@@ -77,6 +92,7 @@ export function AddModuleModal({
 
   const onSubmitDialog = () => {
     form.handleSubmit(onSubmit)();
+    form.reset();
   };
 
   return (
@@ -84,13 +100,16 @@ export function AddModuleModal({
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant='primary'>{modalTrigger}</Button>
+            <div className='flex gap-3 text-primary-500 items-center text-sm font-medium cursor-pointer'>
+              <FaRegEdit fill='currentColor' className='w-4 h-4' />
+              Edit
+            </div>
           </DialogTrigger>
           <DialogContent className='sm:max-w-[425px]'>
             <DialogHeader>
-              <DialogTitle>Tambah Modul</DialogTitle>
+              <DialogTitle>Edit</DialogTitle>
               <DialogDescription>
-                Buat Modul Untuk Bisa Menambahkan Materi Pembelajaran
+                Pastikan Dokumen Yang Di Edit Sudah Benar
               </DialogDescription>
             </DialogHeader>
             <div className='grid gap-4 py-4'>
@@ -112,16 +131,12 @@ export function AddModuleModal({
               <div className='grid items-center gap-4'>
                 <FormField
                   control={form.control}
-                  name='description'
+                  name='url'
                   render={({ field }) => (
                     <FormItem className='grid w-full gap-1.5'>
-                      <FormLabel>Description*</FormLabel>
+                      <FormLabel>Link*</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder='Description'
-                          type='description'
-                          {...field}
-                        />
+                        <Input placeholder='Link' {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -152,13 +167,10 @@ export function AddModuleModal({
               <DialogClose asChild>
                 <Button
                   onClick={onSubmitDialog}
-                  disabled={
-                    form.formState.isSubmitting || !form.formState.isValid
-                  }
                   type='submit'
                   variant='primary'
                 >
-                  Tambah Module
+                  Edit Dokumen
                 </Button>
               </DialogClose>
             </DialogFooter>

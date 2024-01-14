@@ -33,14 +33,6 @@ export const DETAIL_MODULE_BREADCRUMBS = [
     name: 'Studi-Ku',
     link: '/studi-ku',
   },
-  {
-    name: 'Daftar Modul',
-    link: '/studi-ku/modul',
-  },
-  {
-    name: 'Detail Modul',
-    link: '/studi-ku/detail-modul',
-  },
 ];
 
 export const MODUL_DATA = [
@@ -78,9 +70,5 @@ export const MODULE_BREADCRUMBS = [
   {
     name: 'Studi-Ku',
     link: '/studi-ku',
-  },
-  {
-    name: 'Daftar Modul',
-    link: '/studi-ku/modul',
   },
 ];

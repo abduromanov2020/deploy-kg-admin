@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
-import { useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
@@ -45,12 +45,13 @@ export function EditModuleModal({
   duration,
 }: moduleModalTriggerProps) {
   const queryClient = useQueryClient();
-  const searchParams = useSearchParams();
+  const { subject_id, session_id } = useParams();
 
-  const subject_id = searchParams.get('subject_id') ?? '';
-  const session_id = searchParams.get('session_id') ?? '';
-
-  const { mutate } = useEditModule(id, subject_id, session_id);
+  const { mutate } = useEditModule(
+    id,
+    subject_id as string,
+    session_id as string,
+  );
 
   const form = useForm<z.infer<typeof AddModuleValidationSchema>>({
     resolver: zodResolver(AddModuleValidationSchema),
@@ -62,7 +63,6 @@ export function EditModuleModal({
   });
 
   const onSubmit = (data: z.infer<typeof AddModuleValidationSchema>) => {
-    // console.log(data);
     const durationValue = data?.duration; // Konversi nilai ke tipe number
     try {
       const payload: TAddModulePayload = {
@@ -76,7 +76,7 @@ export function EditModuleModal({
         },
         {
           onSuccess: () => {
-            toast.success('Form submitted!');
+            toast.success('Modul Berhasil Di Edit!');
             queryClient.invalidateQueries(['get-modules-by-session-id'] as any);
           },
           onError: (error) => {

@@ -117,15 +117,15 @@ export const MainStudiKu: React.FC = () => {
           />
         </div>
         {sessions ? (
-          sessions.data.sessions.map((session: TSessionItem) => (
+          sessions.data.sessions.map((item: TSessionItem) => (
             <AccordingModul
-              key={session.id}
-              title={`Pertemuan ${session.session_no}`}
+              key={item.id}
+              title={`Pertemuan ${item.session_no}`}
               data={[
                 {
                   title: 'Module',
                   icon: <IoDocumentText className='text-primary-500 text-xl' />,
-                  link: `/studi-ku/modul?subject_id=${session.subject_id}&session_id=${session.id}`,
+                  link: `/studi-ku/modul/${item.subject_id}/${item.id}`,
                 },
                 ...data,
               ]}
