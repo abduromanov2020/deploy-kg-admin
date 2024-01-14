@@ -41,14 +41,26 @@ export type TResponseAllFaculties = TMetaResponseFaculties<
 >;
 export type TDetailFacultiesResponse = TMetaResponseSingle<TFacultiesItem>;
 
-export interface TEditFacultyResponse {
+export interface TAddFacultyResponse {
   name: string;
-  thumbnail: string;
-  description: string;
+  thumbnail?: string | StaticImageData;
+  slug: string;
+}
+
+export interface TAddFacultyPayload {
+  name?: string;
+  thumbnail?: string | StaticImageData;
+  slug?: string;
+}
+
+export interface TEditFacultyResponse {
+  name?: string;
+  thumbnail?: string | StaticImageData;
+  slug?: string;
 }
 
 export interface TEditFacultyPayload {
   name: string;
-  thumbnail: string;
-  description: string;
+  thumbnail?: string | StaticImageData;
+  slug: string;
 }

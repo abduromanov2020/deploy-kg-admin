@@ -1,6 +1,8 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 import { IoWarningOutline } from 'react-icons/io5';
+
+import { useDeleteMajor } from '@/hooks/rencana-studi/majors/hook';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -15,27 +17,23 @@ import {
 } from '@/components/ui/dialog';
 
 interface modalTriggerProps {
+  id: string;
   modalTrigger: React.ReactNode;
 }
 
-export const DeleteMajorModal = ({ modalTrigger }: modalTriggerProps) => {
+export const DeleteMajorModal = ({ modalTrigger, id }: modalTriggerProps) => {
   const queryClient = useQueryClient();
 
-  const router = useRouter();
+  const { mutate: deleteMajor } = useDeleteMajor(id);
 
-  // const { mutate } = useDeleteArticle();
-
-  // const handleSubmitDelete = async () => {
-  //   await mutate(articleId, {
-  //     onSuccess: () => {
-  //       router.push('/sekilas-ilmu');
-  //       queryClient.invalidateQueries(['article-get'] as any);
-  //       toast.success('Artikel Berhasil Dihapus!');
-  //     },
-  //   });
-  // };
-
-  // console.log(articleId);
+  const handleSubmitDelete = async () => {
+    await deleteMajor(id, {
+      onSuccess: () => {
+        toast.success('Program Studi Berhasil Dihapus!');
+        queryClient.invalidateQueries(['major-get'] as any);
+      },
+    });
+  };
 
   return (
     <Dialog>
@@ -67,7 +65,7 @@ export const DeleteMajorModal = ({ modalTrigger }: modalTriggerProps) => {
             <Button
               type='submit'
               className='bg-red-800 hover:bg-red-900 w-full'
-              // onClick={handleSubmitDelete}
+              onClick={handleSubmitDelete}
             >
               Hapus
             </Button>

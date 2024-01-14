@@ -82,6 +82,7 @@ const RencanaStudiDetailMajor = () => {
                     <p className='leading-none'>Hapus Prodi</p>
                   </Button>
                 }
+                id={major.id}
               />
             </div>
           </section>

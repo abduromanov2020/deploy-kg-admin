@@ -1,10 +1,24 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationResult,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 
-import { studyPlanFacultiesGetRequest } from '@/hooks/rencana-studi/faculties/request';
+import {
+  addFacultyRequest,
+  deleteFacultyRequest,
+  studyPlanFacultiesGetRequest,
+} from '@/hooks/rencana-studi/faculties/request';
 import { facultyByIdGetRequest } from '@/hooks/rencana-studi/faculties/request';
 
 import { TMetaErrorResponse } from '@/types';
-import { TResponseAllFaculties } from '@/types/rencana-studi/faculties/types';
+import {
+  TAddFacultyPayload,
+  TAddFacultyResponse,
+  TDetailFacultiesResponse,
+  TResponseAllFaculties,
+} from '@/types/rencana-studi/faculties/types';
 import { TFacultyDataByIdResponse } from '@/types/rencana-studi/faculties/types';
 
 export const useGetStudyPlanFaculties = (
@@ -25,5 +39,31 @@ export const useGetFacultyById = (
     queryKey: ['get-faculty-detail', id],
     queryFn: async () => await facultyByIdGetRequest(id),
     staleTime: Infinity,
+  });
+};
+
+export const useAddFaculty = (): UseMutationResult<
+  TAddFacultyResponse,
+  TMetaErrorResponse,
+  TAddFacultyPayload,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ['add-faculty'],
+    mutationFn: async (payload) => await addFacultyRequest(payload),
+  });
+};
+
+export const useDeleteFaculty = (
+  id: string,
+): UseMutationResult<
+  TDetailFacultiesResponse,
+  TMetaErrorResponse,
+  string,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ['delete-faculties', id],
+    mutationFn: async () => await deleteFacultyRequest(id),
   });
 };

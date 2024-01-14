@@ -48,6 +48,39 @@ export type TMetaResponseMajors<T> = {
   majors: Array<T>;
 } & TMetaItem;
 
+export type TAddMajorPayload = {
+  name: string;
+  degree: string;
+  description: string;
+  major_head_id: string;
+  faculty_id: string;
+  thumbnail: string | StaticImageData;
+};
+
+export type TAddMajorResponse = {
+  id: string;
+  name: string;
+  description: string;
+  slug: string;
+  head_of_major: {
+    id: string;
+    full_name: string;
+    avatar?: string | null;
+  };
+  thumbnail: string | StaticImageData;
+  degree: string;
+  faculty_id: string;
+};
+
+export type TEditMajorPayload = {
+  name: string;
+  degree: string;
+  description: string;
+  major_head_id: string;
+  faculty_id: string;
+  thumbnail: string | StaticImageData;
+};
+
 export type TResponseAllMajors = TMetaResponseMajors<TMajorData>;
 export type TDetailMajorResponse = TMetaResponseSingle<TMajorItem>;
 export type TDetailMajorResponseById = TMetaResponseMajors<TDetailMajorData>; // Menambahkan respons get by id

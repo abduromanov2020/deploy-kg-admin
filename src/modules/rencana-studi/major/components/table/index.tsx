@@ -152,13 +152,22 @@ export const MajorTable = ({ data }: TMajorAllData) => {
         return (
           <div className='flex gap-3 justify-end'>
             <DeleteMajorModal
-              modalTrigger={<Button className='bg-red-800 w-1/3'>Hapus</Button>}
+              modalTrigger={
+                <Button variant='destructive'>
+                  <div className='flex gap-2 items-center'>Hapus</div>
+                </Button>
+              }
+              id={row.getValue('id')}
             />
             <Button
               className='bg-primary-500 w-1/3 hover:bg-primary-600'
               asChild
             >
-              <Link href='/rencana-studi/program-studi/1/edit-prodi/1'>
+              <Link
+                href={`/rencana-studi/program-studi/1/edit-prodi/${row.getValue(
+                  'id',
+                )}`}
+              >
                 Edit
               </Link>
             </Button>

@@ -151,7 +151,7 @@ export const useDeleteModule = (
     mutationFn: async () =>
       await deleteModuleRequest(subjectId, sessionId, moduleId),
   });
-}
+};
 
 export const useAddDocumentBulk = (
   subjectId: string,
@@ -168,7 +168,7 @@ export const useAddDocumentBulk = (
     mutationFn: async (payload) =>
       await AddDocumentBulkRequest(payload, subjectId, sessionId, moduleId),
   });
-}
+};
 
 export const useEditDocument = (
   subjectId: string,
@@ -258,4 +258,3 @@ export const useDeleteVideo = (
       await deleteVideoRequest(subjectId, sessionId, moduleId, videoId),
   });
 }
-

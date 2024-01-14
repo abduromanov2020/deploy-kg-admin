@@ -27,7 +27,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { DeleteFacultyModal } from '@/modules/rencana-studi/faculty/components/delete-faculty-modal';
+import { EditFacultyModal } from '@/modules/rencana-studi/faculty/components/editFacultyModal';
+import DeleteFacultyModal from '@/modules/rencana-studi/faculty/faculty-delete';
 
 import {
   TFacultiesAllData,
@@ -187,17 +188,23 @@ export const FacultyTable = ({ data }: TFacultiesAllData) => {
       ),
     },
     {
-      id: 'actions',
-      enableHiding: false,
+      accessorKey: 'id',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant='ghost'
+            className='text-sm p-0 text-start font-semibold text-black'
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          ></Button>
+        );
+      },
       cell: ({ row }) => {
-        const payment = row.original;
-
         return (
           <div className='flex gap-3 justify-end'>
-            <DeleteFacultyModal
+            {/* <DeleteFacultyModal
               modalTrigger={<Button className='bg-red-800 w-1/3'>Hapus</Button>}
-            />
-            <Button
+            /> */}
+            {/* <Button
               className='bg-primary-500 w-1/3 hover:bg-primary-600'
               asChild
             >
@@ -208,7 +215,26 @@ export const FacultyTable = ({ data }: TFacultiesAllData) => {
               >
                 Edit
               </Link>
-            </Button>
+            </Button> */}
+            <EditFacultyModal
+              modalTrigger={
+                <Button variant='primary'>
+                  <div className='flex gap-2 items-center '>Edit Fakultas</div>
+                </Button>
+              }
+              id={row.getValue('id')}
+              name={row.getValue('name')}
+              thumbnail={row.getValue('thumbnail')}
+              slug={row.getValue('slug')}
+            />
+            <DeleteFacultyModal
+              modalTrigger={
+                <Button variant='destructive'>
+                  <div className='flex gap-2 items-center'>Hapus Fakultas</div>
+                </Button>
+              }
+              id={row.getValue('id')}
+            />
           </div>
         );
       },

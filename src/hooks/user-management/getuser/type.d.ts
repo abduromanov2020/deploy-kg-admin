@@ -28,3 +28,15 @@ export interface Meta {
   current_page: number;
   max_page: number;
 }
+
+export interface TGetUserByRoleResponse {
+  code: number;
+  status: string;
+  message: string;
+  data: Daum[];
+}
+
+export interface Daum {
+  id: string;
+  name: string;
+}
