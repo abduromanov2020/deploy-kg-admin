@@ -90,7 +90,7 @@ const MajorModule = ({ id }: TProps) => {
                 className='hover:bg-white shadow-md bg-primary-500 hover:text-primary-500 text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'
                 asChild
               >
-                <Link href='/rencana-studi/program-studi/1/tambah-prodi'>
+                <Link href={`/rencana-studi/program-studi/${id}/tambah-prodi`}>
                   <CiCirclePlus size={20} />
                   <p className='leading-none'>Tambah Prodi</p>
                 </Link>

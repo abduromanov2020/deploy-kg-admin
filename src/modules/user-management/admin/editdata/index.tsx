@@ -35,7 +35,7 @@ const EditDataAdminModule = () => {
   const { id } = params;
   const { data, isLoading } = useUserById(id);
   const useData = data?.data;
-  console.log(useData?.email);
+  // console.log(useData?.email);
   const ConstantEditAdmin = [
     {
       name: 'User Management',

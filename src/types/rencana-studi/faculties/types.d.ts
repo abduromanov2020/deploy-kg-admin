@@ -60,7 +60,7 @@ export interface TEditFacultyResponse {
 }
 
 export interface TEditFacultyPayload {
-  name?: string;
+  name: string;
   thumbnail?: string | StaticImageData;
-  slug?: string;
+  slug: string;
 }

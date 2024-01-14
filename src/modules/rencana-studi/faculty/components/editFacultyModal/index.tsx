@@ -47,6 +47,7 @@ export function EditFacultyModal({
   slug,
   modalTrigger,
 }: moduleModalTriggerProps) {
+  // console.log(slug);
   const queryClient = useQueryClient();
 
   const { mutate } = useEditFaculty(id);
@@ -56,7 +57,7 @@ export function EditFacultyModal({
     defaultValues: {
       name,
       thumbnail,
-      slug,
+      slug: slug || '',
     },
   });
 
@@ -65,7 +66,7 @@ export function EditFacultyModal({
       const payload: TEditFacultyPayload = {
         name: data?.name,
         thumbnail: data?.thumbnail[0],
-        slug: data?.slug,
+        slug: data?.slug || '',
       };
       mutate(
         {
@@ -141,11 +142,7 @@ export function EditFacultyModal({
                     <FormItem className='grid w-full gap-1.5'>
                       <FormLabel>Masukkan Slug</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder='slug'
-                          // type='number'
-                          {...field}
-                        />
+                        <Input placeholder='slug' {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

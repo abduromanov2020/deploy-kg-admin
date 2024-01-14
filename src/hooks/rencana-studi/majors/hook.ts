@@ -1,6 +1,14 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationResult,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 
 import {
+  addMajorRequest,
+  deleteMajorRequest,
+  EditMajorRequest,
   majorGetByFacultyId,
   studyPlanMajorGetById,
   studyPlanMajorsGetRequest,
@@ -8,7 +16,11 @@ import {
 
 import { TMetaErrorResponse } from '@/types';
 import {
+  TAddMajorPayload,
+  TAddMajorResponse,
+  TDetailMajorResponse,
   TDetailMajorResponseById,
+  TEditMajorPayload,
   TResponseAllMajors,
 } from '@/types/rencana-studi/majors/types';
 
@@ -38,3 +50,42 @@ export const useGetMajorByFacultyId = (
     queryKey: ['major-get-by-faculty-id', id, page, limit],
     queryFn: async () => await majorGetByFacultyId(id),
   });
+
+export const useAddMajor = (): UseMutationResult<
+  TAddMajorResponse,
+  TMetaErrorResponse,
+  TAddMajorPayload,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ['add-major'],
+    mutationFn: async (payload) => await addMajorRequest(payload),
+  });
+};
+
+export const useDeleteMajor = (
+  id: string | string[],
+): UseMutationResult<
+  TDetailMajorResponse,
+  TMetaErrorResponse,
+  string,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ['delete-major', id],
+    mutationFn: async () => await deleteMajorRequest(id),
+  });
+};
+
+export const useEditMajor = (
+  id: string | string[],
+): UseMutationResult<
+  TResponseAllMajors,
+  TMetaErrorResponse,
+  TEditMajorPayload
+> => {
+  return useMutation({
+    mutationKey: ['edit-major', id],
+    mutationFn: async (payload) => await EditMajorRequest(id, payload),
+  });
+};
