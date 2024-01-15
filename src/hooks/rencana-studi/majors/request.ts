@@ -51,7 +51,7 @@ export const addMajorRequest = async (
 export const EditMajorRequest = async (
   id: string | string[],
   payload: TEditMajorPayload,
-): Promise<TResponseAllMajors> => {
+): Promise<TAddMajorResponse> => {
   const { data } = await api({
     method: 'put',
     url: `v2/admin/majors/${id}`,

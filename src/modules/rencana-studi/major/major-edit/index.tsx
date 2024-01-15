@@ -23,7 +23,7 @@ import {
 } from '@/lib/validation/rencana-studi';
 import { useGetStudyPlanFaculties } from '@/hooks/rencana-studi/faculties/hook';
 import {
-  useAddMajor,
+  useEditMajor,
   useGetStudyPlanMajorById,
 } from '@/hooks/rencana-studi/majors/hook';
 import { useUserByRole } from '@/hooks/user-management/getuser/hook';
@@ -120,7 +120,8 @@ const EditMajorModule = () => {
     },
   );
 
-  const { mutate } = useAddMajor();
+  const { mutate } = useEditMajor(id_prodi);
+
   const form = useForm<z.infer<typeof EditMajorValidationSchema>>({
     resolver: zodResolver(EditMajorValidationSchema),
     defaultValues: {
@@ -132,8 +133,6 @@ const EditMajorModule = () => {
       thumbnail: '',
     },
   });
-
-  console.log(major);
 
   useEffect(() => {
     if (major) {
@@ -185,8 +184,6 @@ const EditMajorModule = () => {
       toast.error('Error submitting form!');
     }
   };
-
-  // console.log(teachers);
 
   const [isChecked, setIsChecked] = useState(true);
   const handleLookUp = () => {
@@ -334,7 +331,7 @@ const EditMajorModule = () => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {faculties.map(
+                            {faculties?.map(
                               (faculty: { value: string; label: string }) => (
                                 <SelectItem
                                   key={faculty.value}
