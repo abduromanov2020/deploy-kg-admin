@@ -17,7 +17,7 @@ import { PopoverMajor } from '@/modules/rencana-studi/major/components/pop-over'
 import { TMajorAllData } from '@/types/rencana-studi/majors/types';
 
 const MajorGrid = ({ data }: TMajorAllData) => {
-  const { faculty_id } = useParams();
+  const { id } = useParams();
 
   return (
     <div className='grid grid-cols-3 gap-4'>
@@ -57,7 +57,7 @@ const MajorGrid = ({ data }: TMajorAllData) => {
                 asChild
               >
                 <Link
-                  href={`/rencana-studi/program-studi/${faculty_id}/detail/${item.id}`}
+                  href={`/rencana-studi/program-studi/${id}/detail/${item.id}`}
                 >
                   Detail
                 </Link>

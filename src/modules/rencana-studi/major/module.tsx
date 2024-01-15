@@ -20,7 +20,7 @@ import MajorGrid from '@/modules/rencana-studi/major/components/grid';
 import { MajorTable } from '@/modules/rencana-studi/major/components/table';
 
 const MajorModule = () => {
-  const { faculty_id } = useParams();
+  const { id } = useParams();
 
   const ITEMS = [
     {
@@ -29,7 +29,7 @@ const MajorModule = () => {
     },
     {
       name: 'Daftar Prodi',
-      link: `/rencana-studi/program-studi/${faculty_id}`,
+      link: `/rencana-studi/program-studi/${id}`,
     },
   ];
   const [showGrid, setShowGrid] = React.useState(false);
@@ -42,7 +42,7 @@ const MajorModule = () => {
   const searchQuery = query.get('search') || '';
 
   const { data, isLoading, refetch } = useGetMajorByFacultyId(
-    faculty_id as string,
+    id as string,
     page,
     Number(10),
   );
@@ -54,7 +54,7 @@ const MajorModule = () => {
     refetch();
     // console.log(page);
 
-    router.push(`/rencana-studi/program-studi/${faculty_id}?page=${page}`);
+    router.push(`/rencana-studi/program-studi/${id}?page=${page}`);
   };
 
   return (
@@ -88,9 +88,7 @@ const MajorModule = () => {
                 className='hover:bg-white shadow-md bg-primary-500 hover:text-primary-500 text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'
                 asChild
               >
-                <Link
-                  href={`/rencana-studi/program-studi/${faculty_id}/tambah-prodi`}
-                >
+                <Link href={`/rencana-studi/program-studi/${id}/tambah-prodi`}>
                   <CiCirclePlus size={20} />
                   <p className='leading-none'>Tambah Prodi</p>
                 </Link>

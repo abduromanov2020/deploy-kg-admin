@@ -35,7 +35,7 @@ import { DeleteMajorModal } from '@/modules/rencana-studi/major/components/delet
 import { TMajorAllData, TMajorItem } from '@/types/rencana-studi/majors/types';
 
 export const MajorTable = ({ data }: TMajorAllData) => {
-  const { faculty_id } = useParams();
+  const { id } = useParams();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -115,7 +115,7 @@ export const MajorTable = ({ data }: TMajorAllData) => {
       },
       cell: ({ row }) => (
         <Link
-          href={`/rencana-studi/program-studi/${faculty_id}/mata-kuliah/${row.getValue(
+          href={`/rencana-studi/program-studi/${id}/mata-kuliah/${row.getValue(
             'id',
           )}`}
           className='text-start font-semibold text-sm text-primary-500'
@@ -140,7 +140,7 @@ export const MajorTable = ({ data }: TMajorAllData) => {
 
       cell: ({ row }) => (
         <Link
-          href={`/rencana-studi/program-studi/${faculty_id}/detail/${row.getValue(
+          href={`/rencana-studi/program-studi/${id}/detail/${row.getValue(
             'id',
           )}`}
           className='text-start font-semibold text-sm text-primary-500'
