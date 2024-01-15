@@ -1,94 +1,20 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { CiCirclePlus } from 'react-icons/ci';
-import { IoGridOutline, IoListOutline } from 'react-icons/io5';
-
-import {
-  DropdownMenuCheckboxItemProps,
-  DropdownMenuItem,
-} from '@radix-ui/react-dropdown-menu';
-import React, { useState } from 'react';
-
-import { Input } from '@/components/ui/input';
+import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
+import React from 'react';
 
 type Checked = DropdownMenuCheckboxItemProps['checked'];
+import { useRouter, useSearchParams } from 'next/navigation';
+
+import { useGetSubjectByMajorId } from '@/hooks/rencana-studi/subjects/hook';
+
 import { BreadCrumb } from '@/components/BreadCrumb';
-import { FaInfoCircle } from 'react-icons/fa';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import Link from 'next/link';
-import { DraftEditorProps } from '@/components/text-editor';
-import dynamic from 'next/dynamic';
 
-interface InputProps {
-  title: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder: string;
-  styleInput: string;
-  styleTitle: string;
+interface TProps {
+  id: string;
 }
 
-const MAX_FILE_SIZE = 3000000;
-const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
-
-const FormSchema = z.object({
-  subject_id: z.string().min(1, {
-    message: 'Major count must be at least 1.',
-  }),
-  subject_name: z.string().min(2, {
-    message: 'Faculty must be at least 2 characters.',
-  }),
-  major_name: z.string().min(2, {
-    message: 'Faculty must be at least 2 characters.',
-  }),
-  lecturer: z.string().min(1, {
-    message: 'A head of faculty is required.',
-  }),
-  sks: z.string().min(1, {
-    message: 'Major count must be at least 1.',
-  }),
-  meeting_count: z.string().min(1, {
-    message: 'Major count must be at least 1.',
-  }),
-  status: z.string().min(1, {
-    message: 'Major count must be at least 1.',
-  }),
-});
-
-interface EditorProps {
-  editorStyle: string;
-  editorInput: DraftEditorProps;
-}
-const DraftEditor = dynamic(() => import('@/components/text-editor'), {
-  ssr: false,
-});
-
-export const AddSubjectModule = ({ editorInput }: any) => {
-  const [uploadFile, setUploadFile] = useState<Array<{ upload: File | null }>>([
-    { upload: null },
-  ]);
-
-  console.log('uploadFile', uploadFile);
-
+export const AddSubjectModule = ({ id }: TProps) => {
   const ITEMS = [
     {
       name: 'Rencana Studi',
@@ -104,37 +30,48 @@ export const AddSubjectModule = ({ editorInput }: any) => {
     },
   ];
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      subject_id: '',
-      subject_name: '',
-      major_name: '',
-      lecturer: '',
-      sks: '',
-      meeting_count: '',
-      status: '',
-    },
-  });
+  const query = useSearchParams();
+  const router = useRouter();
 
-  const headFaculty = [
-    {
-      value: '1',
-      label: 'Head 1',
-    },
-    {
-      value: '2',
-      label: 'Head 2',
-    },
-    {
-      value: '3',
-      label: 'Head 3',
-    },
-  ];
+  const page = Number(query.get('page')) || 1;
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log('data', data);
-  }
+  const { data, isLoading, refetch } = useGetSubjectByMajorId(id, page);
+
+  // const subject = data ? data?.data?.subjects : [];
+
+  console.log(data);
+
+  // const form = useForm<z.infer<typeof FormSchema>>({
+  //   resolver: zodResolver(FormSchema),
+  //   defaultValues: {
+  //     subject_id: '',
+  //     subject_name: '',
+  //     major_name: '',
+  //     lecturer: '',
+  //     sks: '',
+  //     meeting_count: '',
+  //     status: '',
+  //   },
+  // });
+
+  // const headFaculty = [
+  //   {
+  //     value: '1',
+  //     label: 'Head 1',
+  //   },
+  //   {
+  //     value: '2',
+  //     label: 'Head 2',
+  //   },
+  //   {
+  //     value: '3',
+  //     label: 'Head 3',
+  //   },
+  // ];
+
+  // function onSubmit(data: z.infer<typeof FormSchema>) {
+  //   console.log('data', data);
+  // }
 
   // const handleFileChange = (file: File | null, index: number) => {
   //   setUploadFile((prevUploads) => {
@@ -152,7 +89,7 @@ export const AddSubjectModule = ({ editorInput }: any) => {
         <BreadCrumb items={ITEMS} className='lg:px-6 lg:py-4' />
       </div>
 
-      <div className='bg-white rounded'>
+      {/* <div className='bg-white rounded'>
         <div className='p-4 border-b-2'>
           <p className='text-base font-semibold'>Tambah Mata Kuliah</p>
         </div>
@@ -307,9 +244,7 @@ export const AddSubjectModule = ({ editorInput }: any) => {
                       asChild
                       className='text-primary-500 border border-primary-500 bg-white hover:bg-gray-200'
                     >
-                      <Link
-                        href={'/rencana-studi/program-studi/1/mata-kuliah/1'}
-                      >
+                      <Link href='/rencana-studi/program-studi/1/mata-kuliah/1'>
                         Kembali
                       </Link>
                     </Button>
@@ -325,7 +260,7 @@ export const AddSubjectModule = ({ editorInput }: any) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </main>
   );
 };

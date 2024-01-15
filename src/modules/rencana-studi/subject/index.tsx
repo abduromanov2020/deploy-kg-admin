@@ -28,19 +28,16 @@ const SubjectModule = ({ id }: TProps) => {
   const router = useRouter();
 
   const page = Number(query.get('page')) || 1;
-  // const searchQuery = query.get('search') || '';
 
   const { data, isLoading, refetch } = useGetSubjectByMajorId(id, page);
 
-  // console.log(data?.meta);
-
   const subject = data ? data?.data?.subjects : [];
+
+  // console.log(subject);
 
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
     refetch();
-    // console.log(page);
-
     router.push(
       `/rencana-studi/program-studi/1/mata-kuliah/${id}?page=${page}`,
     );
@@ -91,7 +88,9 @@ const SubjectModule = ({ id }: TProps) => {
                 className='hover:bg-white shadow-md bg-primary-500 hover:text-primary-500 text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'
                 asChild
               >
-                <Link href='/rencana-studi/program-studi/1/mata-kuliah/1/tambah-matkul'>
+                <Link
+                  href={`/rencana-studi/program-studi/1/mata-kuliah/${id}/tambah-matkul`}
+                >
                   <CiCirclePlus size={20} />
                   <p className='leading-none'>Tambah Mata Kuliah</p>
                 </Link>

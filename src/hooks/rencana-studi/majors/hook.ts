@@ -80,7 +80,7 @@ export const useDeleteMajor = (
 export const useEditMajor = (
   id: string | string[],
 ): UseMutationResult<
-  TResponseAllMajors,
+  TAddMajorResponse,
   TMetaErrorResponse,
   TEditMajorPayload
 > => {
