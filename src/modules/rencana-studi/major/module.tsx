@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiLoaderAlt, BiSolidFileExport } from 'react-icons/bi';
@@ -19,11 +19,9 @@ import { FilterComponentMajor } from '@/modules/rencana-studi/major/components/f
 import MajorGrid from '@/modules/rencana-studi/major/components/grid';
 import { MajorTable } from '@/modules/rencana-studi/major/components/table';
 
-interface TProps {
-  id: string;
-}
+const MajorModule = () => {
+  const { faculty_id } = useParams();
 
-const MajorModule = ({ id }: TProps) => {
   const ITEMS = [
     {
       name: 'Rencana Studi',
@@ -31,7 +29,7 @@ const MajorModule = ({ id }: TProps) => {
     },
     {
       name: 'Daftar Prodi',
-      link: `/rencana-studi/program-studi/${id}`,
+      link: `/rencana-studi/program-studi/${faculty_id}`,
     },
   ];
   const [showGrid, setShowGrid] = React.useState(false);
@@ -44,7 +42,7 @@ const MajorModule = ({ id }: TProps) => {
   const searchQuery = query.get('search') || '';
 
   const { data, isLoading, refetch } = useGetMajorByFacultyId(
-    id,
+    faculty_id as string,
     page,
     Number(10),
   );
@@ -56,7 +54,7 @@ const MajorModule = ({ id }: TProps) => {
     refetch();
     // console.log(page);
 
-    router.push(`/rencana-studi/program-studi/${id}?page=${page}`);
+    router.push(`/rencana-studi/program-studi/${faculty_id}?page=${page}`);
   };
 
   return (
@@ -90,7 +88,9 @@ const MajorModule = ({ id }: TProps) => {
                 className='hover:bg-white shadow-md bg-primary-500 hover:text-primary-500 text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'
                 asChild
               >
-                <Link href={`/rencana-studi/program-studi/${id}/tambah-prodi`}>
+                <Link
+                  href={`/rencana-studi/program-studi/${faculty_id}/tambah-prodi`}
+                >
                   <CiCirclePlus size={20} />
                   <p className='leading-none'>Tambah Prodi</p>
                 </Link>
