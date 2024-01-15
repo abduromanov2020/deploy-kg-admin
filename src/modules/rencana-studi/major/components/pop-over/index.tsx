@@ -41,6 +41,7 @@ export const PopoverMajor: React.FC<PopoverMajorsProps> = ({ majorId }) => {
                 <p className='text-start'>Hapus</p>
               </div>
             }
+            id=''
           />
         </div>
       </PopoverContent>
