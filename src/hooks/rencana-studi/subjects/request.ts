@@ -5,6 +5,7 @@ import {
   TResponseAllMajors,
 } from '@/types/rencana-studi/majors/types';
 import { TDetailSubjectResponseById } from '@/types/rencana-studi/subjects/types';
+import { TSessionsResponse } from '@/types/studi-ku/sessions/types';
 
 export const subjectsGetRequest = async (
   page: number,
@@ -35,3 +36,13 @@ export const subjectGetByMajorId = async (
 
   return data;
 };
+
+export const sessionsRequest = async (
+  subject_id: string,
+): Promise<TSessionsResponse> => {
+  const { data } = await api.get(
+    `v2/admin/subjects/${subject_id}/sessions`,
+  );
+
+  return data;
+}
