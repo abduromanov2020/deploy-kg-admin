@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiLoaderAlt, BiSolidFileExport } from 'react-icons/bi';
@@ -19,11 +19,9 @@ import { FilterComponentMajor } from '@/modules/rencana-studi/major/components/f
 import MajorGrid from '@/modules/rencana-studi/major/components/grid';
 import { MajorTable } from '@/modules/rencana-studi/major/components/table';
 
-interface TProps {
-  id: string;
-}
+const MajorModule = () => {
+  const { id } = useParams();
 
-const MajorModule = ({ id }: TProps) => {
   const ITEMS = [
     {
       name: 'Rencana Studi',
@@ -44,7 +42,7 @@ const MajorModule = ({ id }: TProps) => {
   const searchQuery = query.get('search') || '';
 
   const { data, isLoading, refetch } = useGetMajorByFacultyId(
-    id,
+    id as string,
     page,
     Number(10),
   );

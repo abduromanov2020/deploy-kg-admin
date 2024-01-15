@@ -27,6 +27,7 @@ import {
 type Checked = DropdownMenuCheckboxItemProps['checked'];
 
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { TiArrowSortedDown } from 'react-icons/ti';
 
 import { DeleteMajorModal } from '@/modules/rencana-studi/major/components/delete-major-modal';
@@ -34,6 +35,7 @@ import { DeleteMajorModal } from '@/modules/rencana-studi/major/components/delet
 import { TMajorAllData, TMajorItem } from '@/types/rencana-studi/majors/types';
 
 export const MajorTable = ({ data }: TMajorAllData) => {
+  const { id } = useParams();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -113,7 +115,7 @@ export const MajorTable = ({ data }: TMajorAllData) => {
       },
       cell: ({ row }) => (
         <Link
-          href={`/rencana-studi/program-studi/1/mata-kuliah/${row.getValue(
+          href={`/rencana-studi/program-studi/${id}/mata-kuliah/${row.getValue(
             'id',
           )}`}
           className='text-start font-semibold text-sm text-primary-500'
@@ -138,7 +140,9 @@ export const MajorTable = ({ data }: TMajorAllData) => {
 
       cell: ({ row }) => (
         <Link
-          href={`/rencana-studi/program-studi/1/detail/${row.getValue('id')}`}
+          href={`/rencana-studi/program-studi/${id}/detail/${row.getValue(
+            'id',
+          )}`}
           className='text-start font-semibold text-sm text-primary-500'
         >
           Lihat Detail
@@ -164,7 +168,7 @@ export const MajorTable = ({ data }: TMajorAllData) => {
               asChild
             >
               <Link
-                href={`/rencana-studi/program-studi/1/edit-prodi/${row.getValue(
+                href={`/rencana-studi/program-studi/${id}/edit-prodi/${row.getValue(
                   'id',
                 )}`}
               >

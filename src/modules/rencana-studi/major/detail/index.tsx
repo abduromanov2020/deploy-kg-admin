@@ -21,6 +21,9 @@ import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { DeleteMajorModal } from '@/modules/rencana-studi/major/components/delete-major-modal';
 
 const RencanaStudiDetailMajor = () => {
+  const params = useParams();
+  const { id: faculty_id, id_detail } = params;
+
   const ITEMS = [
     {
       name: 'Rencana Studi',
@@ -28,16 +31,13 @@ const RencanaStudiDetailMajor = () => {
     },
     {
       name: 'Daftar Prodi',
-      link: '/rencana-studi/program-studi/1',
+      link: `/rencana-studi/program-studi/${faculty_id}`,
     },
     {
       name: 'Detail Prodi',
-      link: '/rencana-studi/program-studi/1/detail/2',
+      link: '',
     },
   ];
-
-  const params = useParams();
-  const { id_detail } = params;
 
   const { data, isLoading } = useGetStudyPlanMajorById(String(id_detail));
 

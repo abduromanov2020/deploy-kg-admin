@@ -67,7 +67,7 @@ export type TAddMajorResponse = {
     full_name: string;
     avatar?: string | null;
   };
-  thumbnail: string | StaticImageData;
+  thumbnail?: string | StaticImageData;
   degree: string;
   faculty_id: string;
 };

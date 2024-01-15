@@ -12,7 +12,7 @@ import { convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
@@ -60,6 +60,8 @@ const DraftEditor = dynamic(() => import('@/components/text-editor'), {
 });
 
 export const AddMajorModule = () => {
+  const { id: id_faculty } = useParams();
+
   const ITEMS = [
     {
       name: 'Rencana Studi',
@@ -67,11 +69,11 @@ export const AddMajorModule = () => {
     },
     {
       name: 'Daftar Prodi',
-      link: '/rencana-studi/program-studi/1',
+      link: `/rencana-studi/program-studi/${id_faculty}`,
     },
     {
       name: 'Tambah Prodi',
-      link: '/rencana-studi/program-studi/1/tambah-prodi',
+      link: '',
     },
   ];
 

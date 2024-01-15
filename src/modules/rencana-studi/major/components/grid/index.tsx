@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import React from 'react';
 
 import { Badge } from '@/components/ui/badge';
@@ -16,7 +17,7 @@ import { PopoverMajor } from '@/modules/rencana-studi/major/components/pop-over'
 import { TMajorAllData } from '@/types/rencana-studi/majors/types';
 
 const MajorGrid = ({ data }: TMajorAllData) => {
-  console.log(data);
+  const { id } = useParams();
 
   return (
     <div className='grid grid-cols-3 gap-4'>
@@ -55,7 +56,9 @@ const MajorGrid = ({ data }: TMajorAllData) => {
                 className='bg-white border-primary-500 border text-primary-500 hover:bg-gray-200 px-9'
                 asChild
               >
-                <Link href={`/rencana-studi/program-studi/1/detail/${item.id}`}>
+                <Link
+                  href={`/rencana-studi/program-studi/${id}/detail/${item.id}`}
+                >
                   Detail
                 </Link>
               </Button>
