@@ -168,7 +168,7 @@ export const MajorTable = ({ data }: TMajorAllData) => {
               asChild
             >
               <Link
-                href={`/rencana-studi/program-studi/1/edit-prodi/${row.getValue(
+                href={`/rencana-studi/program-studi/${id}/edit-prodi/${row.getValue(
                   'id',
                 )}`}
               >

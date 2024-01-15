@@ -67,7 +67,7 @@ const DraftEditor = dynamic(() => import('@/components/text-editor'), {
 
 const EditMajorModule = () => {
   const params = useParams();
-  const { id_prodi } = params;
+  const { id: id_faculty, id_prodi } = params;
 
   const { data: useGetMajor } = useGetStudyPlanMajorById(String(id_prodi));
 
@@ -80,11 +80,11 @@ const EditMajorModule = () => {
     },
     {
       name: 'Daftar Prodi',
-      link: '/rencana-studi/program-studi/1',
+      link: `/rencana-studi/program-studi/${id_faculty}`,
     },
     {
       name: 'Edit Prodi',
-      link: '/rencana-studi/program-studi/1/tambah-prodi',
+      link: '',
     },
   ];
 

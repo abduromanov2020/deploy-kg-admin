@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { CiCirclePlus } from 'react-icons/ci';
@@ -21,6 +21,8 @@ interface TProps {
 }
 
 const SubjectModule = ({ id }: TProps) => {
+  const { id: id_faculty } = useParams();
+
   const [showGrid, setShowGrid] = React.useState(false);
   const [showList, setShowList] = React.useState(true);
 
@@ -39,7 +41,7 @@ const SubjectModule = ({ id }: TProps) => {
     window.scrollTo(0, 0);
     refetch();
     router.push(
-      `/rencana-studi/program-studi/1/mata-kuliah/${id}?page=${page}`,
+      `/rencana-studi/program-studi/${id_faculty}/mata-kuliah/${id}?page=${page}`,
     );
   };
 
@@ -52,11 +54,11 @@ const SubjectModule = ({ id }: TProps) => {
     },
     {
       name: 'Daftar Prodi',
-      link: `/rencana-studi/program-studi/${subject[0]?.major_id}`,
+      link: `/rencana-studi/program-studi/${id_faculty}`,
     },
     {
       name: 'Daftar Matkul',
-      link: `/rencana-studi/program-studi/1/mata-kuliah/${id}`,
+      link: `/rencana-studi/program-studi/${id_faculty}/mata-kuliah/${id}`,
     },
   ];
 
@@ -68,7 +70,8 @@ const SubjectModule = ({ id }: TProps) => {
       <div className='bg-white rounded'>
         <div className='p-4 border-b-2'>
           <p className='text-base font-semibold'>
-            Daftar Mata Kuliah Data Science
+            Daftar Mata Kuliah Program Studi{' '}
+            {subject.length > 0 ? subject[0]?.major_name : 'Kosong'}
           </p>
         </div>
         <div className='p-8'>
@@ -89,7 +92,7 @@ const SubjectModule = ({ id }: TProps) => {
                 asChild
               >
                 <Link
-                  href={`/rencana-studi/program-studi/1/mata-kuliah/${id}/tambah-matkul`}
+                  href={`/rencana-studi/program-studi/${id_faculty}/mata-kuliah/${id}/tambah-matkul`}
                 >
                   <CiCirclePlus size={20} />
                   <p className='leading-none'>Tambah Mata Kuliah</p>
