@@ -49,6 +49,8 @@ const MajorModule = () => {
 
   const dataMajors = data ? data.data.majors : [];
 
+  console.log(data);
+
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
     refetch();
