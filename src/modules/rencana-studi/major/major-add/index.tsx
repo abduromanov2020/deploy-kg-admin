@@ -195,7 +195,7 @@ export const AddMajorModule = () => {
 
       <div className='bg-white py-6 px-6 rounded-md relative'>
         <h1 className='font-semibold text-lg border-b-2 pb-3'>
-          Tambah User Management Admin
+          Tambah Program Studi
         </h1>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -370,7 +370,7 @@ export const AddMajorModule = () => {
                     <DialogTrigger asChild>
                       <button className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'>
                         <div className='flex place-items-center gap-2'>
-                          Tambahkan Admin
+                          Tambahkan Program Studi
                         </div>
                       </button>
                     </DialogTrigger>
@@ -409,7 +409,7 @@ export const AddMajorModule = () => {
                     className='px-6 py-3 shadow-md text-slate-400 bg-slate-300 rounded-md '
                   >
                     <div className='flex place-items-center gap-2'>
-                      Tambahkan Admin
+                      Tambahkan
                     </div>
                   </button>
                 )}

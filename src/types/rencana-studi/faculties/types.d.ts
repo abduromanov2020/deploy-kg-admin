@@ -10,8 +10,8 @@ export interface TFacultyDataByIdResponse {
 export interface TFacultiesItem {
   id: string;
   name: string;
-  slug: string;
-  thumbnail: string;
+  slug?: string;
+  thumbnail?: string;
   total_majors: number;
   faculty_id: string;
   created_at: string;
