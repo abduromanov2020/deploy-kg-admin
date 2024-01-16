@@ -104,7 +104,9 @@ const RencanaStudiDetailFaculty = ({ id }: TProps) => {
                               ? faculty.thumbnail
                               : ''
                           }
-                          alt={faculty ? faculty.slug : 'thumbnail'}
+                          alt={
+                            faculty ? faculty.slug ?? 'thumbnail' : 'thumbnail'
+                          }
                           width={350}
                           height={200}
                           className='object-cover'

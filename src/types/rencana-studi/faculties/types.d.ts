@@ -11,7 +11,7 @@ export interface TFacultiesItem {
   id: string;
   name: string;
   slug?: string;
-  thumbnail?: string;
+  thumbnail?: string | StaticImport;
   total_majors: number;
   faculty_id: string;
   created_at: string;

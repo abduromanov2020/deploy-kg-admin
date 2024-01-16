@@ -29,7 +29,7 @@ const FacultyGridCardComponent = ({ data }: TFacultiesAllData) => {
         >
           <CardHeader className='p-0 h-48'>
             <Image
-              src={item.thumbnail}
+              src={item?.thumbnail}
               alt='artikel'
               width={350}
               height={200}

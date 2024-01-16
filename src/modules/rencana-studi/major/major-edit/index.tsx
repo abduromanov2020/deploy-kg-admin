@@ -1,15 +1,9 @@
 'use client';
 
-import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
-import React, { useEffect, useState } from 'react';
-
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-
-type Checked = DropdownMenuCheckboxItemProps['checked'];
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
@@ -27,6 +21,7 @@ import { useUserByRole } from '@/hooks/user-management/getuser/hook';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { UploadField } from '@/components/input/upload-file';
+import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   Dialog,
@@ -46,6 +41,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -56,10 +52,6 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
-
-// const DraftEditor = dynamic(() => import('@/components/text-editor'), {
-//   ssr: false,
-// });
 
 const EditMajorModule = () => {
   const params = useParams();
