@@ -9,9 +9,9 @@ import {
 import { TFacultyDataByIdResponse } from '@/types/rencana-studi/faculties/types';
 
 export const studyPlanFacultiesGetRequest = async (
-  page: number,
-  limit: number,
-  search: string,
+  page: number = 1,
+  limit: number = 10,
+  search: string = '',
 ): Promise<TResponseAllFaculties> => {
   const { data } = await api.get(
     `v2/admin/faculties?page=${page}&limit=${limit}&search=${search}`,
