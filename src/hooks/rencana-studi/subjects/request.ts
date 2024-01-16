@@ -40,6 +40,8 @@ export const subjectGetByMajorId = async (
   return data;
 };
 
+
+
 export const addSubjectRequest = async (
   payload: TAddSubjectPayload | unknown,
 ): Promise<TAddSubjectResponse> => {

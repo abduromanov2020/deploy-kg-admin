@@ -38,6 +38,7 @@ export const useGetSubjectById = (
     queryFn: async () => await subjectGetById(id),
   });
 
+
 export const useAddSubject = (): UseMutationResult<
   TAddSubjectResponse,
   TMetaErrorResponse,

@@ -81,6 +81,8 @@ export type TEditMajorPayload = {
   thumbnail: string | StaticImageData;
 };
 
+
+
 export type TResponseAllMajors = TMetaResponseMajors<TMajorData>;
 export type TDetailMajorResponse = TMetaResponseSingle<TMajorItem>;
 export type TDetailMajorResponseById = TMetaResponseMajors<TDetailMajorData>; // Menambahkan respons get by id
