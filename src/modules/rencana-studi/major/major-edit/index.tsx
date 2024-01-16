@@ -8,9 +8,6 @@ import { Input } from '@/components/ui/input';
 
 type Checked = DropdownMenuCheckboxItemProps['checked'];
 import { zodResolver } from '@hookform/resolvers/zod';
-import { convertToRaw, EditorState } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -58,12 +55,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
+import { Textarea } from '@/components/ui/textarea';
 
 import { TAddMajorPayload } from '@/types/rencana-studi/majors/types';
 
-const DraftEditor = dynamic(() => import('@/components/text-editor'), {
-  ssr: false,
-});
+// const DraftEditor = dynamic(() => import('@/components/text-editor'), {
+//   ssr: false,
+// });
 
 const EditMajorModule = () => {
   const params = useParams();
@@ -190,22 +188,22 @@ const EditMajorModule = () => {
     setIsChecked(!isChecked);
   };
 
-  const [editorStateCover, setEditorStateCover] = useState<EditorState>(
-    EditorState.createEmpty(),
-  );
+  // const [editorStateCover, setEditorStateCover] = useState<EditorState>(
+  //   EditorState.createEmpty(),
+  // );
 
-  const handleEditorChange = (editorState: EditorState) => {
-    setEditorStateCover(editorState);
+  // const handleEditorChange = (editorState: EditorState) => {
+  //   setEditorStateCover(editorState);
 
-    const contentState = editorState.getCurrentContent();
-    const rawContentState = convertToRaw(contentState);
-    const htmlContent = draftToHtml(rawContentState);
+  //   const contentState = editorState.getCurrentContent();
+  //   const rawContentState = convertToRaw(contentState);
+  //   const htmlContent = draftToHtml(rawContentState);
 
-    form.setValue('description', htmlContent, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  };
+  //   form.setValue('description', htmlContent, {
+  //     shouldValidate: true,
+  //     shouldDirty: true,
+  //   });
+  // };
 
   const onSubmitDialog = () => {
     form.handleSubmit(onSubmit)();
@@ -271,13 +269,22 @@ const EditMajorModule = () => {
                   />
                 </div>
                 <div className='grid w-full  items-center space-y-4'>
-                  <DraftEditor
-                    editorState={editorStateCover}
-                    setEditorState={(editorState) => {
-                      handleEditorChange(editorState);
-                    }}
-                    label='Deskripsi Program Studi*'
-                    error={form.formState.errors.description?.message}
+                  <FormField
+                    control={form.control}
+                    name='description'
+                    render={({ field }) => (
+                      <FormItem className='grid w-full gap-1.5'>
+                        <FormLabel>Deskripsi*</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder='Masukkan Deskripsi Mata Kuliah'
+                            className='resize-none'
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
                 </div>
 

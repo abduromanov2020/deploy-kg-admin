@@ -51,6 +51,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
+import { Textarea } from '@/components/ui/textarea';
 
 import { TAddSubjectPayload } from '@/types/rencana-studi/subjects/types';
 
@@ -245,13 +246,22 @@ export const AddSubjectModule = () => {
                   />
                 </div>
                 <div className='grid w-full  items-center space-y-4'>
-                  <DraftEditor
-                    editorState={editorStateCover}
-                    setEditorState={(editorState) => {
-                      handleEditorChange(editorState);
-                    }}
-                    label='Deskripsi Mata Kuliah*'
-                    error={form.formState.errors.description?.message}
+                  <FormField
+                    control={form.control}
+                    name='description'
+                    render={({ field }) => (
+                      <FormItem className='grid w-full gap-1.5'>
+                        <FormLabel>Deskripsi*</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder='Masukkan Deskripsi Mata Kuliah'
+                            className='resize-none'
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
                 </div>
                 <div className='grid w-full  items-center space-y-4'>
@@ -262,7 +272,13 @@ export const AddSubjectModule = () => {
                       <FormItem className='grid w-full gap-1.5'>
                         <FormLabel>Kode Mata Kuliah*</FormLabel>
                         <FormControl>
-                          <Input placeholder='Nama Mata Kuliah*' {...field} />
+                          <Input
+                            placeholder='Nama Mata Kuliah*'
+                            {...field}
+                            onChange={(e) =>
+                              field.onChange(e.target.value.toUpperCase())
+                            }
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -421,8 +437,9 @@ export const AddSubjectModule = () => {
                       <FormItem className='grid w-full gap-1.5'>
                         <FormLabel>Indikator*</FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder='Indikator Pembelajaran*'
+                          <Textarea
+                            placeholder='Masukkan Indikator Mata Kuliah'
+                            className='resize-none'
                             {...field}
                           />
                         </FormControl>
@@ -437,10 +454,11 @@ export const AddSubjectModule = () => {
                     name='study_experience'
                     render={({ field }) => (
                       <FormItem className='grid w-full gap-1.5'>
-                        <FormLabel>Pengalaman Belajar*</FormLabel>
+                        <FormLabel>Keluaran Belajar*</FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder='Pengalaman Belajar Yang Di Dapat*'
+                          <Textarea
+                            placeholder='Pengalaman atau Output Yang Didapat'
+                            className='resize-none'
                             {...field}
                           />
                         </FormControl>
@@ -455,10 +473,12 @@ export const AddSubjectModule = () => {
                     name='teaching_materials'
                     render={({ field }) => (
                       <FormItem className='grid w-full gap-1.5'>
-                        <FormLabel>Bahan Ajar*</FormLabel>
-                        <FormControl>
-                          <Input placeholder='Bahan Ajar*' {...field} />
-                        </FormControl>
+                        <FormLabel>Kriteria Kelulusan*</FormLabel>
+                        <Textarea
+                          placeholder='Masukkan Kriteria Kelulusan Mata Kuliah'
+                          className='resize-none'
+                          {...field}
+                        />
                         <FormMessage />
                       </FormItem>
                     )}
@@ -470,9 +490,13 @@ export const AddSubjectModule = () => {
                     name='basic_competencies'
                     render={({ field }) => (
                       <FormItem className='grid w-full gap-1.5'>
-                        <FormLabel>Kompetensi Dasar*</FormLabel>
+                        <FormLabel>Tujuan*</FormLabel>
                         <FormControl>
-                          <Input placeholder='Kompetensi Dasar*' {...field} />
+                          <Textarea
+                            placeholder='Masukkan Tujuan Mata Kuliah'
+                            className='resize-none'
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
