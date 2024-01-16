@@ -138,4 +138,9 @@ export const EditMajorValidationSchema = z.object({
       (files: File[]) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       'hanya menerima .jpg, .jpeg, dan .png.',
     ),
+  duration: z
+    .string({
+      required_error: 'Durasi Program Studi Dibutuhkan',
+    })
+    .min(1, { message: 'Durasi Program Studi Dibutuhkan' }),
 });

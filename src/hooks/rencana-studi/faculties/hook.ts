@@ -22,9 +22,9 @@ import {
 import { TFacultyDataByIdResponse } from '@/types/rencana-studi/faculties/types';
 
 export const useGetStudyPlanFaculties = (
-  page: number,
-  limit: number,
-  search: string,
+  page?: number,
+  limit?: number,
+  search?: string,
 ): UseQueryResult<TResponseAllFaculties, TMetaErrorResponse> =>
   useQuery({
     queryKey: ['faculties-get', page, limit, search],

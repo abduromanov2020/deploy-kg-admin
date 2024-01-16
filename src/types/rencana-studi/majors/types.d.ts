@@ -42,6 +42,10 @@ export type TDetailMajorData = {
   degree: string;
   created_at: string;
   updated_at: string;
+  faculty_id: string;
+  faculty_name: string;
+  total_subjects: number;
+  total_credits: number;
 };
 
 export type TMetaResponseMajors<T> = {
