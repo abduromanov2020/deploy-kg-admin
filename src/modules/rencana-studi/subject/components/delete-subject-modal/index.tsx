@@ -1,4 +1,8 @@
+import { useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import { IoWarningOutline } from 'react-icons/io5';
+
+import { useDeleteSubject } from '@/hooks/rencana-studi/subjects/hook';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -12,12 +16,27 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-export const DeleteSubjectModal = () => {
+interface modalTriggerProps {
+  id: string;
+  modalTrigger: React.ReactNode;
+}
+
+export const DeleteSubjectModal = ({ modalTrigger, id }: modalTriggerProps) => {
+  const queryClient = useQueryClient();
+
+  const { mutate: deleteSubject } = useDeleteSubject(id);
+
+  const handleSubmitDelete = async () => {
+    await deleteSubject(id, {
+      onSuccess: () => {
+        toast.success('Mata Kuliah Berhasil Dihapus!');
+        queryClient.invalidateQueries(['subject-get-by-major-id'] as any);
+      },
+    });
+  };
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button className='bg-red-800 w-full hover:bg-red-900'>Hapus</Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{modalTrigger}</DialogTrigger>
       <DialogContent className='sm:max-w-[425px] text-center p-12'>
         <DialogHeader>
           <div className='flex justify-center items-center'>
@@ -26,13 +45,13 @@ export const DeleteSubjectModal = () => {
             </div>
           </div>
           <DialogTitle>
-            <h6 className='text-center'>
-              Apakah Anda yakin akan menghapus Mata Kuliah ?
+            <h6 className='text-center leading-5'>
+              Apakah Anda ingin menghapus mata kuliah ini?
             </h6>
           </DialogTitle>
 
           <DialogDescription className='text-center'>
-            Cek kembali informasi mata kuliah dengan benar.
+            Cek kembali mata kuliah bila dirasa belum benar.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className='flex w-full justify-between'>
@@ -41,10 +60,15 @@ export const DeleteSubjectModal = () => {
               Tinjau Ulang
             </Button>
           </DialogClose>
-
-          <Button type='submit' className='bg-red-800 hover:bg-red-900 w-full'>
-            Hapus
-          </Button>
+          <DialogClose className='w-full'>
+            <Button
+              type='submit'
+              className='bg-red-800 hover:bg-red-900 w-full'
+              onClick={handleSubmitDelete}
+            >
+              Hapus
+            </Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

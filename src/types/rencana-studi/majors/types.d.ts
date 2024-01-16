@@ -71,7 +71,7 @@ export type TAddMajorResponse = {
     full_name: string;
     avatar?: string | null;
   };
-  thumbnail: string | StaticImageData;
+  thumbnail?: string | StaticImageData;
   degree: string;
   faculty_id: string;
 };
@@ -84,6 +84,8 @@ export type TEditMajorPayload = {
   faculty_id: string;
   thumbnail: string | StaticImageData;
 };
+
+
 
 export type TResponseAllMajors = TMetaResponseMajors<TMajorData>;
 export type TDetailMajorResponse = TMetaResponseSingle<TMajorItem>;

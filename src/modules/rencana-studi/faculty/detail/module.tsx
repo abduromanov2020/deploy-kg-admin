@@ -32,7 +32,7 @@ const RencanaStudiDetailFaculty = ({ id }: TProps) => {
     },
     {
       name: 'Detail Fakultas',
-      link: '/rencana-studi/detail/1',
+      link: '',
     },
   ];
 

@@ -7,6 +7,8 @@ export type TSessionItem = {
   type: string;
   created_at: string;
   updated_at: string;
+  title: string;
+  description: string;
 };
 
 export type TSubjectSession = {

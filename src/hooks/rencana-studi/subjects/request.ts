@@ -4,7 +4,11 @@ import {
   TDetailMajorResponse,
   TResponseAllMajors,
 } from '@/types/rencana-studi/majors/types';
-import { TDetailSubjectResponseById } from '@/types/rencana-studi/subjects/types';
+import {
+  TAddSubjectPayload,
+  TAddSubjectResponse,
+  TDetailSubjectResponseById,
+} from '@/types/rencana-studi/subjects/types';
 
 export const subjectsGetRequest = async (
   page: number,
@@ -32,6 +36,31 @@ export const subjectGetByMajorId = async (
   const { data } = await api.get(
     `v2/admin/subjects?major_id=${id}&page=${page}`,
   );
+
+  return data;
+};
+
+
+
+export const addSubjectRequest = async (
+  payload: TAddSubjectPayload | unknown,
+): Promise<TAddSubjectResponse> => {
+  const { data } = await api({
+    method: 'post',
+    url: 'v2/admin/subjects',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    data: payload,
+  });
+
+  return data;
+};
+
+export const deleteSubjectRequest = async (
+  id: string | string[],
+): Promise<TDetailSubjectResponseById> => {
+  const { data } = await api.delete(`v2/admin/subjects/${id}`);
 
   return data;
 };
