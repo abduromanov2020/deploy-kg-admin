@@ -26,6 +26,7 @@ import {
 type Checked = DropdownMenuCheckboxItemProps['checked'];
 
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { TiArrowSortedDown } from 'react-icons/ti';
 
 import { Button } from '@/components/ui/button';
@@ -42,6 +43,7 @@ export const SubjectTable = ({ data }: TSubjectAllData) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
+  const { id, id_major } = useParams();
 
   // console.log('hdjahdjh', data);
 
@@ -247,7 +249,7 @@ export const SubjectTable = ({ data }: TSubjectAllData) => {
       },
       cell: ({ row }) => (
         <Link
-          href={`/rencana-studi/program-studi/1/mata-kuliah/1/detail/${row.getValue(
+          href={`/rencana-studi/program-studi/${id}/mata-kuliah/${id_major}/detail/${row.getValue(
             'id',
           )}`}
           className='text-start font-semibold text-sm text-primary-500'

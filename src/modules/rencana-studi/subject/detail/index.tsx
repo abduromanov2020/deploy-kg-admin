@@ -4,10 +4,8 @@
 import { useParams } from 'next/navigation';
 import React from 'react';
 
-import {
-  useGetSessions,
-  useGetSubjectById,
-} from '@/hooks/rencana-studi/subjects/hook';
+import { useGetSessions } from '@/hooks/rencana-studi/session/hook';
+import { useGetSubjectById } from '@/hooks/rencana-studi/subjects/hook';
 
 import { BreadCrumb } from '@/components/BreadCrumb';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';

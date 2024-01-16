@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import React from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
 
@@ -18,13 +20,22 @@ export default function InformasiPertemuan({
 }: {
   session: TSessionItem[];
 }) {
+  const { id, id_major, id_subject } = useParams();
+
   return (
     <section className='p-8'>
       <div className='flex justify-end pb-4'>
-        <Button variant='primary' className='px-4 py-2 flex gap-2'>
-          <BiPlusCircle size={24} />
-          Tambah Pertemuan
-        </Button>
+        <Link
+          href={`/rencana-studi/program-studi/${id}/mata-kuliah/${id_major}/detail/${id_subject}/tambah-pertemuan`}
+        >
+          <Button
+            variant='primary'
+            className='px-4 py-2 flex gap-2 items-center'
+          >
+            <BiPlusCircle size={24} />
+            Tambah Pertemuan
+          </Button>
+        </Link>
       </div>
       {session.map((item, index) => (
         <Table
@@ -43,12 +54,14 @@ export default function InformasiPertemuan({
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell>Judul Pertemuan</TableCell>
-              <TableCell>{item.subject_id}</TableCell>
+              <TableCell className='w-[300px] border-2'>
+                Judul Pertemuan
+              </TableCell>
+              <TableCell>{item.title}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>Type</TableCell>
-              <TableCell>{item.type}</TableCell>
+              <TableCell className='w-[300px] border-2'>Description</TableCell>
+              <TableCell>{item.description}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
