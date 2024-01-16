@@ -262,10 +262,16 @@ export const SubjectTable = ({ data }: TSubjectAllData) => {
       id: 'actions',
       enableHiding: false,
       cell: ({ row }) => {
-        const payment = row.original;
         return (
           <div className='flex gap-3'>
-            <DeleteSubjectModal />
+            <DeleteSubjectModal
+              modalTrigger={
+                <Button variant='destructive'>
+                  <div className='flex gap-2 items-center'>Hapus</div>
+                </Button>
+              }
+              id={row.getValue('id')}
+            />
             <Button
               className='bg-primary-500 w-full hover:bg-primary-600'
               asChild
