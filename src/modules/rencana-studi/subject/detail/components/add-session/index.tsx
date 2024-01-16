@@ -8,7 +8,10 @@ import { toast } from 'react-hot-toast';
 import { BiMinusCircle, BiPlusCircle } from 'react-icons/bi';
 
 import { ValidationSchemaSession } from '@/lib/validation/rencana-studi/session';
-import { useAddSession } from '@/hooks/rencana-studi/session/hook';
+import {
+  useAddSession,
+  useGetSessions,
+} from '@/hooks/rencana-studi/session/hook';
 
 import { BreadCrumb, TCrumbItem } from '@/components/BreadCrumb';
 import { Input } from '@/components/input';
@@ -43,6 +46,9 @@ export const TambahPertemuanRencanaStudi = () => {
 
   const { id, id_major, id_subject } = useParams();
   const { mutate } = useAddSession(id_subject as string);
+  const { data } = useGetSessions(id_subject as string);
+
+  const sessionLength = data?.data?.sessions?.length;
 
   const router = useRouter();
 
@@ -71,7 +77,7 @@ export const TambahPertemuanRencanaStudi = () => {
           description: data[`session_description_${index + 1}`] as string,
           type: data[`session_type_${index + 1}`] as string,
           is_sync: true,
-          sesssion_no: index + 1,
+          session_no: (sessionLength as number) + index + 1,
         });
       }
 
@@ -86,9 +92,12 @@ export const TambahPertemuanRencanaStudi = () => {
         {
           onSuccess: () => {
             toast.success(`${countSession} pertemuan berhasil ditambahkan`);
+            router.push(
+              `/rencana-studi/program-studi/${id}/mata-kuliah/${id_major}/detail/${id_subject}`,
+            );
           },
-          onError: () => {
-            toast.error('Gagal menambahkan pertemuan');
+          onError: (error) => {
+            toast.error(error.message);
           },
         },
       );
@@ -141,7 +150,7 @@ export const TambahPertemuanRencanaStudi = () => {
                     <Fragment key={index}>
                       <div className='pt-4'>
                         <h3 className='font-semibold text-dark-900'>
-                          Tambah Pertemuan {index + 1}
+                          Tambah Pertemuan
                         </h3>
                       </div>
                       <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
@@ -150,7 +159,7 @@ export const TambahPertemuanRencanaStudi = () => {
                           name={`session_title_${index + 1}`}
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Judul Pertemuan {index + 1}</FormLabel>
+                              <FormLabel>Judul Pertemuan</FormLabel>
                               <FormControl>
                                 <Input
                                   placeholder={`Masukkan Judul Pertemuan ${
@@ -168,9 +177,7 @@ export const TambahPertemuanRencanaStudi = () => {
                           name={`session_duration_${index + 1}`}
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>
-                                Durasi Pertemuan {index + 1}
-                              </FormLabel>
+                              <FormLabel>Durasi Pertemuan</FormLabel>
                               <FormControl>
                                 <Input
                                   placeholder={`Masukkan durasi Pertemuan ${
@@ -191,9 +198,7 @@ export const TambahPertemuanRencanaStudi = () => {
                           name={`session_description_${index + 1}`}
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>
-                                Deskripsi Pertemuan {index + 1}
-                              </FormLabel>
+                              <FormLabel>Deskripsi Pertemuan</FormLabel>
                               <FormControl>
                                 <Input
                                   placeholder={`Masukkan Deskripsi Pertemuan ${
@@ -211,7 +216,7 @@ export const TambahPertemuanRencanaStudi = () => {
                           name={`session_type_${index + 1}`}
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Tipe Pertemuan {index + 1}</FormLabel>
+                              <FormLabel>Tipe Pertemuan</FormLabel>
                               <FormControl>
                                 <Select
                                   onValueChange={field.onChange}
