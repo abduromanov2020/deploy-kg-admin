@@ -43,9 +43,9 @@ export const useGetStudyPlanMajorById = (
 
 export const useGetMajorByFacultyId = (
   id: string,
-  page?: number,
-  limit?: number,
-): UseQueryResult<TDetailMajorResponseById, TMetaErrorResponse> =>
+  page: number,
+  limit: number,
+): UseQueryResult<TResponseAllMajors, TMetaErrorResponse> =>
   useQuery({
     queryKey: ['major-get-by-faculty-id', id, page, limit],
     queryFn: async () => await majorGetByFacultyId(id),

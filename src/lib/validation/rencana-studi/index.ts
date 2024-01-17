@@ -125,24 +125,8 @@ export const EditMajorValidationSchema = z.object({
     .min(1, { message: 'Fakultas Dibutuhkan' }),
   thumbnail: z
     .any()
-    .refine(
-      (files: File[]) => files !== undefined && files?.length >= 1,
-      'Harus ada file yang di upload.',
-    )
-    .refine(
-      (files: File[]) =>
-        files !== undefined && files?.[0]?.size <= MAX_FILE_SIZE,
-      'Ukuran maksimun adalah 3mb.',
-    )
-    .refine(
-      (files: File[]) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      'hanya menerima .jpg, .jpeg, dan .png.',
-    ),
-  duration: z
-    .string({
-      required_error: 'Durasi Program Studi Dibutuhkan',
-    })
-    .min(1, { message: 'Durasi Program Studi Dibutuhkan' }),
+    .optional()
+
 });
 
 export const AddSubjectValidationSchema = z.object({

@@ -8,10 +8,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
 
-import {
-  AddMajorValidationSchema,
-  EditMajorValidationSchema,
-} from '@/lib/validation/rencana-studi';
+import { EditMajorValidationSchema } from '@/lib/validation/rencana-studi';
 import { useGetStudyPlanFaculties } from '@/hooks/rencana-studi/faculties/hook';
 import {
   useEditMajor,
@@ -115,9 +112,9 @@ const EditMajorModule = () => {
         name: major.name ?? '-',
         degree: major.degree ?? '',
         description: major.description ?? '-',
-        head_major: major.head_of_major?.full_name ?? ' ',
-        faculty: major.faculty_name ?? '',
-        thumbnail: major.thumbnail[0] ?? '',
+        head_major: major.head_of_major?.id ?? ' ',
+        faculty: major.faculty_id ?? '',
+        thumbnail: major.thumbnail ?? '',
       };
       form.reset(defaultValues);
     }
@@ -131,7 +128,7 @@ const EditMajorModule = () => {
 
   const router = useRouter();
 
-  const onSubmit = (data: z.infer<typeof AddMajorValidationSchema>) => {
+  const onSubmit = (data: z.infer<typeof EditMajorValidationSchema>) => {
     try {
       const payload = {
         name: data.name,
@@ -139,7 +136,6 @@ const EditMajorModule = () => {
         description: data.description,
         major_head_id: data.head_major,
         faculty_id: data.faculty,
-        thumbnail: data.thumbnail[0],
       };
       mutate(
         {
@@ -148,7 +144,7 @@ const EditMajorModule = () => {
         {
           onSuccess: () => {
             toast.success('Program Studi Berhasil Di Ubah!');
-            router.push('/rencana-studi');
+            router.push(`/rencana-studi/program-studi/${id_faculty}`);
           },
           onError: (error) => {
             toast.error(error && 'Gagal Mengubah Program Studi!');
@@ -261,7 +257,9 @@ const EditMajorModule = () => {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder={field.value} />
+                              <SelectValue
+                                placeholder={major?.head_of_major?.full_name}
+                              />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -294,7 +292,7 @@ const EditMajorModule = () => {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder={field.value} />
+                              <SelectValue placeholder={major?.faculty_name} />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -377,6 +375,7 @@ const EditMajorModule = () => {
                         <DialogClose asChild>
                           <Button
                             onClick={onSubmitDialog}
+                            type='submit'
                             className='bg-primary-500 w-full'
                           >
                             Selesai
