@@ -38,6 +38,7 @@ export interface TSubjectDataById {
   slug: string;
   credit: number;
   thumbnail: string;
+  semester: number;
   teacher: Teacher;
   major: Major;
   indicator: string;

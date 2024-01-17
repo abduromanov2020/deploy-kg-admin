@@ -82,7 +82,7 @@ export type TEditMajorPayload = {
   description: string;
   major_head_id: string;
   faculty_id: string;
-  thumbnail: string | StaticImageData;
+  thumbnail?: string | StaticImageData;
 };
 
 

@@ -87,14 +87,13 @@ export const UploadField = <T extends FieldValues>(
       <input
         {...props}
         onChange={(event) => {
-          console.log(event.target.files);
-
           field.onChange(event.target.files);
           setName(event.target?.files?.[0]?.name as string);
           props?.onChange?.(event);
         }}
         id={props.name}
         type='file'
+        defaultValue={props.defaultValue}
         className={`
             ${
               props.status === 'error' &&
