@@ -33,12 +33,15 @@ import { Button } from '@/components/ui/button';
 
 import { DeleteSubjectModal } from '@/modules/rencana-studi/subject/components/delete-subject-modal';
 
-import {
-  TSubjectAllData,
-  TSubjectItem,
-} from '@/types/rencana-studi/subjects/types';
+import { TSubjectItem } from '@/types/rencana-studi/subjects/types';
 
-export const SubjectTable = ({ data }: TSubjectAllData) => {
+interface TProps {
+  data: TSubjectItem[];
+  startingIndex: number;
+}
+
+export const SubjectTable = ({ data, startingIndex }: TProps) => {
+  // console.log('data', data);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -83,7 +86,9 @@ export const SubjectTable = ({ data }: TSubjectAllData) => {
         );
       },
       cell: ({ row }) => (
-        <div className='text-center font-semibold text-sm'>{row.index + 1}</div>
+        <div className='text-center font-semibold text-sm'>
+          {startingIndex + row.index + 1}
+        </div>
       ),
     },
     {

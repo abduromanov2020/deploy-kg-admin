@@ -47,6 +47,9 @@ const MajorModule = () => {
   );
 
   const dataMajors = data ? data.data.majors : [];
+  const currentPage = Number(data?.meta?.page) || 1;
+  const totalPages = Number(data?.meta?.per_page) || 1;
+  const startingIndex = (currentPage - 1) * totalPages;
 
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
@@ -138,23 +141,10 @@ const MajorModule = () => {
                     </div>
                   ) : data && data?.data ? (
                     <>
-                      <MajorTable data={dataMajors} />
-                      <div className='flex items-center justify-end px-4 py-4'>
-                        <div className='flex-1 text-sm text-muted-foreground'>
-                          <p>
-                            Menampilkan {data?.data?.majors.length > 0 ? 1 : 0}{' '}
-                            hingga {data?.data?.majors.length} data dari{' '}
-                            {data?.data?.page_size} entries
-                          </p>
-                        </div>
-                        <div className='space-x-2'>
-                          <Pagination
-                            currentPage={Number(data?.meta?.page)}
-                            totalPages={Number(data?.meta?.page_size)}
-                            onPageChange={handlePageChange}
-                          />
-                        </div>
-                      </div>
+                      <MajorTable
+                        data={dataMajors}
+                        startingIndex={startingIndex}
+                      />
                     </>
                   ) : (
                     <div className='w-full flex justify-center items-center pt-5'>
@@ -163,6 +153,22 @@ const MajorModule = () => {
                   )}
                 </section>
               )}
+              <div className='flex items-center justify-end px-4 py-4'>
+                <div className='flex-1 text-sm text-muted-foreground'>
+                  <p>
+                    Menampilkan {data?.data?.majors.length > 0 ? 1 : 0} hingga{' '}
+                    {data?.data?.majors.length} data dari{' '}
+                    {data?.data?.page_size} entries
+                  </p>
+                </div>
+                <div className='space-x-2'>
+                  <Pagination
+                    currentPage={Number(data?.meta?.page)}
+                    totalPages={Number(data?.meta?.page_size)}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>

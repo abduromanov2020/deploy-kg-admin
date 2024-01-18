@@ -77,7 +77,7 @@ export const AddSubjectModule = () => {
     },
     {
       name: 'Tambah Matkul',
-      link: `/rencana-studi/program-studi/${id}/mata-kuliah/${id_major}/tambah-matkul`,
+      link: '',
     },
   ];
 

@@ -14,12 +14,12 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
-import { PopoverMajor } from '@/modules/rencana-studi/major/components/pop-over';
+import { PopOverSubject } from '@/modules/rencana-studi/subject/components/pop-over-subject';
 
 import { TSubjectAllData } from '@/types/rencana-studi/subjects/types';
 
 const SubjectGrid = ({ data }: TSubjectAllData) => {
-  const { id } = useParams();
+  const { id: faculty_id, id_major } = useParams();
 
   return (
     <div className='grid grid-cols-3 gap-4'>
@@ -44,12 +44,10 @@ const SubjectGrid = ({ data }: TSubjectAllData) => {
               </Badge>
             </section>
             <section className='flex flex-col gap-3 mt-5'>
-              <CardTitle>{item.name}</CardTitle>
-              <CardDescription>
+              <CardTitle className='line-clamp-1'>{item.name}</CardTitle>
+              <CardDescription className='line-clamp-2'>
                 {item.description
-                  ? item.description.length > 70
-                    ? `${item.description.substring(0, 70)}...`
-                    : item.description
+                  ? item.description
                   : 'Deskripsi Program Studi Ini Belum Ditampilkan Oleh Backend'}
               </CardDescription>
             </section>
@@ -64,13 +62,17 @@ const SubjectGrid = ({ data }: TSubjectAllData) => {
                 asChild
               >
                 <Link
-                  href={`/rencana-studi/program-studi/${id}/detail/${item.id}`}
+                  href={`/rencana-studi/program-studi/${faculty_id}/mata-kuliah/${id_major}/detail/${item.id}`}
                 >
                   Detail
                 </Link>
               </Button>
             </div>
-            <PopoverMajor majorId={item.id} />
+            <PopOverSubject
+              facultyId={faculty_id}
+              majorId={id_major}
+              subjectId={item.id}
+            />
           </CardFooter>
         </Card>
       ))}

@@ -36,8 +36,9 @@ const SubjectModule = ({ id }: TProps) => {
   const { data, isLoading, refetch } = useGetSubjectByMajorId(id, page);
 
   const subject = data ? data?.data?.subjects : [];
-
-  // console.log(subject);
+  const currentPage = Number(data?.meta?.page) || 1;
+  const totalPages = Number(data?.meta?.per_page) || 1;
+  const startingIndex = (currentPage - 1) * totalPages;
 
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
@@ -46,8 +47,6 @@ const SubjectModule = ({ id }: TProps) => {
       `/rencana-studi/program-studi/${id_faculty}/mata-kuliah/${id}?page=${page}`,
     );
   };
-
-  // console.log(subject);
 
   const ITEMS = [
     {
@@ -142,23 +141,10 @@ const SubjectModule = ({ id }: TProps) => {
                   </div>
                 ) : data && data?.data ? (
                   <>
-                    <SubjectTable data={subject} />
-                    <div className='flex items-center justify-end px-4 py-4'>
-                      <div className='flex-1 text-sm text-muted-foreground'>
-                        <p>
-                          Menampilkan {subject?.length > 0 ? 1 : 0} hingga{' '}
-                          {subject?.length} data dari {data?.meta?.page_size}{' '}
-                          entries
-                        </p>
-                      </div>
-                      <div className='space-x-2'>
-                        <Pagination
-                          currentPage={Number(data?.meta?.page) || 1}
-                          totalPages={Number(data?.meta?.page_size) || 1}
-                          onPageChange={handlePageChange}
-                        />
-                      </div>
-                    </div>
+                    <SubjectTable
+                      data={subject}
+                      startingIndex={startingIndex}
+                    />
                   </>
                 ) : (
                   <div className='w-full flex justify-center items-center pt-5'>
@@ -167,6 +153,21 @@ const SubjectModule = ({ id }: TProps) => {
                 )}
               </section>
             )}
+            <div className='flex items-center justify-end px-4 py-4'>
+              <div className='flex-1 text-sm text-muted-foreground'>
+                <p>
+                  Menampilkan {subject?.length > 0 ? 1 : 0} hingga{' '}
+                  {subject?.length} data dari {data?.meta?.page_size} entries
+                </p>
+              </div>
+              <div className='space-x-2'>
+                <Pagination
+                  currentPage={Number(data?.meta?.page) || 1}
+                  totalPages={Number(data?.meta?.page_size) || 1}
+                  onPageChange={handlePageChange}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

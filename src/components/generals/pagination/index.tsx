@@ -52,7 +52,13 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: Tpagination) => {
         onClick={handlePrevClick}
         disabled={currentPage === 1}
       >
-        <Image src='/svg/arrow-left.svg' alt='Article Icon' width={7} height={7} className='hover:text-white'/>
+        <Image
+          src='/svg/arrow-left.svg'
+          alt='Article Icon'
+          width={7}
+          height={7}
+          className='hover:text-white'
+        />
       </button>
       <div className='mx-2'>
         {getPageNumbers().map((page, index) => (
@@ -79,7 +85,12 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: Tpagination) => {
         onClick={handleNextClick}
         disabled={currentPage === totalPages}
       >
-        <Image src='/svg/arrow-right.svg' alt='Article Icon' width={7} height={7}/>
+        <Image
+          src='/svg/arrow-right.svg'
+          alt='Article Icon'
+          width={7}
+          height={7}
+        />
       </button>
     </div>
   );
