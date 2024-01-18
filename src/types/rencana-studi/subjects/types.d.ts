@@ -5,11 +5,32 @@ export type TSubjectItem = {
   name: string;
   description: string;
   code: string;
+  duration_hours: string | number;
+  credit: string | number;
+  thumbnail: string | StaticImageData;
+  teacher: {
+    id: string;
+    full_name: string;
+    avatar: string | null;
+  };
+  major: {
+    id: string;
+    name: string;
+    slug: string;
+    thumbnail: string;
+    created_at: string;
+    updated_at: string;
+  };
   slug: string;
-  credits: number;
-  total_sessions: number;
-  major_id: string;
-  major_name: string;
+  indicator: string;
+  study_experience: string;
+  teaching_materials: string;
+  basic_competencies: string;
+  tools_needed: string;
+  scoring: string;
+  level: string | number;
+  semester: string | number;
+  is_available: boolean;
   created_at: string;
   updated_at: string;
 };
@@ -35,17 +56,32 @@ export interface TSubjectDataById {
   name: string;
   description: string;
   code: string;
+  duration_hours: string | number;
+  credit: string | number;
+  thumbnail: string | StaticImageData;
+  teacher: {
+    id: string;
+    full_name: string;
+    avatar: string | null;
+  };
+  major: {
+    id: string;
+    name: string;
+    slug: string;
+    thumbnail: string;
+    created_at: string;
+    updated_at: string;
+  };
   slug: string;
-  credit: number;
-  thumbnail: string;
-  semester: number;
-  teacher: Teacher;
-  major: Major;
   indicator: string;
   study_experience: string;
   teaching_materials: string;
   basic_competencies: string;
   tools_needed: string;
+  scoring: string;
+  level: string | number;
+  semester: string | number;
+  is_available: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -80,7 +116,7 @@ export type TAddSubjectPayload = {
   basic_competencies: string;
   tools_needed: string;
   scoring: string;
-  level: string;
+  level: string | number;
   semester: string | number;
 };
 
@@ -113,6 +149,7 @@ export type TAddSubjectResponse = {
   tools_needed: string;
   scoring: string;
   level: string | number;
+  semester: string | number;
   is_available: boolean;
   created_at: string;
   updated_at: string;
@@ -125,4 +162,4 @@ export type TMetaResponseSubject<T> = {
 export type TResponseAllSubjects = TMetaResponseSubject<TSubjectData>;
 export type TResponseAllSubjectsByIdMajor = TMetaResponseSubject<TSubjectData>;
 export type TDetailsubjectResponse = TMetaResponseSingle<TSubjectItem>;
-export type TDetailSubjectResponseById = TMetaResponseSingle<TSubjectDataById>;
+export type TDetailSubjectResponseById = TMetaResponseSubject<TSubjectDataById>;

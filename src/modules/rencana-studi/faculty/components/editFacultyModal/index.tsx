@@ -47,7 +47,6 @@ export function EditFacultyModal({
   slug,
   modalTrigger,
 }: moduleModalTriggerProps) {
-  // console.log(slug);
   const queryClient = useQueryClient();
 
   const { mutate } = useEditFaculty(id);
@@ -154,9 +153,6 @@ export function EditFacultyModal({
               <DialogClose asChild>
                 <Button
                   onClick={onSubmitDialog}
-                  // disabled={
-                  //   form.formState.isSubmitting || !form.formState.isValid
-                  // }
                   type='submit'
                   variant='primary'
                 >

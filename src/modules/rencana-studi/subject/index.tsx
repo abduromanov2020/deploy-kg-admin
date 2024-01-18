@@ -4,7 +4,9 @@ import Link from 'next/link';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { BiLoaderAlt } from 'react-icons/bi';
 import { CiCirclePlus } from 'react-icons/ci';
+import { IoGridOutline, IoListOutline } from 'react-icons/io5';
 
 import { useGetSubjectByMajorId } from '@/hooks/rencana-studi/subjects/hook';
 
@@ -13,7 +15,7 @@ import Pagination from '@/components/generals/pagination';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import { FilterComponentMajor } from '@/modules/rencana-studi/major/components/filter';
+import SubjectGrid from '@/modules/rencana-studi/subject/components/subject-grid';
 import { SubjectTable } from '@/modules/rencana-studi/subject/components/table';
 
 interface TProps {
@@ -58,7 +60,7 @@ const SubjectModule = ({ id }: TProps) => {
     },
     {
       name: 'Daftar Matkul',
-      link: `/rencana-studi/program-studi/${id_faculty}/mata-kuliah/${id}`,
+      link: '',
     },
   ];
 
@@ -98,30 +100,73 @@ const SubjectModule = ({ id }: TProps) => {
                   <p className='leading-none'>Tambah Mata Kuliah</p>
                 </Link>
               </Button>
-              <FilterComponentMajor />
-              {/* <Button className='bg-white shadow-md hover:bg-primary-500 text-primary-500 hover:text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
-                <BiSolidFileExport size={24} />
-                <p className='leading-none'>Unduh</p>
-              </Button> */}
+              <Button
+                className={`${
+                  showGrid
+                    ? 'bg-primary-500 hover:bg-white  hover:text-primary-500 shadow-md'
+                    : 'bg-white hover:bg-primary-500 hover:text-white text-primary-500 shadow-md'
+                }   p-3`}
+                onClick={() => {
+                  setShowGrid(!showGrid); // Fix: Use the new state value directly
+                  setShowList(!showList);
+                }}
+              >
+                <IoGridOutline size={24} />
+              </Button>
+              <Button
+                className={`${
+                  showList
+                    ? 'bg-primary-500 hover:bg-white  hover:text-primary-500 shadow-md'
+                    : 'bg-white hover:bg-primary-500 hover:text-white text-primary-500 shadow-md'
+                }   p-3`}
+                onClick={() => {
+                  setShowGrid(!showGrid);
+                  setShowList(!showList); // Fix: Use the new state value directly
+                }}
+              >
+                <IoListOutline size={24} />
+              </Button>
+              {/* <FilterComponentMajor /> */}
             </div>
           </section>
           <div className='my-8 w-full'>
-            <SubjectTable data={subject} />
-            <div className='flex items-center justify-end px-4 py-4'>
-              <div className='flex-1 text-sm text-muted-foreground'>
-                <p>
-                  Menampilkan {subject?.length > 0 ? 1 : 0} hingga{' '}
-                  {subject?.length} data dari {data?.meta?.page_size} entries
-                </p>
-              </div>
-              <div className='space-x-2'>
-                <Pagination
-                  currentPage={Number(data?.meta?.page) || 1}
-                  totalPages={Number(data?.meta?.page_size) || 1}
-                  onPageChange={handlePageChange}
-                />
-              </div>
-            </div>
+            {showGrid ? (
+              <section>
+                <SubjectGrid data={subject} />
+              </section>
+            ) : (
+              <section>
+                {isLoading ? (
+                  <div className='w-full flex justify-center items-center pt-5'>
+                    <BiLoaderAlt className='animate-spin' size={30} />
+                  </div>
+                ) : data && data?.data ? (
+                  <>
+                    <SubjectTable data={subject} />
+                    <div className='flex items-center justify-end px-4 py-4'>
+                      <div className='flex-1 text-sm text-muted-foreground'>
+                        <p>
+                          Menampilkan {subject?.length > 0 ? 1 : 0} hingga{' '}
+                          {subject?.length} data dari {data?.meta?.page_size}{' '}
+                          entries
+                        </p>
+                      </div>
+                      <div className='space-x-2'>
+                        <Pagination
+                          currentPage={Number(data?.meta?.page) || 1}
+                          totalPages={Number(data?.meta?.page_size) || 1}
+                          onPageChange={handlePageChange}
+                        />
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className='w-full flex justify-center items-center pt-5'>
+                    Tidak Ada Data
+                  </div>
+                )}
+              </section>
+            )}
           </div>
         </div>
       </div>

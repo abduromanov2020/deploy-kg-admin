@@ -54,7 +54,9 @@ const FacultyGridCardComponent = ({ data }: TFacultiesAllData) => {
           <CardFooter className='flex gap-2 justify-between'>
             <div className='flex gap-2'>
               <Button className='bg-primary-500 hover:bg-primary-600' asChild>
-                <Link href='/rencana-studi/program-studi/1'>Daftar Prodi</Link>
+                <Link href={`/rencana-studi/program-studi/${item.id}`}>
+                  Daftar Prodi
+                </Link>
               </Button>
               <Button
                 className='bg-white border-primary-500 border text-primary-500 hover:bg-gray-200 px-9'

@@ -79,26 +79,6 @@ export const MajorTable = ({ data }: TMajorAllData) => {
         </div>
       ),
     },
-    // {
-    //   accessorKey: 'head_of_major',
-    //   header: ({ column }) => {
-    //     return (
-    //       <Button
-    //         variant='ghost'
-    //         className='text-sm p-0 text-start font-semibold text-black'
-    //         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-    //       >
-    //         KEPALA PRODI
-    //         <TiArrowSortedDown className='ml-2 h-4 w-4' />
-    //       </Button>
-    //     );
-    //   },
-    //   cell: ({ row }) => (
-    //     <div className='text-start font-semibold text-sm'>
-    //       {row.getValue('head_of_major')}
-    //     </div>
-    //   ),
-    // },
     {
       accessorKey: 'total_subjects',
       header: ({ column }) => {
