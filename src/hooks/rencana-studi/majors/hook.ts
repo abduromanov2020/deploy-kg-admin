@@ -43,8 +43,8 @@ export const useGetStudyPlanMajorById = (
 
 export const useGetMajorByFacultyId = (
   id: string,
-  page: number,
-  limit: number,
+  page?: number,
+  limit?: number,
 ): UseQueryResult<TResponseAllMajors, TMetaErrorResponse> =>
   useQuery({
     queryKey: ['major-get-by-faculty-id', id, page, limit],

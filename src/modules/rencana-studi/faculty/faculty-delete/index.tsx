@@ -44,7 +44,7 @@ export default function DeleteFacultyModal({
         <DialogHeader>
           <DialogTitle>Hapus Fakultas</DialogTitle>
           <DialogDescription>
-            Apakah Anda Yakin Ingin Menghapus Modul Ini?
+            Apakah Anda Yakin Ingin Menghapus Fakultas Ini?
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

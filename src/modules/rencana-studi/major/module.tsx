@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { BiLoaderAlt, BiSolidFileExport } from 'react-icons/bi';
+import { BiLoaderAlt } from 'react-icons/bi';
 import { CiCirclePlus } from 'react-icons/ci';
 import { IoGridOutline, IoListOutline } from 'react-icons/io5';
 
@@ -15,7 +15,6 @@ import Pagination from '@/components/generals/pagination';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import { FilterComponentMajor } from '@/modules/rencana-studi/major/components/filter';
 import MajorGrid from '@/modules/rencana-studi/major/components/grid';
 import { MajorTable } from '@/modules/rencana-studi/major/components/table';
 
@@ -49,12 +48,9 @@ const MajorModule = () => {
 
   const dataMajors = data ? data.data.majors : [];
 
-  console.log(data);
-
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
     refetch();
-    // console.log(page);
 
     router.push(`/rencana-studi/program-studi/${id}?page=${page}`);
   };
@@ -95,11 +91,11 @@ const MajorModule = () => {
                   <p className='leading-none'>Tambah Prodi</p>
                 </Link>
               </Button>
-              <FilterComponentMajor />
+              {/* <FilterComponentMajor />
               <Button className='bg-white shadow-md hover:bg-primary-500 text-primary-500 hover:text-white font-normal px-3 py-2 gap-1 flex justify-center items-center text-base'>
                 <BiSolidFileExport size={24} />
                 <p className='leading-none'>Unduh</p>
-              </Button>
+              </Button> */}
               <Button
                 className={`${
                   showGrid

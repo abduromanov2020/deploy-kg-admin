@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import { AxiosError } from 'axios';
 
 export type TMetaItem = {
   code: number;
@@ -14,10 +14,10 @@ export type TMetaItemWithPagination = {
 };
 
 export interface TPaginationMeta {
-  page_size: number
-  total_data: number
-  current_page: number
-  max_page: number
+  page_size: number;
+  total_data: number;
+  current_page: number;
+  max_page: number;
 }
 
 export type TMetaResponse<T> = {

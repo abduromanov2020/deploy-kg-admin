@@ -41,10 +41,7 @@ const RencanaStudiDetailMajor = () => {
 
   const { data, isLoading } = useGetStudyPlanMajorById(String(id_detail));
 
-  // console.log('lalalla', data?.data?.head_of_major);
   const major = data ? data?.data : [];
-
-  // console.log('kjhjdahg', major);
 
   return (
     <main className='flex flex-col gap-6'>
@@ -70,7 +67,9 @@ const RencanaStudiDetailMajor = () => {
                 className='bg-primary-500 border-2 border-primary-500 hover:bg-primary-600 hover:border-primary-600 px-3 py-2 flex gap-2'
                 asChild
               >
-                <Link href='/rencana-studi/program-studi/1/edit-prodi/1'>
+                <Link
+                  href={`/rencana-studi/program-studi/${faculty_id}/edit-prodi/${id_detail}`}
+                >
                   <BiEdit size={24} />
                   Edit Informasi
                 </Link>
@@ -139,7 +138,8 @@ const RencanaStudiDetailMajor = () => {
                     Jumlah Mata Kuliah
                   </TableCell>
                   <TableCell className='border-2'>
-                    {major?.total_subjects} 0 Mata Kuliah
+                    {major?.total_subjects ? major?.total_subjects : 0} Mata
+                    Kuliah
                   </TableCell>
                 </TableRow>
                 <TableRow>

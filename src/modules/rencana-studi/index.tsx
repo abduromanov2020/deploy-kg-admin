@@ -58,8 +58,6 @@ export const RencanaStudiModule = () => {
     option.search,
   );
 
-  // console.log(data);
-
   useDebounce(
     () => {
       setOption((prev) => ({ ...prev, search: deb, page: 1 }));
@@ -74,12 +72,9 @@ export const RencanaStudiModule = () => {
   const handlePageChange = async (page: number) => {
     window.scrollTo(0, 0);
     refetch();
-    // console.log(page);
 
     router.push(`/rencana-studi?page=${page}`);
   };
-
-  // console.log(dataFaculties);
 
   return (
     <div className='bg-white rounded'>
@@ -116,7 +111,7 @@ export const RencanaStudiModule = () => {
                   : 'bg-white hover:bg-primary-500 hover:text-white text-primary-500 shadow-md'
               }   p-3`}
               onClick={() => {
-                setShowGrid(!showGrid); // Fix: Use the new state value directly
+                setShowGrid(!showGrid);
                 setShowList(!showList);
               }}
             >
@@ -130,7 +125,7 @@ export const RencanaStudiModule = () => {
               }   p-3`}
               onClick={() => {
                 setShowGrid(!showGrid);
-                setShowList(!showList); // Fix: Use the new state value directly
+                setShowList(!showList);
               }}
             >
               <IoListOutline size={24} />

@@ -276,7 +276,11 @@ export const SubjectTable = ({ data }: TSubjectAllData) => {
               className='bg-primary-500 w-full hover:bg-primary-600'
               asChild
             >
-              <Link href='/rencana-studi/program-studi/1/mata-kuliah/1/edit-matkul/1'>
+              <Link
+                href={`/rencana-studi/program-studi/${id}/mata-kuliah/${id_major}/edit-matkul/${row.getValue(
+                  'id',
+                )}`}
+              >
                 Edit
               </Link>
             </Button>

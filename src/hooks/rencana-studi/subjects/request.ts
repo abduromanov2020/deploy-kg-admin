@@ -40,14 +40,28 @@ export const subjectGetByMajorId = async (
   return data;
 };
 
-
-
 export const addSubjectRequest = async (
   payload: TAddSubjectPayload | unknown,
 ): Promise<TAddSubjectResponse> => {
   const { data } = await api({
     method: 'post',
     url: 'v2/admin/subjects',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    data: payload,
+  });
+
+  return data;
+};
+
+export const editSubjectRequest = async (
+  id: string | string[],
+  payload: TAddSubjectPayload,
+): Promise<TAddSubjectResponse> => {
+  const { data } = await api({
+    method: 'put',
+    url: `v2/admin/subjects/${id}`,
     headers: {
       'Content-Type': 'multipart/form-data',
     },

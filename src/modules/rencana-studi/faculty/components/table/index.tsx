@@ -12,7 +12,6 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
-// type Checked = DropdownMenuCheckboxItemProps['checked'];
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { TiArrowSortedDown } from 'react-icons/ti';
@@ -36,35 +35,12 @@ import {
 } from '@/types/rencana-studi/faculties/types';
 
 export const FacultyTable = ({ data }: TFacultiesAllData) => {
-  // console.log(data);
-
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
   const columns: ColumnDef<TFacultiesItem>[] = [
-    // {
-    //   id: 'select',
-    //   header: ({ table }) => (
-    //     <Checkbox
-    //       checked={table.getIsAllPageRowsSelected()}
-    //       onCheckedChange={(value: any) =>
-    //         table.toggleAllPageRowsSelected(!!value)
-    //       }
-    //       aria-label='Select all'
-    //     />
-    //   ),
-    //   cell: ({ row }) => (
-    //     <Checkbox
-    //       checked={row.getIsSelected()}
-    //       onCheckedChange={(value: any) => row.toggleSelected(!!value)}
-    //       aria-label='Select row'
-    //     />
-    //   ),
-    //   enableSorting: false,
-    //   enableHiding: false,
-    // },
     {
       accessorKey: 'no',
       header: ({ column }) => {
@@ -82,26 +58,6 @@ export const FacultyTable = ({ data }: TFacultiesAllData) => {
         <div className='text-center font-semibold text-sm'>{row.index + 1}</div>
       ),
     },
-    // {
-    //   accessorKey: 'faculty_id',
-    //   header: ({ column }) => {
-    //     return (
-    //       <Button
-    //         variant='ghost'
-    //         className='text-sm p-0 text-start font-semibold text-black'
-    //         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-    //       >
-    //         ID FAKULTAS
-    //         <TiArrowSortedDown className='ml-2 h-4 w-4' />
-    //       </Button>
-    //     );
-    //   },
-    //   cell: ({ row }) => (
-    //     <div className='text-start font-semibold text-sm'>
-    //       {row.getValue('faculty_id')}
-    //     </div>
-    //   ),
-    // },
     {
       accessorKey: 'name',
       header: ({ column }) => {
@@ -122,26 +78,6 @@ export const FacultyTable = ({ data }: TFacultiesAllData) => {
         </div>
       ),
     },
-    // {
-    //   accessorKey: 'head_of_faculty',
-    //   header: ({ column }) => {
-    //     return (
-    //       <Button
-    //         variant='ghost'
-    //         className='text-sm p-0 text-start font-semibold text-black'
-    //         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-    //       >
-    //         KEPALA FAKULTAS
-    //         <TiArrowSortedDown className='ml-2 h-4 w-4' />
-    //       </Button>
-    //     );
-    //   },
-    //   cell: ({ row }) => (
-    //     <div className='text-start font-semibold text-sm'>
-    //       {row.getValue('head_of_faculty')}
-    //     </div>
-    //   ),
-    // },
     {
       accessorKey: 'total_majors',
       header: ({ column }) => {
@@ -201,25 +137,10 @@ export const FacultyTable = ({ data }: TFacultiesAllData) => {
       cell: ({ row }) => {
         return (
           <div className='flex gap-3 justify-end'>
-            {/* <DeleteFacultyModal
-              modalTrigger={<Button className='bg-red-800 w-1/3'>Hapus</Button>}
-            /> */}
-            {/* <Button
-              className='bg-primary-500 w-1/3 hover:bg-primary-600'
-              asChild
-            >
-              <Link
-                href={`/rencana-studi/fakultas/edit-fakultas/${row.getValue(
-                  'id',
-                )}`}
-              >
-                Edit
-              </Link>
-            </Button> */}
             <EditFacultyModal
               modalTrigger={
                 <Button variant='primary'>
-                  <div className='flex gap-2 items-center '>Edit Fakultas</div>
+                  <div className='flex gap-2 items-center'>Edit Fakultas</div>
                 </Button>
               }
               id={row.getValue('id')}

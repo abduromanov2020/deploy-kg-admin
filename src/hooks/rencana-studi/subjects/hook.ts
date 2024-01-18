@@ -8,6 +8,7 @@ import {
 import {
   addSubjectRequest,
   deleteSubjectRequest,
+  editSubjectRequest,
   subjectGetById,
   subjectGetByMajorId,
 } from '@/hooks/rencana-studi/subjects/request';
@@ -38,7 +39,6 @@ export const useGetSubjectById = (
     queryFn: async () => await subjectGetById(id),
   });
 
-
 export const useAddSubject = (): UseMutationResult<
   TAddSubjectResponse,
   TMetaErrorResponse,
@@ -48,6 +48,19 @@ export const useAddSubject = (): UseMutationResult<
   return useMutation({
     mutationKey: ['add-major'],
     mutationFn: async (payload) => await addSubjectRequest(payload),
+  });
+};
+
+export const useEditSubject = (
+  id: string | string[],
+): UseMutationResult<
+  TAddSubjectResponse,
+  TMetaErrorResponse,
+  TAddSubjectPayload
+> => {
+  return useMutation({
+    mutationKey: ['edit-subject', id],
+    mutationFn: async (payload) => await editSubjectRequest(id, payload),
   });
 };
 
