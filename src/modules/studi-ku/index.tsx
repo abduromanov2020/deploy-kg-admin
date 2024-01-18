@@ -99,7 +99,7 @@ export const MainStudiKu: React.FC = () => {
         <div className='gap-x-10 gap-y-3 flex flex-row w-full p-5 border border-slate-200 rounded-lg mb-5 flex-wrap'>
           <Filter
             icon={<BiChevronDown className='text-xl' />}
-            className='border-2 py-3 w-[180px] px-4'
+            className='border-2 py-3 w-[250px] px-4'
             title='Program Studi'
             data={majorsOption}
             setFilter={setMajorsFilter}
@@ -108,7 +108,7 @@ export const MainStudiKu: React.FC = () => {
           />
           <Filter
             icon={<BiChevronDown className='text-xl' />}
-            className='border-2 py-3 w-[180px] px-4'
+            className='border-2 py-3 w-[250px] px-4'
             title='Mata Kuliah'
             data={subjectOption}
             setFilter={setSubjectFilter}

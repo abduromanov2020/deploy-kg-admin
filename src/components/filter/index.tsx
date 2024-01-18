@@ -44,7 +44,7 @@ export const Filter: React.FC<FilterMenuProps> = ({
         {icon}
       </DropdownMenuTrigger>
       {!isLoading && (
-        <DropdownMenuContent className='w-[180px]'>
+        <DropdownMenuContent className='w-[250px] max-h-[400px] overflow-y-scroll'>
           {data?.map((item, index) => {
             return (
               <DropdownMenuItem
@@ -57,6 +57,7 @@ export const Filter: React.FC<FilterMenuProps> = ({
                     });
                   }
                 }}
+                className='border-b border-slate-100 py-3'
               >
                 {item.title}
               </DropdownMenuItem>
