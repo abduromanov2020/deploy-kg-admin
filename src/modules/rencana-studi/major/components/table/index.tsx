@@ -32,9 +32,14 @@ import { TiArrowSortedDown } from 'react-icons/ti';
 
 import { DeleteMajorModal } from '@/modules/rencana-studi/major/components/delete-major-modal';
 
-import { TMajorAllData, TMajorItem } from '@/types/rencana-studi/majors/types';
+import { TMajorItem } from '@/types/rencana-studi/majors/types';
 
-export const MajorTable = ({ data }: TMajorAllData) => {
+interface TProps {
+  data: TMajorItem[];
+  startingIndex: number;
+}
+
+export const MajorTable = ({ data }: TProps) => {
   const { id } = useParams();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);

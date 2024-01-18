@@ -72,7 +72,7 @@ const MajorGrid = ({ data }: TMajorAllData) => {
                 </Link>
               </Button>
             </div>
-            <PopoverMajor majorId={item.id} />
+            <PopoverMajor majorId={item.id} facultyId={id} />
           </CardFooter>
         </Card>
       ))}

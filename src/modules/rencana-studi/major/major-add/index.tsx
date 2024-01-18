@@ -137,7 +137,7 @@ export const AddMajorModule = () => {
         {
           onSuccess: () => {
             toast.success('Form submitted!');
-            router.push('/rencana-studi');
+            router.push(`/rencana-studi/program-studi/${id_faculty}`);
           },
           onError: (error) => {
             toast.error(error && 'Gagal Menambahkan Program Studi!');

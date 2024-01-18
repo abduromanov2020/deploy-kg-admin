@@ -79,8 +79,8 @@ export const EditSubjectModule = () => {
       link: `/rencana-studi/program-studi/${id}/mata-kuliah/${id_major}`,
     },
     {
-      name: 'Tambah Matkul',
-      link: `/rencana-studi/program-studi/${id}/mata-kuliah/${id_major}/tambah-matkul`,
+      name: 'Edit Matkul',
+      link: '',
     },
   ];
 
