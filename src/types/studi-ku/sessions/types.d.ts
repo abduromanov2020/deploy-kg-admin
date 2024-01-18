@@ -11,6 +11,19 @@ export type TSessionItem = {
   description: string;
 };
 
+export type TSessionDetailItem = {
+  id: string;
+  subject_id: string;
+  session_no: number;
+  duration: number;
+  is_sync: boolean;
+  type: string;
+  created_at: string;
+  updated_at: string;
+  title: string;
+  description: string;
+};
+
 export type TSubjectSession = {
   id: string;
   name: string;
@@ -28,4 +41,10 @@ export type TSessionsData = {
   sessions: TSessionItem[];
 };
 
+export type TSessionDetailData = {
+  subject: TSubjectSession;
+  session: TSessionDetailItem;
+};
+
 export type TSessionsResponse = TMetaResponseSingle<TSessionsData>;
+export type TSessionDetailResponse = TMetaResponseSingle<TSessionDetailData>;

@@ -2,8 +2,14 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { BiPlusCircle } from 'react-icons/bi';
+import { FiMoreVertical } from 'react-icons/fi';
 
 import { Button } from '@/components/ui/button';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import {
   Table,
   TableBody,
@@ -12,6 +18,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+
+import DeleteSessionModal from '@/modules/rencana-studi/subject/detail/session/delete';
+import { EditSessionModal } from '@/modules/rencana-studi/subject/detail/session/edit';
 
 import { TSessionItem } from '@/types/studi-ku/sessions/types';
 
@@ -44,11 +53,24 @@ export default function InformasiPertemuan({
         >
           <TableHeader>
             <TableRow>
-              <TableHead
-                colSpan={2}
-                className='text-slate-900 font-semibold text-base py-4'
-              >
+              <TableHead className='text-slate-900 font-semibold text-base py-4'>
                 Pertemuan {index + 1}
+              </TableHead>
+              <TableHead className='text-slate-900 font-semibold text-base py-4 flex justify-end items-center'>
+                <div className=''>
+                  <Popover>
+                    <PopoverTrigger>
+                      <FiMoreVertical />
+                    </PopoverTrigger>
+                    <PopoverContent className='w-48' align='end'>
+                      <div className='flex flex-col gap-2'>
+                        <EditSessionModal id={item.id} />
+                        <hr className='border-slate-200' />
+                        <DeleteSessionModal id={item.id} />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
               </TableHead>
             </TableRow>
           </TableHeader>
