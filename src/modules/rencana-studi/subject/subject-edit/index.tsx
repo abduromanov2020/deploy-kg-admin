@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
 type Checked = DropdownMenuCheckboxItemProps['checked'];
@@ -56,7 +57,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 
-import { TAddSubjectPayload } from '@/types/rencana-studi/subjects/types';
+import { TEditSubjectPayload } from '@/types/rencana-studi/subjects/types';
 
 const DraftEditor = dynamic(() => import('@/components/text-editor'), {
   ssr: false,
@@ -150,7 +151,7 @@ export const EditSubjectModule = () => {
       code: '',
       duration_hours: 0,
       credit: 0,
-      thumbnail: '',
+      thumbnail: null,
       teacher_id: '',
       major_id: '',
       indicator: '',
@@ -192,13 +193,12 @@ export const EditSubjectModule = () => {
 
   const onSubmit = (data: z.infer<typeof EditSubjectValidationSchema>) => {
     try {
-      const payload: TAddSubjectPayload = {
+      let payload: TEditSubjectPayload = {
         name: data.name,
         description: data.description,
         code: data.code,
         duration_hours: parseInt(data.semester as unknown as string),
         credit: data.credit,
-        thumbnail: data.thumbnail[0],
         teacher_id: data.teacher_id,
         major_id: data.major_id,
         indicator: data.indicator,
@@ -210,6 +210,12 @@ export const EditSubjectModule = () => {
         level: data.level,
         semester: parseInt(data.semester),
       };
+      if (data?.thumbnail?.length == 1) {
+        payload = {
+          ...payload,
+          thumbnail: data?.thumbnail[0],
+        };
+      }
       mutate(
         {
           ...payload,
@@ -595,9 +601,17 @@ export const EditSubjectModule = () => {
                     )}
                   />
                 </div>
-
                 <div className='grid w-full  items-center space-y-4'>
                   <Label>Unggah Thumbnail</Label>
+                  <Image
+                    src={
+                      subjects && subjects.thumbnail ? subjects.thumbnail : ''
+                    }
+                    alt={subjects ? subjects.slug : 'thumbnail'}
+                    width={350}
+                    height={200}
+                    className='object-scale-down h-[200px] w-96'
+                  />
                   <UploadField
                     control={form.control}
                     name='thumbnail'

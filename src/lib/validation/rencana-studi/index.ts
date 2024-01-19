@@ -303,17 +303,23 @@ export const EditSubjectValidationSchema = z.object({
     .min(1, { message: 'Semester Mata Kuliah Dibutuhkan.' }),
   thumbnail: z
     .any()
+    .optional()
     .refine(
-      (files: File[]) => files !== undefined && files?.length >= 1,
-      'Harus ada file yang di upload.',
-    )
-    .refine(
-      (files: File[]) =>
-        files !== undefined && files?.[0]?.size <= MAX_FILE_SIZE,
-      'Ukuran maksimun adalah 3mb.',
-    )
-    .refine(
-      (files: File[]) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+      (file) =>
+        file.length == 1
+          ? ACCEPTED_IMAGE_TYPES.includes(file?.[0]?.type)
+            ? true
+            : false
+          : true,
       'hanya menerima .jpg, .jpeg, dan .png.',
+    )
+    .refine(
+      (file) =>
+        file.length == 1
+          ? file[0]?.size <= MAX_FILE_SIZE
+            ? true
+            : false
+          : true,
+      'Ukuran maksimun adalah 3mb.',
     ),
 });

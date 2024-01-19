@@ -8,6 +8,8 @@ import {
   TAddSubjectPayload,
   TAddSubjectResponse,
   TDetailSubjectResponseById,
+  TEditSubjectPayload,
+  TEditSubjectResponse,
 } from '@/types/rencana-studi/subjects/types';
 
 export const subjectsGetRequest = async (
@@ -57,8 +59,8 @@ export const addSubjectRequest = async (
 
 export const editSubjectRequest = async (
   id: string | string[],
-  payload: TAddSubjectPayload,
-): Promise<TAddSubjectResponse> => {
+  payload: TEditSubjectPayload,
+): Promise<TEditSubjectResponse> => {
   const { data } = await api({
     method: 'put',
     url: `v2/admin/subjects/${id}`,

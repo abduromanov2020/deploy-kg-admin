@@ -18,6 +18,8 @@ import {
   TAddSubjectPayload,
   TAddSubjectResponse,
   TDetailSubjectResponseById,
+  TEditSubjectPayload,
+  TEditSubjectResponse,
   TResponseAllSubjectsByIdMajor,
 } from '@/types/rencana-studi/subjects/types';
 
@@ -54,9 +56,9 @@ export const useAddSubject = (): UseMutationResult<
 export const useEditSubject = (
   id: string | string[],
 ): UseMutationResult<
-  TAddSubjectResponse,
+  TEditSubjectResponse,
   TMetaErrorResponse,
-  TAddSubjectPayload
+  TEditSubjectPayload
 > => {
   return useMutation({
     mutationKey: ['edit-subject', id],

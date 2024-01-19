@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React from 'react';
@@ -9,12 +10,15 @@ import {
   CardContent,
   CardDescription,
   CardFooter,
+  CardHeader,
   CardTitle,
 } from '@/components/ui/card';
 
 import { PopoverMajor } from '@/modules/rencana-studi/major/components/pop-over';
 
 import { TMajorAllData } from '@/types/rencana-studi/majors/types';
+
+import defaultImage from '~/images/rencana-studi/major/cover-prodi.png';
 
 const MajorGrid = ({ data }: TMajorAllData) => {
   const { id } = useParams();
@@ -26,14 +30,15 @@ const MajorGrid = ({ data }: TMajorAllData) => {
           key={item.id}
           className='w-[350px] rounded-lg overflow-hidden mx-auto'
         >
-          {/* <CardHeader className='p-0 h-48'>
+          <CardHeader className='p-0 h-48'>
             <Image
-              src={item?.thumbnail}
-              alt='artikel'
+              src={item?.thumbnail || defaultImage}
+              alt={item?.name}
               width={350}
               height={200}
               className='object-cover w-full h-full'
-            /> */}
+            />
+          </CardHeader>
           <CardContent className='p-6'>
             <section className=' flex gap-2'>
               <Badge className='rounded-md  bg-dark-100 hover:bg-dark-300 text-dark-900 px-3 py-1'>
