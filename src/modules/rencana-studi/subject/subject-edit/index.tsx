@@ -90,6 +90,43 @@ export const EditSubjectModule = () => {
 
   const subjects = useSubjects?.data;
 
+  // console.log(subjects);
+
+  const semester = [
+    {
+      value: 1,
+      label: 'Semester 1',
+    },
+    {
+      value: 2,
+      label: 'Semester 2',
+    },
+    {
+      value: 3,
+      label: 'Semester 3',
+    },
+    {
+      value: 4,
+      label: 'Semester 4',
+    },
+    {
+      value: 5,
+      label: 'Semester 5',
+    },
+    {
+      value: 6,
+      label: 'Semester 6',
+    },
+    {
+      value: 7,
+      label: 'Semester 7',
+    },
+    {
+      value: 8,
+      label: 'Semester 8',
+    },
+  ];
+
   const majors = useMajor?.data?.majors.map(
     (major: { id: string; name: string }) => {
       return {
@@ -111,7 +148,7 @@ export const EditSubjectModule = () => {
       name: '',
       description: '',
       code: '',
-      duration_hours: '',
+      duration_hours: 0,
       credit: 0,
       thumbnail: '',
       teacher_id: '',
@@ -122,8 +159,8 @@ export const EditSubjectModule = () => {
       basic_competencies: '',
       tools_needed: '',
       scoring: '',
-      level: '',
-      semester: 0,
+      level: 0,
+      semester: '',
     },
   });
 
@@ -133,11 +170,11 @@ export const EditSubjectModule = () => {
         name: subjects.name ?? '-',
         description: subjects.description ?? '-',
         code: subjects.code ?? '-',
-        duration_hours: subjects.duration_hours ?? '-',
+        duration_hours: subjects.duration ?? '-',
         credit: subjects.credit ?? '-',
         thumbnail: subjects.thumbnail ?? '-',
         teacher_id: subjects.teacher?.id ?? '',
-        major_id: subjects.major?.id ?? '',
+        major_id: subjects.major_id ?? '',
         indicator: subjects.indicator ?? '-',
         study_experience: subjects.study_experience ?? '-',
         teaching_materials: subjects.teaching_materials ?? '-',
@@ -145,7 +182,7 @@ export const EditSubjectModule = () => {
         tools_needed: subjects.tools_needed ?? '-',
         scoring: subjects.scoring ?? '-',
         level: subjects.level ?? '-',
-        semester: subjects.semester ?? '-',
+        semester: subjects.semester.toString() ?? '-',
       };
       form.reset(defaultValues);
     }
@@ -159,7 +196,7 @@ export const EditSubjectModule = () => {
         name: data.name,
         description: data.description,
         code: data.code,
-        duration_hours: data.duration_hours,
+        duration_hours: parseInt(data.semester as unknown as string),
         credit: data.credit,
         thumbnail: data.thumbnail[0],
         teacher_id: data.teacher_id,
@@ -171,7 +208,7 @@ export const EditSubjectModule = () => {
         tools_needed: data.tools_needed,
         scoring: data.scoring,
         level: data.level,
-        semester: data.semester,
+        semester: parseInt(data.semester),
       };
       mutate(
         {
@@ -299,7 +336,7 @@ export const EditSubjectModule = () => {
                         <FormControl>
                           <Input
                             type='number'
-                            placeholder='Masukkan Durasi Mata Kuliah*'
+                            placeholder='Masukkan Durasi /jam'
                             {...field}
                           />
                         </FormControl>
@@ -340,7 +377,9 @@ export const EditSubjectModule = () => {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder='Pilih Pengajar' />
+                              <SelectValue
+                                placeholder={subjects?.teacher?.full_name}
+                              />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -373,7 +412,7 @@ export const EditSubjectModule = () => {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder='Pilih Program Studi' />
+                              <SelectValue placeholder={subjects?.major_name} />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -419,15 +458,31 @@ export const EditSubjectModule = () => {
                     control={form.control}
                     name='semester'
                     render={({ field }) => (
-                      <FormItem className='grid w-full gap-1.5'>
-                        <FormLabel>Semester*</FormLabel>
-                        <FormControl>
-                          <Input
-                            type='number'
-                            placeholder='Nama Mata Kuliah*'
-                            {...field}
-                          />
-                        </FormControl>
+                      <FormItem>
+                        <FormLabel>Jenjang*</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value.toLocaleString()}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue
+                                placeholder={`Semester ${subjects?.semester}`}
+                              />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {semester?.map((item) => (
+                              <SelectItem
+                                key={item.value.toLocaleString()}
+                                value={item.value.toLocaleString()}
+                              >
+                                {item.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+
                         <FormMessage />
                       </FormItem>
                     )}
@@ -577,7 +632,7 @@ export const EditSubjectModule = () => {
                     <DialogTrigger asChild>
                       <button className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'>
                         <div className='flex place-items-center gap-2'>
-                          Tambahkan Admin
+                          Simpan Perubahan
                         </div>
                       </button>
                     </DialogTrigger>
