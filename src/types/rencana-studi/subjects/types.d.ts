@@ -104,7 +104,7 @@ export type TAddSubjectPayload = {
   code: string;
   duration_hours: string | number;
   credit: string | number;
-  thumbnai?: string | StaticImageData;
+  thumbnail?: string | StaticImageData;
   teacher_id: string;
   major_id: string;
   indicator: string;
