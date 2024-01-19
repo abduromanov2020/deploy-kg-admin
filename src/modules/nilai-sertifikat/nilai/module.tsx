@@ -11,15 +11,15 @@ import { TableNilai } from '@/modules/nilai-sertifikat/nilai/components/TableNil
 
 const NilaiModule = () => {
   const filterProdi = [
-    { title: 'Blockchain' },
-    { title: 'Artificial Intelligence' },
-    { title: 'IOT' },
+    { title: 'Blockchain', id: '1' },
+    { title: 'Artificial Intelligence', id: '2' },
+    { title: 'IOT', id: '3' },
   ];
 
   const filterMk = [
-    { title: 'Matkul 1' },
-    { title: 'Matkul 2' },
-    { title: 'Matkul 3' },
+    { title: 'Matkul 1', id: '1' },
+    { title: 'Matkul 2', id: '2' },
+    { title: 'Matkul 3', id: '3' },
   ];
 
   const handlePageChange = async (page: number) => {
@@ -31,7 +31,7 @@ const NilaiModule = () => {
   const data = Array.from({ length: 50 }, (_, i) => ({
     no: i + 1,
     nim: 1234 + i,
-    nama_mahasiswa: `Mahasiswa ${i+1}`,
+    nama_mahasiswa: `Mahasiswa ${i + 1}`,
     skor: 88,
     ip: 3.87,
   }));

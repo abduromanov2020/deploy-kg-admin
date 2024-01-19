@@ -20,7 +20,7 @@ import {
 import DropdownFilter from '@/modules/studi-ku/refleksi-eksplorasi/component/dropdown-filter';
 
 function QuestionSummarySection({ data }: { data: any }) {
-  const filter = [{ title: 'Fajar FE' }];
+  const filter = [{ title: 'Fajar FE', id: '1' }];
   const [page, setPage] = useState(1);
 
   const handlePageChange = (page: number) => {

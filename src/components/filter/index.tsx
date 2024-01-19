@@ -7,13 +7,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-interface data {
-  id: string;
-  title: string;
-}
-
 interface FilterMenuProps {
-  data: data[];
+  data: { id: string; title: string }[] | undefined;
   className?: string;
   title: string;
   bgColor?: string;

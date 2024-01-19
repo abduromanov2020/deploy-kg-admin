@@ -5,27 +5,28 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { BiChevronDown } from 'react-icons/bi';
 
 import { Filter } from '@/components/filter';
-import { Input } from '@/components/ui/input';
 import Pagination from '@/components/generals/pagination';
+import { Input } from '@/components/ui/input';
+
 import { TableSertifikat } from '@/modules/nilai-sertifikat/sertifikat/components/TableSertifikat';
 
 const SertifikatModule = () => {
   const filterProdi = [
-    { title: 'Blockchain' },
-    { title: 'Artificial Intelligence' },
-    { title: 'IOT' },
+    { title: 'Blockchain', id: '1' },
+    { title: 'Artificial Intelligence', id: '2' },
+    { title: 'IOT', id: '3' },
   ];
 
   const filterMk = [
-    { title: 'Matkul 1' },
-    { title: 'Matkul 2' },
-    { title: 'Matkul 3' },
+    { title: 'Matkul 1', id: '1' },
+    { title: 'Matkul 2', id: '2' },
+    { title: 'Matkul 3', id: '3' },
   ];
 
   const data = Array.from({ length: 10 }, (_, i) => ({
     no: i + 1,
     id_mhs: 1234 + i,
-    nama_mahasiswa: `Mahasiswa ${i+1}`,
+    nama_mahasiswa: `Mahasiswa ${i + 1}`,
     prodi: 'Blockchain',
   }));
 
