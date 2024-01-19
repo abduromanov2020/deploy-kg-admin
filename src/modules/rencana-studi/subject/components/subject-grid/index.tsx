@@ -21,8 +21,6 @@ import { TSubjectAllData } from '@/types/rencana-studi/subjects/types';
 const SubjectGrid = ({ data }: TSubjectAllData) => {
   const { id: faculty_id, id_major } = useParams();
 
-  console.log('data', data);
-
   return (
     <div className='grid grid-cols-3 gap-4'>
       {data?.map((item) => (

@@ -4,6 +4,7 @@ export type TMajorItem = {
   id: string;
   name: string;
   slug: string;
+  thumbnail?: string | StaticImageData;
   faculty_id: string;
   faculty_name: string;
   description: string;
@@ -84,8 +85,6 @@ export type TEditMajorPayload = {
   faculty_id: string;
   thumbnail?: string | StaticImageData;
 };
-
-
 
 export type TResponseAllMajors = TMetaResponseMajors<TMajorData>;
 export type TDetailMajorResponse = TMetaResponseSingle<TMajorItem>;

@@ -104,7 +104,26 @@ export type TAddSubjectPayload = {
   code: string;
   duration_hours: string | number;
   credit: string | number;
-  thumbnail: string | StaticImageData;
+  thumbnai?: string | StaticImageData;
+  teacher_id: string;
+  major_id: string;
+  indicator: string;
+  study_experience: string;
+  teaching_materials: string;
+  basic_competencies: string;
+  tools_needed: string;
+  scoring: string;
+  level: string | number;
+  semester: string | number;
+};
+
+export type TEditSubjectPayload = {
+  name: string;
+  description: string;
+  code: string;
+  duration_hours: string | number;
+  credit: string | number;
+  thumbnail?: string | StaticImageData;
   teacher_id: string;
   major_id: string;
   indicator: string;
@@ -124,7 +143,42 @@ export type TAddSubjectResponse = {
   code: string;
   duration_hours: string | number;
   credit: string | number;
-  thumbnail: string | StaticImageData;
+  thumbnail?: string | StaticImageData;
+  teacher: {
+    id: string;
+    full_name: string;
+    avatar: string | null;
+  };
+  major: {
+    id: string;
+    name: string;
+    slug: string;
+    thumbnail: string;
+    created_at: string;
+    updated_at: string;
+  };
+  slug: string;
+  indicator: string;
+  study_experience: string;
+  teaching_materials: string;
+  basic_competencies: string;
+  tools_needed: string;
+  scoring: string;
+  level: string | number;
+  semester: string | number;
+  is_available: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type TEditSubjectResponse = {
+  id: string;
+  name: string;
+  description: string;
+  code: string;
+  duration_hours: string | number;
+  credit: string | number;
+  thumbnail?: string | StaticImageData;
   teacher: {
     id: string;
     full_name: string;
