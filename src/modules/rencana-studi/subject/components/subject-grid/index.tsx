@@ -21,6 +21,8 @@ import { TSubjectAllData } from '@/types/rencana-studi/subjects/types';
 const SubjectGrid = ({ data }: TSubjectAllData) => {
   const { id: faculty_id, id_major } = useParams();
 
+  console.log('data', data);
+
   return (
     <div className='grid grid-cols-3 gap-4'>
       {data?.map((item) => (
@@ -38,9 +40,15 @@ const SubjectGrid = ({ data }: TSubjectAllData) => {
             />
           </CardHeader>
           <CardContent className='p-6'>
-            <section className=' flex gap-2'>
+            <section className=' flex gap-1'>
               <Badge className='rounded-md  bg-dark-100 hover:bg-dark-300 text-dark-900 px-3 py-1'>
-                SKS
+                {item?.credit} SKS
+              </Badge>
+              <Badge className='rounded-md  bg-dark-100 hover:bg-dark-300 text-dark-900 px-3 py-1'>
+                {item?.total_sessions} Pertemuan
+              </Badge>
+              <Badge className='rounded-md  bg-dark-100 hover:bg-dark-300 text-dark-900 px-3 py-1'>
+                Semester {item?.semester}
               </Badge>
             </section>
             <section className='flex flex-col gap-3 mt-5'>
@@ -55,7 +63,9 @@ const SubjectGrid = ({ data }: TSubjectAllData) => {
           <CardFooter className='flex gap-2 justify-between'>
             <div className='flex gap-2'>
               <Button className='bg-primary-500 hover:bg-primary-600' asChild>
-                <Link href=''>Daftar Pertemuan</Link>
+                <Link href={`/studi-ku?major=${id_major}&subject=${item.id}`}>
+                  Daftar Pertemuan
+                </Link>
               </Button>
               <Button
                 className='bg-white border-primary-500 border text-primary-500 hover:bg-gray-200 px-9'

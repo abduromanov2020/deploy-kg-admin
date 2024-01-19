@@ -30,6 +30,7 @@ export type TSubjectItem = {
   scoring: string;
   level: string | number;
   semester: string | number;
+  total_sessions: number;
   is_available: boolean;
   created_at: string;
   updated_at: string;
