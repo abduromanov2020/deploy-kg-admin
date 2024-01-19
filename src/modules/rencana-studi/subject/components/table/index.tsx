@@ -186,59 +186,14 @@ export const SubjectTable = ({ data, startingIndex }: TProps) => {
         );
       },
       cell: ({ row }) => (
-        <div className='text-start font-semibold text-sm'>
-          {row.getValue('total_sessions')}
-        </div>
+        <Link
+          href={`/studi-ku?major=${id_major}&subject=${row.getValue('id')}`}
+          className='text-start font-semibold text-sm text-primary-500'
+        >
+          {row.getValue('total_sessions')} Pertemuan
+        </Link>
       ),
     },
-    // {
-    //   accessorKey: 'sks',
-    //   header: ({ column }) => {
-    //     return (
-    //       <Button
-    //         variant='ghost'
-    //         className='text-sm p-0 text-start font-semibold text-black'
-    //         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-    //       >
-    //         JUMLAH SKS
-    //         <TiArrowSortedDown className='ml-2 h-4 w-4' />
-    //       </Button>
-    //     );
-    //   },
-    //   cell: ({ row }) => (
-    //     <div className='text-start font-semibold text-sm'>
-    //       {row.getValue('sks')} SKS
-    //     </div>
-    //   ),
-    // },
-    // {
-    //   accessorKey: 'status',
-    //   header: ({ column }) => {
-    //     return (
-    //       <Button
-    //         variant='ghost'
-    //         className='text-sm p-0 text-start font-semibold text-black'
-    //         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-    //       >
-    //         STATUS
-    //         <TiArrowSortedDown className='ml-2 h-4 w-4' />
-    //       </Button>
-    //     );
-    //   },
-    //   cell: ({ row }) => {
-    //     const status: string = row.getValue('status'); // Assuming 'status' is a string
-    //     const badgeClassName = `rounded-md py-1 min-w-[70px] justify-center items-center ${
-    //       status === 'Terkunci'
-    //         ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-    //         : 'bg-green-100 text-green-600 hover:bg-green-200'
-    //     }`;
-    //     return (
-    //       <Badge key={row.original.subject_id} className={badgeClassName}>
-    //         {status}
-    //       </Badge>
-    //     );
-    //   },
-    // },
     {
       accessorKey: 'id',
       header: ({ column }) => {
