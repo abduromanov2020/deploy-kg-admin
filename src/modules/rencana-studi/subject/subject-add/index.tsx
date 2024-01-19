@@ -61,6 +61,40 @@ const DraftEditor = dynamic(() => import('@/components/text-editor'), {
 
 export const AddSubjectModule = () => {
   const { id, id_major } = useParams();
+  const semesters = [
+    {
+      value: 1,
+      label: 'Semester 1',
+    },
+    {
+      value: 2,
+      label: 'Semester 2',
+    },
+    {
+      value: 3,
+      label: 'Semester 3',
+    },
+    {
+      value: 4,
+      label: 'Semester 4',
+    },
+    {
+      value: 5,
+      label: 'Semester 5',
+    },
+    {
+      value: 6,
+      label: 'Semester 6',
+    },
+    {
+      value: 7,
+      label: 'Semester 7',
+    },
+    {
+      value: 8,
+      label: 'Semester 8',
+    },
+  ];
 
   const ITEMS = [
     {
@@ -167,7 +201,7 @@ export const AddSubjectModule = () => {
         tools_needed: data.tools_needed,
         scoring: data.scoring,
         level: data.level,
-        semester: data.semester,
+        semester: parseInt(data.semester),
       };
       mutate(
         {
@@ -411,23 +445,39 @@ export const AddSubjectModule = () => {
                   />
                 </div>
                 <div className='grid w-full  items-center space-y-4'>
-                  <FormField
-                    control={form.control}
-                    name='semester'
-                    render={({ field }) => (
-                      <FormItem className='grid w-full gap-1.5'>
-                        <FormLabel>Semester*</FormLabel>
-                        <FormControl>
-                          <Input
-                            type='number'
-                            placeholder='Nama Mata Kuliah*'
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <div className='grid w-full  items-center space-y-4'>
+                    <FormField
+                      control={form.control}
+                      name='semester'
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Jenjang*</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder='Masukkan Semester' />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {semesters?.map((item) => (
+                                <SelectItem
+                                  key={item.value.toLocaleString()}
+                                  value={item.value.toLocaleString()}
+                                >
+                                  {item.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 </div>
                 <div className='grid w-full  items-center space-y-4'>
                   <FormField
@@ -573,7 +623,7 @@ export const AddSubjectModule = () => {
                     <DialogTrigger asChild>
                       <button className='px-6 py-3 shadow-md text-white rounded-md hover:text-blue-600 hover:bg-white bg-blue-600 hover:transition'>
                         <div className='flex place-items-center gap-2'>
-                          Tambahkan Admin
+                          Tambah Mata Kuliah
                         </div>
                       </button>
                     </DialogTrigger>

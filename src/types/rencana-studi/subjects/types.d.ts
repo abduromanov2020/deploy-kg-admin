@@ -64,14 +64,10 @@ export interface TSubjectDataById {
     full_name: string;
     avatar: string | null;
   };
-  major: {
-    id: string;
-    name: string;
-    slug: string;
-    thumbnail: string;
-    created_at: string;
-    updated_at: string;
-  };
+  major_id: string;
+  major_name: string;
+  faculty_id: string;
+  faculty_name: string;
   slug: string;
   indicator: string;
   study_experience: string;

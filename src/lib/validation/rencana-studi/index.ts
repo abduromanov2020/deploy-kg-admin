@@ -242,12 +242,12 @@ export const EditSubjectValidationSchema = z.object({
     })
     .min(1, { message: 'Kode Mata Kuliah Dibutuhkan.' }),
   duration_hours: z
-    .string({
+    .number({
       required_error: 'Fakultas Dibutuhkan',
     })
     .min(1, { message: 'Fakultas Dibutuhkan' }),
   level: z
-    .string({
+    .number({
       required_error: 'Level Mata Kuliah Dibutuhkan.',
     })
     .min(1, { message: 'Level Mata Kuliah Dibutuhkan.' }),
@@ -297,7 +297,7 @@ export const EditSubjectValidationSchema = z.object({
     })
     .min(1, { message: 'Program Studi Mata Kuliah Dibutuhkan.' }),
   semester: z
-    .number({
+    .string({
       required_error: 'Semester Mata Kuliah Dibutuhkan.',
     })
     .min(1, { message: 'Semester Mata Kuliah Dibutuhkan.' }),

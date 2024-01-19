@@ -14,6 +14,9 @@ import InformasiMataKuliah from '@/modules/rencana-studi/subject/detail/componen
 import InformasiPertemuan from '@/modules/rencana-studi/subject/detail/components/informasi-pertemuan';
 
 const RencanaStudiDetailSubject = () => {
+  const params = useParams();
+  const { id: id_faculty, id_major, id_subject } = params;
+
   const ITEMS = [
     {
       name: 'Rencana Studi',
@@ -21,20 +24,17 @@ const RencanaStudiDetailSubject = () => {
     },
     {
       name: 'Daftar Prodi',
-      link: '/rencana-studi/program-studi/1',
+      link: `/rencana-studi/program-studi/${id_faculty}`,
     },
     {
       name: 'Daftar Matkul',
-      link: '/rencana-studi/program-studi/1/mata-kuliah/1',
+      link: `/rencana-studi/program-studi/${id_faculty}/mata-kuliah/${id_major}`,
     },
     {
       name: 'Detail Matkul',
-      link: '/rencana-studi/program-studi/1/mata-kuliah/1/detail/1',
+      link: '',
     },
   ];
-
-  const params = useParams();
-  const { id_subject } = params;
 
   const { data: subjects } = useGetSubjectById(String(id_subject));
   const { data: sessions } = useGetSessions(String(id_subject));

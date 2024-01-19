@@ -58,6 +58,8 @@ const EditMajorModule = () => {
 
   const major = useGetMajor?.data;
 
+  console.log(major);
+
   const ITEMS = [
     {
       name: 'Rencana Studi',

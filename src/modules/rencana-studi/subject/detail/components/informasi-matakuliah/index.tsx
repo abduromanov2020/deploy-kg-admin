@@ -20,7 +20,7 @@ export default function InformasiMataKuliah({
 }: {
   subject: TSubjectDataById;
 }) {
-  console.log(subject);
+  // console.log(subject);
   return (
     <div className='p-8'>
       <section className='flex justify-between items-center'>
@@ -97,7 +97,7 @@ export default function InformasiMataKuliah({
             </TableRow>
             <TableRow>
               <TableCell className='font-medium'>Program Studi</TableCell>
-              <TableCell className='border-2'>{subject?.major?.name}</TableCell>
+              <TableCell className='border-2'>{subject?.major_name}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className='font-medium'>Indikator</TableCell>
