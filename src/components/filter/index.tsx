@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 
 import {
   DropdownMenu,
@@ -8,56 +8,57 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 interface data {
-  id?: string;
+  id: string;
   title: string;
 }
 
 interface FilterMenuProps {
-  data?: data[];
+  data: data[];
   className?: string;
   title: string;
+  bgColor?: string;
   icon: React.ReactNode;
-  setFilter?: Dispatch<SetStateAction<{ id: string; title: string }>>;
-  filter?: {
-    id: string;
-    title: string;
-  };
+  filter?: string;
+  setFilter?: (value: string) => void;
+  setFilterId?: (value: string) => void;
   isLoading?: boolean;
+  handleParams?: (key: string, value: string) => void;
+  paramsKey?: string;
 }
 
 export const Filter: React.FC<FilterMenuProps> = ({
   data,
   icon,
   title,
+  filter,
   className,
   setFilter,
-  filter,
+  setFilterId,
   isLoading,
+  handleParams,
+  paramsKey,
 }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        disabled={isLoading}
-        className={` ${className} flex justify-between items-center gap-2 text-sm font-semibold rounded-md `}
+        className={` ${className} flex justify-between items-center gap-2 text-sm font-semibold rounded-md 
+          ${!data || isLoading ? 'cursor-not-allowed' : 'cursor-pointer'}
+        `}
       >
-        <div>{filter?.title ? filter.title : title}</div>
+        <div>{filter ? filter : title}</div>
         {icon}
       </DropdownMenuTrigger>
-      {!isLoading && (
-        <DropdownMenuContent className='w-[250px] max-h-[400px] overflow-y-scroll'>
+      {(data || !isLoading) && (
+        <DropdownMenuContent className='w-[200px] max-h-[350px] overflow-y-scroll'>
           {data?.map((item, index) => {
             return (
               <DropdownMenuItem
                 key={index}
                 onClick={() => {
-                  if (setFilter) {
-                    setFilter({
-                      id: item?.id as string,
-                      title: item.title,
-                    });
-                  }
+                  setFilter && setFilter(item.title);
+                  setFilterId && setFilterId(item.id);
+                  handleParams && handleParams(paramsKey as string, item.id);
                 }}
-                className='border-b border-slate-100 py-3'
               >
                 {item.title}
               </DropdownMenuItem>
