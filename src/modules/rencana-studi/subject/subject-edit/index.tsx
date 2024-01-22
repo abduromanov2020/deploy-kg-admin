@@ -173,7 +173,7 @@ export const EditSubjectModule = () => {
         code: subjects.code ?? '-',
         duration_hours: subjects.duration ?? '-',
         credit: subjects.credit ?? '-',
-        thumbnail: subjects.thumbnail ?? '-',
+        thumbnail: subjects.thumbnail ?? null,
         teacher_id: subjects.teacher?.id ?? '',
         major_id: subjects.major_id ?? '',
         indicator: subjects.indicator ?? '-',

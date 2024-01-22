@@ -62,6 +62,15 @@ export type TAddMajorPayload = {
   thumbnail: string | StaticImageData;
 };
 
+export type TEditMajorPayload = {
+  name: string;
+  degree: string;
+  description: string;
+  major_head_id: string;
+  faculty_id: string;
+  thumbnail?: string | StaticImageData;
+};
+
 export type TAddMajorResponse = {
   id: string;
   name: string;
