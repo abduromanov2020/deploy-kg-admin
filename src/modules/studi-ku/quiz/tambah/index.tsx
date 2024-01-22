@@ -1,13 +1,14 @@
+'use client';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { FaRegEdit } from 'react-icons/fa';
 import { z } from 'zod';
 
 import { AddModuleValidationSchema } from '@/lib/validation/studi-ku/module';
-import { useEditModule } from '@/hooks/studi-ku/modul/hook';
+import { useAddModule } from '@/hooks/studi-ku/modul/hook';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -31,45 +32,31 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { TAddModulePayload } from '@/types/studi-ku/modul';
+import { ValidationsSchemaTambahQuiz } from '@/lib/validation/studi-ku/quiz';
+import { useQuizAddRequest } from '@/hooks/studi-ku/quiz/hook';
+import { TQuizAddPayload } from '@/types/studi-ku/quiz';
 
 interface moduleModalTriggerProps {
-  id: string;
-  title: string;
-  description: string;
-  duration: string;
+  modalTrigger: React.ReactNode;
 }
 
-export function EditModuleModal({
-  id,
-  title,
-  description,
-  duration,
-}: moduleModalTriggerProps) {
+export function AddQuizModal({ modalTrigger }: moduleModalTriggerProps) {
   const queryClient = useQueryClient();
   const { subject_id, session_id } = useParams();
 
-  const { mutate } = useEditModule(
-    id,
+  const { mutate } = useQuizAddRequest(
     subject_id as string,
     session_id as string,
   );
 
-  const form = useForm<z.infer<typeof AddModuleValidationSchema>>({
-    resolver: zodResolver(AddModuleValidationSchema),
-    defaultValues: {
-      title,
-      description,
-      duration,
-    },
+  const form = useForm<z.infer<typeof ValidationsSchemaTambahQuiz>>({
+    resolver: zodResolver(ValidationsSchemaTambahQuiz),
   });
 
-  const onSubmit = (data: z.infer<typeof AddModuleValidationSchema>) => {
-    const durationValue = data?.duration; // Konversi nilai ke tipe number
+  const onSubmit = (data: z.infer<typeof ValidationsSchemaTambahQuiz>) => {
     try {
-      const payload: TAddModulePayload = {
-        title: data?.title,
-        description: data?.description,
-        duration: durationValue,
+      const payload: TQuizAddPayload = {
+        ...data,
       };
       mutate(
         {
@@ -77,11 +64,12 @@ export function EditModuleModal({
         },
         {
           onSuccess: () => {
-            toast.success('Modul Berhasil Di Edit!');
-            queryClient.invalidateQueries(['get-modules-by-session-id'] as any);
+            toast.success('Quiz Berhasil Ditambahkan!');
+            queryClient.invalidateQueries(['get-quiz'] as any);
+            form.reset();
           },
           onError: (error) => {
-            toast.error(error && 'Gagal Menambahkan Module!');
+            toast.error(error && 'Gagal Menambahkan Quiz!');
           },
         },
       );
@@ -99,17 +87,11 @@ export function EditModuleModal({
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Dialog>
           <DialogTrigger asChild>
-            <div className='flex gap-3 text-primary-500 items-center text-sm font-medium cursor-pointer'>
-              <FaRegEdit fill='currentColor' className='w-4 h-4' />
-              Edit
-            </div>
+            <Button variant='primary'>{modalTrigger}</Button>
           </DialogTrigger>
           <DialogContent className='sm:max-w-[425px]'>
             <DialogHeader>
-              <DialogTitle>Edit</DialogTitle>
-              <DialogDescription>
-                Pastikan Modul Yang Di Edit Sudah Benar
-              </DialogDescription>
+              <DialogTitle>Tambah Quiz</DialogTitle>
             </DialogHeader>
             <div className='grid gap-4 py-4'>
               <div className='grid items-center gap-4'>
@@ -130,35 +112,12 @@ export function EditModuleModal({
               <div className='grid items-center gap-4'>
                 <FormField
                   control={form.control}
-                  name='description'
-                  render={({ field }) => (
-                    <FormItem className='grid w-full gap-1.5'>
-                      <FormLabel>Description*</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder='Description'
-                          type='description'
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className='grid items-center gap-4'>
-                <FormField
-                  control={form.control}
                   name='duration'
                   render={({ field }) => (
-                    <FormItem className='grid w-full gap-1.5'>
-                      <FormLabel>Duration*</FormLabel>
+                    <FormItem className='grid w-full items-center gap-1.5'>
+                      <FormLabel>Durasi*</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder='Duration'
-                          type='number'
-                          {...field}
-                        />
+                        <Input {...field} placeholder='Masukan Durasi' />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -176,7 +135,7 @@ export function EditModuleModal({
                   type='submit'
                   variant='primary'
                 >
-                  Edit Modul
+                  Tambah Quiz
                 </Button>
               </DialogClose>
             </DialogFooter>

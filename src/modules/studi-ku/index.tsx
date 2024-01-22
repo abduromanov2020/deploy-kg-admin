@@ -81,11 +81,6 @@ export const MainStudiKu: React.FC = () => {
 
   const data = [
     {
-      title: 'Quiz',
-      icon: <BsQuestionCircle className='text-yellow-500 text-xl' />,
-      link: '/studi-ku/quiz',
-    },
-    {
       title: 'Tugas',
       icon: <LucideClipboardList className='text-red-500 text-xl' />,
       link: '/studi-ku/tugas',
@@ -164,6 +159,13 @@ export const MainStudiKu: React.FC = () => {
                   title: 'Module',
                   icon: <IoDocumentText className='text-primary-500 text-xl' />,
                   link: `/studi-ku/modul/${item.subject_id}/${item.id}`,
+                },
+                {
+                  title: 'Quiz',
+                  icon: (
+                    <BsQuestionCircle className='text-yellow-500 text-xl' />
+                  ),
+                  link: `/studi-ku/quiz/${item.subject_id}/${item.id}`,
                 },
                 ...data,
               ]}

@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/form';
 
 import { TitleModule } from '@/modules/studi-ku/modul/tambah/TitleModule';
-import { TAMBAH_QUIZ_MODULE_BREADCRUMBS } from '@/modules/studi-ku/quiz/constant';
+import { TAMBAH_QUIZ_MODULE_BREADCRUMBS } from '@/modules/studi-ku/quiz/detail/constant';
 
 import { TTambahQuizDescriptionPayload } from '@/types/studi-ku/quiz';
 
