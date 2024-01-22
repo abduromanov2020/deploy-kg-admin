@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -50,6 +51,8 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 
+import { TEditMajorPayload } from '@/types/rencana-studi/majors/types';
+
 const EditMajorModule = () => {
   const params = useParams();
   const { id: id_faculty, id_prodi } = params;
@@ -57,8 +60,6 @@ const EditMajorModule = () => {
   const { data: useGetMajor } = useGetStudyPlanMajorById(String(id_prodi));
 
   const major = useGetMajor?.data;
-
-  console.log(major);
 
   const ITEMS = [
     {
@@ -104,7 +105,7 @@ const EditMajorModule = () => {
       description: '',
       head_major: '',
       faculty: '',
-      thumbnail: '',
+      thumbnail: null,
     },
   });
 
@@ -116,7 +117,7 @@ const EditMajorModule = () => {
         description: major.description ?? '-',
         head_major: major.head_of_major?.id ?? ' ',
         faculty: major.faculty_id ?? '',
-        thumbnail: major.thumbnail ?? '',
+        thumbnail: major.thumbnail ?? null,
       };
       form.reset(defaultValues);
     }
@@ -132,13 +133,20 @@ const EditMajorModule = () => {
 
   const onSubmit = (data: z.infer<typeof EditMajorValidationSchema>) => {
     try {
-      const payload = {
+      let payload: TEditMajorPayload = {
         name: data.name,
         degree: data.degree,
         description: data.description,
         major_head_id: data.head_major,
         faculty_id: data.faculty,
       };
+
+      if (data?.thumbnail?.length == 1) {
+        payload = {
+          ...payload,
+          thumbnail: data?.thumbnail[0],
+        };
+      }
       mutate(
         {
           ...payload,
@@ -318,6 +326,13 @@ const EditMajorModule = () => {
                 </div>
                 <div className='grid w-full  items-center space-y-4'>
                   <Label>Unggah Thumbnail</Label>
+                  <Image
+                    src={major && major.thumbnail ? major.thumbnail : ''}
+                    alt={major ? major.slug : 'thumbnail'}
+                    width={350}
+                    height={200}
+                    className='object-scale-down h-[200px] w-96'
+                  />
                   <UploadField
                     control={form.control}
                     name='thumbnail'

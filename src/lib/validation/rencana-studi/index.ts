@@ -123,7 +123,27 @@ export const EditMajorValidationSchema = z.object({
       required_error: 'Fakultas Dibutuhkan',
     })
     .min(1, { message: 'Fakultas Dibutuhkan' }),
-  thumbnail: z.any().optional(),
+  thumbnail: z
+    .any()
+    .optional()
+    .refine(
+      (file) =>
+        file.length == 1
+          ? ACCEPTED_IMAGE_TYPES.includes(file?.[0]?.type)
+            ? true
+            : false
+          : true,
+      'hanya menerima .jpg, .jpeg, dan .png.',
+    )
+    .refine(
+      (file) =>
+        file.length == 1
+          ? file[0]?.size <= MAX_FILE_SIZE
+            ? true
+            : false
+          : true,
+      'Ukuran maksimun adalah 3mb.',
+    ),
 });
 
 export const AddSubjectValidationSchema = z.object({
