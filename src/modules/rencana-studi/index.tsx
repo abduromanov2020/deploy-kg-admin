@@ -57,6 +57,9 @@ export const RencanaStudiModule = () => {
     option.limit,
     option.search,
   );
+  useEffect(() => {
+    setOption(option);
+  }, [option]);
 
   useDebounce(
     () => {

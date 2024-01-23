@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import React from 'react';
+import React, { DependencyList, useCallback, useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiLoaderAlt } from 'react-icons/bi';
 import { CiCirclePlus } from 'react-icons/ci';
@@ -18,6 +18,19 @@ import { Input } from '@/components/ui/input';
 import SubjectGrid from '@/modules/rencana-studi/subject/components/subject-grid';
 import { SubjectTable } from '@/modules/rencana-studi/subject/components/table';
 
+export function useDebounce(
+  effect: VoidFunction,
+  dependencies: DependencyList,
+  delay: number,
+): void {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const callback = useCallback(effect, dependencies);
+
+  useEffect(() => {
+    const timeout = setTimeout(callback, delay);
+    return () => clearTimeout(timeout);
+  }, [callback, delay]);
+}
 interface TProps {
   id: string;
 }
@@ -32,8 +45,36 @@ const SubjectModule = ({ id }: TProps) => {
   const router = useRouter();
 
   const page = Number(query.get('page')) || 1;
+  const searchQuery = query.get('search') || '';
 
-  const { data, isLoading, refetch } = useGetSubjectByMajorId(id, page);
+  const [deb, setDeb] = useState(searchQuery);
+
+  const [option, setOption] = useState({
+    limit: 10,
+    search: '',
+  });
+
+  const { data, isLoading, refetch } = useGetSubjectByMajorId(
+    id,
+    page,
+    option.limit,
+    option.search,
+  );
+
+  useEffect(() => {
+    setOption(option);
+  }, [option]);
+
+  useDebounce(
+    () => {
+      setOption((prev) => ({ ...prev, search: deb, page: 1 }));
+      router.replace(
+        `/rencana-studi/program-studi/${id_faculty}/mata-kuliah/${id}?page=1&search=${deb}`,
+      );
+    },
+    [deb],
+    700,
+  );
 
   const subject = data ? data?.data?.subjects : [];
   const currentPage = Number(data?.meta?.page) || 1;
@@ -82,6 +123,8 @@ const SubjectModule = ({ id }: TProps) => {
                 type='text'
                 placeholder='Cari Program Studi'
                 className='pl-10'
+                value={deb}
+                onChange={(e) => setDeb(e.target.value)}
               />
               <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
                 <AiOutlineSearch className='text-gray-400' size={20} />
