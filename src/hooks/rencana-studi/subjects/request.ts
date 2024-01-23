@@ -33,10 +33,11 @@ export const subjectGetById = async (
 
 export const subjectGetByMajorId = async (
   id: string,
-  page: number,
+  page?: number,
+  limit?: number,
 ): Promise<TDetailMajorResponse> => {
   const { data } = await api.get(
-    `v2/admin/subjects?major_id=${id}&page=${page}`,
+    `v2/admin/subjects?major_id=${id}&page=${page}&limit=${limit}`,
   );
 
   return data;

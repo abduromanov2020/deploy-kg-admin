@@ -33,7 +33,7 @@ export const MainStudiKu: React.FC = () => {
   const [majorId, setMajorId] = useState('');
 
   const { data: subjects, isLoading: isSubjectsLoading } =
-    useGetSubjectByMajorId(majorId, 1);
+    useGetSubjectByMajorId(majorId, 1, 50);
 
   const [subjectFilter, setSubjectFilter] = useState('');
   const [subjectId, setSubjectId] = useState('');

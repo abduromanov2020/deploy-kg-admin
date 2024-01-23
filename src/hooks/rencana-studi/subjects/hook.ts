@@ -25,11 +25,12 @@ import {
 
 export const useGetSubjectByMajorId = (
   id: string,
-  page: number,
+  page?: number,
+  limit?: number,
 ): UseQueryResult<TResponseAllSubjectsByIdMajor, TMetaErrorResponse> =>
   useQuery({
     queryKey: ['subject-get-by-major-id', id, page],
-    queryFn: async () => await subjectGetByMajorId(id, page),
+    queryFn: async () => await subjectGetByMajorId(id, page, limit),
     enabled: !!id,
   });
 
