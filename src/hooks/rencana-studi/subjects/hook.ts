@@ -27,10 +27,11 @@ export const useGetSubjectByMajorId = (
   id: string,
   page?: number,
   limit?: number,
+  search?: string,
 ): UseQueryResult<TResponseAllSubjectsByIdMajor, TMetaErrorResponse> =>
   useQuery({
-    queryKey: ['subject-get-by-major-id', id, page],
-    queryFn: async () => await subjectGetByMajorId(id, page, limit),
+    queryKey: ['subject-get-by-major-id', id, page, limit, search],
+    queryFn: async () => await subjectGetByMajorId(id, page, limit, search),
     enabled: !!id,
   });
 

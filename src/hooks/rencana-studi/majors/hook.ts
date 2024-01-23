@@ -45,10 +45,11 @@ export const useGetMajorByFacultyId = (
   id: string,
   page?: number,
   limit?: number,
+  search?: string,
 ): UseQueryResult<TResponseAllMajors, TMetaErrorResponse> =>
   useQuery({
-    queryKey: ['major-get-by-faculty-id', id, page, limit],
-    queryFn: async () => await majorGetByFacultyId(id),
+    queryKey: ['major-get-by-faculty-id', id, page, limit, search],
+    queryFn: async () => await majorGetByFacultyId(id, page, limit, search),
   });
 
 export const useAddMajor = (): UseMutationResult<
