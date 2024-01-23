@@ -14,9 +14,6 @@ export const articleGetRequest = async (
   const { data } = await api.get(
     `v1/article/filter?page=${page}&limit=${limit}&search=${search}&sort_by=TITLE&type=${type}`,
   );
-  console.log(page);
-
-  console.log(data);
 
   return data;
 };
@@ -25,9 +22,6 @@ export const articleGetBySlugRequest = async (
   slug: string,
 ): Promise<TDetailArticleResponse> => {
   const { data } = await api.get(`v1/article/${slug}`);
-  console.log(slug);
-
-  console.log(data);
 
   return data;
 };

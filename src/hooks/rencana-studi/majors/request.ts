@@ -27,8 +27,13 @@ export const studyPlanMajorGetById = async (
 
 export const majorGetByFacultyId = async (
   id: string,
+  page?: number,
+  limit?: number,
+  search?: string,
 ): Promise<TDetailMajorResponse> => {
-  const { data } = await api.get(`v2/admin/majors?faculty_id=${id}`);
+  const { data } = await api.get(
+    `v2/admin/majors?faculty_id=${id}&page=${page}&limit=${limit}&search=${search}`,
+  );
 
   return data;
 };
