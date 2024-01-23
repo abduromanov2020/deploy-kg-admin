@@ -1,6 +1,6 @@
 import { api } from "@/lib/api";
 
-import { TQuizAddPayload, TQuizDetailResponse, TQuizParticipantsResponse, TQuizResponse } from "@/types/studi-ku/quiz";
+import { TQuizAddPayload, TQuizDetailResponse, TQuizEditPayload, TQuizParticipantsResponse, TQuizResponse } from "@/types/studi-ku/quiz";
 
 export const quizRequest = async (
   subjectId: string,
@@ -51,6 +51,20 @@ export const quizAddRequest = async (
   return data;
 }
 
+export const quizEditRequest = async (
+  subjectId: string,
+  sessionId: string,
+  quizId: string,
+  payload: TQuizEditPayload,
+): Promise<TQuizEditPayload> => {
+  const { data } = await api.put(
+    `v2/admin/subjects/${subjectId}/sessions/${sessionId}/quizzes/${quizId}`,
+    payload,
+  );
+
+  return data;
+}
+
 export const quizDeleteRequest = async (
   subjectId: string,
   sessionId: string,
@@ -62,3 +76,4 @@ export const quizDeleteRequest = async (
 
   return data;
 }
+

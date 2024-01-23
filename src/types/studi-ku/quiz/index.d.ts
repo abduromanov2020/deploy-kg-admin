@@ -125,6 +125,11 @@ export type TQuizAddPayload = {
   duration: string;
 };
 
+export type TQuizEditPayload = {
+  title: string;
+  duration: string;
+};
+
 export type TQuizResponse = TMetaResponseSingle<TQuizData>
 export type TQuizDetailResponse = TMetaResponseSingle<TDetailQuizData>
 export type TQuizParticipantsResponse = TMetaResponseSingleWithPagination<TQuizParticipantsData>
