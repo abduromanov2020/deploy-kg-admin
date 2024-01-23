@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DetailSoalQuizModule from '@/modules/studi-ku/quiz/detail-soal';
+import DetailSoalQuizModule from '@/modules/studi-ku/quiz/detail/detail-soal';
 
 const DetailSoalQuizPage = () => {
   return (

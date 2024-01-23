@@ -33,7 +33,7 @@ export const MainStudiKu: React.FC = () => {
   const [majorId, setMajorId] = useState('');
 
   const { data: subjects, isLoading: isSubjectsLoading } =
-    useGetSubjectByMajorId(majorId, 1);
+    useGetSubjectByMajorId(majorId, 1, 50);
 
   const [subjectFilter, setSubjectFilter] = useState('');
   const [subjectId, setSubjectId] = useState('');
@@ -80,11 +80,6 @@ export const MainStudiKu: React.FC = () => {
   }, [params, majorsOption, subjectOption]);
 
   const data = [
-    {
-      title: 'Quiz',
-      icon: <BsQuestionCircle className='text-yellow-500 text-xl' />,
-      link: '/studi-ku/quiz',
-    },
     {
       title: 'Tugas',
       icon: <LucideClipboardList className='text-red-500 text-xl' />,
@@ -164,6 +159,13 @@ export const MainStudiKu: React.FC = () => {
                   title: 'Module',
                   icon: <IoDocumentText className='text-primary-500 text-xl' />,
                   link: `/studi-ku/modul/${item.subject_id}/${item.id}`,
+                },
+                {
+                  title: 'Quiz',
+                  icon: (
+                    <BsQuestionCircle className='text-yellow-500 text-xl' />
+                  ),
+                  link: `/studi-ku/quiz/${item.subject_id}/${item.id}`,
                 },
                 ...data,
               ]}

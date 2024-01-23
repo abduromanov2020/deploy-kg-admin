@@ -1,14 +1,19 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { FiMoreVertical } from 'react-icons/fi';
 
 import {
   Card,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 import { EditModuleModal } from '@/modules/studi-ku/modul/edit/editModuleModal';
 import HapusModuleModal from '@/modules/studi-ku/modul/hapus';
@@ -16,7 +21,7 @@ import HapusModuleModal from '@/modules/studi-ku/modul/hapus';
 interface CardComponentProps {
   title: string;
   img: string;
-  description: string;
+  description?: string;
   duration: number;
   slug: string[];
   subject_id: string;
@@ -61,28 +66,38 @@ export const CardComponent: React.FC<CardComponentProps> = ({
             );
           })}
         </div>
-        <CardTitle>
+        <CardTitle className='flex justify-between items-center'>
           <Link href={link}>
             <h1>{title}</h1>
           </Link>
+          <div className='text-base items-center'>
+            <Popover>
+              <PopoverTrigger>
+                <FiMoreVertical />
+              </PopoverTrigger>
+              <PopoverContent className='w-48' align='end'>
+                <div className='flex flex-col gap-2'>
+                  <EditModuleModal
+                    id={module_id}
+                    title={title}
+                    description={description as string}
+                    duration={duration as unknown as string}
+                  />
+                  <hr className='border-slate-200' />
+                  <HapusModuleModal
+                    subject_id={subject_id}
+                    session_id={session_id}
+                    module_id={module_id}
+                  />
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
         </CardTitle>
         <CardDescription className='line-clamp-2'>
           {description}
         </CardDescription>
       </CardHeader>
-      <CardFooter className='flex gap-2 text-sm items-center'>
-        <EditModuleModal
-          id={module_id}
-          title={title}
-          description={description}
-          duration={duration as unknown as string}
-        />
-        <HapusModuleModal
-          subject_id={subject_id}
-          session_id={session_id}
-          module_id={module_id}
-        />
-      </CardFooter>
     </Card>
   );
 };

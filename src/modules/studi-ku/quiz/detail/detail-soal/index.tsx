@@ -13,7 +13,7 @@ import { TitleModule } from '@/modules/studi-ku/modul/tambah/TitleModule';
 import {
   DATA_DETAIL_SOAL_QUIZ,
   DETAIL_SOAL_QUIZ_MODULE_BREADCRUMBS,
-} from '@/modules/studi-ku/quiz/constant';
+} from '@/modules/studi-ku/quiz/detail/constant';
 
 const DetailSoalQuizModule = () => {
   const data = DATA_DETAIL_SOAL_QUIZ;
