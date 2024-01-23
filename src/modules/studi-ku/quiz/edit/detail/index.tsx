@@ -29,7 +29,6 @@ import {
   SubTitleModule,
   TitleModule,
 } from '@/modules/studi-ku/modul/tambah/TitleModule';
-import { TAMBAH_DETAIL_SOAL_QUIZ_BREADCRUMBS } from '@/modules/studi-ku/quiz/constant';
 import { quizDataAtom } from '@/recoils/studi-ku/quiz/atom';
 
 import { TQuizDataQuestionForm } from '@/types/studi-ku/quiz';
@@ -99,7 +98,13 @@ const EditDetailSoalQuizModule = () => {
     <div className='flex flex-col gap-6'>
       <div className='bg-white w-full rounded-md shadow-md p-5'>
         <BreadCrumb
-          items={TAMBAH_DETAIL_SOAL_QUIZ_BREADCRUMBS}
+          items={[
+            { name: 'Modul', link: '/studi-ku/modul' },
+            { name: 'Detail Modul 1', link: '/studi-ku/modul/1' },
+            { name: 'Quiz', link: '/studi-ku/modul/1/quiz' },
+            { name: 'Edit Quiz', link: '/studi-ku/modul/1/quiz/edit' },
+            { name: 'Detail Soal', link: '/studi-ku/modul/1/quiz/edit/1' },
+          ]}
           className='!p-0 '
         />
       </div>

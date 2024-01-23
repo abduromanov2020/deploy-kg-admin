@@ -1,152 +1,149 @@
 'use client';
 
-import { Edit } from 'lucide-react';
+import { useParams, usePathname } from 'next/navigation';
+import React from 'react';
+import { BiPlusCircle } from 'react-icons/bi';
+
+import {
+  useQuizDeleteRequest,
+  useQuizRequest,
+} from '@/hooks/studi-ku/quiz/hook';
+
+import { BreadCrumb, TCrumbItem } from '@/components/BreadCrumb';
+import { CardComponent } from '@/components/card';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
+
+import { MODULE_BREADCRUMBS } from '@/modules/studi-ku/modul/constant';
+import { AddModuleModal } from '@/modules/studi-ku/modul/tambah/addModuleModal';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
-
-import { BreadCrumb } from '@/components/BreadCrumb';
-import Pagination from '@/components/generals/pagination';
-import { Button } from '@/components/ui/button';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { FiMoreVertical } from 'react-icons/fi';
+import { DeleteDialog } from '@/components/dialog/detele-dialog';
+import { AddQuizModal } from '@/modules/studi-ku/quiz/tambah';
+import { useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-hot-toast';
+import DeleteQuizModal from '@/modules/studi-ku/quiz/hapus';
+import { EditQuizModal } from '@/modules/studi-ku/quiz/edit';
 
-import {
-  SubTitleModule,
-  TitleModule,
-} from '@/modules/studi-ku/modul/tambah/TitleModule';
-import {
-  DATA_TABLE_RESPONDENTS_QUIZ,
-  QUIZ_MODULE_BREADCRUMBS,
-  TABEL_HEAD_DETAIL_RESPONDEN_QUIZ,
-} from '@/modules/studi-ku/quiz/constant';
+export const ListQuiz = () => {
+  const { subject_id, session_id } = useParams();
+  const pathname = usePathname();
 
-const QuizModule = () => {
-  const table_respondents_head = TABEL_HEAD_DETAIL_RESPONDEN_QUIZ;
-  const data = DATA_TABLE_RESPONDENTS_QUIZ;
+  const { data: getQuiz, isLoading } = useQuizRequest(
+    subject_id as string,
+    session_id as string,
+  );
 
-  const [page, setPage] = useState(1);
+  const quizData = getQuiz?.data;
 
-  const handlePageChange = (page: number) => {
-    setPage(page);
-  };
-
-  const filteredData = data.data.filter((item, index) => {
-    return index >= (Number(page) - 1) * 10 && index < Number(page) * 10;
-  });
+  const BreadCrumbItems: TCrumbItem[] = [
+    ...MODULE_BREADCRUMBS,
+    {
+      name: 'Daftar Quiz',
+      link: `/studi-ku/quiz/${subject_id}/${session_id}`,
+    },
+  ];
 
   return (
     <div className='flex flex-col gap-6'>
       <div className='bg-white w-full rounded-md shadow-md p-5'>
-        <BreadCrumb items={QUIZ_MODULE_BREADCRUMBS} className='!p-0 ' />
+        <BreadCrumb items={BreadCrumbItems} className='!p-0' />
       </div>
-      <div className='bg-white flex flex-col gap-8 rounded-md pb-5 '>
-        <div className='flex justify-between items-center'>
-          <TitleModule title='Quiz Mata Kuliah Manajemen Keuangan' />
-        </div>
-
-        <div className='flex-col flex px-5 gap-2'>
-          <SubTitleModule title='Detail Quiz' />
-          <Table className='rounded-xl border-2 shadow-sm'>
-            <TableBody>
-              <TableRow>
-                <TableCell className='font-medium w-[30%]'>
-                  Quiz Pertemuan
-                </TableCell>
-                <TableCell className='border-2'>Pertemuan 1</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className='font-medium'>Jumlah Responden</TableCell>
-                <TableCell className='border-2'>30/40 Responden</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className='font-medium'>Durasi Quiz</TableCell>
-                <TableCell className='border-2'>10 Menit</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className='font-medium'>
-                  Tanggal & Waktu Berlangsung
-                </TableCell>
-                <TableCell className='border-2'>
-                  17/08/2023, 16.30 - 17.30
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className='font-medium'>Jumlah Soal</TableCell>
-                <TableCell className='border-2'>20 Soal</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className='font-medium'></TableCell>
-                <TableCell className='border-2 flex gap-2'>
-                  <Button asChild variant='primary'>
-                    <Link
-                      href='/studi-ku/quiz/detail-soal'
-                      className='flex gap-2 items-center'
-                    >
-                      Detail Soal
-                    </Link>
-                  </Button>
-                  <Button asChild variant='primaryOutline'>
-                    <Link
-                      href='/studi-ku/quiz/edit'
-                      className='flex gap-2 items-center'
-                    >
-                      <Edit className='w-4 h-4' /> Edit Quiz
-                    </Link>
-                  </Button>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </div>
-        <div className='flex-col flex px-5 gap-2'>
-          <SubTitleModule title='Detail Responden Quiz' />
-          <Table className='border-2'>
-            <TableHeader>
-              <TableRow>
-                {table_respondents_head.map((item, index) => (
-                  <TableHead key={index} className='text-black font-bold'>
-                    {item}
-                  </TableHead>
-                ))}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredData.map((item, index) => (
-                <TableRow key={index}>
-                  <TableCell className='font-medium'>
-                    {index + 1 + (Number(page) - 1) * 10}
-                  </TableCell>
-                  <TableCell>{item.mahasiswa}</TableCell>
-                  <TableCell>{item.tanggal_pengerjaan}</TableCell>
-                  <TableCell>{item.waktu_pengerjaan ?? '-'}</TableCell>
-                  <TableCell>{item.benar ?? '-'}</TableCell>
-                  <TableCell>{item.salah ?? '-'}</TableCell>
-                  <TableCell>{item.nilai ?? '-'}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <div className='flex justify-between place-items-center pt-5'>
-            <p className='text-slate-500'>
-              Menampilkan {page} hingga {Number(page) * 10} dari{' '}
-              {data?.total_data} entri
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <div className='bg-white w-full rounded-md shadow-md'>
+          <div className='flex justify-between w-full  border-b border-slate-200 p-4 items-center'>
+            <p className='text-dark-900 font-semibold '>
+              {`Daftar Quiz Mata Kuliah ${quizData?.subject?.name}`}
             </p>
-            <Pagination
-              currentPage={Number(page)}
-              totalPages={Number(data?.max_page)}
-              onPageChange={handlePageChange}
+            <AddQuizModal
+              modalTrigger={
+                <div className='flex gap-2 items-center '>
+                  <BiPlusCircle className='text-white text-xl' />
+                  Tambah Quiz
+                </div>
+              }
             />
           </div>
+          <div className='grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-5 p-5'>
+            {quizData?.quizzes.map((item) => {
+              return (
+                <Card className='flex flex-col' key={item.id}>
+                  <div className='w-full object-contain'>
+                    <Image
+                      src={`${
+                        getQuiz?.data.subject.thumbnail === null
+                          ? '/images/studi-ku/modul-default.png'
+                          : getQuiz?.data.subject.thumbnail
+                      }`}
+                      alt={`${item.title}`}
+                      className=' object-cover w-full h-[200px]'
+                      width={0}
+                      height={0}
+                      sizes='100vw'
+                    />
+                  </div>
+                  <CardHeader>
+                    <CardTitle className='flex justify-between items-center'>
+                      <Link href={`${pathname}/${item.id}`}>
+                        <h1>{item.title}</h1>
+                      </Link>
+                      <div className='text-base items-center'>
+                        <Popover>
+                          <PopoverTrigger>
+                            <FiMoreVertical />
+                          </PopoverTrigger>
+                          <PopoverContent className='w-48' align='end'>
+                            <div className='flex flex-col gap-2'>
+                              <EditQuizModal
+                                quiz_id={item.id}
+                                title={item.title}
+                                duration={item.duration}
+                              />
+                              <hr className='border-slate-200' />
+                              <DeleteQuizModal id={item.id} />
+                            </div>
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className='flex gap-4 items-center'>
+                      <div className='flex flex-col'>
+                        <span className='text-black font-medium'>
+                          {item.duration}
+                        </span>
+                        Menit
+                      </div>
+                      <div className='border h-8'></div>
+                      <div className='flex flex-col'>
+                        <span className='text-black font-medium'>
+                          {item.total_questions}
+                        </span>
+                        Pertanyaan
+                      </div>
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
-
-export default QuizModule;

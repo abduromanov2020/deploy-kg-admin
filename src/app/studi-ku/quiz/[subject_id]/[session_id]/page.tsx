@@ -1,11 +1,11 @@
 import React from 'react';
 
-import QuizModule from '@/modules/studi-ku/quiz';
+import { ListQuiz } from '@/modules/studi-ku/quiz';
 
 const QuizPage = () => {
   return (
     <div>
-      <QuizModule />
+      <ListQuiz />
     </div>
   );
 };

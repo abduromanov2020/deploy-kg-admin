@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { FaRegEdit } from 'react-icons/fa';
 import { z } from 'zod';
 
 import { AddModuleValidationSchema } from '@/lib/validation/studi-ku/module';
@@ -98,7 +99,10 @@ export function EditModuleModal({
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant='primary'>Edit Modul</Button>
+            <div className='flex gap-3 text-primary-500 items-center text-sm font-medium cursor-pointer'>
+              <FaRegEdit fill='currentColor' className='w-4 h-4' />
+              Edit
+            </div>
           </DialogTrigger>
           <DialogContent className='sm:max-w-[425px]'>
             <DialogHeader>
