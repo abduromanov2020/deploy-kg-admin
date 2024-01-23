@@ -1,6 +1,6 @@
 'use client';
 
-import { Edit2 } from 'lucide-react';
+import { Edit2, PlusCircle } from 'lucide-react';
 import Link from 'next/link';
 import React, { Fragment, useState } from 'react';
 
@@ -14,39 +14,67 @@ import {
   DATA_DETAIL_SOAL_QUIZ,
   DETAIL_SOAL_QUIZ_MODULE_BREADCRUMBS,
 } from '@/modules/studi-ku/quiz/detail/constant';
+import { useQuizQuestionRequest } from '@/hooks/studi-ku/quiz/hook';
+import { useParams } from 'next/navigation';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { FiMoreVertical } from 'react-icons/fi';
+import DeleteQuizModal from '@/modules/studi-ku/quiz/hapus';
+import { FaCirclePlus } from 'react-icons/fa6';
+import { FaRegEdit } from 'react-icons/fa';
+import { CiCirclePlus } from 'react-icons/ci';
+import DeleteQuestionQuizModal from '@/modules/studi-ku/quiz/detail/detail-soal/hapus';
 
 const DetailSoalQuizModule = () => {
-  const data = DATA_DETAIL_SOAL_QUIZ;
+  const { subject_id, session_id, quiz_id } = useParams();
+  const { data: getQuizQuestion } = useQuizQuestionRequest(
+    subject_id as string,
+    session_id as string,
+    quiz_id as string,
+  );
 
-  const [page, setPage] = useState(1);
+  const quizQuestionData = getQuizQuestion?.data?.questions;
 
-  const handlePageChange = (page: number) => {
-    setPage(page);
-  };
-
-  const filteredData = data.data.filter((item, index) => {
-    return index >= (Number(page) - 1) * 10 && index < Number(page) * 10;
-  });
+  const BREADCRUMB_ITEMS = [
+    {
+      name: 'Studi-Ku',
+      link: '/studi-ku',
+    },
+    {
+      name: 'Quiz',
+      link: `/studi-ku/quiz/${subject_id}/${session_id}`,
+    },
+    {
+      name: 'Detail Quiz',
+      link: `/studi-ku/quiz/${subject_id}/${session_id}/${quiz_id}`,
+    },
+    {
+      name: 'Detail Soal',
+      link: `/studi-ku/quiz/${subject_id}/${session_id}/${quiz_id}/detail-soal`,
+    },
+  ];
 
   return (
     <div className='flex flex-col gap-6'>
       <div className='bg-white w-full rounded-md shadow-md p-5'>
-        <BreadCrumb
-          items={DETAIL_SOAL_QUIZ_MODULE_BREADCRUMBS}
-          className='!p-0 '
-        />
+        <BreadCrumb items={BREADCRUMB_ITEMS} className='!p-0 ' />
       </div>
       <div className='bg-white flex flex-col gap-8 rounded-md pb-5 '>
         <div className='flex justify-between items-center '>
-          <TitleModule title='Detail Quiz Mata Kuliah Manajemen Keuangan' />
+          <TitleModule
+            title={`Detail Soal ${getQuizQuestion?.data.quiz.title}`}
+          />
           <div className='flex gap-2 border-b border-slate-200  py-2 px-4'>
-            <Button asChild variant='primaryOutline'>
+            <Button asChild variant='primary'>
               <Link
-                href='/studi-ku/quiz/edit/detail'
+                href={`/studi-ku/quiz/${subject_id}/${session_id}/${quiz_id}/detail-soal/tambah-soal`}
                 className='flex gap-2 items-center'
               >
-                <Edit2 size={16} />
-                Edit
+                <PlusCircle size={20} />
+                Tambah Soal Quiz
               </Link>
             </Button>
           </div>
@@ -54,40 +82,69 @@ const DetailSoalQuizModule = () => {
         <div className='px-5'>
           <Table className='rounded-xl border-2 shadow-sm text-dark-900'>
             <TableBody>
-              {filteredData.map((item, index) => (
+              {quizQuestionData?.map((item, index) => (
                 <Fragment key={index}>
                   <TableRow>
                     <TableCell className='font-semibold px-5 w-20 text-center align-top'>
-                      {index + 1 + (Number(page) - 1) * 10}
+                      {index + 1}
                     </TableCell>
-                    <TableCell className='border-2 flex flex-col gap-3'>
+                    <TableCell className='border flex flex-col gap-3 relative'>
                       <div className='flex flex-col gap-1'>
-                        <p>{item.question}</p>
+                        <p className='pb-2 font-semibold'>{item.question}</p>
                         <ol>
-                          {item?.options?.map((item, index) => (
-                            <li key={index}>
+                          {item?.answers?.map((item, index) => (
+                            <li key={index} className='py-2 flex gap-2'>
                               {index === 0
-                                ? 'a.'
+                                ? 'A.'
                                 : index === 1
-                                  ? 'b.'
+                                  ? 'B.'
                                   : index === 2
-                                    ? 'c.'
-                                    : 'd'}{' '}
-                              {item.option}
+                                    ? 'C.'
+                                    : index === 3
+                                      ? 'D.'
+                                      : index === 4
+                                        ? 'E.'
+                                        : ''}{' '}
+                              <span>{item.answer}</span>
                             </li>
                           ))}
                         </ol>
                       </div>
-                      <div className='flex gap-2'>
-                        <p className='font-semibold'>Jawaban:</p>
+                      <div className=''>
+                        <p className='font-semibold'>Jawaban : </p>
+                      </div>
+                      <div className=''>
                         <p>
                           {
-                            /* filtered answer from options with correct true return option */
-                            item?.options?.filter(
-                              (item) => item.correct === true,
-                            )[0].option
+                            item?.answers?.filter(
+                              (item) => item.is_correct === true,
+                            )[0].answer
                           }
                         </p>
+                      </div>
+                      <div className='absolute right-5 top-3'>
+                        <Popover>
+                          <PopoverTrigger>
+                            <FiMoreVertical />
+                          </PopoverTrigger>
+                          <PopoverContent className='w-48' align='end'>
+                            <div className='flex flex-col gap-2'>
+                              <Link
+                                href={`/studi-ku/quiz/${subject_id}/${session_id}/${quiz_id}/detail-soal/edit-soal/${item.id}`}
+                              >
+                                <div className='flex gap-3 text-primary-500 items-center text-sm font-medium cursor-pointer'>
+                                  <FaRegEdit
+                                    fill='currentColor'
+                                    className='w-4 h-4'
+                                  />
+                                  Edit
+                                </div>
+                              </Link>
+                              <hr className='border-slate-200' />
+                              <DeleteQuestionQuizModal id={item.id} />
+                            </div>
+                          </PopoverContent>
+                        </Popover>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -95,17 +152,6 @@ const DetailSoalQuizModule = () => {
               ))}
             </TableBody>
           </Table>
-          <div className='flex justify-between place-items-center pt-5'>
-            <p className='text-slate-500'>
-              Menampilkan {page} hingga {Number(page) * 10} dari{' '}
-              {data?.total_data} entri
-            </p>
-            <Pagination
-              currentPage={Number(page)}
-              totalPages={Number(data?.max_page)}
-              onPageChange={handlePageChange}
-            />
-          </div>
         </div>
       </div>
     </div>

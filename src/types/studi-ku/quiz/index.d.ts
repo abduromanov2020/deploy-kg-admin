@@ -23,7 +23,7 @@ type TOptionsQuizData = {
 };
 
 export type TQuizDataQuestionForm = {
-  [key: string]: string | undefined | number;
+  [key: string]: string;
 };
 
 export interface TSubjectQuizItem {
@@ -130,6 +130,59 @@ export type TQuizEditPayload = {
   duration: string;
 };
 
+export interface TQuizAnswerItem {
+  id: string
+  question_id: string
+  answer: string
+  is_correct: boolean
+}
+export interface TQuizQuestionItem {
+  id: string
+  quiz_id: string
+  question: string
+  answers: TQuizAnswerItem[]
+}
+
+export interface TQuizQuestionData {
+  session: TSessionQuizItem
+  quiz: TQuizItem
+  questions: TQuizQuestionItem[]
+}
+
+export interface TQuizAddAnswerItem {
+  answer: string
+  is_correct: boolean
+}
+
+export interface TQuizAddQuestionItem {
+  question: string
+  answers: TQuizAddAnswerItem[]
+}
+
+export interface TQuizAddQuestionPayload {
+  questions: TQuizAddQuestionItem[]
+}
+
+export interface TQuizEditAnswerItem {
+  id: string
+  answer: string
+  is_correct: boolean
+}
+
+export interface TQuizEditQuestionPayload {
+  question: string
+  answers: TQuizEditAnswerItem[]
+}
+
+export interface TQuizQuestionDetailData {
+  id: string
+  quiz_id: string
+  question: string
+  answers: TQuizAnswerItem[]
+}
+
 export type TQuizResponse = TMetaResponseSingle<TQuizData>
 export type TQuizDetailResponse = TMetaResponseSingle<TDetailQuizData>
 export type TQuizParticipantsResponse = TMetaResponseSingleWithPagination<TQuizParticipantsData>
+export type TQuizQuestionResponse = TMetaResponseSingle<TQuizQuestionData>
+export type TQuizQuestionDetailResponse = TMetaResponseSingle<TQuizQuestionDetailData>
