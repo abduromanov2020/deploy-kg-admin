@@ -1,9 +1,9 @@
 import { useMutation, UseMutationResult, useQuery, UseQueryResult } from "@tanstack/react-query";
 
-import { quizAddRequest, quizDeleteRequest, quizDetailRequest, quizParticipantsRequest, quizRequest } from "@/hooks/studi-ku/quiz/request";
+import { quizAddRequest, quizDeleteRequest, quizDetailRequest, quizEditRequest, quizParticipantsRequest, quizRequest } from "@/hooks/studi-ku/quiz/request";
 
 import { TMetaErrorResponse } from "@/types";
-import { TQuizAddPayload, TQuizDetailResponse, TQuizParticipantsResponse, TQuizResponse } from "@/types/studi-ku/quiz";
+import { TQuizAddPayload, TQuizDetailResponse, TQuizEditPayload, TQuizParticipantsResponse, TQuizResponse } from "@/types/studi-ku/quiz";
 
 export const useQuizRequest = (subjectId: string, sessionId: string): UseQueryResult<TQuizResponse, TMetaErrorResponse> => {
   return useQuery({
@@ -35,6 +35,18 @@ export const useQuizAddRequest = (subjectId: string, sessionId: string): UseMuta
   return useMutation({
     mutationKey: ['add-quiz', subjectId, sessionId],
     mutationFn: async (payload) => await quizAddRequest(subjectId, sessionId, payload),
+  });
+}
+
+export const useQuizEditRequest = (subjectId: string, sessionId: string, quizId: string): UseMutationResult<
+  TQuizEditPayload,
+  TMetaErrorResponse,
+  TQuizEditPayload,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ['edit-quiz', subjectId, sessionId, quizId],
+    mutationFn: async (payload) => await quizEditRequest(subjectId, sessionId, quizId, payload),
   });
 }
 

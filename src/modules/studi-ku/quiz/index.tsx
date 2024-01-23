@@ -35,6 +35,7 @@ import { AddQuizModal } from '@/modules/studi-ku/quiz/tambah';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import DeleteQuizModal from '@/modules/studi-ku/quiz/hapus';
+import { EditQuizModal } from '@/modules/studi-ku/quiz/edit';
 
 export const ListQuiz = () => {
   const { subject_id, session_id } = useParams();
@@ -80,7 +81,7 @@ export const ListQuiz = () => {
           <div className='grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-5 p-5'>
             {quizData?.quizzes.map((item) => {
               return (
-                <Card className='flex flex-col'>
+                <Card className='flex flex-col' key={item.id}>
                   <div className='w-full object-contain'>
                     <Image
                       src={`${
@@ -106,7 +107,15 @@ export const ListQuiz = () => {
                             <FiMoreVertical />
                           </PopoverTrigger>
                           <PopoverContent className='w-48' align='end'>
-                            <DeleteQuizModal id={item.id} />
+                            <div className='flex flex-col gap-2'>
+                              <EditQuizModal
+                                quiz_id={item.id}
+                                title={item.title}
+                                duration={item.duration}
+                              />
+                              <hr className='border-slate-200' />
+                              <DeleteQuizModal id={item.id} />
+                            </div>
                           </PopoverContent>
                         </Popover>
                       </div>
