@@ -160,17 +160,3 @@ export const DATA_DETAIL_SOAL_QUIZ = {
   total_data: 25,
 };
 
-export const TAMBAH_DETAIL_SOAL_QUIZ_BREADCRUMBS = [
-  {
-    name: 'Studi-Ku',
-    link: '/studi-ku',
-  },
-  {
-    name: 'Quiz',
-    link: '/studi-ku/quiz',
-  },
-  {
-    name: 'Tambah Daftar Soal Quiz',
-    link: '/studi-ku/tambah-detail-quiz',
-  },
-];

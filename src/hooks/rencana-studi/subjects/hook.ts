@@ -9,6 +9,7 @@ import {
   addSubjectRequest,
   deleteSubjectRequest,
   editSubjectRequest,
+  enableSubjectRequest,
   subjectGetById,
   subjectGetByMajorId,
 } from '@/hooks/rencana-studi/subjects/request';
@@ -79,5 +80,19 @@ export const useDeleteSubject = (
   return useMutation({
     mutationKey: ['delete-subject', id],
     mutationFn: async () => await deleteSubjectRequest(id),
+  });
+};
+
+export const useEnableSubject = (
+  id: string | string[],
+): UseMutationResult<
+  TDetailSubjectResponseById,
+  TMetaErrorResponse,
+  string,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ['enable-subject', id],
+    mutationFn: async () => await enableSubjectRequest(id),
   });
 };

@@ -32,6 +32,7 @@ import { TiArrowSortedDown } from 'react-icons/ti';
 import { Button } from '@/components/ui/button';
 
 import { DeleteSubjectModal } from '@/modules/rencana-studi/subject/components/delete-subject-modal';
+import { SwitchForm } from '@/modules/rencana-studi/subject/components/enable-switch';
 
 import { TSubjectItem } from '@/types/rencana-studi/subjects/types';
 
@@ -48,30 +49,9 @@ export const SubjectTable = ({ data, startingIndex }: TProps) => {
   const [rowSelection, setRowSelection] = useState({});
   const { id, id_major } = useParams();
 
-  // console.log('hdjahdjh', data);
+  // console.log('hdjahdjh', data[1]?.is_available ? 'truesahs' : 'falsesamhhaj');
 
   const columns: ColumnDef<TSubjectItem>[] = [
-    // {
-    //   id: 'select',
-    //   header: ({ table }) => (
-    //     <Checkbox
-    //       checked={table.getIsAllPageRowsSelected()}
-    //       onCheckedChange={(value: any) =>
-    //         table.toggleAllPageRowsSelected(!!value)
-    //       }
-    //       aria-label='Select all'
-    //     />
-    //   ),
-    //   cell: ({ row }) => (
-    //     <Checkbox
-    //       checked={row.getIsSelected()}
-    //       onCheckedChange={(value: any) => row.toggleSelected(!!value)}
-    //       aria-label='Select row'
-    //     />
-    //   ),
-    //   enableSorting: false,
-    //   enableHiding: false,
-    // },
     {
       accessorKey: 'no',
       header: ({ column }) => {
@@ -219,8 +199,11 @@ export const SubjectTable = ({ data, startingIndex }: TProps) => {
       ),
     },
     {
-      id: 'actions',
+      accessorKey: 'is_available',
       enableHiding: false,
+      header: () => {
+        return;
+      },
       cell: ({ row }) => {
         return (
           <div className='flex gap-3'>
@@ -244,6 +227,11 @@ export const SubjectTable = ({ data, startingIndex }: TProps) => {
                 Edit
               </Link>
             </Button>
+            <SwitchForm
+              id={row.getValue('id')}
+              isAvailable={row.getValue('is_available')}
+              className='mt-2'
+            />
           </div>
         );
       },

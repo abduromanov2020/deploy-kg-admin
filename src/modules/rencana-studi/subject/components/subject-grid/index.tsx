@@ -14,6 +14,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
+import { SwitchForm } from '@/modules/rencana-studi/subject/components/enable-switch';
 import { PopOverSubject } from '@/modules/rencana-studi/subject/components/pop-over-subject';
 
 import { TSubjectAllData } from '@/types/rencana-studi/subjects/types';
@@ -48,6 +49,7 @@ const SubjectGrid = ({ data }: TSubjectAllData) => {
               <Badge className='rounded-md  bg-dark-100 hover:bg-dark-300 text-dark-900 px-3 py-1'>
                 Semester {item?.semester}
               </Badge>
+              {/* <SwitchForm id={item?.id} isAvailable={item?.is_available} /> */}
             </section>
             <section className='flex flex-col gap-3 mt-5'>
               <CardTitle className='line-clamp-1'>{item.name}</CardTitle>
@@ -62,7 +64,7 @@ const SubjectGrid = ({ data }: TSubjectAllData) => {
             <div className='flex gap-2'>
               <Button className='bg-primary-500 hover:bg-primary-600' asChild>
                 <Link href={`/studi-ku?major=${id_major}&subject=${item.id}`}>
-                  Daftar Pertemuan
+                  Pertemuan
                 </Link>
               </Button>
               <Button
@@ -76,6 +78,11 @@ const SubjectGrid = ({ data }: TSubjectAllData) => {
                 </Link>
               </Button>
             </div>
+            <SwitchForm
+              id={item?.id}
+              isAvailable={item?.is_available}
+              className='mb-[2px]'
+            />
             <PopOverSubject
               facultyId={faculty_id}
               majorId={id_major}

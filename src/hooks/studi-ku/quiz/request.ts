@@ -1,6 +1,6 @@
 import { api } from "@/lib/api";
 
-import { TQuizAddPayload, TQuizDetailResponse, TQuizEditPayload, TQuizParticipantsResponse, TQuizResponse } from "@/types/studi-ku/quiz";
+import { TQuizAddPayload, TQuizAddQuestionPayload, TQuizDetailResponse, TQuizEditPayload, TQuizEditQuestionPayload, TQuizParticipantsResponse, TQuizQuestionDetailResponse, TQuizQuestionResponse, TQuizResponse } from "@/types/studi-ku/quiz";
 
 export const quizRequest = async (
   subjectId: string,
@@ -72,6 +72,73 @@ export const quizDeleteRequest = async (
 ): Promise<TQuizResponse> => {
   const { data } = await api.delete(
     `v2/admin/subjects/${subjectId}/sessions/${sessionId}/quizzes/${quizId}`,
+  );
+
+  return data;
+}
+
+export const quizQuestionsRequest = async (
+  subjectId: string,
+  sessionId: string,
+  quizId: string,
+): Promise<TQuizQuestionResponse> => {
+  const { data } = await api.get(
+    `v2/admin/subjects/${subjectId}/sessions/${sessionId}/quizzes/${quizId}/questions`,
+  );
+
+  return data;
+}
+
+export const quizQuestionDetailRequest = async (
+  subjectId: string,
+  sessionId: string,
+  quizId: string,
+  questionId: string,
+): Promise<TQuizQuestionDetailResponse> => {
+  const { data } = await api.get(
+    `v2/admin/subjects/${subjectId}/sessions/${sessionId}/quizzes/${quizId}/questions/${questionId}`,
+  );
+
+  return data;
+}
+
+export const quizAddQuestionRequest = async (
+  subjectId: string,
+  sessionId: string,
+  quizId: string,
+  payload: TQuizAddQuestionPayload,
+): Promise<TQuizAddQuestionPayload> => {
+  const { data } = await api.post(
+    `v2/admin/subjects/${subjectId}/sessions/${sessionId}/quizzes/${quizId}/questions/bulk`,
+    payload,
+  );
+
+  return data;
+}
+
+export const quizEditQuestionRequest = async (
+  subjectId: string,
+  sessionId: string,
+  quizId: string,
+  questionId: string,
+  payload: TQuizEditQuestionPayload,
+): Promise<TQuizEditQuestionPayload> => {
+  const { data } = await api.put(
+    `v2/admin/subjects/${subjectId}/sessions/${sessionId}/quizzes/${quizId}/questions/${questionId}`,
+    payload,
+  );
+
+  return data;
+}
+
+export const quizDeleteQuestionRequest = async (
+  subjectId: string,
+  sessionId: string,
+  quizId: string,
+  questionId: string,
+): Promise<TQuizQuestionResponse> => {
+  const { data } = await api.delete(
+    `v2/admin/subjects/${subjectId}/sessions/${sessionId}/quizzes/${quizId}/questions/${questionId}`,
   );
 
   return data;

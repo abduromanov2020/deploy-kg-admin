@@ -82,3 +82,12 @@ export const deleteSubjectRequest = async (
 
   return data;
 };
+
+export const enableSubjectRequest = async (
+  id: string | string[],
+): Promise<TDetailSubjectResponseById> => {
+  const { data } = await api.patch(`v2/admin/subjects/${id}`);
+
+  return data;
+};
+
